@@ -18,4 +18,17 @@ export interface DeserveLogic {
 
 
 export type DeserveRequest = Request;
+
+
+
+
+export interface DeserveEntity {
+    type: 'file' | 'field';
+    id: string;
+}
+
+
+
+
+
 // #endregion module
