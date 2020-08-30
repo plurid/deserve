@@ -1,10 +1,8 @@
 {
-    "name": "@plurid/deserve",
+    "name": "@plurid/deserve-node",
     "version": "0.0.0",
-    "description": "Owner Data Deserver",
+    "description": "Owner Data Deserver Node",
     "keywords": [
-        "cloud-native",
-        "builder",
         "deserve"
     ],
     "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
