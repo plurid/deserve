@@ -21,11 +21,8 @@
         GRAPHQL_TITLE,
         GRAPHQL_ENDPOINT,
 
-        CUSTOM_LOGIC_USAGE,
-        PRIVATE_USAGE,
-
-        logLevel,
-        logLevels,
+        // logLevel,
+        // logLevels,
     } from '#server/data/constants';
 
     import {
@@ -33,17 +30,13 @@
         schemas,
     } from '#server/api';
 
-    import loadData from '#server/logic/loader';
+    // import loadData from '#server/logic/loader';
 
-    import defaultLogger from '#server/services/logger';
+    // import defaultLogger from '#server/services/logger';
 
-    import {
-        getPrivateOwner,
-    } from '#server/logic/privateUsage';
-
-    import {
-        handleWebhooks,
-    } from '#server/logic/webhooks';
+    // import {
+    //     getPrivateOwner,
+    // } from '#server/logic/privateUsage';
     // #endregion external
 // #endregion imports
 
@@ -59,12 +52,12 @@ const setupGraphQLServer = async (
         title: GRAPHQL_TITLE,
     };
 
-    const customLogicUsage = CUSTOM_LOGIC_USAGE;
-    const privateUsage = PRIVATE_USAGE;
+    // const customLogicUsage = CUSTOM_LOGIC_USAGE;
+    // const privateUsage = PRIVATE_USAGE;
 
-    const logger = customLogicUsage && logic
-        ? logic.logger
-        : defaultLogger;
+    // const logger = customLogicUsage && logic
+    //     ? logic.logger
+    //     : defaultLogger;
 
     const graphQLServer = new ApolloServer({
         typeDefs: schemas,
@@ -74,27 +67,12 @@ const setupGraphQLServer = async (
             req,
             res,
         }: any) => {
-            const {
-                providers,
-                imagenes,
-                repositories,
-                webhooks,
-                projects,
-                secrets,
-                triggers,
-                deployers,
-                builds,
-                deploys,
-            } = await loadData();
+            // const {
+            // } = await loadData();
 
-            handleWebhooks(
-                webhooks,
-                instance,
-            );
-
-            const privateOwnerIdentonym = privateUsage
-                ? getPrivateOwner(req)
-                : '';
+            // const privateOwnerIdentonym = privateUsage
+            //     ? getPrivateOwner(req)
+            //     : '';
 
             const context: Context = {
                 request: req,
@@ -102,25 +80,11 @@ const setupGraphQLServer = async (
 
                 instance,
 
-                providers,
-                imagenes,
-                repositories,
-                webhooks,
-                projects,
-                secrets,
-                triggers,
-                deployers,
-                builds,
-                deploys,
+                // privateOwnerIdentonym,
 
-                customLogicUsage,
-
-                privateUsage,
-                privateOwnerIdentonym,
-
-                logger,
-                logLevel,
-                logLevels,
+                // logger,
+                // logLevel,
+                // logLevels,
             };
 
             return context;

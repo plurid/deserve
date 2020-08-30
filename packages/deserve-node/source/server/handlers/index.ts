@@ -23,7 +23,7 @@
 // #region module
 const setupHandlers = (
     server: PluridServer,
-    logic?: PerformerLogic,
+    logic?: DeserveLogic,
 ) => {
     const instance = server.instance();
 

@@ -17,7 +17,9 @@ export interface DeserveLogic {
 }
 
 
-export type DeserveRequest = Request;
+export type DeserveRequest = Request & {
+    deserveLogic: DeserveLogic
+};
 
 
 
