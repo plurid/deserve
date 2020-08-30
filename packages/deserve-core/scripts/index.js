@@ -1,7 +1,3 @@
-// "typecheck": "tsc -p ./tsconfig.json",
-// "start.local.quick": "yarn copy.localkey && ts-node-dev --respawn --transpile-only --require dotenv/config source/",
-// "start.local": "yarn copy.localkey && ts-node-dev --respawn --require dotenv/config source/",
-
 const path = require('path');
 
 const {
