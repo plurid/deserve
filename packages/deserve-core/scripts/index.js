@@ -90,16 +90,11 @@ const crossCommand = (
 const webpackWatch = `${crossCommand('webpack')} --watch --config ./scripts/workings/development.js`;
 const nodemonWatch = `${crossCommand('nodemon')} --watch ${path.join(buildFolder, '/index.js')} ${buildFolder}`;
 
-const commandCopyLocalKey = [
-    `cp ../../../../../../secrets/.keys/local.json ./.keys/`,
-];
-
 const commandStart = [
     `node ${buildFolder}`,
 ];
 
 const commandStartLocal = [
-    ...commandCopyLocalKey,
     nodemonWatch,
 ];
 
