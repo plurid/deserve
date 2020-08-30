@@ -13,6 +13,8 @@
 const server = express();
 const port = process.env.PORT || 3655;
 
+const tunnels: any = {};
+
 const handlePaths = (
     request: Request,
     response: Response,
@@ -20,8 +22,32 @@ const handlePaths = (
     response.send('Deserve Core');
 }
 
+const registerTunnel = (
+    request: Request,
+    response: Response,
+) => {
+    const id = Math.random() + '';
+
+    tunnels[id] = {
+    };
+
+    const responseData = {
+        status: true,
+        data: {
+            id,
+        },
+    };
+    response.setHeader(
+        'Content-Type',
+        'application/json',
+    );
+    response.send(JSON.stringify(responseData));
+}
+
 const main = () => {
     server.get('*', handlePaths);
+
+    server.post('/register', registerTunnel);
 
     server.listen(port, () => {
         console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);
