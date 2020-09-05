@@ -19,6 +19,8 @@
     import {
         StyledIndex,
     } from './styled';
+
+    import LoginView from './components/LoginView';
     // #endregion internal
 // #endregion imports
 
@@ -57,6 +59,8 @@ const Index: React.FC<IndexProperties> = (
     return (
         <StyledIndex>
             {renderView}
+
+            <LoginView />
         </StyledIndex>
     );
     // #endregion render
