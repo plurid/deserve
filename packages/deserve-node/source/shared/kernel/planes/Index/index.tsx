@@ -29,7 +29,7 @@ export interface IndexOwnProperties {
 }
 
 export interface IndexStateProperties {
-    stateIndexView: string;
+    // stateIndexView: string;
 }
 
 export interface IndexDispatchProperties {
@@ -45,7 +45,7 @@ const Index: React.FC<IndexProperties> = (
     // #region properties
     const {
         // #region state
-        stateIndexView,
+        // stateIndexView,
         // #endregion state
     } = properties;
     // #endregion properties
@@ -66,7 +66,7 @@ const Index: React.FC<IndexProperties> = (
 const mapStateToProperties = (
     state: AppState,
 ): IndexStateProperties => ({
-    stateIndexView: selectors.view.getIndexView(state),
+    // stateIndexView: selectors.view.getIndexView(state),
 });
 
 
