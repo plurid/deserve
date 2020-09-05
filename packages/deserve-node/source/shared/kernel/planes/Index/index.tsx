@@ -1,6 +1,8 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useState,
+    } from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -20,6 +22,7 @@
         StyledIndex,
     } from './styled';
 
+    import RegisterView from './components/RegisterView';
     import LoginView from './components/LoginView';
     // #endregion internal
 // #endregion imports
@@ -53,14 +56,29 @@ const Index: React.FC<IndexProperties> = (
     // #endregion properties
 
 
+    // #region state
+    const [
+        view,
+        setView,
+    ] = useState('register');
+    // #endregion state
+
+
     // #region render
     let renderView = (<></>);
+
+    switch (view) {
+        case 'register':
+            renderView = (<RegisterView />);
+            break;
+        case 'login':
+            renderView = (<LoginView />);
+            break;
+    }
 
     return (
         <StyledIndex>
             {renderView}
-
-            <LoginView />
         </StyledIndex>
     );
     // #endregion render
