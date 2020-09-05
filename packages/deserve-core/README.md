@@ -22,24 +22,40 @@
 <br />
 
 
-Deserve is a data server which can be queried by internet services for data owned by one or more entities.
+`deserve` is a conception of <i>owner-owned data inter-transfer</i>†, and an implementation of such a data server to be queried by internet services for data owned by one or <i>few</i>† entities.
+
+
+† <i>owner-owned data</i> means that the entity that generated a piece of data is ultimately the entity which controls, owns that data; <i>data inter-transfer</i> means that the data is ultimately meant to be used, shared in a network of entities and services;
+
+‡ the <i>few</i> should always be entities that know and meet each other on a near-daily basis; a `deserve` server loses it's meaning when 'shared' by thousands or more of mutually unknown, unrelated entities.
 
 
 ### Contents
 
-+ [Install](#install)
-+ [Usage](#usage)
++ [The Why](#the-why)
++ [The What](#the-what)
 + [Packages](#packages)
 
 
 
-## Install
+## The Why
+
+Metaphysics has been trying for 2,500 years, at least formally, leaving a paper trace, to establish an essence to this matter-arrived-at/arisen-to/fallen-into-being that we call ourselves. And the debate will and should go on for a few more thousands of years, since we are merely at the beginning.
+
+However, some issues do seem to be clear. We generate information, data, and in some sense we are data. We-I am this pattern of information modifying itself and being modified through self-perceived/interpreted interaction, data pattern which rests upon a substrate of carbon-based cells.
+
+Therefore, since you cannot access directly the data pattern from the inside, then, to some extent, there is nothing that is more intimately you than the externalized data that you output. In this sense, a thought is still externalized data, even if not excraniated data, since it never leaves one's casing. However, if we were to glance at the way that data is handled after being outputted one would consider that it is completely worthless, less than trash. As soon as data is generated it is being given to a completely different entity, the generator remaining, in some cases, without any kind of access to it. Monetary issue aside, this is a problem of control. You, the generator of the data, should have control over the data regardless of what service you wish to borrow it to. And the data transaction should be a borrow from the generator to the service, with or without any kind of additional monetary transaction, and not a mere irreversible giving.
+
+Although the state of data is a political problem (as in dealing with <i>res publica</i>, public things), it has appeared actually due to a technical shortcut: the client-server architecture.
+
+The client-server architecture is meant to surpass two problems: the [Byzantine generals problem](https://en.wikipedia.org/wiki/Byzantine_fault), correction of transmission, and the [broadcasting problem](https://en.wikipedia.org/wiki/Broadcasting_(networking)), multiplicity/dissipation of transmission. Simply put, the client-server architecture is the easiest way to establish a network between providers and consumers. And this has worked until now, given the somewhat impersonal nature of the data handled by computers: general documents, extensions of the paper metaphor into a digital space. However, if we are to generate a personal computing space, the client-server architecture reveals it's grounding in the [master-slave dialectic](https://en.wikipedia.org/wiki/Master%E2%80%93slave_dialectic) and with it the inadequacy of assuring the control of the data into the generator's grasp, if you will, a master-master dialectic.
+
+Very simply put: you must become your own server.
 
 
-## Usage
+## The What
 
-
-## Building
+In order for the user to become an owner, a server must run. That server is the `deserve node`. A `node` can run on any machine, it will connect to a `core` provided by a network service, and will send and receive data following the protocol.
 
 
 
@@ -59,6 +75,6 @@ Deserve is a data server which can be queried by internet services for data owne
     <img src="https://img.shields.io/npm/v/@plurid/deserve-node.svg?logo=npm&colorB=1380C3&style=for-the-badge" alt="Version">
 </a>
 
-[@plurid/deserve-node][deserve-node] • the cliet server
+[@plurid/deserve-node][deserve-node] • the client server
 
 [deserve-node]: https://github.com/plurid/datasign/tree/master/packages/deserve-node
