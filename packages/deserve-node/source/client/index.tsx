@@ -17,7 +17,7 @@
 //     navigator.serviceWorker.register('/service-worker.js');
 // }
 
-const performerApp = document.getElementById('performer-application');
+const performerApp = document.getElementById('deserve-application');
 
 
 ReactDOM.hydrate(

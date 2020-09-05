@@ -35,10 +35,10 @@ const Head: React.FC<HeadProperties> = (
         canonicalURL,
     } = properties;
 
-    const titleValue = title || `performer`;
-    const descriptionValue = description || 'continuous integration/continuous deployment build pipeline';
-    const ogTitleValue = ogTitle || title || `performer`;
-    const ogDescriptionValue = ogDescription || description || 'continuous integration/continuous deployment build pipeline';
+    const titleValue = title || `deserve`;
+    const descriptionValue = description || 'owner data deserver';
+    const ogTitleValue = ogTitle || title || `deserve`;
+    const ogDescriptionValue = ogDescription || description || 'owner data deserver';
     const ogImageValue = ogImage || '/icon-192x192.png';
     const ogURLValue = ogURL || '/';
     // #endregion properties
