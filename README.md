@@ -60,7 +60,7 @@ In order for the user to become an owner, an owner-controlled server must run. I
 The topology of a deserve involves an `owner` and a `service`.
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/plurid/deserve/master/about/diagrams/topology.png" height="500px">
+    <img src="https://raw.githubusercontent.com/plurid/deserve/master/about/diagrams/topology.png" width="800px">
 </p>
 
 
