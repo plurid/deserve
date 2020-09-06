@@ -55,7 +55,13 @@ This grounding of a `why` must be this deep, if not even deeper, since data will
 
 ## The What
 
-In order for the user to become an owner, an owner-controlled server must run. In the `deserve` architecture, that server is the `deserve node`. A `node` can run on any machine, it will connect to a `core` provided by a network service, and will send and receive data following the protocol.
+The topology of a `deserve` is comprised of the `owner` and the network `service`.
+
+The `owner` server is the `node`. A `node` can run on any machine, it will connect to a `core` through the `router` provided by the network `service`. The `service` operates on the `core` through the `operator`. A `node` has only one `core` on a `service`. A `service` can operate with an indefinite number of `operators` on the `core` of the `node`.
+
+<p align="center">
+    <img src="https://raw.githubusercontent.com/plurid/deserve/master/about/diagrams/topology.png" width="800px">
+</p>
 
 
 
