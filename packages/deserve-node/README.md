@@ -72,7 +72,7 @@ The `owner` server is the `node`. A `node` can run on any machine, it will conne
     <img src="https://img.shields.io/npm/v/@plurid/deserve-core.svg?logo=npm&colorB=1380C3&style=for-the-badge" alt="Version">
 </a>
 
-[@plurid/deserve-core][deserve-core] • the server application
+[@plurid/deserve-core][deserve-core] • service-side
 
 [deserve-core]: https://github.com/plurid/datasign/tree/master/packages/deserve-core
 
@@ -81,6 +81,15 @@ The `owner` server is the `node`. A `node` can run on any machine, it will conne
     <img src="https://img.shields.io/npm/v/@plurid/deserve-node.svg?logo=npm&colorB=1380C3&style=for-the-badge" alt="Version">
 </a>
 
-[@plurid/deserve-node][deserve-node] • the client server
+[@plurid/deserve-node][deserve-node] • owner-side
 
 [deserve-node]: https://github.com/plurid/datasign/tree/master/packages/deserve-node
+
+
+<a target="_blank" href="https://www.npmjs.com/package/@plurid/deserve-router">
+    <img src="https://img.shields.io/npm/v/@plurid/deserve-router.svg?logo=npm&colorB=1380C3&style=for-the-badge" alt="Version">
+</a>
+
+[@plurid/deserve-router][deserve-router] • service-side
+
+[deserve-router]: https://github.com/plurid/datasign/tree/master/packages/deserve-router
