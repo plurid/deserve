@@ -1,7 +1,10 @@
 // #region imports
     // #region external
     import {
+        InputOf,
         Context,
+        InputRegisterCore,
+        InputDeregisterCore,
     } from '#server/data/interfaces';
 
     import {
@@ -16,7 +19,7 @@
 export default {
     registerCore: (
         _: any,
-        { input }: any,
+        { input }: InputOf<InputRegisterCore>,
         context: Context,
     ) => Core.Mutation.registerCore(
         input,
@@ -24,7 +27,7 @@ export default {
     ),
     deregisterCore: (
         _: any,
-        { input }: any,
+        { input }: InputOf<InputDeregisterCore>,
         context: Context,
     ) => Core.Mutation.deregisterCore(
         input,

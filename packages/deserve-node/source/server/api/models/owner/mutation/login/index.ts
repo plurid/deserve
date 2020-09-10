@@ -2,10 +2,10 @@
     // #region external
     import {
         Context,
+        InputLogin,
     } from '#server/data/interfaces';
 
     import {
-
     } from '#server/data/constants';
     // #endregion external
 // #endregion imports
@@ -14,7 +14,7 @@
 
 // #region module
 const login = async (
-    input: any,
+    input: InputLogin,
     context: Context,
 ) => {
     try {

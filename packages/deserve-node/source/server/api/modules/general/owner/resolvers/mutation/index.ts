@@ -1,7 +1,10 @@
 // #region imports
     // #region external
     import {
+        InputOf,
         Context,
+        InputRegisterOwner,
+        InputLogin,
     } from '#server/data/interfaces';
 
     import {
@@ -16,7 +19,7 @@
 const Mutation = {
     registerOwner: (
         _: any,
-        { input }: any,
+        { input }: InputOf<InputRegisterOwner>,
         context: Context,
     ) => Owner.Mutation.registerOwner(
         input,
@@ -24,7 +27,7 @@ const Mutation = {
     ),
     login: (
         _: any,
-        { input }: any,
+        { input }: InputOf<InputLogin>,
         context: Context,
     ) => Owner.Mutation.login(
         input,

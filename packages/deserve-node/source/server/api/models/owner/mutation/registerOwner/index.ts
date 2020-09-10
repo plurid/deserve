@@ -2,6 +2,7 @@
     // #region external
     import {
         Context,
+        InputRegisterOwner,
     } from '#server/data/interfaces';
 
     import {
@@ -13,7 +14,7 @@
 
 // #region module
 const registerOwner = async (
-    input: any,
+    input: InputRegisterOwner,
     context: Context,
 ) => {
     try {

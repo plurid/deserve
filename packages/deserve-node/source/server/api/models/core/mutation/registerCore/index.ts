@@ -2,6 +2,7 @@
     // #region external
     import {
         Context,
+        InputRegisterCore,
     } from '#server/data/interfaces';
     // #endregion external
 // #endregion imports
@@ -10,9 +11,14 @@
 
 // #region module
 const registerCore = async (
-    input: any,
+    input: InputRegisterCore,
     context: Context,
 ) => {
+    const {
+        domain,
+    } = input;
+
+
     return {
         status: true,
     };

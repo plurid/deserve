@@ -2,6 +2,7 @@
     // #region external
     import {
         Context,
+        InputDeregisterCore,
     } from '#server/data/interfaces';
     // #endregion external
 // #endregion imports
@@ -10,9 +11,14 @@
 
 // #region module
 const deregisterCore = async (
-    input: any,
+    input: InputDeregisterCore,
     context: Context,
 ) => {
+    const {
+        id,
+    } = input;
+
+
     return {
         status: true,
     };
