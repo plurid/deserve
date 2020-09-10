@@ -5,30 +5,43 @@
     } from '#server/data/interfaces';
 
     import {
-        Store,
+        Owner,
     } from '#server/api/models';
     // #endregion external
 // #endregion imports
 
 
 
-// #region exports
-export default {
-    requestBlob: (
+// #region module
+const Mutation = {
+    registerOwner: (
         _: any,
         { input }: any,
         context: Context,
-    ) => Store.Mutation.requestBlob(
+    ) => Owner.Mutation.registerOwner(
         input,
         context,
     ),
-    requestData: (
+    login: (
         _: any,
         { input }: any,
         context: Context,
-    ) => Store.Mutation.requestData(
+    ) => Owner.Mutation.login(
         input,
+        context,
+    ),
+    logout: (
+        _: any,
+        __: any,
+        context: Context,
+    ) => Owner.Mutation.logout(
         context,
     ),
 };
+// #endregion module
+
+
+
+// #region exports
+export default Mutation;
 // #endregion exports

@@ -1,7 +1,7 @@
 // #region imports
     // #region internal
-    // import Query from './query';
-    import Mutation from './mutation';
+    import requestBlob from './requestBlob';
+    import requestData from './requestData';
     // #endregion internal
 // #endregion imports
 
@@ -9,7 +9,7 @@
 
 // #region exports
 export default {
-    // Query,
-    Mutation,
+    requestBlob,
+    requestData,
 };
 // #endregion exports

@@ -7,13 +7,6 @@
 
 
 // #region module
-export const queries = gql`
-    extend type Query {
-
-    }
-`;
-
-
 export const mutations = gql`
     extend type Mutation {
         requestBlob(input: InputRequestBlob!): ResponseBlob!
@@ -66,7 +59,6 @@ export const inputs = gql`
 
 // #region exports
 export default gql`
-    ${queries}
     ${mutations}
     ${inputs}
     ${types}
