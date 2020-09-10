@@ -1,15 +1,13 @@
 // #region imports
     // #region internal
-    import Core from './core';
-    import Setup from './setup';
+    import getCores from './getCores';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region exports
-export {
-    Core,
-    Setup,
+export default {
+    getCores,
 };
 // #endregion exports

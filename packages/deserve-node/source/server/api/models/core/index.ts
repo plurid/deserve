@@ -1,15 +1,15 @@
 // #region imports
     // #region internal
-    import Core from './core';
-    import Setup from './setup';
+    import Query from './query';
+    import Mutation from './mutation';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region exports
-export {
-    Core,
-    Setup,
+export default {
+    Query,
+    Mutation,
 };
 // #endregion exports
