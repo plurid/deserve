@@ -57,7 +57,7 @@ This grounding of a `why` must be this deep, if not even deeper, since data will
 
 The topology of a `deserve` environment is comprised of the `owner` and the network `service`.
 
-The `owner` server is the `node`. A `node` can run on any machine, it will connect to a `core` through the `router` provided by the network `service`. The `service` operates on the `core` through the `operator`. A `node` has only one `core` on a `service`. A `service` can operate with an indefinite number of `operators` on the `core` of the `node`.
+The `owner` server is the `node`. A `node` can run on any machine, it will connect to a `core` through the `router` provided by the network `service`. The `service` operates on the `core` through the `operator`. A `node` has only one `core` on a `service`. A `service` can operate with an indefinite number of `operators` on the `core` of the `node`, and can have an indefinite number of `cores`-`nodes` connections.
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/plurid/deserve/master/about/diagrams/topology.png" width="800px">
