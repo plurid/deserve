@@ -52,6 +52,7 @@
         "@babel/preset-typescript": "^7.10.4",
         "@types/cookie-parser": "^1.4.2",
         "@types/cors": "^2.8.7",
+        "@types/debug": "^4.1.5",
         "@types/http-proxy": "^1.17.4",
         "@types/isomorphic-fetch": "^0.0.35",
         "@types/jest": "^26.0.10",

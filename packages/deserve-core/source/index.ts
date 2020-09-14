@@ -7,6 +7,11 @@
 
     import bodyParser from 'body-parser';
     // #endregion libraries
+
+    // #region internal
+    import Client from './objects/Client';
+    import TunnelAgent from './objects/TunnelAgent';
+    // #endregion internal
 // #endregion imports
 
 
@@ -15,6 +20,7 @@
 const server = express();
 const port = process.env.PORT || 3655;
 
+let client: any;
 
 const handlePaths = (
     request: Request,
@@ -48,17 +54,27 @@ const registerTunnel = (
     // establish connection
     const id = Math.random() + '';
 
-    const responseData = {
-        status: true,
-        data: {
-            id,
-        },
-    };
-    response.setHeader(
-        'Content-Type',
-        'application/json',
-    );
-    response.send(JSON.stringify(responseData));
+    const agent = new TunnelAgent({
+        clientId: id,
+        maxSockets: 10,
+    });
+
+    client = new Client({
+        id,
+        agent,
+    });
+
+    // const responseData = {
+    //     status: true,
+    //     data: {
+    //         id,
+    //     },
+    // };
+    // response.setHeader(
+    //     'Content-Type',
+    //     'application/json',
+    // );
+    // response.send(JSON.stringify(responseData));
 }
 
 const main = () => {
@@ -68,13 +84,16 @@ const main = () => {
 
     server.post('/register', registerTunnel);
 
-    server.on('request', () => {
+    server.all('*', (req, res) => {
         console.log('connect');
+        if (client) {
+            client.handleRequest(req, res);
+        }
     });
 
-    server.on('upgrade', () => {
-        console.log('connect');
-    });
+    // server.on('upgrade', () => {
+    //     console.log('connect');
+    // });
 
     server.listen(port, () => {
         console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);
