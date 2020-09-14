@@ -88,7 +88,10 @@ const main = () => {
         console.log('connect');
         if (client) {
             client.handleRequest(req, res);
+            return;
         }
+
+        res.status(404).send('404');
     });
 
     // server.on('upgrade', () => {
