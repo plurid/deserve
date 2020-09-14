@@ -52,6 +52,8 @@ const setupRegistry = async (
 
         response.send('registration succeeded');
 
+        console.log('client', client);
+
         return new Promise((resolve, reject) =>
             client.open((err: any) => (err ? reject(err) : resolve(client)))
         );
