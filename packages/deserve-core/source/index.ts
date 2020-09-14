@@ -4,6 +4,8 @@
         Request,
         Response,
     } from 'express';
+
+    import bodyParser from 'body-parser';
     // #endregion libraries
 // #endregion imports
 
@@ -26,6 +28,8 @@ const registerTunnel = (
     request: Request,
     response: Response,
 ) => {
+    console.log('request.body', request.body);
+
     const id = Math.random() + '';
 
     tunnels[id] = {
@@ -45,6 +49,10 @@ const registerTunnel = (
 }
 
 const main = () => {
+    server.use(
+        bodyParser.json(),
+    );
+
     server.get('*', handlePaths);
 
     server.post('/register', registerTunnel);
