@@ -15,7 +15,6 @@
 const server = express();
 const port = process.env.PORT || 3655;
 
-const tunnels: any = {};
 
 const handlePaths = (
     request: Request,
@@ -28,12 +27,26 @@ const registerTunnel = (
     request: Request,
     response: Response,
 ) => {
-    console.log('request.body', request.body);
+    const data = request.body;
+    const {
+        token,
+    } = data;
 
+    // verify token
+    if (token !== '123') {
+        const responseData = {
+            status: false,
+        };
+        response.setHeader(
+            'Content-Type',
+            'application/json',
+        );
+        response.send(JSON.stringify(responseData));
+    }
+
+
+    // establish connection
     const id = Math.random() + '';
-
-    tunnels[id] = {
-    };
 
     const responseData = {
         status: true,
@@ -52,8 +65,6 @@ const main = () => {
     server.use(
         bodyParser.json(),
     );
-
-    server.get('*', handlePaths);
 
     server.post('/register', registerTunnel);
 
