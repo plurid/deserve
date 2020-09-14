@@ -2,6 +2,11 @@
     // #region libraries
     import fetch from 'cross-fetch';
     // #endregion libraries
+
+
+    // #region external
+    import Tunnel from '../tunnel/Tunnel';
+    // #endregion external
 // #endregion imports
 
 
@@ -55,6 +60,14 @@ const registerNodeToCore = async (
 
     const responseData = await response.json();
     console.log('responseData', responseData);
+
+    const client = new Tunnel({
+        port: 3355,
+        host: 'http://localhost',
+    });
+    console.log('client', client);
+
+    return client;
 }
 // #endregion module
 

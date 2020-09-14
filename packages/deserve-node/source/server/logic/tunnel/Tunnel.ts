@@ -12,6 +12,10 @@
 
     import axios from 'axios';
     // #endregion libraries
+
+    // #region internal
+    import TunnelCluster from './TunnelCluster';
+    // #endregion internal
 // #endregion imports
 
 
@@ -19,11 +23,9 @@
 // #region module
 const debug = require('debug')('localtunnel:client');
 
-const TunnelCluster = require('./TunnelCluster');
-
 class Tunnel extends EventEmitter {
     private opts: any;
-    private closed;
+    private closed: any;
     private tunnelCluster: any;
     private clientId: any;
     private url: any;
