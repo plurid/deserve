@@ -94,12 +94,27 @@ const main = () => {
         res.status(404).send('404');
     });
 
-    // server.on('upgrade', () => {
-    //     console.log('connect');
+    // server.on('upgrade', (
+    //     // req,
+    //     // socket,
+    //     // head,
+    // ) => {
+    //     console.log('upgrade');
+
+    //     // client.handleUpgrade(req, socket);
     // });
 
-    server.listen(port, () => {
+    const instance = server.listen(port, () => {
         console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);
+    });
+
+    instance.on('upgrade', (req, socket, head) => {
+        if (!client) {
+            socket.destroy();
+            return;
+        }
+
+        client.handleUpgrade(req, socket);
     });
 }
 
