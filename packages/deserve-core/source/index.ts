@@ -58,23 +58,25 @@ const registerTunnel = (
         clientId: id,
         maxSockets: 10,
     });
+    console.log('AGENT', agent);
 
     client = new Client({
         id,
         agent,
     });
+    console.log('CLIENT', client);
 
-    // const responseData = {
-    //     status: true,
-    //     data: {
-    //         id,
-    //     },
-    // };
-    // response.setHeader(
-    //     'Content-Type',
-    //     'application/json',
-    // );
-    // response.send(JSON.stringify(responseData));
+    const responseData = {
+        status: true,
+        data: {
+            id,
+        },
+    };
+    response.setHeader(
+        'Content-Type',
+        'application/json',
+    );
+    response.send(JSON.stringify(responseData));
 }
 
 const main = () => {
@@ -85,7 +87,7 @@ const main = () => {
     server.post('/register', registerTunnel);
 
     server.all('*', (req, res) => {
-        console.log('connect');
+        console.log('connect', client);
         if (client) {
             client.handleRequest(req, res);
             return;
@@ -93,16 +95,6 @@ const main = () => {
 
         res.status(404).send('404');
     });
-
-    // server.on('upgrade', (
-    //     // req,
-    //     // socket,
-    //     // head,
-    // ) => {
-    //     console.log('upgrade');
-
-    //     // client.handleUpgrade(req, socket);
-    // });
 
     const instance = server.listen(port, () => {
         console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);

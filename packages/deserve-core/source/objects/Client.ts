@@ -74,6 +74,7 @@ class Client extends EventEmitter {
         res: any,
     ) {
         this.debug('> %s', req.url);
+        console.log(req.url);
 
         const opt = {
             path: req.url,
@@ -95,6 +96,7 @@ class Client extends EventEmitter {
         // in our case we 504 gateway error this?
         // if we have already sent headers?
         clientReq.once('error', (err) => {
+            console.log('clientReq.once', err);
             // TODO(roman): if headers not sent - respond with gateway unavailable
         });
 

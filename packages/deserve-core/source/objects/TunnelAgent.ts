@@ -173,7 +173,7 @@ class TunnelAgent extends Agent {
             return;
         }
 
-        this.debug('create connection');
+        console.log('create connection');
 
         // socket is a tcp connection back to the user hosting the site
         const sock = this.availableSockets.shift();
@@ -182,12 +182,12 @@ class TunnelAgent extends Agent {
         // wait until we have one
         if (!sock) {
             this.waitingCreateConn.push(cb);
-            this.debug('waiting connected: %s', this.connectedSockets);
-            this.debug('waiting available: %s', this.availableSockets.length);
+            console.log('waiting connected: %s', this.connectedSockets);
+            console.log('waiting available: %s', this.availableSockets.length);
             return;
         }
 
-        this.debug('socket given');
+        console.log('socket given');
         cb(null, sock);
     }
 
