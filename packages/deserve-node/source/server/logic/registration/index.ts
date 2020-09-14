@@ -7,7 +7,7 @@
 
 
 // #region module
-const registerNode = async (
+const registerNodeToRouter = async (
     url: string,
     identonym: string,
     key: string,
@@ -22,6 +22,9 @@ const registerNode = async (
         {
             method: 'post',
             body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
         },
     );
 
@@ -29,12 +32,38 @@ const registerNode = async (
 
     return core;
 }
+
+
+const registerNodeToCore = async (
+    url: string,
+    token: string,
+) => {
+    const data = {
+        token,
+    };
+
+    const response = await fetch(
+        url,
+        {
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        },
+    );
+
+    const responseData = await response.json();
+    console.log('responseData', responseData);
+
+}
 // #endregion module
 
 
 
 // #region exports
 export {
-    registerNode,
+    registerNodeToRouter,
+    registerNodeToCore,
 };
 // #endregion exports

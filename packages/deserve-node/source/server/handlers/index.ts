@@ -15,6 +15,7 @@
     import setupGlobal from './global';
     import setupMiddleware from './middleware';
     import setupGraphQL from './graphql';
+    import setupRegistry from './registry';
     // #endregion internal
 // #endregion imports
 
@@ -33,6 +34,11 @@ const setupHandlers = (
         logic,
     );
     setupGraphQL(
+        instance,
+        logic,
+    );
+
+    setupRegistry(
         instance,
         logic,
     );

@@ -87,6 +87,7 @@ const options: PluridServerPartialOptions = {
     debug,
     ignore: [
         '/deserve',
+        '/registry',
     ],
 };
 
