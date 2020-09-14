@@ -68,6 +68,14 @@ const main = () => {
 
     server.post('/register', registerTunnel);
 
+    server.on('request', () => {
+        console.log('connect');
+    });
+
+    server.on('upgrade', () => {
+        console.log('connect');
+    });
+
     server.listen(port, () => {
         console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);
     });
