@@ -1008,6 +1008,13 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
+"@types/localtunnel@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/localtunnel/-/localtunnel-2.0.0.tgz#60a202af96ded9a310a4e6a072975ac2d78ac69b"
+  integrity sha512-fnmdUYCZi9oO3aH6NesicdutttyiYAntcNRv5HalFPyTWvk16oZRqzZ2dajuj3hqWB8fXsM1+3TJp9LMCCQ0eA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/lodash.merge@^4.6.6":
   version "4.6.6"
   resolved "https://registry.yarnpkg.com/@types/lodash.merge/-/lodash.merge-4.6.6.tgz#b84b403c1d31bc42d51772d1cd5557fa008cd3d6"

@@ -90,6 +90,7 @@
         "@types/express": "^4.17.7",
         "@types/jest": "^26.0.10",
         "@types/js-yaml": "^3.12.5",
+        "@types/localtunnel": "^2.0.0",
         "@types/lodash.merge": "^4.6.6",
         "@types/ncp": "^2.0.4",
         "@types/node": "^14.6.0",
