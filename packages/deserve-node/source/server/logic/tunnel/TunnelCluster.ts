@@ -1,4 +1,5 @@
 // #region imports
+    // #region libraries
     import {
         EventEmitter,
     } from 'events';
@@ -7,12 +8,15 @@
     import tls from 'tls';
 
     import HeaderHostTransformer from './HeaderHostTransformer';
+
+    import Debug from 'debug';
+    // #endregion libraries
 // #endregion imports
 
 
 
 // #region module
-const debug = require('debug')('localtunnel:client');
+const debug = Debug.debug('localtunnel:client');
 
 // manages groups of tunnels
 class TunnelCluster extends EventEmitter {
@@ -48,6 +52,7 @@ class TunnelCluster extends EventEmitter {
             host: remoteHostOrIp,
             port: remotePort,
         });
+        console.log('remote', remote);
 
         remote.setKeepAlive(true);
 
@@ -58,10 +63,10 @@ class TunnelCluster extends EventEmitter {
             // indicate that the tunnel can't be established.
             if (err.code === 'ECONNREFUSED') {
                 this.emit(
-                'error',
-                new Error(
-                    `connection refused: ${remoteHostOrIp}:${remotePort} (check your firewall settings)`
-                )
+                    'error',
+                    new Error(
+                        `connection refused: ${remoteHostOrIp}:${remotePort} (check your firewall settings)`
+                    ),
                 );
             }
 

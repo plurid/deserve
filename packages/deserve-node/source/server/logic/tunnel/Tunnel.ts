@@ -11,6 +11,8 @@
      } from 'events';
 
     import axios from 'axios';
+
+    import Debug from 'debug';
     // #endregion libraries
 
     // #region internal
@@ -21,7 +23,7 @@
 
 
 // #region module
-const debug = require('debug')('localtunnel:client');
+const debug = Debug.debug('localtunnel:client');
 
 class Tunnel extends EventEmitter {
     private opts: any;
@@ -93,6 +95,7 @@ class Tunnel extends EventEmitter {
                 .then((res: any) => {
                     const body = res.data;
                     debug('got tunnel information', res.data);
+                    console.log('got tunnel information', res.data);
                     if (res.status !== 200) {
                         const err = new Error(
                         (body && body.message) || 'localtunnel server returned an error, please try again'

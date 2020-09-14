@@ -45,12 +45,16 @@ const setupRegistry = async (
             },
         } = routerResponse;
 
-        await registerNodeToCore(
+        const client = await registerNodeToCore(
             core,
             token,
         );
 
         response.send('registration succeeded');
+
+        return new Promise((resolve, reject) =>
+            client.open((err: any) => (err ? reject(err) : resolve(client)))
+        );
     });
 }
 // #endregion module
