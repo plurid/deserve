@@ -4,6 +4,8 @@
         Request,
         Response,
     } from 'express';
+
+    import bodyParser from 'body-parser';
     // #endregion libraries
 // #endregion imports
 
@@ -24,10 +26,16 @@ const handleRegister = (
     request: Request,
     response: Response,
 ) => {
+    const data = request.body;
+    // verify the identonym and the key from data.
+    console.log('data', data);
+
     const responseData = {
         status: true,
         data: {
-            core: 'https://a-core.data.domain.tld',
+            // core: 'https://a-core.data.domain.tld',
+            core: 'http://localhost:3355/register',
+            token: '123',
         },
     };
     response.setHeader(
@@ -38,6 +46,10 @@ const handleRegister = (
 }
 
 const main = () => {
+    server.use(
+        bodyParser.json(),
+    );
+
     server.get('/', handlePaths);
 
     server.post('/register', handleRegister);
