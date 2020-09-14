@@ -87,13 +87,12 @@ const main = () => {
     server.post('/register', registerTunnel);
 
     server.all('*', (req, res) => {
-        console.log('connect', client);
-        if (client) {
-            client.handleRequest(req, res);
+        if (!client) {
+            res.status(404).send('404');
             return;
         }
 
-        res.status(404).send('404');
+        client.handleRequest(req, res);
     });
 
     const instance = server.listen(port, () => {

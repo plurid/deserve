@@ -87,10 +87,12 @@ class Client extends EventEmitter {
             this.debug('< %s', req.url);
             // write response code and headers
             res.writeHead(clientRes.statusCode, clientRes.headers);
+            console.log('clientRes', clientRes);
 
             // using pump is deliberate - see the pump docs for why
             pump(clientRes, res);
         });
+        console.log('clientReq', clientReq);
 
         // this can happen when underlying agent produces an error
         // in our case we 504 gateway error this?
