@@ -75,7 +75,7 @@ class Tunnel extends EventEmitter {
         const opt = this.opts;
         const getInfo = this._getInfo.bind(this);
 
-        const params = {
+        const params: any = {
             responseType: 'json',
         };
 
