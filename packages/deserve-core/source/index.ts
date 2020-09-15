@@ -86,6 +86,19 @@ const main = () => {
 
     server.post('/register', registerTunnel);
 
+    server.get('/', (request, response) => {
+        const responseData = {
+            id: '',
+            port: '3355',
+            max_conn_count: 1,
+        };
+        response.setHeader(
+            'Content-Type',
+            'application/json',
+        );
+        response.send(JSON.stringify(responseData));
+    });
+
     server.all('*', (req, res) => {
         if (!client) {
             res.status(404).send('404');
