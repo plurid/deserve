@@ -56,7 +56,8 @@ const registerTunnel = async (
 
 
     // establish connection
-    id = Math.random() + '';
+    // id = Math.random() + '';
+    id = 'a1245';
 
     const agent = new TunnelAgent({
         clientId: id,
@@ -102,11 +103,10 @@ const registerTunnel = async (
 
 
     const responseData = {
-        ...info,
-        // status: true,
-        // data: {
-        //     id,
-        // },
+        id: id,
+        port: info.port,
+        max_conn_count: 10,
+        url: 'http://ona.localhost:' + info.port,
     };
     response.setHeader(
         'Content-Type',
@@ -158,7 +158,7 @@ const main = () => {
             return;
         }
 
-        console.log('CLINT', client);
+        // console.log('CLINT', client);
         client.handleRequest(req, res);
     });
 
