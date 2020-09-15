@@ -85,22 +85,34 @@ class Client extends EventEmitter {
         // console.log('opt', opt);
 
         const clientReq = http.request(opt, (clientRes) => {
-            // this.debug('< %s', req.url);
-            console.log('< %s', req.url);
-            // write response code and headers
-            res.writeHead(clientRes.statusCode, clientRes.headers);
-            console.log('clientRes', clientRes);
+            const rawData: any[] = [];
+            clientRes.on('data', (chunk: any) => {
+                console.log('Data', chunk.length);
+                rawData.push(chunk);
+            });
+            clientRes.on('end', () => {
+                console.log('Done');
+                console.log('rawData', rawData);
 
-            // using pump is deliberate - see the pump docs for why
-            pump(clientRes, res);
+                // this.debug('< %s', req.url);
+                console.log('< %s', req.url);
+                // write response code and headers
+                res.writeHead(clientRes.statusCode, clientRes.headers);
+                console.log('clientRes', clientRes);
+
+                // using pump is deliberate - see the pump docs for why
+                pump(clientRes, res);
+            });
         });
-        // console.log('clientReq', clientReq);
+        console.log('clientReq', clientReq);
 
         // this can happen when underlying agent produces an error
         // in our case we 504 gateway error this?
         // if we have already sent headers?
         clientReq.once('error', (err) => {
             console.log('clientReq.once', err);
+
+            res.send('errors');
             // TODO(roman): if headers not sent - respond with gateway unavailable
         });
 

@@ -33,7 +33,7 @@ const handlePaths = (
     response.send('Deserve Core');
 }
 
-const registerTunnel = (
+const registerTunnel = async (
     request: Request,
     response: Response,
 ) => {
@@ -63,9 +63,12 @@ const registerTunnel = (
         maxSockets: 10,
     });
 
-    agent.addSocket(
-        request.socket,
-    );
+    const info: any = await agent.listen();
+    console.log('info', info);
+
+    // agent.addSocket(
+    //     request.socket,
+    // );
     // console.log('AGENT', agent);
     // console.log('request.socket', request.socket);
 
@@ -74,7 +77,7 @@ const registerTunnel = (
         agent,
     });
 
-    socket = request.socket;
+    // socket = request.socket;
     // console.log('CLIENT', client);
 
     // console.log('opt', opt);
@@ -99,10 +102,11 @@ const registerTunnel = (
 
 
     const responseData = {
-        status: true,
-        data: {
-            id,
-        },
+        ...info,
+        // status: true,
+        // data: {
+        //     id,
+        // },
     };
     response.setHeader(
         'Content-Type',
@@ -133,6 +137,7 @@ const main = () => {
                 id: '',
                 port: '3355',
                 max_conn_count: 1,
+                url: 'http://localhost:3355',
             };
             response.setHeader(
                 'Content-Type',
@@ -153,23 +158,7 @@ const main = () => {
             return;
         }
 
-
-
-        const agent = new TunnelAgent({
-            clientId: id,
-            maxSockets: 10,
-        });
-
-        agent.addSocket(
-            socket,
-        );
-
-        client = new Client({
-            id,
-            agent,
-        });
-
-        // console.log('CLINT', client);
+        console.log('CLINT', client);
         client.handleRequest(req, res);
     });
 

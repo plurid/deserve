@@ -69,7 +69,7 @@ class TunnelAgent extends Agent {
     listen() {
         const server = this.server;
         if (this.started) {
-            console.log('startd');
+            console.log('started');
             throw new Error('already started');
         }
         this.started = true;
@@ -105,7 +105,7 @@ class TunnelAgent extends Agent {
             conn(new Error('closed'), null);
         }
         this.waitingCreateConn = [];
-        // this.emit('end');
+        (this as any).emit('end');
     }
 
     // new socket connection from client for tunneling requests to client
@@ -131,7 +131,7 @@ class TunnelAgent extends Agent {
             this.debug('connected sockets: %s', this.connectedSockets);
             if (this.connectedSockets <= 0) {
                 this.debug('all sockets disconnected');
-                // this.emit('offline');
+                (this as any).emit('offline');
             }
         });
 
@@ -143,7 +143,7 @@ class TunnelAgent extends Agent {
         });
 
         if (this.connectedSockets === 0) {
-            // this.emit('online');
+            (this as any).emit('online');
         }
 
         this.connectedSockets += 1;
@@ -193,14 +193,14 @@ class TunnelAgent extends Agent {
         cb(null, sock);
     }
 
-    addSocket(
-        socket: any,
-    ) {
-        console.log('new connection from: %s:%s', socket.address().address, socket.address().port);
+    // addSocket(
+    //     socket: any,
+    // ) {
+    //     console.log('new connection from: %s:%s', socket.address().address, socket.address().port);
 
-        this.connectedSockets += 1;
-        this.availableSockets.push(socket);
-    }
+    //     this.connectedSockets += 1;
+    //     this.availableSockets.push(socket);
+    // }
 
     destroy() {
         this.server.close();
