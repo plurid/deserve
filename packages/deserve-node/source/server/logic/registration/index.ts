@@ -62,8 +62,8 @@ const registerNodeToCore = async (
     console.log('responseData', responseData);
 
     const client = new Tunnel({
-        port: 3355,
-        host: 'http://localhost',
+        port: 3366,
+        host: 'http://localhost:3355',
     });
     console.log('client', client);
 

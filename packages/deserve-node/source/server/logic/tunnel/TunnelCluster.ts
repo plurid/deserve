@@ -38,7 +38,7 @@ class TunnelCluster extends EventEmitter {
         const localProtocol = opt.local_https ? 'https' : 'http';
         const allowInvalidCert = opt.allow_invalid_cert;
 
-        debug(
+        console.log(
             'establishing tunnel %s://%s:%s <> %s:%s',
             localProtocol,
             localHost,
@@ -57,7 +57,7 @@ class TunnelCluster extends EventEmitter {
         remote.setKeepAlive(true);
 
         remote.on('error', (err: any) => {
-            debug('got remote connection error', err.message);
+            console.log('got remote connection error', err.message);
 
             // emit connection refused errors immediately, because they
             // indicate that the tunnel can't be established.
@@ -75,26 +75,26 @@ class TunnelCluster extends EventEmitter {
 
         const connLocal = () => {
             if (remote.destroyed) {
-                debug('remote destroyed');
+                console.log('remote destroyed');
                 this.emit('dead');
                 return;
             }
 
-            debug('connecting locally to %s://%s:%d', localProtocol, localHost, localPort);
+            console.log('connecting locally to %s://%s:%d', localProtocol, localHost, localPort);
             remote.pause();
 
             if (allowInvalidCert) {
-                debug('allowing invalid certificates');
+                console.log('allowing invalid certificates');
             }
 
             const getLocalCertOpts = () =>
                 allowInvalidCert
-                ? { rejectUnauthorized: false }
-                : {
-                    cert: fs.readFileSync(opt.local_cert),
-                    key: fs.readFileSync(opt.local_key),
-                    ca: opt.local_ca ? [fs.readFileSync(opt.local_ca)] : undefined,
-                };
+                    ? { rejectUnauthorized: false }
+                    : {
+                        cert: fs.readFileSync(opt.local_cert),
+                        key: fs.readFileSync(opt.local_key),
+                        ca: opt.local_ca ? [fs.readFileSync(opt.local_ca)] : undefined,
+                    };
 
             // connection to local http server
             const local = opt.local_https
@@ -102,7 +102,7 @@ class TunnelCluster extends EventEmitter {
                 : net.connect({ host: localHost, port: localPort });
 
             const remoteClose = () => {
-                debug('remote close');
+                console.log('remote close');
                 this.emit('dead');
                 local.end();
             };
@@ -113,13 +113,13 @@ class TunnelCluster extends EventEmitter {
             // multiple local connections impossible. We need a smarter way to scale
             // and adjust for such instances to avoid beating on the door of the server
             local.once('error', err => {
-                debug('local error %s', err.message);
+                console.log('local error %s', err.message);
                 local.end();
 
                 remote.removeListener('close', remoteClose);
 
                 if (err.code !== 'ECONNREFUSED') {
-                return remote.end();
+                    return remote.end();
                 }
 
                 // retrying connection to local server
@@ -127,7 +127,7 @@ class TunnelCluster extends EventEmitter {
             });
 
             local.once('connect', () => {
-                debug('connected locally');
+                console.log('connected locally');
                 remote.resume();
 
                 let stream: any = remote;
@@ -135,7 +135,7 @@ class TunnelCluster extends EventEmitter {
                 // if user requested specific local host
                 // then we use host header transform to replace the host header
                 if (opt.local_host) {
-                    debug('transform Host header to %s', opt.local_host);
+                    console.log('transform Host header to %s', opt.local_host);
                     stream = remote.pipe(new HeaderHostTransformer({ host: opt.local_host }));
                 }
 
@@ -143,7 +143,7 @@ class TunnelCluster extends EventEmitter {
 
                 // when local closes, also get a new remote
                 local.once('close', hadError => {
-                    debug('local connection closed [%s]', hadError);
+                    console.log('local connection closed [%s]', hadError);
                 });
             });
         };

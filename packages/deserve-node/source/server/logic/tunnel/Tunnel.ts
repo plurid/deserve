@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return, no-underscore-dangle */
-
 // #region imports
     // #region libraries
     import {
@@ -40,14 +38,13 @@ class Tunnel extends EventEmitter {
         this.closed = false;
 
         if (!this.opts.host) {
-            this.opts.host = 'https://localtunnel.me';
+            this.opts.host = 'https://deserve.plurid.com';
         }
     }
 
     _getInfo(
         body: any,
     ) {
-        /* eslint-disable camelcase */
         const { id, ip, port, url, cached_url, max_conn_count } = body;
         const { host, port: local_port, local_host } = this.opts;
         const { local_https, local_cert, local_key, local_ca, allow_invalid_cert } = this.opts;
@@ -68,7 +65,6 @@ class Tunnel extends EventEmitter {
             local_ca,
             allow_invalid_cert,
         };
-        /* eslint-enable camelcase */
     }
 
     // initialize connection
@@ -94,18 +90,20 @@ class Tunnel extends EventEmitter {
                 .get(uri, params)
                 .then((res: any) => {
                     const body = res.data;
-                    debug('got tunnel information', res.data);
+                    // debug('got tunnel information', res.data);
                     console.log('got tunnel information', res.data);
                     if (res.status !== 200) {
                         const err = new Error(
-                        (body && body.message) || 'localtunnel server returned an error, please try again'
+                            (body && body.message) || 'localtunnel server returned an error, please try again'
                         );
                         return cb(err);
                     }
                     cb(null, getInfo(body));
                 })
                 .catch((err: any) => {
-                    debug(`tunnel server offline: ${err.message}, retry 1s`);
+                    // debug(`tunnel server offline: ${err.message}, retry 1s`);
+                    console.log(`tunnel server offline: ${err.message}, retry 1s`);
+
                     return setTimeout(getUrl, 1000);
                 });
         })();
@@ -122,13 +120,14 @@ class Tunnel extends EventEmitter {
 
         // only emit the url the first time
         this.tunnelCluster.once('open', () => {
-        this.emit('url', info.url);
+            this.emit('url', info.url);
         });
 
         // re-emit socket error
         this.tunnelCluster.on('error', (err: any) => {
-        debug('got socket error', err.message);
-        this.emit('error', err);
+            // debug('got socket error', err.message);
+            console.log('got socket error', err.message);
+            this.emit('error', err);
         });
 
         let tunnelCount = 0;
@@ -136,7 +135,8 @@ class Tunnel extends EventEmitter {
         // track open count
         this.tunnelCluster.on('open', (tunnel: any) => {
             tunnelCount++;
-            debug('tunnel open [total: %d]', tunnelCount);
+            // debug('tunnel open [total: %d]', tunnelCount);
+            console.log('tunnel open [total: %d]', tunnelCount);
 
             const closeHandler = () => {
                 tunnel.destroy();
