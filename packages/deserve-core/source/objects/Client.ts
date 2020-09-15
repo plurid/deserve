@@ -74,17 +74,19 @@ class Client extends EventEmitter {
         res: any,
     ) {
         this.debug('> %s', req.url);
-        console.log(req.url);
+        console.log('handleRequest', req.url);
 
         const opt = {
             path: req.url,
             agent: this.agent,
             method: req.method,
-            headers: req.headers
+            headers: req.headers,
         };
+        // console.log('opt', opt);
 
         const clientReq = http.request(opt, (clientRes) => {
-            this.debug('< %s', req.url);
+            // this.debug('< %s', req.url);
+            console.log('< %s', req.url);
             // write response code and headers
             res.writeHead(clientRes.statusCode, clientRes.headers);
             console.log('clientRes', clientRes);
@@ -92,7 +94,7 @@ class Client extends EventEmitter {
             // using pump is deliberate - see the pump docs for why
             pump(clientRes, res);
         });
-        console.log('clientReq', clientReq);
+        // console.log('clientReq', clientReq);
 
         // this can happen when underlying agent produces an error
         // in our case we 504 gateway error this?
@@ -110,7 +112,8 @@ class Client extends EventEmitter {
         req: any,
         socket: any,
     ) {
-        this.debug('> [up] %s', req.url);
+        // this.debug('> [up] %s', req.url);
+        console.log('> [up] %s', req.url);
 
         socket.once('error', (err: any) => {
             // These client side errors can happen if the client dies while we are reading

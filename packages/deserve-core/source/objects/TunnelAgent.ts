@@ -69,6 +69,7 @@ class TunnelAgent extends Agent {
     listen() {
         const server = this.server;
         if (this.started) {
+            console.log('startd');
             throw new Error('already started');
         }
         this.started = true;
@@ -86,7 +87,7 @@ class TunnelAgent extends Agent {
         return new Promise((resolve) => {
             server.listen(() => {
                 const port = (server as any).address().port;
-                this.debug('tcp server listening on port: %d', port);
+                console.log('tcp server listening on port: %d', port);
 
                 resolve({
                     // port for lt client tcp connections
@@ -177,6 +178,7 @@ class TunnelAgent extends Agent {
 
         // socket is a tcp connection back to the user hosting the site
         const sock = this.availableSockets.shift();
+        console.log('sock', sock);
 
         // no available sockets
         // wait until we have one
@@ -189,6 +191,15 @@ class TunnelAgent extends Agent {
 
         console.log('socket given');
         cb(null, sock);
+    }
+
+    addSocket(
+        socket: any,
+    ) {
+        console.log('new connection from: %s:%s', socket.address().address, socket.address().port);
+
+        this.connectedSockets += 1;
+        this.availableSockets.push(socket);
     }
 
     destroy() {

@@ -1,5 +1,7 @@
 // #region imports
     // #region libraries
+    import http from 'http';
+
     import express, {
         Request,
         Response,
@@ -21,6 +23,8 @@ const server = express();
 const port = process.env.PORT || 3655;
 
 let client: any;
+let id: any;
+let socket: any;
 
 const handlePaths = (
     request: Request,
@@ -52,19 +56,47 @@ const registerTunnel = (
 
 
     // establish connection
-    const id = Math.random() + '';
+    id = Math.random() + '';
 
     const agent = new TunnelAgent({
         clientId: id,
         maxSockets: 10,
     });
-    console.log('AGENT', agent);
+
+    agent.addSocket(
+        request.socket,
+    );
+    // console.log('AGENT', agent);
+    // console.log('request.socket', request.socket);
 
     client = new Client({
         id,
         agent,
     });
-    console.log('CLIENT', client);
+
+    socket = request.socket;
+    // console.log('CLIENT', client);
+
+    // console.log('opt', opt);
+
+    // try {
+    //     // console.log('request.socket', request.socket);
+
+    //     // const opt = {
+    //     //     path: '/',
+    //     //     agent: agent,
+    //     //     method: 'get'.toUpperCase(),
+    //     // };
+    //     // console.log('opt', opt);
+
+    //     // const clientReq = http.request(opt, (clientRes) => {
+    //     //     console.log('clientRes', clientRes);
+    //     // });
+    //     // console.log('clientReq', clientReq);
+    // } catch (error) {
+    //     console.log('error', error);
+    // }
+
 
     const responseData = {
         status: true,
@@ -84,20 +116,36 @@ const main = () => {
         bodyParser.json(),
     );
 
-    server.post('/register', registerTunnel);
+    server.use((
+        request,
+        response,
+        next,
+    ) => {
+        const path = request.url;
 
-    server.get('/', (request, response) => {
-        const responseData = {
-            id: '',
-            port: '3355',
-            max_conn_count: 1,
-        };
-        response.setHeader(
-            'Content-Type',
-            'application/json',
-        );
-        response.send(JSON.stringify(responseData));
+        if (path !== '/') {
+            next();
+            return;
+        }
+
+        if (!client) {
+            const responseData = {
+                id: '',
+                port: '3355',
+                max_conn_count: 1,
+            };
+            response.setHeader(
+                'Content-Type',
+                'application/json',
+            );
+            response.send(JSON.stringify(responseData));
+            return;
+        }
+
+        next();
     });
+
+    server.post('/register', registerTunnel);
 
     server.all('*', (req, res) => {
         if (!client) {
@@ -105,6 +153,23 @@ const main = () => {
             return;
         }
 
+
+
+        const agent = new TunnelAgent({
+            clientId: id,
+            maxSockets: 10,
+        });
+
+        agent.addSocket(
+            socket,
+        );
+
+        client = new Client({
+            id,
+            agent,
+        });
+
+        // console.log('CLINT', client);
         client.handleRequest(req, res);
     });
 
