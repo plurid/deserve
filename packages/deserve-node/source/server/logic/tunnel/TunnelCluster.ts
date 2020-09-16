@@ -52,12 +52,12 @@ class TunnelCluster extends EventEmitter {
             host: remoteHostOrIp,
             port: remotePort,
         });
-        console.log('remote', remote);
+        // console.log('remote', remote);
 
         remote.setKeepAlive(true);
 
         remote.on('error', (err: any) => {
-            console.log('got remote connection error', err.message);
+            // console.log('got remote connection error', err.message);
 
             // emit connection refused errors immediately, because they
             // indicate that the tunnel can't be established.
@@ -80,7 +80,7 @@ class TunnelCluster extends EventEmitter {
                 return;
             }
 
-            console.log('connecting locally to %s://%s:%d', localProtocol, localHost, localPort);
+            // console.log('connecting locally to %s://%s:%d', localProtocol, localHost, localPort);
             remote.pause();
 
             if (allowInvalidCert) {
@@ -113,7 +113,7 @@ class TunnelCluster extends EventEmitter {
             // multiple local connections impossible. We need a smarter way to scale
             // and adjust for such instances to avoid beating on the door of the server
             local.once('error', err => {
-                console.log('local error %s', err.message);
+                // console.log('local error %s', err.message);
                 local.end();
 
                 remote.removeListener('close', remoteClose);
@@ -127,7 +127,7 @@ class TunnelCluster extends EventEmitter {
             });
 
             local.once('connect', () => {
-                console.log('connected locally');
+                // console.log('connected locally');
                 remote.resume();
 
                 let stream: any = remote;

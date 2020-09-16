@@ -72,7 +72,7 @@ class Tunnel extends EventEmitter {
     _init(
         cb: any,
     ) {
-        console.log('_init ---');
+        // console.log('_init ---');
 
         const opt = this.opts;
         const getInfo = this._getInfo.bind(this);
@@ -82,20 +82,20 @@ class Tunnel extends EventEmitter {
         };
 
         const baseUri = `${opt.host}/register`;
-        console.log('baseUri', baseUri);
+        // console.log('baseUri', baseUri);
         // no subdomain at first, maybe use requested domain
         const assignedDomain = opt.subdomain;
         // where to quest
         const uri = baseUri + (assignedDomain || '?new');
-        console.log('uri', uri);
+        // console.log('uri', uri);
 
         (function getUrl() {
             axios
-                .get(uri, params)
+                .post(uri, params)
                 .then((res: any) => {
                     const body = res.data;
                     // debug('got tunnel information', res.data);
-                    console.log('got tunnel information', res.data);
+                    // console.log('got tunnel information', res.data);
                     if (res.status !== 200) {
                         const err = new Error(
                             (body && body.message) || 'localtunnel server returned an error, please try again'
@@ -106,7 +106,7 @@ class Tunnel extends EventEmitter {
                 })
                 .catch((err: any) => {
                     // debug(`tunnel server offline: ${err.message}, retry 1s`);
-                    console.log(`tunnel server offline: ${err.message}, retry 1s`);
+                    // console.log(`tunnel server offline: ${err.message}, retry 1s`);
 
                     return setTimeout(getUrl, 1000);
                 });
@@ -116,7 +116,7 @@ class Tunnel extends EventEmitter {
     _establish(
         info: any,
     ) {
-        console.log('_establish info', info);
+        // console.log('_establish info', info);
 
         // increase max event listeners so that localtunnel consumers don't get
         // warning messages as soon as they setup even one listener. See #71
@@ -132,7 +132,7 @@ class Tunnel extends EventEmitter {
         // re-emit socket error
         this.tunnelCluster.on('error', (err: any) => {
             // debug('got socket error', err.message);
-            console.log('got socket error', err.message);
+            // console.log('got socket error', err.message);
             this.emit('error', err);
         });
 
@@ -142,7 +142,7 @@ class Tunnel extends EventEmitter {
         this.tunnelCluster.on('open', (tunnel: any) => {
             tunnelCount++;
             // debug('tunnel open [total: %d]', tunnelCount);
-            console.log('tunnel open [total: %d]', tunnelCount);
+            // console.log('tunnel open [total: %d]', tunnelCount);
 
             const closeHandler = () => {
                 tunnel.destroy();
@@ -161,7 +161,7 @@ class Tunnel extends EventEmitter {
         // when a tunnel dies, open a new one
         this.tunnelCluster.on('dead', () => {
             tunnelCount--;
-            debug('tunnel dead [total: %d]', tunnelCount);
+            // debug('tunnel dead [total: %d]', tunnelCount);
             if (this.closed) {
                 return;
             }
