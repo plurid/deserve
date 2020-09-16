@@ -106,7 +106,7 @@ const registerTunnel = async (
         id: id,
         port: info.port,
         max_conn_count: 10,
-        url: 'http://ona.localhost:' + info.port,
+        url: 'http://localhost:3355',
     };
     response.setHeader(
         'Content-Type',
