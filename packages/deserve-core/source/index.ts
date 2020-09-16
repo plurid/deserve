@@ -23,8 +23,6 @@ const server = express();
 const port = process.env.PORT || 3655;
 
 let client: any;
-let id: any;
-let socket: any;
 
 const handlePaths = (
     request: Request,
@@ -58,8 +56,8 @@ const registerTunnel = async (
 
 
     // establish connection
-    // id = Math.random() + '';
-    id = 'onetwothree';
+    const id = Math.random() + '';
+    // id = 'onetwothree';
 
     const agent = new TunnelAgent({
         clientId: id,
@@ -68,7 +66,7 @@ const registerTunnel = async (
 
     try {
         const info: any = await agent.listen();
-        console.log('info', info);
+        // console.log('info', info);
 
         client = new Client({
             id,
@@ -79,7 +77,6 @@ const registerTunnel = async (
             id: id,
             port: info.port,
             max_conn_count: 10,
-            // url: 'http://localhost:3355',
         };
         response.setHeader(
             'Content-Type',
@@ -126,11 +123,11 @@ const main = () => {
         next();
     });
 
-    server.get('/register', registerTunnel);
+    server.post('/register', registerTunnel);
 
     server.all('*', (req, res) => {
-        const hostname = req.headers.host;
-        console.log('request hostname', hostname, !!client);
+        // const hostname = req.headers.host;
+        // console.log('request hostname', hostname, !!client);
 
         if (!client) {
             res.status(404).send('404');
@@ -146,7 +143,7 @@ const main = () => {
     });
 
     instance.on('upgrade', (req, socket, head) => {
-        console.log('upgrade');
+        // console.log('upgrade');
 
         if (!client) {
             socket.destroy();

@@ -70,7 +70,7 @@ class TunnelAgent extends Agent {
     listen() {
         const server = this.server;
         if (this.started) {
-            console.log('started');
+            // console.log('started');
             throw new Error('already started');
         }
         this.started = true;
@@ -78,7 +78,7 @@ class TunnelAgent extends Agent {
         server.on('close', this._onClose.bind(this));
         server.on('connection', this._onConnection.bind(this));
         server.on('error', (err: any) => {
-            console.log(err);
+            // console.log(err);
 
             // These errors happen from killed connections, we don't worry about them
             if (err.code == 'ECONNRESET' || err.code == 'ETIMEDOUT') {
@@ -89,7 +89,7 @@ class TunnelAgent extends Agent {
         return new Promise((resolve) => {
             server.listen(() => {
                 const port = (server as any).address().port;
-                console.log('tcp server listening on port: %d', port);
+                // console.log('tcp server listening on port: %d', port);
 
                 resolve({
                     // port for lt client tcp connections
@@ -101,7 +101,7 @@ class TunnelAgent extends Agent {
 
     _onClose() {
         this.closed = true;
-        this.debug('closed tcp socket');
+        // console.log('closed tcp socket');
         // flush any waiting connections
         for (const conn of this.waitingCreateConn) {
             conn(new Error('closed'), null);
@@ -114,17 +114,17 @@ class TunnelAgent extends Agent {
     _onConnection(
         socket: any,
     ) {
-        console.log('_onConnection socket', socket);
+        // console.log('_onConnection socket', socket);
 
         // no more socket connections allowed
         if (this.connectedSockets >= this.maxTcpSockets) {
-            this.debug('no more sockets allowed');
+            // console.log('no more sockets allowed');
             socket.destroy();
             return false;
         }
 
         socket.once('close', (hadError: any) => {
-            this.debug('closed socket (error: %s)', hadError);
+            // console.log('closed socket (error: %s)', hadError);
             this.connectedSockets -= 1;
             // remove the socket from available list
             const idx = this.availableSockets.indexOf(socket);
@@ -132,9 +132,9 @@ class TunnelAgent extends Agent {
                 this.availableSockets.splice(idx, 1);
             }
 
-            this.debug('connected sockets: %s', this.connectedSockets);
+            // console.log('connected sockets: %s', this.connectedSockets);
             if (this.connectedSockets <= 0) {
-                this.debug('all sockets disconnected');
+                // console.log('all sockets disconnected');
                 (this as any).emit('offline');
             }
         });
@@ -151,12 +151,12 @@ class TunnelAgent extends Agent {
         }
 
         this.connectedSockets += 1;
-        this.debug('new connection from: %s:%s', socket.address().address, socket.address().port);
+        // console.log('new connection from: %s:%s', socket.address().address, socket.address().port);
 
         // if there are queued callbacks, give this socket now and don't queue into available
         const fn = this.waitingCreateConn.shift();
         if (fn) {
-            this.debug('giving socket to queued conn request');
+            console.log('giving socket to queued conn request');
             setTimeout(() => {
                 fn(null, socket);
             }, 0);
@@ -178,22 +178,22 @@ class TunnelAgent extends Agent {
             return;
         }
 
-        console.log('create connection');
+        // console.log('create connection');
 
         // socket is a tcp connection back to the user hosting the site
         const sock = this.availableSockets.shift();
-        console.log('sock', sock);
+        // console.log('sock', sock);
 
         // no available sockets
         // wait until we have one
         if (!sock) {
             this.waitingCreateConn.push(cb);
-            console.log('waiting connected: %s', this.connectedSockets);
-            console.log('waiting available: %s', this.availableSockets.length);
+            // console.log('waiting connected: %s', this.connectedSockets);
+            // console.log('waiting available: %s', this.availableSockets.length);
             return;
         }
 
-        console.log('socket given');
+        // console.log('socket given');
         cb(null, sock);
     }
 

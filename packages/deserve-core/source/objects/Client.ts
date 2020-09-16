@@ -73,8 +73,8 @@ class Client extends EventEmitter {
         req: any,
         res: any,
     ) {
-        this.debug('> %s', req.url);
-        console.log('handleRequest', req.url);
+        // this.debug('> %s', req.url);
+        // console.log('handleRequest', req.url);
 
         const opt = {
             path: req.url,
@@ -100,7 +100,7 @@ class Client extends EventEmitter {
         // in our case we 504 gateway error this?
         // if we have already sent headers?
         clientReq.once('error', (err) => {
-            console.log('clientReq.once', err);
+            // console.log('clientReq.once', err);
 
             // res.send('errors');
             // TODO(roman): if headers not sent - respond with gateway unavailable
@@ -115,7 +115,7 @@ class Client extends EventEmitter {
         socket: any,
     ) {
         // this.debug('> [up] %s', req.url);
-        console.log('> [up] %s', req.url);
+        // console.log('> [up] %s', req.url);
 
         socket.once('error', (err: any) => {
             // These client side errors can happen if the client dies while we are reading
@@ -123,11 +123,11 @@ class Client extends EventEmitter {
             if (err.code == 'ECONNRESET' || err.code == 'ETIMEDOUT') {
                 return;
             }
-            console.error(err);
+            // console.error(err);
         });
 
         this.agent.createConnection({}, (err: any, conn: any) => {
-            this.debug('< [up] %s', req.url);
+            // this.debug('< [up] %s', req.url);
             // any errors getting a connection mean we cannot service this request
             if (err) {
                 socket.end();
