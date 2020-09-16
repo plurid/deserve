@@ -72,6 +72,8 @@ class Tunnel extends EventEmitter {
     _init(
         cb: any,
     ) {
+        console.log('_init ---');
+
         const opt = this.opts;
         const getInfo = this._getInfo.bind(this);
 
@@ -79,11 +81,13 @@ class Tunnel extends EventEmitter {
             responseType: 'json',
         };
 
-        const baseUri = `${opt.host}/`;
+        const baseUri = `${opt.host}/register`;
+        console.log('baseUri', baseUri);
         // no subdomain at first, maybe use requested domain
         const assignedDomain = opt.subdomain;
         // where to quest
         const uri = baseUri + (assignedDomain || '?new');
+        console.log('uri', uri);
 
         (function getUrl() {
             axios
@@ -112,6 +116,8 @@ class Tunnel extends EventEmitter {
     _establish(
         info: any,
     ) {
+        console.log('_establish info', info);
+
         // increase max event listeners so that localtunnel consumers don't get
         // warning messages as soon as they setup even one listener. See #71
         this.setMaxListeners(info.max_conn + (EventEmitter.defaultMaxListeners || 10));

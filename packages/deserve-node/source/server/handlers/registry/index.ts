@@ -21,6 +21,8 @@
 
 
 // #region module
+let client: any;
+
 const setupRegistry = async (
     instance: Application,
     logic?: DeserveLogic,
@@ -45,7 +47,7 @@ const setupRegistry = async (
             },
         } = routerResponse;
 
-        const client = await registerNodeToCore(
+        client = await registerNodeToCore(
             core,
             token,
         );
