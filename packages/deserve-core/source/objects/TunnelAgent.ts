@@ -54,6 +54,7 @@ class TunnelAgent extends Agent {
 
         // new tcp server to service requests for this client
         this.server = net.createServer();
+        // console.log('this.server', this.server);
 
         // flag to avoid double starts
         this.started = false;
@@ -77,11 +78,12 @@ class TunnelAgent extends Agent {
         server.on('close', this._onClose.bind(this));
         server.on('connection', this._onConnection.bind(this));
         server.on('error', (err: any) => {
+            console.log(err);
+
             // These errors happen from killed connections, we don't worry about them
             if (err.code == 'ECONNRESET' || err.code == 'ETIMEDOUT') {
                 return;
             }
-            console.log(err);
         });
 
         return new Promise((resolve) => {
@@ -112,6 +114,8 @@ class TunnelAgent extends Agent {
     _onConnection(
         socket: any,
     ) {
+        console.log('_onConnection socket', socket);
+
         // no more socket connections allowed
         if (this.connectedSockets >= this.maxTcpSockets) {
             this.debug('no more sockets allowed');

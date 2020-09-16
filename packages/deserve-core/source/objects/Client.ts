@@ -85,26 +85,16 @@ class Client extends EventEmitter {
         // console.log('opt', opt);
 
         const clientReq = http.request(opt, (clientRes) => {
-            const rawData: any[] = [];
-            clientRes.on('data', (chunk: any) => {
-                console.log('Data', chunk.length);
-                rawData.push(chunk);
-            });
-            clientRes.on('end', () => {
-                console.log('Done');
-                console.log('rawData', rawData);
+            this.debug('< %s', req.url);
+            // console.log('clientReq handleRequest', req.url);
 
-                // this.debug('< %s', req.url);
-                console.log('< %s', req.url);
-                // write response code and headers
-                res.writeHead(clientRes.statusCode, clientRes.headers);
-                console.log('clientRes', clientRes);
+            // write response code and headers
+            res.writeHead(clientRes.statusCode, clientRes.headers);
 
-                // using pump is deliberate - see the pump docs for why
-                pump(clientRes, res);
-            });
+            // using pump is deliberate - see the pump docs for why
+            pump(clientRes, res);
         });
-        console.log('clientReq', clientReq);
+        // console.log('clientReq', clientReq);
 
         // this can happen when underlying agent produces an error
         // in our case we 504 gateway error this?
@@ -112,7 +102,7 @@ class Client extends EventEmitter {
         clientReq.once('error', (err) => {
             console.log('clientReq.once', err);
 
-            res.send('errors');
+            // res.send('errors');
             // TODO(roman): if headers not sent - respond with gateway unavailable
         });
 
