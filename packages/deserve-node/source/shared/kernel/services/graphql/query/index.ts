@@ -7,5 +7,28 @@
 
 
 // #region module
-
+const GET_CURRENT_OWNER = gql`
+    query GetCurrentOwner {
+        getCurrentOwner {
+            status
+            error {
+                path
+                type
+                message
+            }
+            data {
+                id
+                identonym
+            }
+        }
+    }
+`;
 // #endregion module
+
+
+
+// #region exports
+export {
+    GET_CURRENT_OWNER,
+};
+// #endregion exports
