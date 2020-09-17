@@ -24,7 +24,7 @@
  *
  * @param directory
  */
-export const makeDirectorySync = (
+const makeDirectorySync = (
     directory: string,
 ) => {
     fs.mkdirSync(directory, {
@@ -39,7 +39,7 @@ export const makeDirectorySync = (
  * @param source
  * @param destination
  */
-export const copyDirectory = async (
+const copyDirectory = async (
     source: string,
     destination: string,
 ) => {
@@ -55,7 +55,7 @@ export const copyDirectory = async (
 }
 
 
-export const obliterateDirectory = async (
+const obliterateDirectory = async (
     target: string,
 ) => {
     try {
@@ -71,3 +71,13 @@ export const obliterateDirectory = async (
     }
 }
 // #endregion module
+
+
+
+// #region exports
+export {
+    makeDirectorySync,
+    copyDirectory,
+    obliterateDirectory,
+};
+// #endregion exports

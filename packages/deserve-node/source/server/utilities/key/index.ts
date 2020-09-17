@@ -12,7 +12,7 @@
  *
  * @param keyText
  */
-export const hashKey = async (
+const hashKey = async (
     keyText: string,
 ): Promise<string> => {
     try {
@@ -32,10 +32,19 @@ export const hashKey = async (
  * @param keyText
  * @param hash
  */
-export const validateKey = async (
+const validateKey = async (
     keyText: string,
     hash: string,
 ) => {
     return await bcrypt.compare(keyText, hash);
 }
 // #endregion module
+
+
+
+// #region exports
+export {
+    hashKey,
+    validateKey,
+};
+// #endregion exports

@@ -1,6 +1,6 @@
 // #region module
-export const replaceErrors = (
-    key: string,
+const replaceErrors = (
+    _: string,
     value: any,
 ) => {
     if (value instanceof Error) {
@@ -17,7 +17,7 @@ export const replaceErrors = (
 }
 
 
-export const stringifyError = (
+const stringifyError = (
     error: Error,
 ) => {
     return JSON.stringify(
@@ -26,3 +26,11 @@ export const stringifyError = (
     );
 }
 // #endregion module
+
+
+
+// #region exports
+export {
+    stringifyError,
+};
+// #endregion exports

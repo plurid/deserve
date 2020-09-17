@@ -1,5 +1,5 @@
 // #region module
-export const generateLog = (
+const generateLog = (
     type: string,
     state: string,
     method: string,
@@ -15,7 +15,7 @@ export const generateLog = (
 }
 
 
-export const generateMethodLogs = (
+const generateMethodLogs = (
     method: string,
 ) => {
     return {
@@ -35,3 +35,12 @@ export const generateMethodLogs = (
     };
 }
 // #endregion module
+
+
+
+// #region exports
+export {
+    generateLog,
+    generateMethodLogs,
+};
+// #endregion exports
