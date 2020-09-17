@@ -10,10 +10,8 @@
     import {
         Context,
         InputRegisterOwner,
+        Owner,
     } from '#server/data/interfaces';
-
-    import {
-    } from '#server/data/constants';
 
     import database from '#server/services/database';
 
@@ -21,6 +19,7 @@
         hashKey,
         generateToken,
         setCookieToken,
+        clientOwner,
     } from '#server/utilities';
     // #endregion external
 // #endregion imports
@@ -46,7 +45,7 @@ const registerOwner = async (
 
         const hashedKey = await hashKey(key);
 
-        const owner = {
+        const owner: Owner = {
             id,
             identonym,
             key: hashedKey,
@@ -70,6 +69,7 @@ const registerOwner = async (
 
         return {
             status: true,
+            data: clientOwner(owner),
         };
     } catch (error) {
         return {

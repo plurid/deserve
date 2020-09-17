@@ -19,6 +19,10 @@
     } from '#server/data/constants';
 
     import database from '#server/services/database';
+
+    import {
+        clientOwner,
+    } from '../owner';
     // #endregion external
 // #endregion imports
 
@@ -92,7 +96,7 @@ const tradeTokenForOwner = async (
             return;
         }
 
-        return ownerID;
+        return clientOwner(owner);
     } catch (error) {
         const tokenContent = jsonWebToken.verify(
             token,
@@ -104,11 +108,22 @@ const tradeTokenForOwner = async (
 
         const ownerID = tokenContent.owner.id;
 
-        if (ownerID) {
-            // refresh token
+        if (!ownerID) {
+            return;
         }
 
-        return ownerID;
+        const owner = await database.get(
+            'owner',
+            ownerID,
+        );
+
+        if (!owner) {
+            return;
+        }
+
+        // TODO refresh token
+
+        return clientOwner(owner);
     }
 }
 // #endregion module

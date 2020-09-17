@@ -27,12 +27,20 @@ export interface Context {
     logLevel: number;
     logLevels: LogLevels;
 
-    owner: Owner | undefined;
+    owner: ClientOwner | undefined;
 }
 
 
 export interface Owner {
     id: string;
+    identonym: string;
+    key: string;
+}
+
+
+export interface ClientOwner {
+    id: string;
+    identonym: string;
 }
 
 

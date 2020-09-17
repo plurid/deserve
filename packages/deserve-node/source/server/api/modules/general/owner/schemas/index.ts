@@ -32,6 +32,7 @@ export const types = gql`
 
     type Owner {
         id: ID!
+        identonym: String!
     }
 `;
 
