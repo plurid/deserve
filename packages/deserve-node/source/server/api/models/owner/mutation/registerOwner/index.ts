@@ -19,6 +19,8 @@
 
     import {
         hashKey,
+        generateToken,
+        setCookieToken,
     } from '#server/utilities';
     // #endregion external
 // #endregion imports
@@ -31,6 +33,10 @@ const registerOwner = async (
     context: Context,
 ) => {
     try {
+        const {
+            response,
+        } = context;
+
         const {
             identonym,
             key,
@@ -50,6 +56,16 @@ const registerOwner = async (
             'owner',
             id,
             owner,
+        );
+
+        const token = generateToken(
+            owner,
+        );
+
+        setCookieToken(
+            response,
+            token,
+            'localhost',
         );
 
         return {

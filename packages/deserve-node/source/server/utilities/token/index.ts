@@ -44,12 +44,11 @@ const generateToken = (
 
 const setCookieToken = (
     response: Response,
-    name: string,
     token: string,
     domain: string,
 ) => {
     response.cookie(
-        name,
+        COOKIE_OWNER_TOKEN,
         token,
         {
             domain,
