@@ -15,7 +15,7 @@ const verifyIdentonymKey: VerifyIdentonymKey = async (
     input,
 ) => {
     return {
-        status: false,
+        status: true,
         data: {
             // core: 'https://a-core.data.domain.tld',
             core: 'http://localhost:3355/register',
