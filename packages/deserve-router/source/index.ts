@@ -77,4 +77,6 @@ export default main;
 export {
     server,
 };
+
+export * from './data/interfaces';
 // #endregion exports
