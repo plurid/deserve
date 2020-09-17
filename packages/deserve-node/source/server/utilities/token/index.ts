@@ -85,7 +85,7 @@ const tradeTokenForOwner = async (
             process.env.JWT_ENCRYPTION || '',
         ) as any;
 
-        const ownerID = tokenContent.owner.id;
+        const ownerID = tokenContent.id;
 
         const owner = await database.get(
             'owner',
@@ -106,7 +106,7 @@ const tradeTokenForOwner = async (
             },
         ) as any;
 
-        const ownerID = tokenContent.owner.id;
+        const ownerID = tokenContent.id;
 
         if (!ownerID) {
             return;
