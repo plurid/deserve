@@ -18,14 +18,10 @@ const registerOwner = async (
     context: Context,
 ) => {
     try {
-        // const {
-        //     response,
-        // } = context;
-
-        // const {
-        //     identonym,
-        //     key,
-        // } = input;
+        const {
+            identonym,
+            key,
+        } = input;
 
         return {
             status: false,
