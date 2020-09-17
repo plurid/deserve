@@ -16,7 +16,9 @@
 
     import {
         COOKIE_OWNER_TOKEN,
-    } from '../../data/constants';
+    } from '#server/data/constants';
+
+    import database from '#server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -80,6 +82,15 @@ const tradeTokenForOwner = async (
         ) as any;
 
         const ownerID = tokenContent.owner.id;
+
+        const owner = await database.get(
+            'owner',
+            ownerID,
+        );
+
+        if (!owner) {
+            return;
+        }
 
         return ownerID;
     } catch (error) {
