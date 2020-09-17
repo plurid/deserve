@@ -24,6 +24,7 @@
 
     import RegisterView from './components/RegisterView';
     import LoginView from './components/LoginView';
+    import GeneralView from './components/GeneralView';
     // #endregion internal
 // #endregion imports
 
@@ -34,7 +35,7 @@ export interface IndexOwnProperties {
 }
 
 export interface IndexStateProperties {
-    // stateIndexView: string;
+    stateIndexView: string;
 }
 
 export interface IndexDispatchProperties {
@@ -50,29 +51,32 @@ const Index: React.FC<IndexProperties> = (
     // #region properties
     const {
         // #region state
-        // stateIndexView,
+        stateIndexView,
         // #endregion state
     } = properties;
     // #endregion properties
 
 
-    // #region state
-    const [
-        view,
-        setView,
-    ] = useState('register');
-    // #endregion state
+    // // #region state
+    // const [
+    //     view,
+    //     setView,
+    // ] = useState('register');
+    // // #endregion state
 
 
     // #region render
     let renderView = (<></>);
 
-    switch (view) {
+    switch (stateIndexView) {
         case 'register':
             renderView = (<RegisterView />);
             break;
         case 'login':
             renderView = (<LoginView />);
+            break;
+        case 'general':
+            renderView = (<GeneralView />);
             break;
     }
 
@@ -88,7 +92,7 @@ const Index: React.FC<IndexProperties> = (
 const mapStateToProperties = (
     state: AppState,
 ): IndexStateProperties => ({
-    // stateIndexView: selectors.view.getIndexView(state),
+    stateIndexView: selectors.view.getIndexView(state),
 });
 
 

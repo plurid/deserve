@@ -18,6 +18,7 @@ const REGISTER_OWNER = gql`
             }
             data {
                 id
+                identonym
             }
         }
     }
@@ -35,6 +36,7 @@ const LOGIN = gql`
             }
             data {
                 id
+                identonym
             }
         }
     }
