@@ -127,7 +127,7 @@ const main = () => {
 
     server.all('*', (req, res) => {
         // const hostname = req.headers.host;
-        // console.log('request hostname', hostname, !!client);
+        // console.log('request hostname', hostname, !!client, req.url, req.method);
 
         if (!client) {
             res.status(404).send('404');
