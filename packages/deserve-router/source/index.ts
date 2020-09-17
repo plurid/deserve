@@ -27,22 +27,39 @@ const handleRegister = (
     response: Response,
 ) => {
     const data = request.body;
-    // verify the identonym and the key from data.
-    console.log('data', data);
 
-    const responseData = {
-        status: true,
-        data: {
-            // core: 'https://a-core.data.domain.tld',
-            core: 'http://localhost:3355/register',
-            token: '123',
-        },
-    };
     response.setHeader(
         'Content-Type',
         'application/json',
     );
-    response.send(JSON.stringify(responseData));
+
+    try {
+        const {
+            identonym,
+            key,
+        } = data;
+
+        // verify the identonym and the key from data.
+        console.log('data', data);
+
+        // get the core location and generate the token
+
+        const responseData = {
+            status: true,
+            data: {
+                // core: 'https://a-core.data.domain.tld',
+                core: 'http://localhost:3355/register',
+                token: '123',
+            },
+        };
+
+        response.send(JSON.stringify(responseData));
+    } catch (error) {
+        const responseData = {
+            status: false,
+        };
+        response.send(JSON.stringify(responseData));
+    }
 }
 
 const main = () => {
