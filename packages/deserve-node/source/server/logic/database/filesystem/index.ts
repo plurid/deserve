@@ -31,7 +31,7 @@ const resolveDataPath = (
     entity: string,
 ) => {
     switch (entity) {
-        case 'owners':
+        case 'owner':
             return DATA_OWNERS;
         default:
             return '';

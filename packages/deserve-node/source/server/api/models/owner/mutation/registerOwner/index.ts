@@ -1,4 +1,11 @@
 // #region imports
+    // #region libraries
+    import {
+        uuid,
+    } from '@plurid/plurid-functions'
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -7,6 +14,8 @@
 
     import {
     } from '#server/data/constants';
+
+    import database from '#server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -23,8 +32,22 @@ const registerOwner = async (
             key,
         } = input;
 
+        const id = uuid.generate();
+
+        const owner = {
+            id,
+            identonym,
+            key,
+        };
+
+        await database.store(
+            'owner',
+            id,
+            owner,
+        );
+
         return {
-            status: false,
+            status: true,
         };
     } catch (error) {
         return {
