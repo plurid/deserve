@@ -17,10 +17,10 @@
     // #region external
     import deserveLogo from '../../assets/deserve-logo.png';
 
-    // import client from '#kernel-services/graphql/client';
-    // import {
-    //     LOGIN,
-    // } from '#kernel-services/graphql/mutate';
+    import client from '#kernel-services/graphql/client';
+    import {
+        LOGIN,
+    } from '#kernel-services/graphql/mutate';
 
     import {
         StyledPluridTextline,
@@ -52,8 +52,8 @@ export interface LoginViewStateProperties {
 
 export interface LoginViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>;
-    // dispatchSetViewType: typeof actions.view.setViewType;
-    // dispatchViewOwnerID: typeof actions.view.setViewOwnerID;
+    dispatchSetViewType: typeof actions.view.setViewType;
+    dispatchViewOwnerID: typeof actions.view.setViewOwnerID;
 }
 
 export type LoginViewProperties = LoginViewOwnProperties
@@ -67,8 +67,8 @@ const LoginView: React.FC<LoginViewProperties> = (
     const {
         // #region dispatch
         dispatch,
-        // dispatchSetViewType,
-        // dispatchViewOwnerID,
+        dispatchSetViewType,
+        dispatchViewOwnerID,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -100,34 +100,34 @@ const LoginView: React.FC<LoginViewProperties> = (
                 return;
             }
 
-            // const input = {
-            //     identonym,
-            //     key,
-            // };
+            const input = {
+                identonym,
+                key,
+            };
 
-            // const mutation = await client.mutate({
-            //     mutation: LOGIN,
-            //     variables: {
-            //         input,
-            //     },
-            // });
+            const mutation = await client.mutate({
+                mutation: LOGIN,
+                variables: {
+                    input,
+                },
+            });
 
-            // const response = mutation.data.login;
+            const response = mutation.data.login;
 
-            // if (!response.status) {
-            //     setError('something is wrong. try again.');
-            //     return;
-            // }
+            if (!response.status) {
+                setError('something is wrong. try again.');
+                return;
+            }
 
             // await getSetup(dispatch);
 
-            // const owner = response.data;
+            const owner = response.data;
 
-            // dispatchViewOwnerID(owner.id);
-            // dispatchSetViewType({
-            //     type: 'indexView',
-            //     value: 'general',
-            // });
+            dispatchViewOwnerID(owner.id);
+            dispatchSetViewType({
+                type: 'indexView',
+                value: 'general',
+            });
         } catch (error) {
             return;
         }
@@ -155,7 +155,7 @@ const LoginView: React.FC<LoginViewProperties> = (
             </div>
 
             <h1>
-                deserve private usage
+                deserve
             </h1>
 
             <StyledLoginButtons>
@@ -208,16 +208,16 @@ const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): LoginViewDispatchProperties => ({
     dispatch,
-    // dispatchSetViewType: (
-    //     payload,
-    // ) => dispatch(
-    //     actions.view.setViewType(payload),
-    // ),
-    // dispatchViewOwnerID: (
-    //     payload,
-    // ) => dispatch(
-    //     actions.view.setViewOwnerID(payload),
-    // ),
+    dispatchSetViewType: (
+        payload,
+    ) => dispatch(
+        actions.view.setViewType(payload),
+    ),
+    dispatchViewOwnerID: (
+        payload,
+    ) => dispatch(
+        actions.view.setViewOwnerID(payload),
+    ),
 });
 
 

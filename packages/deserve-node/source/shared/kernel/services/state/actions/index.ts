@@ -1,6 +1,9 @@
 // #region imports
     // #region external
-    import * as themes from '../modules/themes';
+    import {
+        themes,
+        view,
+    } from '../modules';
     // #endregion external
 // #endregion imports
 
@@ -9,6 +12,7 @@
 // #region module
 const actions = {
     themes: themes.actions,
+    view: view.actions,
 };
 // #endregion module
 

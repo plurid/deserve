@@ -1,6 +1,9 @@
 // #region imports
     // #region external
-    import modules from '../modules';
+    import {
+        themes,
+        view,
+    } from '../modules';
     // #endregion external
 // #endregion imports
 
@@ -8,7 +11,8 @@
 
 // #region module
 const selectors = {
-    themes: modules.themes.selectors,
+    themes: themes.selectors,
+    view: view.selectors,
 };
 // #endregion module
 

@@ -7,7 +7,10 @@
 
 
     // #region external
-    import modules from '../../modules';
+    import {
+        themes,
+        view,
+    } from '../../modules';
     // #endregion external
 // #endregion imports
 
@@ -15,7 +18,8 @@
 
 // #region module
 const reducers = combineReducers({
-    themes: modules.themes.reducer,
+    themes: themes.reducer,
+    view: view.reducer,
 });
 // #endregion module
 

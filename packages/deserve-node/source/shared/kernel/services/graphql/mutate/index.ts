@@ -7,5 +7,55 @@
 
 
 // #region module
+const REGISTER_OWNER = gql`
+    mutation RegisterOwner($input: InputRegisterOwner!) {
+        registerOwner(input: $input) {
+            status
+            error {
+                path
+                type
+                message
+            }
+            data {
+                id
+            }
+        }
+    }
+`;
 
+
+const LOGIN = gql`
+    mutation Login($input: InputLogin!) {
+        login(input: $input) {
+            status
+            error {
+                path
+                type
+                message
+            }
+            data {
+                id
+            }
+        }
+    }
+`;
+
+
+const LOGOUT = gql`
+    mutation Logout {
+        logout {
+            status
+        }
+    }
+`;
 // #endregion module
+
+
+
+// #region exports
+export {
+    REGISTER_OWNER,
+    LOGIN,
+    LOGOUT,
+};
+// #endregion exports

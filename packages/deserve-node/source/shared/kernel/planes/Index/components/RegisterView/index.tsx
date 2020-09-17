@@ -17,10 +17,10 @@
     // #region external
     import deserveLogo from '../../assets/deserve-logo.png';
 
-    // import client from '#kernel-services/graphql/client';
-    // import {
-    //     LOGIN,
-    // } from '#kernel-services/graphql/mutate';
+    import client from '#kernel-services/graphql/client';
+    import {
+        REGISTER_OWNER,
+    } from '#kernel-services/graphql/mutate';
 
     import {
         StyledPluridTextline,
@@ -52,8 +52,8 @@ export interface RegisterViewStateProperties {
 
 export interface RegisterViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>;
-    // dispatchSetViewType: typeof actions.view.setViewType;
-    // dispatchViewOwnerID: typeof actions.view.setViewOwnerID;
+    dispatchSetViewType: typeof actions.view.setViewType;
+    dispatchViewOwnerID: typeof actions.view.setViewOwnerID;
 }
 
 export type RegisterViewProperties = RegisterViewOwnProperties
@@ -67,8 +67,8 @@ const RegisterView: React.FC<RegisterViewProperties> = (
     const {
         // #region dispatch
         dispatch,
-        // dispatchSetViewType,
-        // dispatchViewOwnerID,
+        dispatchSetViewType,
+        dispatchViewOwnerID,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -100,34 +100,34 @@ const RegisterView: React.FC<RegisterViewProperties> = (
                 return;
             }
 
-            // const input = {
-            //     identonym,
-            //     key,
-            // };
+            const input = {
+                identonym,
+                key,
+            };
 
-            // const mutation = await client.mutate({
-            //     mutation: LOGIN,
-            //     variables: {
-            //         input,
-            //     },
-            // });
+            const mutation = await client.mutate({
+                mutation: REGISTER_OWNER,
+                variables: {
+                    input,
+                },
+            });
 
-            // const response = mutation.data.login;
+            const response = mutation.data.registerOwner;
 
-            // if (!response.status) {
-            //     setError('something is wrong. try again.');
-            //     return;
-            // }
+            if (!response.status) {
+                setError('something is wrong. try again.');
+                return;
+            }
 
             // await getSetup(dispatch);
 
-            // const owner = response.data;
+            const owner = response.data;
 
-            // dispatchViewOwnerID(owner.id);
-            // dispatchSetViewType({
-            //     type: 'indexView',
-            //     value: 'general',
-            // });
+            dispatchViewOwnerID(owner.id);
+            dispatchSetViewType({
+                type: 'indexView',
+                value: 'general',
+            });
         } catch (error) {
             return;
         }
@@ -155,7 +155,7 @@ const RegisterView: React.FC<RegisterViewProperties> = (
             </div>
 
             <h1>
-                deserve private usage
+                deserve registration
             </h1>
 
             <StyledRegisterButtons>
@@ -208,16 +208,16 @@ const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): RegisterViewDispatchProperties => ({
     dispatch,
-    // dispatchSetViewType: (
-    //     payload,
-    // ) => dispatch(
-    //     actions.view.setViewType(payload),
-    // ),
-    // dispatchViewOwnerID: (
-    //     payload,
-    // ) => dispatch(
-    //     actions.view.setViewOwnerID(payload),
-    // ),
+    dispatchSetViewType: (
+        payload,
+    ) => dispatch(
+        actions.view.setViewType(payload),
+    ),
+    dispatchViewOwnerID: (
+        payload,
+    ) => dispatch(
+        actions.view.setViewOwnerID(payload),
+    ),
 });
 
 
