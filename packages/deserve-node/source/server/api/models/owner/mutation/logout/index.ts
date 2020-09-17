@@ -5,7 +5,8 @@
     } from '#server/data/interfaces';
 
     import {
-    } from '#server/data/constants';
+        setCookieToken,
+    } from '#server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -16,9 +17,15 @@ const logout = async (
     context: Context,
 ) => {
     try {
-        // const {
-        //     response,
-        // } = context;
+        const {
+            response,
+        } = context;
+
+        setCookieToken(
+            response,
+            '',
+            'localhost',
+        );
 
         return {
             status: false,
