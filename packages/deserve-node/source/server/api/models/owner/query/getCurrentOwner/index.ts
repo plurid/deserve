@@ -13,12 +13,21 @@ const getCurrentOwner = async (
     context: Context,
 ) => {
     try {
-        // const {
-        //     request,
-        // } = context;
+        const {
+            owner,
+        } = context;
+
+        if (!owner) {
+            return {
+                status: false,
+            };
+        }
 
         return {
-            status: false,
+            status: true,
+            data: {
+                ...owner,
+            },
         };
     } catch (error) {
         return {
