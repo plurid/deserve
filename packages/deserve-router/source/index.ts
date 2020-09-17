@@ -1,80 +1,71 @@
 // #region imports
     // #region libraries
-    import express, {
-        Request,
-        Response,
-    } from 'express';
+    import express from 'express';
 
     import bodyParser from 'body-parser';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        DeserveRequest,
+        DeserveRouterLogic,
+    } from './data/interfaces';
+
+    import {
+        PORT,
+        REGISTRATION_PATH,
+    } from './data/constants';
+
+    import {
+        handlePaths,
+        handleRegistration,
+    } from './logic/handlers';
+
+    import mockLogic from './logic/mock';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
 const server = express();
-const port = process.env.PORT || 3344;
 
-const handlePaths = (
-    request: Request,
-    response: Response,
+
+const main = (
+    logic: DeserveRouterLogic,
 ) => {
-    response.send('Deserve Router');
-}
-
-const handleRegister = (
-    request: Request,
-    response: Response,
-) => {
-    const data = request.body;
-
-    response.setHeader(
-        'Content-Type',
-        'application/json',
-    );
-
-    try {
-        const {
-            identonym,
-            key,
-        } = data;
-
-        // verify the identonym and the key from data.
-        console.log('data', data);
-
-        // get the core location and generate the token
-
-        const responseData = {
-            status: true,
-            data: {
-                // core: 'https://a-core.data.domain.tld',
-                core: 'http://localhost:3355/register',
-                token: '123',
-            },
-        };
-
-        response.send(JSON.stringify(responseData));
-    } catch (error) {
-        const responseData = {
-            status: false,
-        };
-        response.send(JSON.stringify(responseData));
-    }
-}
-
-const main = () => {
     server.use(
         bodyParser.json(),
+        (request, _, next) => {
+            (request as DeserveRequest).deserveLogic = logic;
+            next();
+        },
     );
 
-    server.get('/', handlePaths);
+    server.post(
+        REGISTRATION_PATH,
+        handleRegistration,
+    );
 
-    server.post('/register', handleRegister);
+    server.get(
+        '*',
+        handlePaths,
+    );
 
-    server.listen(port, () => {
-        console.log(`\n\tDeserve Router Server on /, port ${port}\n\thttp://localhost:${port}`);
+    server.listen(PORT, () => {
+        console.log(`\n\tDeserve Router Server on /, port ${PORT}\n\thttp://localhost:${PORT}`);
     });
 }
 
-main();
+
+main(
+    mockLogic,
+);
 // #endregion module
+
+
+
+// #region exports
+export default main;
+// #endregion exports
