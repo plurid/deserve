@@ -11,11 +11,6 @@
 
     // #region external
     import {
-        DeserveLogic,
-        DeserveRequest,
-    } from '#server/data/interfaces';
-
-    import {
         HEALTH_CHECK_ENDPOINT,
 
         Headers,
@@ -29,20 +24,9 @@
 // #region module
 const setupMiddleware = async (
     instance: Express,
-    logic?: DeserveLogic,
 ) => {
     instance.use(
         cookieParser(),
-        /** Attach logic */
-        (request, _, next) => {
-            if (logic) {
-                (request as DeserveRequest).deserveLogic = {
-                    ...logic,
-                };
-            }
-
-            next();
-        },
         bodyParser.json({
             limit: '100mb',
         }),

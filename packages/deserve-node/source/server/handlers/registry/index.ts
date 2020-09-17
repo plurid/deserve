@@ -8,10 +8,6 @@
 
     // #region external
     import {
-        DeserveLogic,
-    } from '#server/data/interfaces';
-
-    import {
         registerNodeToRouter,
         registerNodeToCore,
     } from '../../logic/registration';
@@ -25,7 +21,6 @@ let client: any;
 
 const setupRegistry = async (
     instance: Application,
-    logic?: DeserveLogic,
 ) => {
     instance.get('/registry', async (request, response) => {
         const routerResponse = await registerNodeToRouter(

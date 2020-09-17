@@ -36,15 +36,6 @@ export interface Owner {
 }
 
 
-export interface DeserveLogic {
-}
-
-
-export type DeserveRequest = Request & {
-    deserveLogic: DeserveLogic
-};
-
-
 
 export interface DeserveEntity {
     type: 'file' | 'field';

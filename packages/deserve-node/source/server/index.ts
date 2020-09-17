@@ -25,10 +25,6 @@
 
     // #region internal
     import {
-        DeserveLogic,
-    } from './data/interfaces';
-
-    import {
         PORT,
     } from './data/constants';
 
@@ -115,12 +111,9 @@ const deserveServer = new PluridServer({
 });
 
 
-const deserveSetup = (
-    logic?: DeserveLogic,
-) => {
+const deserveSetup = () => {
     setupHandlers(
         deserveServer,
-        // logic,
     );
 }
 // #endregion server
@@ -137,9 +130,7 @@ const deserveSetup = (
  * for programmatic usage.
  */
 if (require.main === module) {
-    deserveSetup(
-        // mockLogic,
-    );
+    deserveSetup();
 
     deserveServer.start(PORT);
 }

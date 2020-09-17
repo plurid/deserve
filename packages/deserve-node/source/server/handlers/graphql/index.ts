@@ -41,19 +41,12 @@
 // #region module
 const setupGraphQLServer = async (
     instance: Application,
-    logic?: DeserveLogic,
 ) => {
+    // TODO no playground if production
     const playground = {
         faviconUrl: GRAPHQL_FAVICON,
         title: GRAPHQL_TITLE,
     };
-
-    // const customLogicUsage = CUSTOM_LOGIC_USAGE;
-    // const privateUsage = PRIVATE_USAGE;
-
-    // const logger = customLogicUsage && logic
-    //     ? logic.logger
-    //     : defaultLogger;
 
     const graphQLServer = new ApolloServer({
         typeDefs: schemas,
@@ -63,7 +56,10 @@ const setupGraphQLServer = async (
             req,
             res,
         }: any) => {
-            const owner = await tradeTokenForOwner(req);
+            const owner = await tradeTokenForOwner(
+                req,
+                res,
+            );
 
             const context: Context = {
                 request: req,
