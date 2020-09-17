@@ -69,7 +69,6 @@ const registerNodeToCore = async (
         port: PORT,
         host: 'http://localhost:3355',
     });
-    console.log('client', client);
 
     return client;
 }
