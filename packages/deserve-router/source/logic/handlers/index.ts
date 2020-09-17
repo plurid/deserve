@@ -1,6 +1,8 @@
 // #region exports
-import handlePaths from './handlePaths';
-import handleRegistration from './handleRegistration';
+    // #region internal
+    import handlePaths from './handlePaths';
+    import handleRegistration from './handleRegistration';
+    // #endregion internal
 // #endregion exports
 
 

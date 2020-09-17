@@ -35,6 +35,7 @@ const server = express();
 const main = (
     logic: DeserveRouterLogic,
 ) => {
+    // Middlewares.
     server.use(
         bodyParser.json(),
         (request, _, next) => {
@@ -43,6 +44,8 @@ const main = (
         },
     );
 
+
+    // Paths.
     server.post(
         REGISTRATION_PATH,
         handleRegistration,
@@ -53,6 +56,8 @@ const main = (
         handlePaths,
     );
 
+
+    // Listen.
     server.listen(PORT, () => {
         console.log(`\n\tDeserve Router Server on /, port ${PORT}\n\thttp://localhost:${PORT}`);
     });
@@ -68,4 +73,8 @@ main(
 
 // #region exports
 export default main;
+
+export {
+    server,
+};
 // #endregion exports
