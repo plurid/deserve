@@ -28,6 +28,10 @@
         DeserveLogic,
     } from './data/interfaces';
 
+    import {
+        PORT,
+    } from './data/constants';
+
     import preserves from './preserves';
 
     import setupHandlers from './handlers';
@@ -42,7 +46,6 @@
 const watchMode = process.env.PLURID_WATCH_MODE === 'true';
 const isProduction = process.env.ENV_MODE === 'production';
 const buildDirectory = process.env.PLURID_BUILD_DIRECTORY || 'build';
-const port = process.env.PORT || 56065;
 
 const applicationRoot = 'deserve-application';
 const openAtStart = watchMode
@@ -138,7 +141,7 @@ if (require.main === module) {
         // mockLogic,
     );
 
-    deserveServer.start(port);
+    deserveServer.start(PORT);
 }
 // #endregion run
 

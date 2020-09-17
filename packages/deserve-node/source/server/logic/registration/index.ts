@@ -5,6 +5,10 @@
 
 
     // #region external
+    import {
+        PORT,
+    } from '../../data/constants';
+
     import Tunnel from '../tunnel/Tunnel';
     // #endregion external
 // #endregion imports
@@ -62,7 +66,7 @@ const registerNodeToCore = async (
     console.log('responseData', responseData);
 
     const client = new Tunnel({
-        port: 3366,
+        port: PORT,
         host: 'http://localhost:3355',
     });
     console.log('client', client);
