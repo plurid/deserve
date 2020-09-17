@@ -16,6 +16,10 @@
     } from '#server/data/constants';
 
     import database from '#server/services/database';
+
+    import {
+        hashKey,
+    } from '#server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -34,10 +38,12 @@ const registerOwner = async (
 
         const id = uuid.generate();
 
+        const hashedKey = await hashKey(key);
+
         const owner = {
             id,
             identonym,
-            key,
+            key: hashedKey,
         };
 
         await database.store(
