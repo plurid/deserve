@@ -1,15 +1,38 @@
 // #region imports
     // #region libraries
     import {
-        Request
+        Application,
+        Request,
+        Response,
     } from 'express';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        LogLevels,
+    } from '#server/data/interfaces';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
 export interface Context {
+    request: Request;
+    response: Response;
+
+    instance: Application;
+
+    logLevel: number;
+    logLevels: LogLevels;
+
+    owner: Owner | undefined;
+}
+
+
+export interface Owner {
+    id: string;
 }
 
 

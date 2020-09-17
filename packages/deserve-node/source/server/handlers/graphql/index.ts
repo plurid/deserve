@@ -21,8 +21,8 @@
         GRAPHQL_TITLE,
         GRAPHQL_ENDPOINT,
 
-        // logLevel,
-        // logLevels,
+        logLevel,
+        logLevels,
     } from '#server/data/constants';
 
     import {
@@ -30,13 +30,9 @@
         schemas,
     } from '#server/api';
 
-    // import loadData from '#server/logic/loader';
-
-    // import defaultLogger from '#server/services/logger';
-
-    // import {
-    //     getPrivateOwner,
-    // } from '#server/logic/privateUsage';
+    import {
+        tradeTokenForOwner,
+    } from '#server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -67,12 +63,7 @@ const setupGraphQLServer = async (
             req,
             res,
         }: any) => {
-            // const {
-            // } = await loadData();
-
-            // const privateOwnerIdentonym = privateUsage
-            //     ? getPrivateOwner(req)
-            //     : '';
+            const owner = await tradeTokenForOwner(req);
 
             const context: Context = {
                 request: req,
@@ -80,11 +71,10 @@ const setupGraphQLServer = async (
 
                 instance,
 
-                // privateOwnerIdentonym,
+                logLevel,
+                logLevels,
 
-                // logger,
-                // logLevel,
-                // logLevels,
+                owner,
             };
 
             return context;
