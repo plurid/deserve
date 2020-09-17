@@ -10,6 +10,7 @@
 
     import {
         PluridPureButton,
+        PluridLinkButton,
     } from '@plurid/plurid-ui-react';
     // #endregion libraries
 
@@ -192,6 +193,17 @@ const LoginView: React.FC<LoginViewProperties> = (
                     level={2}
                 />
             </StyledLoginButton>
+
+            <PluridLinkButton
+                text="register"
+                atClick={() => {
+                    dispatchSetViewType({
+                        type: 'indexView',
+                        value: 'register',
+                    });
+                }}
+                level={1}
+            />
         </StyledLoginView>
     );
     // #endregion render

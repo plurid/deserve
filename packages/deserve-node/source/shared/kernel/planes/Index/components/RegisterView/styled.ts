@@ -37,5 +37,6 @@ export const StyledRegisterButtons = styled.div`
 export const StyledRegisterButton = styled.div`
     width: 200px;
     margin: 0 auto;
+    margin-bottom: 30px;
 `;
 // #endregion module

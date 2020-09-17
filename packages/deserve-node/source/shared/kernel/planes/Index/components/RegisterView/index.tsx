@@ -10,6 +10,7 @@
 
     import {
         PluridPureButton,
+        PluridLinkButton,
     } from '@plurid/plurid-ui-react';
     // #endregion libraries
 
@@ -91,7 +92,7 @@ const RegisterView: React.FC<RegisterViewProperties> = (
 
 
     // #region handlers
-    const login = async () => {
+    const register = async () => {
         try {
             setError('');
 
@@ -137,7 +138,7 @@ const RegisterView: React.FC<RegisterViewProperties> = (
         event: React.KeyboardEvent<HTMLInputElement>,
     ) => {
         if (event.key === 'Enter') {
-            login();
+            register();
         }
     }
     // #endregion handlers
@@ -188,10 +189,21 @@ const RegisterView: React.FC<RegisterViewProperties> = (
             <StyledRegisterButton>
                 <PluridPureButton
                     text="Register"
-                    atClick={() => login()}
+                    atClick={() => register()}
                     level={2}
                 />
             </StyledRegisterButton>
+
+            <PluridLinkButton
+                text="login"
+                atClick={() => {
+                    dispatchSetViewType({
+                        type: 'indexView',
+                        value: 'login',
+                    });
+                }}
+                level={1}
+            />
         </StyledRegisterView>
     );
     // #endregion render
