@@ -16,7 +16,7 @@
 
 <h3 align="center">
     Generator-Owned Data Deserver
-</h1>
+</h3>
 
 
 <br />
@@ -50,7 +50,7 @@ Although the state of data is a political problem (as in dealing with <i>res pub
 
 The client-server architecture is meant to surpass two problems: the [Byzantine generals problem](https://en.wikipedia.org/wiki/Byzantine_fault), correction of transmission, and the [broadcasting problem](https://en.wikipedia.org/wiki/Broadcasting_(networking)), multiplicity/dissipation of transmission. Simply put, the client-server architecture is the easiest way to establish a network between providers and consumers. And this has worked until now, given the somewhat impersonal nature of the data handled by computers: general documents, extensions of the paper metaphor into a digital space. However, if we are to generate a personal computing space, the client-server architecture reveals it's grounding in the [master-slave dialectic](https://en.wikipedia.org/wiki/Master%E2%80%93slave_dialectic) and with it the inadequacy of assuring the control of the data into the generator's grasp, if you will, a master-master dialectic.
 
-This grounding of a `why` must be this deep, if not even deeper, since data will become ultimately the final material, and its flows ought to concern everyone and everything. However, very simply put: you must become your own server.
+This grounding of a `why` must happen at this depth, if not even deeper, since data will become ultimately the final material, and its flows ought to concern everyone and everything. However, very simply put, regarding the problem of data ownership there is only one solution: you must become your own server.
 
 
 ## The What
@@ -74,7 +74,7 @@ The `owner` server is the `node`. A `node` can run on any machine, it will conne
 
 [@plurid/deserve-core][deserve-core] • service-side
 
-[deserve-core]: https://github.com/plurid/datasign/tree/master/packages/deserve-core
+[deserve-core]: https://github.com/plurid/deserve/tree/master/packages/deserve-core
 
 
 <a target="_blank" href="https://www.npmjs.com/package/@plurid/deserve-node">
@@ -83,7 +83,7 @@ The `owner` server is the `node`. A `node` can run on any machine, it will conne
 
 [@plurid/deserve-node][deserve-node] • owner-side
 
-[deserve-node]: https://github.com/plurid/datasign/tree/master/packages/deserve-node
+[deserve-node]: https://github.com/plurid/deserve/tree/master/packages/deserve-node
 
 
 <a target="_blank" href="https://www.npmjs.com/package/@plurid/deserve-router">
@@ -92,4 +92,4 @@ The `owner` server is the `node`. A `node` can run on any machine, it will conne
 
 [@plurid/deserve-router][deserve-router] • service-side
 
-[deserve-router]: https://github.com/plurid/datasign/tree/master/packages/deserve-router
+[deserve-router]: https://github.com/plurid/deserve/tree/master/packages/deserve-router
