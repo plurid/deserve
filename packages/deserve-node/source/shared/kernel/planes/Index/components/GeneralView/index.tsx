@@ -1,24 +1,28 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useState,
+    } from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
     import { ThunkDispatch } from 'redux-thunk';
+
+    import {
+        Theme,
+    } from '@plurid/plurid-themes';
     // #endregion libraries
 
 
     // #region external
-    import deserveLogo from '../../assets/deserve-logo.png';
+    import {
+        DESERVE_MANUAL_LINK,
+    } from '#kernel-data/constants';
 
     import client from '#kernel-services/graphql/client';
     import {
-        LOGIN,
+        LOGOUT,
     } from '#kernel-services/graphql/mutate';
-
-    import {
-        StyledPluridTextline,
-    } from '#kernel-services/styled';
 
     import { AppState } from '#kernel-services/state/store';
     import selectors from '#kernel-services/state/selectors';
@@ -28,8 +32,9 @@
 
     // #region internal
     import {
-        StyledGeneralView,
-    } from './styled';
+        renderSelectedView,
+        renderGeneralView,
+    } from './logic';
     // #endregion internal
 // #endregion imports
 
@@ -40,11 +45,17 @@ export interface GeneralViewOwnProperties {
 }
 
 export interface GeneralViewStateProperties {
+    stateGeneralTheme: Theme;
+    stateInteractionTheme: Theme;
+    stateIndexGeneralSelector: string;
+    stateIndexGeneralView: string;
+    stateViewCompactSelectors: boolean;
+    stateViewOwnerID: string;
 }
 
 export interface GeneralViewDispatchProperties {
-    dispatch: ThunkDispatch<{}, {}, AnyAction>;
     dispatchSetViewType: typeof actions.view.setViewType;
+    dispatchSetViewCompactSelectors: typeof actions.view.setViewCompactSelectors;
 }
 
 export type GeneralViewProperties = GeneralViewOwnProperties
@@ -56,29 +67,100 @@ const GeneralView: React.FC<GeneralViewProperties> = (
 ) => {
     // #region properties
     const {
+        // #region state
+        stateGeneralTheme,
+        stateInteractionTheme,
+        stateIndexGeneralSelector,
+        stateIndexGeneralView,
+        stateViewCompactSelectors,
+        stateViewOwnerID,
+        // #endregion state
+
         // #region dispatch
-        dispatch,
         dispatchSetViewType,
+        dispatchSetViewCompactSelectors,
         // #endregion dispatch
     } = properties;
     // #endregion properties
 
 
-    // #region render
-    return (
-        <StyledGeneralView>
-            <div>
-                <img
-                    src={deserveLogo}
-                    alt="deserve logo"
-                    height={250}
-                />
-            </div>
+    // #region state
+    const [
+        mouseOverSelectors,
+        setMouseOverSelectors,
+    ] = useState(false);
+    // #endregion state
 
-            <h1>
-                deserve
-            </h1>
-        </StyledGeneralView>
+
+    // #region handlers
+    const openManual = () => {
+        window.open(DESERVE_MANUAL_LINK, '_blank');
+    }
+
+    const logout = async () => {
+        try {
+            dispatchSetViewType({
+                type: 'indexView',
+                value: 'private',
+            });
+
+            await client.mutate({
+                mutation: LOGOUT,
+            });
+
+            return;
+        } catch (error) {
+            return;
+        }
+    }
+
+    const setSelectedView = (
+        view: string,
+    ) => {
+        dispatchSetViewType({
+            type: 'indexGeneralSelector',
+            value: view,
+        });
+    }
+
+    const setGeneralView = (
+        view: string,
+    ) => {
+        dispatchSetViewType({
+            type: 'indexGeneralView',
+            value: view,
+        });
+    }
+
+    const setCompactSelectors = (
+        value: boolean,
+    ) => {
+        dispatchSetViewCompactSelectors(value);
+    }
+    // #endregion handlers
+
+
+    // #region render
+    const selectedView = renderSelectedView(
+        stateIndexGeneralSelector,
+        setGeneralView,
+    );
+
+    return renderGeneralView(
+        stateGeneralTheme,
+        stateInteractionTheme,
+        stateIndexGeneralView,
+        stateIndexGeneralSelector,
+        stateViewCompactSelectors,
+        stateViewOwnerID,
+        openManual,
+        logout,
+        mouseOverSelectors,
+        setMouseOverSelectors,
+        setCompactSelectors,
+        selectedView,
+        setSelectedView,
+        setGeneralView,
     );
     // #endregion render
 }
@@ -87,22 +169,32 @@ const GeneralView: React.FC<GeneralViewProperties> = (
 const mapStateToProperties = (
     state: AppState,
 ): GeneralViewStateProperties => ({
+    stateGeneralTheme: selectors.themes.getGeneralTheme(state),
+    stateInteractionTheme: selectors.themes.getInteractionTheme(state),
+    stateIndexGeneralSelector: selectors.view.getIndexGeneralSelector(state),
+    stateIndexGeneralView: selectors.view.getIndexGeneralView(state),
+    stateViewCompactSelectors: selectors.view.getViewCompactSelectors(state),
+    stateViewOwnerID: selectors.view.getViewOwnerID(state),
 });
 
 
 const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): GeneralViewDispatchProperties => ({
-    dispatch,
     dispatchSetViewType: (
         payload,
     ) => dispatch(
         actions.view.setViewType(payload),
     ),
+    dispatchSetViewCompactSelectors: (
+        payload,
+    ) => dispatch(
+        actions.view.setViewCompactSelectors(payload),
+    ),
 });
 
 
-const ConnectedGeneralView = connect(
+export const ConnectedGeneralView = connect(
     mapStateToProperties,
     mapDispatchToProperties,
 )(GeneralView);
