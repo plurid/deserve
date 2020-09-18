@@ -98,7 +98,7 @@ const Shell: React.FC<ShellProperties> = (
                 if (!response.status) {
                     dispatchSetViewType({
                         type: 'indexView',
-                        value: 'register',
+                        value: 'login',
                     });
                     return;
                 }
