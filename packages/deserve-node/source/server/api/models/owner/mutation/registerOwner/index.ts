@@ -41,6 +41,20 @@ const registerOwner = async (
             key,
         } = input;
 
+
+        const ownerQuery = await database.query(
+            'owners',
+            'identonym',
+            identonym,
+        );
+
+        if (!ownerQuery.empty) {
+            return {
+                status: false,
+            };
+        }
+
+
         const id = uuid.generate();
 
         const hashedKey = await hashKey(key);
