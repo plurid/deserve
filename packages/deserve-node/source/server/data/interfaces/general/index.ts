@@ -37,11 +37,17 @@ export interface Owner {
     key: string;
 }
 
+export type ClientOwner = Omit<Owner, 'key'>;
 
-export interface ClientOwner {
+
+export interface Core {
     id: string;
+    domain: string;
     identonym: string;
+    key: string;
 }
+
+export type ClientCore = Omit<Core, 'key'>;
 
 
 

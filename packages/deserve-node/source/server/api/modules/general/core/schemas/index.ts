@@ -32,6 +32,7 @@ export const types = gql`
     type Core {
         id: ID!
         domain: String!
+        identonym: String!
     }
 `;
 
@@ -39,6 +40,8 @@ export const types = gql`
 export const inputs = gql`
     input InputRegisterCore {
         domain: String!
+        identonym: String!
+        key: String!
     }
 
     input InputDeregisterCore {

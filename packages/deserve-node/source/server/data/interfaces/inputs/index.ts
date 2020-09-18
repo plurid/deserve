@@ -5,6 +5,8 @@ export interface InputOf<T> {
 
 export interface InputRegisterCore {
     domain: string;
+    identonym: string;
+    key: string;
 }
 
 export interface InputDeregisterCore {
