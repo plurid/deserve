@@ -75,7 +75,24 @@ const query: DatabaseQuery = async (
     field,
     value,
 ) => {
-    return;
+    const all = await getAll(entity);
+
+    const results = [];
+
+    for (const one of all) {
+        for (const [key, keyValue] of Object.entries(one)) {
+            if (key == field && value === keyValue) {
+                results.push(one);
+                continue;
+            }
+        }
+    }
+
+    return {
+        empty: results.length === 0,
+        results,
+        first: results[0],
+    };
 }
 
 

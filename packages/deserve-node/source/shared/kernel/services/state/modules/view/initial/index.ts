@@ -10,8 +10,8 @@
 const initialState: Types.State = {
     loading: true,
     indexView: '',
-    indexGeneralView: 'cores',
-    indexGeneralSelector: 'providers',
+    indexGeneralView: 'general',
+    indexGeneralSelector: 'cores',
     compactSelectors: false,
     owner: {
         id: '',

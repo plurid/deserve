@@ -34,7 +34,14 @@ export type DatabaseQuery = (
     entity: string,
     field: string,
     value: string,
-) => Promise<any>;
+) => Promise<DatabaseQueryResponse<any>>;
+
+
+export interface DatabaseQueryResponse<T> {
+    empty: boolean;
+    results: T[];
+    first?: T;
+};
 
 
 export type DatabaseStore = (

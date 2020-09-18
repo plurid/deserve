@@ -101,7 +101,7 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         try {
             dispatchSetViewType({
                 type: 'indexView',
-                value: 'private',
+                value: 'login',
             });
 
             await client.mutate({

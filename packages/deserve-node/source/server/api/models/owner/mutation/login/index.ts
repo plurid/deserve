@@ -32,17 +32,19 @@ const login = async (
             key,
         } = input;
 
-        const owner = await database.query(
-            'owner',
+        const ownerQuery = await database.query(
+            'owners',
             'identonym',
             identonym,
         );
 
-        if (!owner) {
+        if (ownerQuery.empty) {
             return {
                 status: false,
             };
         }
+
+        const owner = ownerQuery.first;
 
         const validKey = await validateKey(
             key,
