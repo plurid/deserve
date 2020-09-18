@@ -25,6 +25,25 @@ const REGISTER_OWNER = gql`
 `;
 
 
+const REGISTER_CORE = gql`
+    mutation RegisterCore($input: InputRegisterCore!) {
+        registerCore(input: $input) {
+            status
+            error {
+                path
+                type
+                message
+            }
+            data {
+                id
+                domain
+                identonym
+            }
+        }
+    }
+`;
+
+
 const LOGIN = gql`
     mutation Login($input: InputLogin!) {
         login(input: $input) {
@@ -57,6 +76,7 @@ const LOGOUT = gql`
 // #region exports
 export {
     REGISTER_OWNER,
+    REGISTER_CORE,
     LOGIN,
     LOGOUT,
 };
