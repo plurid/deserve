@@ -202,7 +202,7 @@ export const renderGeneralView = (
                     </StyledGeneralSelected>
                 </StyledGeneralView>
             );
-        case 'tunnel-core':
+        case 'register-core':
             return (
                 <Core
                     theme={stateInteractionTheme}

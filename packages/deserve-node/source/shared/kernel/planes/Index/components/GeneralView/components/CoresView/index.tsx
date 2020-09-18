@@ -246,9 +246,9 @@ const CoresView: React.FC<CoresViewProperties> = (
             rows={filteredRows}
             noRows="no cores"
 
-            actionButtonText="Tunnel Core"
+            actionButtonText="Register Core"
             actionButtonClick={() => {
-                setGeneralView('tunnel-core');
+                setGeneralView('register-core');
             }}
 
             filterUpdate={filterUpdate}

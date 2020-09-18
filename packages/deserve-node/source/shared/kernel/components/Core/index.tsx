@@ -136,7 +136,7 @@ const Project: React.FC<ProjectProperties> = (
         >
             <div>
                 <h1>
-                    tunnel core
+                    register core
                 </h1>
 
                 <div>
@@ -199,7 +199,7 @@ const Project: React.FC<ProjectProperties> = (
 
                 <div>
                     <StyledPluridPureButton
-                        text="Tunnel Core"
+                        text="Register Core"
                         atClick={() => tunnelCore()}
                         level={2}
                         disabled={!domain}
