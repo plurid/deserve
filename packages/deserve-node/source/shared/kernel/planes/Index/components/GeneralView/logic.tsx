@@ -4,6 +4,7 @@
 
     import {
         PluridIconSpace,
+        PluridIconBrainCircuits,
 
         PluridIconArrowRight,
         PluridIconDocuments,
@@ -19,6 +20,9 @@
 
 
     // #region internal
+    import CoresView from './components/CoresView';
+    import DataView from './components/DataView';
+
     import {
         StyledGeneralView,
         StyledGeneralSelectors,
@@ -36,10 +40,12 @@
 // #region module
 export const generalSelectors = [
     'cores',
+    'data',
 ];
 
 export const generalSelectorsIcons = {
     cores: PluridIconSpace,
+    data: PluridIconBrainCircuits,
 };
 
 
@@ -48,6 +54,18 @@ export const renderSelectedView = (
     setGeneralView: any,
 ) => {
     switch (stateIndexGeneralSelector) {
+        case 'cores':
+            return (
+                <CoresView
+                    setGeneralView={setGeneralView}
+                />
+            );
+        case 'data':
+            return (
+                <DataView
+                    setGeneralView={setGeneralView}
+                />
+            );
         default:
             return (<></>);
     }
