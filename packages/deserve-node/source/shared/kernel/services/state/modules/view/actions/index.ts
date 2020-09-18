@@ -1,5 +1,9 @@
 // #region imports
     // #region external
+    import {
+        ClientOwner,
+    } from '#server/data/interfaces/general';
+
     import * as Types from '../types';
     // #endregion external
 // #endregion imports
@@ -37,12 +41,12 @@ export const setViewCompactSelectors = (
 }
 
 
-export const setViewOwnerID = (
-    id: string,
-): Types.SetViewOwnerIDAction => {
+export const setViewOwner = (
+    owner: ClientOwner,
+): Types.SetViewOwnerAction => {
     return {
-        type: Types.SET_VIEW_OWNER_ID,
-        payload: id,
+        type: Types.SET_VIEW_OWNER,
+        payload: owner,
     };
 }
 
@@ -52,7 +56,7 @@ const actions = {
     setViewLoading,
     setViewType,
     setViewCompactSelectors,
-    setViewOwnerID,
+    setViewOwner,
 };
 // #endregion module
 

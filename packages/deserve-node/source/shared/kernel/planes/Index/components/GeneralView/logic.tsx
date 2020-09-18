@@ -60,7 +60,7 @@ export const renderGeneralView = (
     stateIndexGeneralView: any,
     stateIndexGeneralSelector: any,
     stateViewCompactSelectors: any,
-    stateViewOwnerID: any,
+    stateViewOwnerIdentonym: string,
     openManual: any,
     logout: any,
     mouseOverSelectors: any,
@@ -165,7 +165,7 @@ export const renderGeneralView = (
                                         {!stateViewCompactSelectors && (
                                             <>
                                                 <div>
-                                                    logout ({stateViewOwnerID})
+                                                    logout ({stateViewOwnerIdentonym})
                                                 </div>
 
                                                 <div />

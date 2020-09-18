@@ -10,10 +10,13 @@
 const initialState: Types.State = {
     loading: true,
     indexView: '',
-    indexGeneralView: 'general',
+    indexGeneralView: 'cores',
     indexGeneralSelector: 'providers',
     compactSelectors: false,
-    ownerID: '',
+    owner: {
+        id: '',
+        identonym: '',
+    },
 };
 // #endregion module
 

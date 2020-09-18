@@ -50,7 +50,7 @@ export interface GeneralViewStateProperties {
     stateIndexGeneralSelector: string;
     stateIndexGeneralView: string;
     stateViewCompactSelectors: boolean;
-    stateViewOwnerID: string;
+    stateViewOwnerIdentonym: string;
 }
 
 export interface GeneralViewDispatchProperties {
@@ -73,7 +73,7 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         stateIndexGeneralSelector,
         stateIndexGeneralView,
         stateViewCompactSelectors,
-        stateViewOwnerID,
+        stateViewOwnerIdentonym,
         // #endregion state
 
         // #region dispatch
@@ -152,7 +152,7 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         stateIndexGeneralView,
         stateIndexGeneralSelector,
         stateViewCompactSelectors,
-        stateViewOwnerID,
+        stateViewOwnerIdentonym,
         openManual,
         logout,
         mouseOverSelectors,
@@ -174,7 +174,7 @@ const mapStateToProperties = (
     stateIndexGeneralSelector: selectors.view.getIndexGeneralSelector(state),
     stateIndexGeneralView: selectors.view.getIndexGeneralView(state),
     stateViewCompactSelectors: selectors.view.getViewCompactSelectors(state),
-    stateViewOwnerID: selectors.view.getViewOwnerID(state),
+    stateViewOwnerIdentonym: selectors.view.getViewOwner(state).identonym,
 });
 
 

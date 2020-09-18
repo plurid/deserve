@@ -1,3 +1,13 @@
+// #region imports
+    // #region external
+    import {
+        ClientOwner,
+    } from '#server/data/interfaces/general';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export const SET_VIEW_LOADING = 'SET_VIEW_LOADING';
 export interface SetViewLoadingAction {
@@ -31,10 +41,10 @@ export interface SetViewCompactSelectorsAction {
 }
 
 
-export const SET_VIEW_OWNER_ID = 'SET_VIEW_OWNER_ID';
-export interface SetViewOwnerIDAction {
-    type: typeof SET_VIEW_OWNER_ID;
-    payload: string;
+export const SET_VIEW_OWNER = 'SET_VIEW_OWNER';
+export interface SetViewOwnerAction {
+    type: typeof SET_VIEW_OWNER;
+    payload: ClientOwner;
 }
 
 
@@ -45,7 +55,7 @@ export interface State {
     indexGeneralSelector: string;
     indexGeneralView: string;
     compactSelectors: boolean;
-    ownerID: string;
+    owner: ClientOwner;
 }
 
 
@@ -53,5 +63,5 @@ export type Actions =
     | SetViewLoadingAction
     | SetViewTypeAction
     | SetViewCompactSelectorsAction
-    | SetViewOwnerIDAction;
+    | SetViewOwnerAction;
 // #endregion module

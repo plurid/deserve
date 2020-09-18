@@ -45,7 +45,7 @@ export interface ShellStateProperties {
 export interface ShellDispatchProperties {
     dispatchSetViewLoading: typeof actions.view.setViewLoading;
     dispatchSetViewType: typeof actions.view.setViewType;
-    dispatchSetViewOwnerID: typeof actions.view.setViewOwnerID;
+    dispatchSetViewOwner: typeof actions.view.setViewOwner;
 }
 
 export type ShellProperties = ShellOwnProperties
@@ -77,7 +77,7 @@ const Shell: React.FC<ShellProperties> = (
         // #region dispatch
         dispatchSetViewLoading,
         dispatchSetViewType,
-        dispatchSetViewOwnerID,
+        dispatchSetViewOwner,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -105,6 +105,7 @@ const Shell: React.FC<ShellProperties> = (
 
                 const owner = response.data;
 
+                dispatchSetViewOwner(owner);
                 dispatchSetViewType({
                     type: 'indexView',
                     value: 'general',
@@ -151,10 +152,10 @@ const mapDispatchToProperties = (
     ) => dispatch(
         actions.view.setViewType(view),
     ),
-    dispatchSetViewOwnerID: (
+    dispatchSetViewOwner: (
         owner,
     ) => dispatch(
-        actions.view.setViewOwnerID(owner),
+        actions.view.setViewOwner(owner),
     ),
 });
 

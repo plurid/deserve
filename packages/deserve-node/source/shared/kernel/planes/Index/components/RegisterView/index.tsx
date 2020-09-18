@@ -54,7 +54,7 @@ export interface RegisterViewStateProperties {
 export interface RegisterViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>;
     dispatchSetViewType: typeof actions.view.setViewType;
-    dispatchViewOwnerID: typeof actions.view.setViewOwnerID;
+    dispatchViewOwner: typeof actions.view.setViewOwner;
 }
 
 export type RegisterViewProperties = RegisterViewOwnProperties
@@ -69,7 +69,7 @@ const RegisterView: React.FC<RegisterViewProperties> = (
         // #region dispatch
         dispatch,
         dispatchSetViewType,
-        dispatchViewOwnerID,
+        dispatchViewOwner,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -124,7 +124,7 @@ const RegisterView: React.FC<RegisterViewProperties> = (
 
             const owner = response.data;
 
-            dispatchViewOwnerID(owner.id);
+            dispatchViewOwner(owner);
             dispatchSetViewType({
                 type: 'indexView',
                 value: 'general',
@@ -225,10 +225,10 @@ const mapDispatchToProperties = (
     ) => dispatch(
         actions.view.setViewType(payload),
     ),
-    dispatchViewOwnerID: (
+    dispatchViewOwner: (
         payload,
     ) => dispatch(
-        actions.view.setViewOwnerID(payload),
+        actions.view.setViewOwner(payload),
     ),
 });
 
