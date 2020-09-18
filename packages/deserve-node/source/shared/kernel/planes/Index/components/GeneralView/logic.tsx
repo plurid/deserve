@@ -16,6 +16,8 @@
 
     // #region external
     import deserveLogo from '../../assets/deserve-logo.png';
+
+    import Core from '#kernel-components/Core';
     // #endregion external
 
 
@@ -199,6 +201,21 @@ export const renderGeneralView = (
                         {selectedView}
                     </StyledGeneralSelected>
                 </StyledGeneralView>
+            );
+        case 'tunnel-core':
+            return (
+                <Core
+                    theme={stateInteractionTheme}
+                    action={(core) => {
+                        // dispatchAddEntity({
+                        //     type: 'core',
+                        //     data: core,
+                        // });
+
+                        setGeneralView('general');
+                    }}
+                    cancel={() => setGeneralView('general')}
+                />
             );
         default:
             return (

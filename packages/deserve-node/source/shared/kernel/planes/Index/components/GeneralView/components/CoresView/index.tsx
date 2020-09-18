@@ -246,15 +246,15 @@ const CoresView: React.FC<CoresViewProperties> = (
             rows={filteredRows}
             noRows="no cores"
 
-            actionButtonText="Link Core"
+            actionButtonText="Tunnel Core"
             actionButtonClick={() => {
-                setGeneralView('link-core');
+                setGeneralView('tunnel-core');
             }}
 
-            // filterUpdate={filterUpdate}
-            // refresh={() => {
-            //     getSetup(dispatch);
-            // }}
+            filterUpdate={filterUpdate}
+            refresh={() => {
+                // getSetup(dispatch);
+            }}
         />
     );
     // #endregion render

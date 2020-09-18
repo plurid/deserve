@@ -94,21 +94,29 @@ const Project: React.FC<ProjectProperties> = (
 
     // #region state
     const [
-        projectName,
-        setProjectName,
+        domain,
+        setDomain,
+    ] = useState('');
+    const [
+        identonym,
+        setIdentonym,
+    ] = useState('');
+    const [
+        key,
+        setKey,
     ] = useState('');
     // #endregion state
 
 
     // #region handlers
-    const addProject = async () => {
-        if (!projectName) {
+    const tunnelCore = async () => {
+        if (!domain) {
             return;
         }
 
         // const project: IProject | undefined = await addEntityMutation(
         //     {
-        //         value: projectName,
+        //         value: domain,
         //     },
         //     GENERATE_PROJECT,
         //     'generateProject',
@@ -128,17 +136,56 @@ const Project: React.FC<ProjectProperties> = (
         >
             <div>
                 <h1>
-                    add project
+                    tunnel core
                 </h1>
 
                 <div>
                     <StyledPluridTextline
-                        text={projectName}
-                        placeholder="name"
-                        atChange={(event) => setProjectName(event.target.value)}
+                        text={domain}
+                        placeholder="domain"
+                        atChange={(event) => setDomain(event.target.value)}
                         atKeyDown={(event) => {
                             if (event.key === 'Enter') {
-                                addProject();
+                                tunnelCore();
+                            }
+                        }}
+                        spellCheck={false}
+                        autoCapitalize="false"
+                        autoComplete="false"
+                        autoCorrect="false"
+                        theme={theme}
+                        level={2}
+                    />
+                </div>
+
+                <div>
+                    <StyledPluridTextline
+                        text={identonym}
+                        placeholder="identonym"
+                        atChange={(event) => setIdentonym(event.target.value)}
+                        atKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                                tunnelCore();
+                            }
+                        }}
+                        spellCheck={false}
+                        autoCapitalize="false"
+                        autoComplete="false"
+                        autoCorrect="false"
+                        theme={theme}
+                        level={2}
+                    />
+                </div>
+
+                <div>
+                    <StyledPluridTextline
+                        text={key}
+                        type="password"
+                        placeholder="key"
+                        atChange={(event) => setKey(event.target.value)}
+                        atKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                                tunnelCore();
                             }
                         }}
                         spellCheck={false}
@@ -152,10 +199,10 @@ const Project: React.FC<ProjectProperties> = (
 
                 <div>
                     <StyledPluridPureButton
-                        text="Add Project"
-                        atClick={() => addProject()}
+                        text="Tunnel Core"
+                        atClick={() => tunnelCore()}
                         level={2}
-                        disabled={!projectName}
+                        disabled={!domain}
                     />
                 </div>
 
