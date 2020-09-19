@@ -6,6 +6,7 @@
         PluridIconSpace,
         PluridIconBrainCircuits,
         PluridIconInfo,
+        PluridIconSettings,
 
         PluridIconArrowRight,
         PluridIconDocuments,
@@ -26,6 +27,7 @@
     import CoresView from './components/CoresView';
     import DataView from './components/DataView';
     import RecordsView from './components/RecordsView';
+    import SettingsView from './components/SettingsView';
 
     import {
         StyledGeneralView,
@@ -46,12 +48,14 @@ export const generalSelectors = [
     'cores',
     'data',
     'records',
+    'settings',
 ];
 
 export const generalSelectorsIcons = {
     cores: PluridIconSpace,
     data: PluridIconBrainCircuits,
     records: PluridIconInfo,
+    settings: PluridIconSettings,
 };
 
 
@@ -75,6 +79,12 @@ export const renderSelectedView = (
         case 'records':
             return (
                 <RecordsView
+                    setGeneralView={setGeneralView}
+                />
+            );
+        case 'settings':
+            return (
+                <SettingsView
                     setGeneralView={setGeneralView}
                 />
             );
