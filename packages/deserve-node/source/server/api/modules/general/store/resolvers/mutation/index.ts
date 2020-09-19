@@ -22,7 +22,23 @@ export default {
         input,
         context,
     ),
-    requestData: (
+    storeBlob: (
+        _: any,
+        { input }: any,
+        context: Context,
+    ) => Store.Mutation.requestBlob(
+        input,
+        context,
+    ),
+    requestKey: (
+        _: any,
+        { input }: any,
+        context: Context,
+    ) => Store.Mutation.requestData(
+        input,
+        context,
+    ),
+    storeKey: (
         _: any,
         { input }: any,
         context: Context,

@@ -9,17 +9,25 @@
 // #region module
 export const mutations = gql`
     extend type Mutation {
-        requestBlob(input: InputRequestBlob!): ResponseBlob!
-        requestData(input: InputRequestData!): ResponseData!
+        requestBlob(input: InputRequestBlob!): ResponseRequestedBlob!
+        requestKey(input: InputRequestKey!): ResponseRequestedKey!
+
+        storeBlob(input: InputStoreBlob!): ResponseStoredBlob!
+        storeKey(input: InputStoreKey!): Response!
     }
 `;
 
 
 export const types = gql`
-    type ResponseBlob {
+    type ResponseRequestedBlob {
         status: Boolean!
         error: Error
         data: Blob
+    }
+
+    type ResponseStoredBlob {
+        # Temporary URL to upload the blob to.
+        upload: String!
     }
 
     type Blob {
@@ -28,13 +36,13 @@ export const types = gql`
         source: String!
     }
 
-    type ResponseData {
+    type ResponseRequestedKey {
         status: Boolean!
         error: Error
-        data: Data
+        data: Key
     }
 
-    type Data {
+    type Key {
         # The value can be an actual string, or any other kind of value
         # (boolean, number, object, array). The consumer mut ensure
         # that the correct type is consumed.
@@ -45,12 +53,21 @@ export const types = gql`
 
 export const inputs = gql`
     input InputRequestBlob {
-        id: String!
+        id: ID!
     }
 
-    input InputRequestData {
+    input InputRequestKey {
         entity: String!
-        id: String!
+        id: ID!
+        data: String!
+    }
+
+    input InputStoreBlob {
+        id: ID!
+    }
+
+    input InputStoreKey {
+        id: ID!
     }
 `;
 // #endregion module
