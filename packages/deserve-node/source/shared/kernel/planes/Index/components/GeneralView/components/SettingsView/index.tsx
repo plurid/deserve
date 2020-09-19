@@ -114,11 +114,19 @@ const SettingsView: React.FC<SettingsViewProperties> = (
                     data storage size
                 </div>
 
-                <StyledPluridTextline
-                    text="100GB"
-                    placeholder="size"
-                    atChange={() => {}}
-                />
+                <div>
+                    <StyledPluridTextline
+                        text="100"
+                        placeholder="size"
+                        atChange={() => {}}
+                        level={2}
+                        style={{
+                            textAlign: 'right',
+                        }}
+                    />
+
+                    GB
+                </div>
             </StyledPluridFormLeftRight>
 
 
@@ -127,11 +135,19 @@ const SettingsView: React.FC<SettingsViewProperties> = (
                     records storage size
                 </div>
 
-                <StyledPluridTextline
-                    text="10GB"
-                    placeholder="size"
-                    atChange={() => {}}
-                />
+                <div>
+                    <StyledPluridTextline
+                        text="10"
+                        placeholder="size"
+                        atChange={() => {}}
+                        level={2}
+                        style={{
+                            textAlign: 'right',
+                        }}
+                    />
+
+                    GB
+                </div>
             </StyledPluridFormLeftRight>
 
 

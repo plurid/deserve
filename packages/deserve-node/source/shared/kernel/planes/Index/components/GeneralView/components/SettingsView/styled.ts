@@ -19,10 +19,13 @@ export const StyledSettingsView = styled.div`
 
 
 export const StyledPluridFormLeftRight = styled(PluridFormLeftRight)`
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    min-height: 36px;
 `;
 
 
 export const StyledPluridTextline = styled(PluridTextline)`
+    width: 100px;
+    margin-right: 10px;
 `;
 // #endregion module
