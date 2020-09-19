@@ -12,6 +12,10 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
+
+    import {
+        PluridDropdown,
+    } from '@plurid/plurid-ui-react';
     // #endregion libraries
 
 
@@ -20,6 +24,15 @@
     import selectors from '#kernel-services/state/selectors';
     import actions from '#kernel-services/state/actions';
     // #endregion external
+
+
+    // #region internal
+    import {
+        StyledSettingsView,
+        StyledPluridFormLeftRight,
+        StyledPluridTextline,
+    } from './styled';
+    // #endregion internal
 // #endregion imports
 
 
@@ -95,9 +108,76 @@ const SettingsView: React.FC<SettingsViewProperties> = (
 
 
     return (
-        <div>
-            settings
-        </div>
+        <StyledSettingsView>
+            <StyledPluridFormLeftRight>
+                <div>
+                    data storage size
+                </div>
+
+                <StyledPluridTextline
+                    text="100GB"
+                    placeholder="size"
+                    atChange={() => {}}
+                />
+            </StyledPluridFormLeftRight>
+
+
+            <StyledPluridFormLeftRight>
+                <div>
+                    records storage size
+                </div>
+
+                <StyledPluridTextline
+                    text="10GB"
+                    placeholder="size"
+                    atChange={() => {}}
+                />
+            </StyledPluridFormLeftRight>
+
+
+            <StyledPluridFormLeftRight>
+                <div>
+                    data obliteration policy
+                </div>
+
+                <PluridDropdown
+                    selected={'never'}
+                    selectables={[
+                        'never',
+                        '30 days',
+                        '90 days',
+                        '180 days',
+                    ]}
+                    atSelect={() => {}}
+                    style={{
+                        fontSize: '1rem',
+                    }}
+                    width={120}
+                />
+            </StyledPluridFormLeftRight>
+
+
+            <StyledPluridFormLeftRight>
+                <div>
+                    records obliteration policy
+                </div>
+
+                <PluridDropdown
+                    selected={'never'}
+                    selectables={[
+                        'never',
+                        '30 days',
+                        '90 days',
+                        '180 days',
+                    ]}
+                    atSelect={() => {}}
+                    style={{
+                        fontSize: '1rem',
+                    }}
+                    width={120}
+                />
+            </StyledPluridFormLeftRight>
+        </StyledSettingsView>
     );
     // #endregion render
 }
