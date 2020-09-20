@@ -38,7 +38,7 @@ class Tunnel extends EventEmitter {
         this.closed = false;
 
         if (!this.opts.host) {
-            this.opts.host = 'https://deserve.plurid.com';
+            this.opts.host = 'https://deserve.plurid.cloud';
         }
     }
 
