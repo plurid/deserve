@@ -2,6 +2,8 @@
     // #region internal
     import registerCore from './registerCore';
     import deregisterCore from './deregisterCore';
+    import activateCore from './activateCore';
+    import deactivateCore from './deactivateCore';
     // #endregion internal
 // #endregion imports
 
@@ -11,5 +13,7 @@
 export default {
     registerCore,
     deregisterCore,
+    activateCore,
+    deactivateCore,
 };
 // #endregion exports

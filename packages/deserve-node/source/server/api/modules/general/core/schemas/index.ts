@@ -18,6 +18,8 @@ export const mutations = gql`
     extend type Mutation {
         registerCore(input: InputRegisterCore!): ResponseCore!
         deregisterCore(input: InputDeregisterCore!): Response!
+        activateCore(input: InputValueString!): Response!
+        deactivateCore(input: InputValueString!): Response!
     }
 `;
 

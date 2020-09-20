@@ -5,6 +5,7 @@
         Context,
         InputRegisterCore,
         InputDeregisterCore,
+        InputValueString,
     } from '#server/data/interfaces';
 
     import {
@@ -30,6 +31,22 @@ export default {
         { input }: InputOf<InputDeregisterCore>,
         context: Context,
     ) => Core.Mutation.deregisterCore(
+        input,
+        context,
+    ),
+    activateCore: (
+        _: any,
+        { input }: InputOf<InputValueString>,
+        context: Context,
+    ) => Core.Mutation.activateCore(
+        input,
+        context,
+    ),
+    deactivateCore: (
+        _: any,
+        { input }: InputOf<InputValueString>,
+        context: Context,
+    ) => Core.Mutation.deactivateCore(
         input,
         context,
     ),
