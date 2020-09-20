@@ -93,6 +93,39 @@ export const setCores = (
 }
 
 
+export const activateCore = (
+    state: Types.State,
+    action: Types.ActivateCoreAction,
+): Types.State => {
+    const {
+        payload: {
+            id,
+            value,
+        },
+    } = action;
+
+    const cores = state.cores.map(core => {
+        if (core.id !== id) {
+            return {
+                ...core,
+            };
+        }
+
+        return {
+            ...core,
+            active: value,
+        };
+    });
+
+    return {
+        ...state,
+        cores: [
+            ...cores,
+        ],
+    };
+}
+
+
 export const clearData = (
     state: Types.State,
     action: Types.ClearDataAction,
@@ -108,6 +141,7 @@ const resolvers = {
     addEntity,
     removeEntity,
     setCores,
+    activateCore,
     clearData,
 };
 // #endregion module

@@ -88,6 +88,7 @@ export interface CoresViewStateProperties {
 export interface CoresViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     dispatchRemoveEntity: typeof actions.data.removeEntity;
+    dispatchActivateCore: typeof actions.data.activateCore;
 }
 
 export type CoresViewProperties = CoresViewOwnProperties
@@ -125,6 +126,7 @@ const CoresView: React.FC<CoresViewProperties> = (
         // #region dispatch
         dispatch,
         dispatchRemoveEntity,
+        dispatchActivateCore,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -136,28 +138,25 @@ const CoresView: React.FC<CoresViewProperties> = (
         active: boolean,
     ) => {
         try {
-            // TODO
-            // dispatch state change
-
             const input = {
                 value: id,
             };
 
-            if (active) {
-                await client.mutate({
-                    mutation: DEACTIVATE_CORE,
-                    variables: {
-                        input,
-                    },
-                });
-            } else {
-                await client.mutate({
-                    mutation: ACTIVATE_CORE,
-                    variables: {
-                        input,
-                    },
-                });
-            }
+            const mutation = active
+                ? DEACTIVATE_CORE
+                : ACTIVATE_CORE;
+
+            dispatchActivateCore({
+                id,
+                value: !active,
+            });
+
+            await client.mutate({
+                mutation,
+                variables: {
+                    input,
+                },
+            });
         } catch (error) {
             return;
         }
@@ -334,6 +333,11 @@ const mapDispatchToProperties = (
         payload,
     ) => dispatch (
         actions.data.removeEntity(payload),
+    ),
+    dispatchActivateCore: (
+        payload,
+    ) => dispatch (
+        actions.data.activateCore(payload),
     ),
 });
 

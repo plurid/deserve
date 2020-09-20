@@ -41,6 +41,16 @@ export const setCores = (
 }
 
 
+export const activateCore = (
+    payload: Types.ActivateCorePayload,
+): Types.ActivateCoreAction => {
+    return {
+        type: Types.ACTIVATE_CORE,
+        payload,
+    };
+}
+
+
 export const clearData = (): Types.ClearDataAction => {
     return {
         type: Types.CLEAR_DATA,
@@ -54,6 +64,7 @@ const actions = {
     addEntity,
     removeEntity,
     setCores,
+    activateCore,
     clearData,
 };
 // #endregion module

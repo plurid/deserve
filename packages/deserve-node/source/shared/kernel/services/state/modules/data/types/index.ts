@@ -44,6 +44,17 @@ export interface SetCoresAction {
 }
 
 
+export const ACTIVATE_CORE = 'ACTIVATE_CORE';
+export interface ActivateCorePayload {
+    id: string;
+    value: boolean;
+}
+export interface ActivateCoreAction {
+    type: typeof ACTIVATE_CORE;
+    payload: ActivateCorePayload;
+}
+
+
 export const CLEAR_DATA = 'CLEAR_DATA';
 export interface ClearDataAction {
     type: typeof CLEAR_DATA;
@@ -61,5 +72,6 @@ export type Actions =
     | AddEntityAction
     | RemoveEntityAction
     | SetCoresAction
+    | ActivateCoreAction
     | ClearDataAction;
 // #endregion module
