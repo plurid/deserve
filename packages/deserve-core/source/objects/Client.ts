@@ -49,6 +49,7 @@ class Client extends EventEmitter {
             // client is given a grace period in which they can re-connect before they are _removed_
             this.graceTimeout = setTimeout(() => {
                 this.close();
+                this.emit('offline');
             }, 1000).unref();
         });
 

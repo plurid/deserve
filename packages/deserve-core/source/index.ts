@@ -73,6 +73,10 @@ const registerTunnel = async (
             agent,
         });
 
+        client.on('offline', () => {
+            client = null;
+        });
+
         const responseData = {
             id: id,
             port: info.port,
