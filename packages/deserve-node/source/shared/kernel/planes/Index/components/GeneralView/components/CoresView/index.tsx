@@ -307,8 +307,8 @@ const CoresView: React.FC<CoresViewProperties> = (
             }}
 
             filterUpdate={filterUpdate}
-            refresh={() => {
-                getCurrentOwner(dispatch);
+            refresh={async () => {
+                await getCurrentOwner(dispatch);
             }}
         />
     );

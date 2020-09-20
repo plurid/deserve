@@ -109,6 +109,10 @@ const Project: React.FC<ProjectProperties> = (
         validCore,
         setValidCore,
     ] = useState(false);
+    const [
+        error,
+        setError,
+    ] = useState(false);
     // #endregion state
 
 
@@ -130,6 +134,8 @@ const Project: React.FC<ProjectProperties> = (
 
         if (core) {
             action(core);
+        } else {
+            setError(true);
         }
     }
     // #endregion handlers
@@ -137,6 +143,8 @@ const Project: React.FC<ProjectProperties> = (
 
     // #region effects
     useEffect(() => {
+        setError(false);
+
         if (
             register
             && identonym
@@ -241,6 +249,18 @@ const Project: React.FC<ProjectProperties> = (
                         />
                     </div>
                 )}
+
+                <div
+                    style={{
+                        minHeight: '30px',
+                    }}
+                >
+                    {error && (
+                        <>
+                            something went wrong · try again
+                        </>
+                    )}
+                </div>
             </div>
         </StyledProject>
     );
