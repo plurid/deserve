@@ -16,13 +16,13 @@
 
 
     // #region external
-    // import {
-    //     compareValues,
-    // } from '#server/utilities/general';
+    import {
+        compareValues,
+    } from '#server/utilities/general';
 
-    // import {
-    //     Core,
-    // } from '#server/data/interfaces';
+    import {
+        ClientCore,
+    } from '#server/data/interfaces';
 
     import EntityView from '#kernel-components/EntityView';
 
@@ -75,7 +75,7 @@ export interface CoresViewOwnProperties {
 export interface CoresViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    // stateCores: Core[];
+    // stateCores: ClientCore[];
 }
 
 export interface CoresViewDispatchProperties {
@@ -154,11 +154,17 @@ const CoresView: React.FC<CoresViewProperties> = (
 
 
     // #region state
-    const [searchTerms, setSearchTerms] = useState(
+    const [
+        searchTerms,
+        setSearchTerms,
+    ] = useState(
         createSearchTerms(stateCores),
     );
 
-    const [filteredRows, setFilteredRows] = useState(
+    const [
+        filteredRows,
+        setFilteredRows,
+    ] = useState(
         []
         // stateCores.map(
         //     project => coreRowRenderer(

@@ -2,26 +2,27 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import {
         Theme,
     } from '@plurid/plurid-themes';
-
-    // import {
-    //     GENERATE_PROJECT,
-    // } from '@plurid/performer-requests';
     // #endregion libraries
 
 
     // #region external
-    // import {
-    //     Project as IProject,
-    // } from '#server/data/interfaces';
+    import {
+        ClientCore,
+    } from '#server/data/interfaces';
 
-    // import {
-    //     addEntityMutation,
-    // } from '#kernel-services/logic/mutations';
+    import {
+        addEntityMutation,
+    } from '#kernel-services/logic/mutations';
+
+    import {
+        REGISTER_CORE,
+    } from '#kernel-services/graphql/mutate';
 
     import {
         StyledPluridTextline,
@@ -49,8 +50,7 @@ export interface ProjectProperties {
 
         // #region methods
         action: (
-            project: any,
-            // project: IProject,
+            core: ClientCore,
         ) => void;
         // #endregion methods
     // #endregion required
@@ -105,28 +105,53 @@ const Project: React.FC<ProjectProperties> = (
         key,
         setKey,
     ] = useState('');
+    const [
+        validCore,
+        setValidCore,
+    ] = useState(false);
     // #endregion state
 
 
     // #region handlers
-    const tunnelCore = async () => {
-        if (!domain) {
+    const registerCore = async () => {
+        if (!validCore) {
             return;
         }
 
-        // const project: IProject | undefined = await addEntityMutation(
-        //     {
-        //         value: domain,
-        //     },
-        //     GENERATE_PROJECT,
-        //     'generateProject',
-        // );
+        const core: ClientCore | undefined = await addEntityMutation(
+            {
+                domain,
+                identonym,
+                key,
+            },
+            REGISTER_CORE,
+            'registerCore',
+        );
 
-        // if (project) {
-        //     action(project);
-        // }
+        if (core) {
+            action(core);
+        }
     }
     // #endregion handlers
+
+
+    // #region effects
+    useEffect(() => {
+        if (
+            domain
+            && identonym
+            && key
+        ) {
+            setValidCore(true);
+        } else {
+            setValidCore(false);
+        }
+    }, [
+        domain,
+        identonym,
+        key,
+    ]);
+    // #endregion effects
 
 
     // #region render
@@ -146,7 +171,7 @@ const Project: React.FC<ProjectProperties> = (
                         atChange={(event) => setDomain(event.target.value)}
                         atKeyDown={(event) => {
                             if (event.key === 'Enter') {
-                                tunnelCore();
+                                registerCore();
                             }
                         }}
                         spellCheck={false}
@@ -165,7 +190,7 @@ const Project: React.FC<ProjectProperties> = (
                         atChange={(event) => setIdentonym(event.target.value)}
                         atKeyDown={(event) => {
                             if (event.key === 'Enter') {
-                                tunnelCore();
+                                registerCore();
                             }
                         }}
                         spellCheck={false}
@@ -185,7 +210,7 @@ const Project: React.FC<ProjectProperties> = (
                         atChange={(event) => setKey(event.target.value)}
                         atKeyDown={(event) => {
                             if (event.key === 'Enter') {
-                                tunnelCore();
+                                registerCore();
                             }
                         }}
                         spellCheck={false}
@@ -200,9 +225,9 @@ const Project: React.FC<ProjectProperties> = (
                 <div>
                     <StyledPluridPureButton
                         text="Register Core"
-                        atClick={() => tunnelCore()}
+                        atClick={() => registerCore()}
                         level={2}
-                        disabled={!domain}
+                        disabled={!validCore}
                     />
                 </div>
 
