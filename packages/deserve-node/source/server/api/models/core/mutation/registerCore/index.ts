@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import {
+        parse,
+    } from 'url';
+
+    import {
         uuid,
     } from '@plurid/plurid-functions';
     // #endregion libraries
@@ -21,7 +25,6 @@
         registerNodeToRouter,
         registerNodeToCore,
     } from '#server/logic/registration';
-import owner from '#server/api/models/owner';
     // #endregion external
 // #endregion imports
 
@@ -43,9 +46,11 @@ const registerCore = async (
             };
         }
 
+        const ownerID = owner.id;
+
 
         const {
-            domain,
+            register,
             identonym,
             key,
         } = input;
@@ -54,7 +59,7 @@ const registerCore = async (
 
 
         const routerResponse = await registerNodeToRouter(
-            domain,
+            register,
             identonym,
             key,
         );
@@ -72,7 +77,12 @@ const registerCore = async (
             },
         } = routerResponse;
 
-        const client = await registerNodeToCore(
+        const parsedLink = parse(core);
+        const link = parsedLink.protocol + '//' + parsedLink.host;
+
+        const {
+            client,
+        } = await registerNodeToCore(
             core,
             token,
         );
@@ -87,10 +97,11 @@ const registerCore = async (
 
         const storedCore: Core = {
             id,
-            domain,
             identonym,
+            link,
+            register,
             key,
-            ownerID: owner.id,
+            ownerID,
         };
 
         await database.store(
@@ -99,13 +110,18 @@ const registerCore = async (
             storedCore,
         );
 
+        const data = {
+            id,
+            active: true,
+            identonym,
+            link,
+            register,
+        };
+
+
         return {
             status: true,
-            data: {
-                id,
-                domain,
-                identonym,
-            },
+            data,
         };
     } catch (error) {
         return {

@@ -10,7 +10,7 @@ export interface InputValueString {
 
 
 export interface InputRegisterCore {
-    domain: string;
+    register: string;
     identonym: string;
     key: string;
 }

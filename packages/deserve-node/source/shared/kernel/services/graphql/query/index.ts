@@ -21,7 +21,8 @@ const GET_CURRENT_OWNER = gql`
                 identonym
                 cores {
                     id
-                    domain
+                    link
+                    register
                     identonym
                     active
                 }

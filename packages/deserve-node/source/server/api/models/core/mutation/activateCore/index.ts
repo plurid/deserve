@@ -57,13 +57,13 @@ const activateCore = async (
         }
 
         const {
-            domain,
+            register,
             identonym,
             key,
         } = databaseCore;
 
         const routerResponse = await registerNodeToRouter(
-            domain,
+            register,
             identonym,
             key,
         );
@@ -81,7 +81,9 @@ const activateCore = async (
             },
         } = routerResponse;
 
-        const client = await registerNodeToCore(
+        const {
+            client,
+        } = await registerNodeToCore(
             core,
             token,
         );

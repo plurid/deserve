@@ -36,8 +36,10 @@ const REGISTER_CORE = gql`
             }
             data {
                 id
-                domain
+                link
+                register
                 identonym
+                active
             }
         }
     }

@@ -44,8 +44,9 @@ export type ClientOwner = Omit<Owner, 'key'> & {
 
 export interface Core {
     id: string;
-    domain: string;
     identonym: string;
+    link: string;
+    register: string;
     key: string;
     ownerID: string;
 }

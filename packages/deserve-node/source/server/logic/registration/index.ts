@@ -1,5 +1,9 @@
 // #region imports
     // #region libraries
+    import {
+        parse,
+    } from 'url';
+
     import fetch from 'cross-fetch';
     // #endregion libraries
 
@@ -63,14 +67,19 @@ const registerNodeToCore = async (
     );
 
     const responseData = await response.json();
-    console.log('responseData', responseData);
+
+    const parsedURL = parse(url);
+
+    const host = parsedURL.protocol + '//' + parsedURL.host;
 
     const client = new Tunnel({
         port: PORT,
-        host: 'http://localhost:3355',
+        host,
     });
 
-    return client;
+    return {
+        client,
+    };
 }
 // #endregion module
 

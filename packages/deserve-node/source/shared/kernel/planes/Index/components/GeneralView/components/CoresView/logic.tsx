@@ -3,12 +3,17 @@
     import React from 'react';
 
     import {
+        PluridIconCopy,
         PluridIconDelete,
     } from '@plurid/plurid-icons-react';
 
     import {
         PluridSwitch,
     } from '@plurid/plurid-ui-react';
+
+    import {
+        clipboard,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -16,6 +21,10 @@
     import {
         ClientCore,
     } from '#server/data/interfaces';
+
+    import {
+        cleanDomainName,
+    } from '#kernel-services/utilities';
     // #endregion external
 // #endregion imports
 
@@ -34,7 +43,8 @@ export const coreRowRenderer = (
 ) => {
     const {
         id,
-        domain,
+        link,
+        register,
         identonym,
         active,
     } = core;
@@ -42,11 +52,22 @@ export const coreRowRenderer = (
     return (
         <>
             <div>
-                {domain}
+                <PluridIconCopy
+                    atClick={() => {
+                        clipboard.copy(
+                            link,
+                        );
+                    }}
+                    style={{
+                        marginRight: '0.5rem',
+                    }}
+                />
+
+                {cleanDomainName(link)}
             </div>
 
             <div>
-                {domain}
+                {cleanDomainName(register)}
             </div>
 
             <div>
@@ -80,14 +101,16 @@ export const createSearchTerms = (
         core => {
             const {
                 id,
-                domain,
+                link,
+                register,
                 identonym,
             } = core;
 
             const searchTerm = {
                 id,
                 data: [
-                    domain.toLowerCase(),
+                    link.toLowerCase(),
+                    register.toLowerCase(),
                     identonym.toLowerCase(),
                 ],
             };

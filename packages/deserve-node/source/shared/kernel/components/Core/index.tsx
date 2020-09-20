@@ -94,8 +94,8 @@ const Project: React.FC<ProjectProperties> = (
 
     // #region state
     const [
-        domain,
-        setDomain,
+        register,
+        setRegister,
     ] = useState('');
     const [
         identonym,
@@ -120,7 +120,7 @@ const Project: React.FC<ProjectProperties> = (
 
         const core: ClientCore | undefined = await addEntityMutation(
             {
-                domain,
+                register,
                 identonym,
                 key,
             },
@@ -138,7 +138,7 @@ const Project: React.FC<ProjectProperties> = (
     // #region effects
     useEffect(() => {
         if (
-            domain
+            register
             && identonym
             && key
         ) {
@@ -147,7 +147,7 @@ const Project: React.FC<ProjectProperties> = (
             setValidCore(false);
         }
     }, [
-        domain,
+        register,
         identonym,
         key,
     ]);
@@ -166,9 +166,9 @@ const Project: React.FC<ProjectProperties> = (
 
                 <div>
                     <StyledPluridTextline
-                        text={domain}
-                        placeholder="domain"
-                        atChange={(event) => setDomain(event.target.value)}
+                        text={register}
+                        placeholder="register"
+                        atChange={(event) => setRegister(event.target.value)}
                         atKeyDown={(event) => {
                             if (event.key === 'Enter') {
                                 registerCore();

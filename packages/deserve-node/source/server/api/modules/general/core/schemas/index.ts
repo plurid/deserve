@@ -39,9 +39,10 @@ export const types = gql`
 
     type Core {
         id: ID!
-        domain: String!
-        identonym: String!
         active: Boolean!
+        identonym: String!
+        link: String!
+        register: String!
     }
 
     extend type Owner {
@@ -52,7 +53,7 @@ export const types = gql`
 
 export const inputs = gql`
     input InputRegisterCore {
-        domain: String!
+        register: String!
         identonym: String!
         key: String!
     }
