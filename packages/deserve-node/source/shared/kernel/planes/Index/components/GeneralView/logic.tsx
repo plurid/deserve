@@ -109,6 +109,7 @@ export const renderGeneralView = (
     selectedView: any,
     setSelectedView: any,
     setGeneralView: any,
+    dispatchAddEntity: any,
 ) => {
     switch (stateIndexGeneralView) {
         case 'general':
@@ -227,10 +228,10 @@ export const renderGeneralView = (
                 <Core
                     theme={stateInteractionTheme}
                     action={(core) => {
-                        // dispatchAddEntity({
-                        //     type: 'core',
-                        //     data: core,
-                        // });
+                        dispatchAddEntity({
+                            type: 'core',
+                            data: core,
+                        });
 
                         setGeneralView('general');
                     }}

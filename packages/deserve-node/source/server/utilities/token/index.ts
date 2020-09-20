@@ -96,7 +96,7 @@ const tradeTokenForOwner = async (
             return;
         }
 
-        return clientOwner(owner);
+        return await clientOwner(owner);
     } catch (error) {
         const tokenContent = jsonWebToken.verify(
             token,
@@ -123,7 +123,7 @@ const tradeTokenForOwner = async (
 
         // TODO refresh token
 
-        return clientOwner(owner);
+        return await clientOwner(owner);
     }
 }
 // #endregion module

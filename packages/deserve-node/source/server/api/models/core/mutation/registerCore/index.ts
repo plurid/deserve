@@ -21,6 +21,7 @@
         registerNodeToRouter,
         registerNodeToCore,
     } from '#server/logic/registration';
+import owner from '#server/api/models/owner';
     // #endregion external
 // #endregion imports
 
@@ -32,6 +33,17 @@ const registerCore = async (
     context: Context,
 ) => {
     try {
+        const {
+            owner,
+        } = context;
+
+        if (!owner) {
+            return {
+                status: false,
+            };
+        }
+
+
         const {
             domain,
             identonym,
@@ -78,6 +90,7 @@ const registerCore = async (
             domain,
             identonym,
             key,
+            ownerID: owner.id,
         };
 
         await database.store(

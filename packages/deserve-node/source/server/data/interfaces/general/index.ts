@@ -37,7 +37,9 @@ export interface Owner {
     key: string;
 }
 
-export type ClientOwner = Omit<Owner, 'key'>;
+export type ClientOwner = Omit<Owner, 'key'> & {
+    cores: ClientCore[];
+};
 
 
 export interface Core {
@@ -45,9 +47,10 @@ export interface Core {
     domain: string;
     identonym: string;
     key: string;
+    ownerID: string;
 }
 
-export type ClientCore = Omit<Core, 'key'>;
+export type ClientCore = Omit<Core, 'key' | 'ownerID'>;
 
 
 

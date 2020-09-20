@@ -6,7 +6,6 @@
 
     // #region internal
     import core from './core/resolvers';
-    import setup from './setup/resolvers';
     import owner from './owner/resolvers';
     import store from './store/resolvers';
     // #endregion internal
@@ -30,7 +29,6 @@ const generateResolvers = (
 
 const resolvers = generateResolvers(
     core,
-    setup,
     owner,
     store,
 );

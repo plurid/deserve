@@ -1,8 +1,6 @@
 // #region imports
     // #region libraries
-    import React, {
-        useState,
-    } from 'react';
+    import React from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -55,14 +53,6 @@ const Index: React.FC<IndexProperties> = (
         // #endregion state
     } = properties;
     // #endregion properties
-
-
-    // // #region state
-    // const [
-    //     view,
-    //     setView,
-    // ] = useState('register');
-    // // #endregion state
 
 
     // #region render

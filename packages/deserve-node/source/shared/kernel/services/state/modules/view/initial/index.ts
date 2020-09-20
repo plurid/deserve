@@ -16,6 +16,7 @@ const initialState: Types.State = {
     owner: {
         id: '',
         identonym: '',
+        cores: [],
     },
 };
 // #endregion module

@@ -5,6 +5,7 @@ const HEALTH_CHECK_ENDPOINT = '/service-check/health';
 
 
 const DATA_OWNERS = '/data/owners';
+const DATA_CORES = '/data/cores';
 const DATA_OWNERSPACE = '/data/ownerspace';
 
 const DATA_OWNERSPACE_CORES = '/cores';
@@ -23,6 +24,7 @@ export {
     HEALTH_CHECK_ENDPOINT,
 
     DATA_OWNERS,
+    DATA_CORES,
     DATA_OWNERSPACE,
     DATA_OWNERSPACE_CORES,
     DATA_OWNERSPACE_FILES,

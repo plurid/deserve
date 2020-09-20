@@ -15,10 +15,9 @@
 
 
     // #region external
-    import client from '#kernel-services/graphql/client';
     import {
-        GET_CURRENT_OWNER,
-    } from '#kernel-services/graphql/query';
+        getCurrentOwner,
+    } from '#kernel-services/logic/queries';
 
     import { AppState } from '#kernel-services/state/store';
     import selectors from '#kernel-services/state/selectors';
@@ -43,9 +42,9 @@ export interface ShellStateProperties {
 }
 
 export interface ShellDispatchProperties {
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
     dispatchSetViewLoading: typeof actions.view.setViewLoading;
     dispatchSetViewType: typeof actions.view.setViewType;
-    dispatchSetViewOwner: typeof actions.view.setViewOwner;
 }
 
 export type ShellProperties = ShellOwnProperties
@@ -75,9 +74,9 @@ const Shell: React.FC<ShellProperties> = (
         // #endregion optional
 
         // #region dispatch
+        dispatch,
         dispatchSetViewLoading,
         dispatchSetViewType,
-        dispatchSetViewOwner,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -87,15 +86,13 @@ const Shell: React.FC<ShellProperties> = (
     useEffect(() => {
         try {
             const loadOwner = async () => {
-                const query = await client.query({
-                    query: GET_CURRENT_OWNER,
-                });
-
-                const response = query.data.getCurrentOwner;
+                const ownerSet = await getCurrentOwner(
+                    dispatch,
+                );
 
                 dispatchSetViewLoading(false);
 
-                if (!response.status) {
+                if (!ownerSet) {
                     dispatchSetViewType({
                         type: 'indexView',
                         value: 'login',
@@ -103,9 +100,6 @@ const Shell: React.FC<ShellProperties> = (
                     return;
                 }
 
-                const owner = response.data;
-
-                dispatchSetViewOwner(owner);
                 dispatchSetViewType({
                     type: 'indexView',
                     value: 'general',
@@ -142,6 +136,7 @@ const mapStateToProperties = (
 const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): ShellDispatchProperties => ({
+    dispatch,
     dispatchSetViewLoading: (
         loading,
     ) => dispatch(
@@ -151,11 +146,6 @@ const mapDispatchToProperties = (
         view,
     ) => dispatch(
         actions.view.setViewType(view),
-    ),
-    dispatchSetViewOwner: (
-        owner,
-    ) => dispatch(
-        actions.view.setViewOwner(owner),
     ),
 });
 

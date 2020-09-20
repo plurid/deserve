@@ -56,6 +56,7 @@ export interface GeneralViewStateProperties {
 export interface GeneralViewDispatchProperties {
     dispatchSetViewType: typeof actions.view.setViewType;
     dispatchSetViewCompactSelectors: typeof actions.view.setViewCompactSelectors;
+    dispatchAddEntity: typeof actions.data.addEntity;
 }
 
 export type GeneralViewProperties = GeneralViewOwnProperties
@@ -79,6 +80,7 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         // #region dispatch
         dispatchSetViewType,
         dispatchSetViewCompactSelectors,
+        dispatchAddEntity,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -161,6 +163,7 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         selectedView,
         setSelectedView,
         setGeneralView,
+        dispatchAddEntity,
     );
     // #endregion render
 }
@@ -190,6 +193,11 @@ const mapDispatchToProperties = (
         payload,
     ) => dispatch(
         actions.view.setViewCompactSelectors(payload),
+    ),
+    dispatchAddEntity: (
+        payload,
+    ) => dispatch(
+        actions.data.addEntity(payload),
     ),
 });
 

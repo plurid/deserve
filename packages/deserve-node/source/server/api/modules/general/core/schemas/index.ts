@@ -40,6 +40,10 @@ export const types = gql`
         domain: String!
         identonym: String!
     }
+
+    extend type Owner {
+        cores: [Core!]
+    }
 `;
 
 

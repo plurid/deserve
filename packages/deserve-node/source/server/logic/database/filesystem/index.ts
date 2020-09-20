@@ -18,6 +18,7 @@
 
     import {
         DATA_OWNERS,
+        DATA_CORES,
     } from '#server/data/constants';
 
     import filesystemStorage from '#server/logic/storage/filesystem';
@@ -33,6 +34,8 @@ const resolveDataPath = (
     switch (entity) {
         case 'owner':
             return DATA_OWNERS;
+        case 'core':
+            return DATA_CORES;
         default:
             return '';
     }
@@ -64,6 +67,8 @@ const getAll: DatabaseGetAll = async (
     switch (entity) {
         case 'owners':
             return await filesystemStorage.downloadAll(DATA_OWNERS);
+        case 'cores':
+            return await filesystemStorage.downloadAll(DATA_CORES);
         default:
             return [];
     }

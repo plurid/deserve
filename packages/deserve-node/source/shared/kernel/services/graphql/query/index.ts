@@ -19,6 +19,11 @@ const GET_CURRENT_OWNER = gql`
             data {
                 id
                 identonym
+                cores {
+                    id
+                    domain
+                    identonym
+                }
             }
         }
     }

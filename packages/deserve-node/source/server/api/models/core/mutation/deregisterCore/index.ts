@@ -18,17 +18,56 @@ const deregisterCore = async (
     input: InputDeregisterCore,
     context: Context,
 ) => {
-    const {
-        id,
-    } = input;
+    try {
+        const {
+            owner,
+        } = context;
 
-    tunnelsManager.remove(id);
+        if (!owner) {
+            return {
+                status: false,
+            }
+        }
 
-    // delete from database
 
-    return {
-        status: true,
-    };
+        const {
+            id,
+        } = input;
+
+        const core = await database.get(
+            'core',
+            id,
+        );
+
+        if (!core) {
+            return {
+                status: false,
+            }
+        }
+
+        if (core.ownerID !== owner.id) {
+            return {
+                status: false,
+            }
+        }
+
+
+        tunnelsManager.remove(id);
+
+        await database.obliterate(
+            'core',
+            id,
+        );
+
+
+        return {
+            status: true,
+        };
+    } catch (error) {
+        return {
+            status: false,
+        };
+    }
 }
 // #endregion module
 

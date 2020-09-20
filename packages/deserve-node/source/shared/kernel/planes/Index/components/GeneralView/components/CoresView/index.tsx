@@ -32,9 +32,9 @@
         DEREGISTER_CORE,
     } from '#kernel-services/graphql/mutate';
 
-    // import {
-    //     getSetup,
-    // } from '#kernel-services/logic/queries';
+    import {
+        getCurrentOwner,
+    } from '#kernel-services/logic/queries';
 
     import { AppState } from '#kernel-services/state/store';
     import selectors from '#kernel-services/state/selectors';
@@ -251,7 +251,7 @@ const CoresView: React.FC<CoresViewProperties> = (
             generalTheme={stateGeneralTheme}
             interactionTheme={stateInteractionTheme}
 
-            rowTemplate="auto 30px"
+            rowTemplate="auto 2fr 30px"
             rowsHeader={rowsHeader}
             rows={filteredRows}
             noRows="no cores"
@@ -263,7 +263,7 @@ const CoresView: React.FC<CoresViewProperties> = (
 
             filterUpdate={filterUpdate}
             refresh={() => {
-                // getSetup(dispatch);
+                getCurrentOwner(dispatch);
             }}
         />
     );
