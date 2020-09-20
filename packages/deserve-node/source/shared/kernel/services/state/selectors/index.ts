@@ -1,6 +1,7 @@
 // #region imports
     // #region external
     import {
+        data,
         themes,
         view,
     } from '../modules';
@@ -11,6 +12,7 @@
 
 // #region module
 const selectors = {
+    data: data.selectors,
     themes: themes.selectors,
     view: view.selectors,
 };

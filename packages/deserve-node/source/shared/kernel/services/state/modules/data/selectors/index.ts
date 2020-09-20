@@ -1,25 +1,24 @@
 // #region imports
     // #region external
     import {
-        data,
-        themes,
-        view,
-    } from '../modules';
+        AppState,
+    } from '../../../store';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const actions = {
-    data: data.actions,
-    themes: themes.actions,
-    view: view.actions,
+const getCores = (state: AppState) => state.data.cores;
+
+
+const selectors = {
+    getCores,
 };
 // #endregion module
 
 
 
 // #region exports
-export default actions;
+export default selectors;
 // #endregion exports
