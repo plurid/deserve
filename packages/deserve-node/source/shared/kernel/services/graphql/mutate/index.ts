@@ -44,6 +44,20 @@ const REGISTER_CORE = gql`
 `;
 
 
+const DEREGISTER_CORE = gql`
+    mutation DeregisterCore($input: InputDeregisterCore!) {
+        deregisterCore(input: $input) {
+            status
+            error {
+                path
+                type
+                message
+            }
+        }
+    }
+`;
+
+
 const LOGIN = gql`
     mutation Login($input: InputLogin!) {
         login(input: $input) {
@@ -77,6 +91,7 @@ const LOGOUT = gql`
 export {
     REGISTER_OWNER,
     REGISTER_CORE,
+    DEREGISTER_CORE,
     LOGIN,
     LOGOUT,
 };

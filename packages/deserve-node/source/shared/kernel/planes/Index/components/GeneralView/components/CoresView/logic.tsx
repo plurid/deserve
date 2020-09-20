@@ -9,9 +9,9 @@
 
 
     // #region external
-    // import {
-    //     Core,
-    // } from '#server/data/interfaces';
+    import {
+        ClientCore,
+    } from '#server/data/interfaces';
     // #endregion external
 // #endregion imports
 
@@ -19,20 +19,25 @@
 
 // #region module
 export const coreRowRenderer = (
-    core: any,
+    core: ClientCore,
     handleProjectObliterate: (
         id: string,
     ) => void,
 ) => {
     const {
         id,
-        name
+        domain,
+        identonym,
     } = core;
 
     return (
         <>
             <div>
-                {name}
+                {domain}
+            </div>
+
+            <div>
+                {identonym}
             </div>
 
             <PluridIconDelete
@@ -44,19 +49,21 @@ export const coreRowRenderer = (
 
 
 export const createSearchTerms = (
-    cores: any[],
+    cores: ClientCore[],
 ) => {
     const searchTerms = cores.map(
         core => {
             const {
                 id,
-                name
+                domain,
+                identonym,
             } = core;
 
             const searchTerm = {
                 id,
                 data: [
-                    name.toLowerCase(),
+                    domain.toLowerCase(),
+                    identonym.toLowerCase(),
                 ],
             };
 

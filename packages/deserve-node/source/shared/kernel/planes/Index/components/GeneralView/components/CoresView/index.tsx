@@ -28,6 +28,10 @@
 
     import client from '#kernel-services/graphql/client';
 
+    import {
+        DEREGISTER_CORE,
+    } from '#kernel-services/graphql/mutate';
+
     // import {
     //     getSetup,
     // } from '#kernel-services/logic/queries';
@@ -75,12 +79,12 @@ export interface CoresViewOwnProperties {
 export interface CoresViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    // stateCores: ClientCore[];
+    stateCores: ClientCore[];
 }
 
 export interface CoresViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    // dispatchRemoveEntity: typeof actions.data.removeEntity;
+    dispatchRemoveEntity: typeof actions.data.removeEntity;
 }
 
 export type CoresViewProperties = CoresViewOwnProperties
@@ -112,18 +116,15 @@ const CoresView: React.FC<CoresViewProperties> = (
         // #region state
         stateGeneralTheme,
         stateInteractionTheme,
-        // stateCores,
+        stateCores,
         // #endregion state
 
         // #region dispatch
         dispatch,
-        // dispatchRemoveEntity,
+        dispatchRemoveEntity,
         // #endregion dispatch
     } = properties;
     // #endregion properties
-
-
-    const stateCores: any[] = [];
 
 
     // #region handlers
@@ -131,21 +132,21 @@ const CoresView: React.FC<CoresViewProperties> = (
         id: string,
     ) => {
         try {
-            // dispatchRemoveEntity({
-            //     type: 'project',
-            //     id,
-            // });
+            dispatchRemoveEntity({
+                type: 'core',
+                id,
+            });
 
-            // const input = {
-            //     value: id,
-            // };
+            const input = {
+                id,
+            };
 
-            // await client.mutate({
-            //     mutation: OBLITERATE_CORE,
-            //     variables: {
-            //         input,
-            //     },
-            // });
+            await client.mutate({
+                mutation: DEREGISTER_CORE,
+                variables: {
+                    input,
+                },
+            });
         } catch (error) {
             return;
         }
@@ -165,13 +166,12 @@ const CoresView: React.FC<CoresViewProperties> = (
         filteredRows,
         setFilteredRows,
     ] = useState(
-        []
-        // stateCores.map(
-        //     project => coreRowRenderer(
-        //         project,
-        //         handleProjectObliterate,
-        //     ),
-        // ),
+        stateCores.map(
+            core => coreRowRenderer(
+                core,
+                handleProjectObliterate,
+            ),
+        ),
     );
     // #endregion state
 
@@ -180,54 +180,54 @@ const CoresView: React.FC<CoresViewProperties> = (
     const filterUpdate = (
         rawValue: string,
     ) => {
-        // const value = rawValue.toLowerCase();
+        const value = rawValue.toLowerCase();
 
-        // const filterIDs = getFilterIDs(
-        //     searchTerms,
-        //     value,
-        // );
+        const filterIDs = getFilterIDs(
+            searchTerms,
+            value,
+        );
 
-        // const filteredCores = stateCores.filter(stateProject => {
-        //     if (filterIDs.includes(stateProject.id)) {
-        //         return true;
-        //     }
+        const filteredCores = stateCores.filter(stateCore => {
+            if (filterIDs.includes(stateCore.id)) {
+                return true;
+            }
 
-        //     return false;
-        // });
+            return false;
+        });
 
-        // const sortedCores = filteredCores.sort(
-        //     compareValues('name'),
-        // );
+        const sortedCores = filteredCores.sort(
+            compareValues('name'),
+        );
 
-        // setFilteredRows(
-        //     sortedCores.map(
-        //         project => coreRowRenderer(
-        //             project,
-        //             handleProjectObliterate,
-        //         ),
-        //     ),
-        // );
+        setFilteredRows(
+            sortedCores.map(
+                core => coreRowRenderer(
+                    core,
+                    handleProjectObliterate,
+                ),
+            ),
+        );
     }
     // #endregion handlers
 
 
     // #region effects
-    // useEffect(() => {
-    //     const searchTerms = createSearchTerms(
-    //         stateCores,
-    //     );
-    //     const filteredRows = stateCores.map(
-    //         project => coreRowRenderer(
-    //             project,
-    //             handleProjectObliterate,
-    //         ),
-    //     );
+    useEffect(() => {
+        const searchTerms = createSearchTerms(
+            stateCores,
+        );
+        const filteredRows = stateCores.map(
+            core => coreRowRenderer(
+                core,
+                handleProjectObliterate,
+            ),
+        );
 
-    //     setSearchTerms(searchTerms);
-    //     setFilteredRows(filteredRows);
-    // }, [
-    //     stateCores,
-    // ]);
+        setSearchTerms(searchTerms);
+        setFilteredRows(filteredRows);
+    }, [
+        stateCores,
+    ]);
     // #endregion effects
 
 
@@ -235,7 +235,11 @@ const CoresView: React.FC<CoresViewProperties> = (
     const rowsHeader = (
         <>
             <div>
-                name
+                domain
+            </div>
+
+            <div>
+                identonym
             </div>
 
             <div />
@@ -272,7 +276,7 @@ const mapStateToProperties = (
 ): CoresViewStateProperties => ({
     stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateInteractionTheme: selectors.themes.getInteractionTheme(state),
-    // stateCores: selectors.data.getCores(state),
+    stateCores: selectors.data.getCores(state),
 });
 
 
@@ -280,11 +284,11 @@ const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): CoresViewDispatchProperties => ({
     dispatch,
-    // dispatchRemoveEntity: (
-    //     payload,
-    // ) => dispatch (
-    //     actions.data.removeEntity(payload),
-    // ),
+    dispatchRemoveEntity: (
+        payload,
+    ) => dispatch (
+        actions.data.removeEntity(payload),
+    ),
 });
 
 
