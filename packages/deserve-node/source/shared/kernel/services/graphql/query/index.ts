@@ -23,6 +23,7 @@ const GET_CURRENT_OWNER = gql`
                     id
                     domain
                     identonym
+                    active
                 }
             }
         }

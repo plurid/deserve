@@ -58,6 +58,34 @@ const DEREGISTER_CORE = gql`
 `;
 
 
+const ACTIVATE_CORE = gql`
+    mutation ActivateCore($input: InputValueString!) {
+        activateCore(input: $input) {
+            status
+            error {
+                path
+                type
+                message
+            }
+        }
+    }
+`;
+
+
+const DEACTIVATE_CORE = gql`
+    mutation DeactivateCore($input: InputValueString!) {
+        deactivateCore(input: $input) {
+            status
+            error {
+                path
+                type
+                message
+            }
+        }
+    }
+`;
+
+
 const LOGIN = gql`
     mutation Login($input: InputLogin!) {
         login(input: $input) {
@@ -90,8 +118,13 @@ const LOGOUT = gql`
 // #region exports
 export {
     REGISTER_OWNER,
+
     REGISTER_CORE,
     DEREGISTER_CORE,
+
+    ACTIVATE_CORE,
+    DEACTIVATE_CORE,
+
     LOGIN,
     LOGOUT,
 };

@@ -50,7 +50,9 @@ export interface Core {
     ownerID: string;
 }
 
-export type ClientCore = Omit<Core, 'key' | 'ownerID'>;
+export type ClientCore = Omit<Core, 'key' | 'ownerID'> & {
+    active: boolean;
+};
 
 
 

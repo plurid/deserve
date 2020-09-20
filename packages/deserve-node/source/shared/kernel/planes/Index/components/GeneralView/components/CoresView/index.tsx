@@ -30,6 +30,8 @@
 
     import {
         DEREGISTER_CORE,
+        ACTIVATE_CORE,
+        DEACTIVATE_CORE,
     } from '#kernel-services/graphql/mutate';
 
     import {
@@ -51,6 +53,7 @@
         coreRowRenderer,
         createSearchTerms,
     } from './logic';
+import e from 'express';
     // #endregion internal
 // #endregion imports
 
@@ -128,7 +131,39 @@ const CoresView: React.FC<CoresViewProperties> = (
 
 
     // #region handlers
-    const handleProjectObliterate = async (
+    const handleCoreActivate = async (
+        id: string,
+        active: boolean,
+    ) => {
+        try {
+            // TODO
+            // dispatch state change
+
+            const input = {
+                value: id,
+            };
+
+            if (active) {
+                await client.mutate({
+                    mutation: DEACTIVATE_CORE,
+                    variables: {
+                        input,
+                    },
+                });
+            } else {
+                await client.mutate({
+                    mutation: ACTIVATE_CORE,
+                    variables: {
+                        input,
+                    },
+                });
+            }
+        } catch (error) {
+            return;
+        }
+    }
+
+    const handleCoreObliterate = async (
         id: string,
     ) => {
         try {
@@ -169,7 +204,8 @@ const CoresView: React.FC<CoresViewProperties> = (
         stateCores.map(
             core => coreRowRenderer(
                 core,
-                handleProjectObliterate,
+                handleCoreActivate,
+                handleCoreObliterate,
             ),
         ),
     );
@@ -203,7 +239,8 @@ const CoresView: React.FC<CoresViewProperties> = (
             sortedCores.map(
                 core => coreRowRenderer(
                     core,
-                    handleProjectObliterate,
+                    handleCoreActivate,
+                    handleCoreObliterate,
                 ),
             ),
         );
@@ -219,7 +256,8 @@ const CoresView: React.FC<CoresViewProperties> = (
         const filteredRows = stateCores.map(
             core => coreRowRenderer(
                 core,
-                handleProjectObliterate,
+                handleCoreActivate,
+                handleCoreObliterate,
             ),
         );
 
@@ -235,7 +273,11 @@ const CoresView: React.FC<CoresViewProperties> = (
     const rowsHeader = (
         <>
             <div>
-                domain
+                link
+            </div>
+
+            <div>
+                register
             </div>
 
             <div>
@@ -255,7 +297,7 @@ const CoresView: React.FC<CoresViewProperties> = (
             generalTheme={stateGeneralTheme}
             interactionTheme={stateInteractionTheme}
 
-            rowTemplate="2fr 1fr 80px 30px"
+            rowTemplate="2fr 2fr 1fr 80px 30px"
             rowsHeader={rowsHeader}
             rows={filteredRows}
             noRows="no cores"

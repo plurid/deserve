@@ -29,6 +29,13 @@ class TunnelsManager {
         tunnel.close();
         delete this.tunnels[id];
     }
+
+    /**
+     * Returns an array of `id`s for the currently active tunnels.
+     */
+    list() {
+        return Object.keys(this.tunnels);
+    }
 }
 // #endregion module
 

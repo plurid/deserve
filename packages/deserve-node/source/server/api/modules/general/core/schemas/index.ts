@@ -41,6 +41,7 @@ export const types = gql`
         id: ID!
         domain: String!
         identonym: String!
+        active: Boolean!
     }
 
     extend type Owner {

@@ -5,6 +5,8 @@
         ClientOwner,
     } from '#server/data/interfaces';
 
+    import tunnelsManager from '#server/services/tunnelsManager';
+
     import database from '#server/services/database';
     // #endregion external
 // #endregion imports
@@ -21,7 +23,22 @@ const getClientCores = async (
         owner.id,
     );
 
-    return cores.results;
+    const activeCores = tunnelsManager.list();
+
+    const coresResults = cores.results.map(coreResult => {
+        let active = false;
+
+        if (activeCores.includes(coreResult.id)) {
+            active = true;
+        }
+
+        return {
+            ...coreResult,
+            active,
+        };
+    });
+
+    return coresResults;
 }
 
 

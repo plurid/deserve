@@ -24,7 +24,11 @@
 // #region module
 export const coreRowRenderer = (
     core: ClientCore,
-    handleProjectObliterate: (
+    handleCoreActivate: (
+        id: string,
+        active: boolean,
+    ) => void,
+    handleCoreObliterate: (
         id: string,
     ) => void,
 ) => {
@@ -32,6 +36,7 @@ export const coreRowRenderer = (
         id,
         domain,
         identonym,
+        active,
     } = core;
 
     return (
@@ -41,18 +46,27 @@ export const coreRowRenderer = (
             </div>
 
             <div>
+                {domain}
+            </div>
+
+            <div>
                 {identonym}
             </div>
 
             <PluridSwitch
-                checked={false}
-                atChange={() => {}}
+                checked={active}
+                atChange={() => {
+                    handleCoreActivate(
+                        id,
+                        active,
+                    );
+                }}
                 level={2}
                 exclusive={true}
             />
 
             <PluridIconDelete
-                atClick={() => handleProjectObliterate(id)}
+                atClick={() => handleCoreObliterate(id)}
             />
         </>
     );
