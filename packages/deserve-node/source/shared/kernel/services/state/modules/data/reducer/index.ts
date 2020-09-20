@@ -22,6 +22,8 @@ const reducer = (
             return resolvers.removeEntity(state, action);
         case Types.SET_CORES:
             return resolvers.setCores(state, action);
+        case Types.ACTIVATE_CORE:
+            return resolvers.activateCore(state, action);
         case Types.CLEAR_DATA:
             return resolvers.clearData(state, action);
         default:
