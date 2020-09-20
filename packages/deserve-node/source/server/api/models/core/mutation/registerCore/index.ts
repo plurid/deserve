@@ -88,6 +88,11 @@ const registerCore = async (
 
         return {
             status: true,
+            data: {
+                id,
+                domain,
+                identonym,
+            },
         };
     } catch (error) {
         return {

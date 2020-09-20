@@ -16,13 +16,19 @@ export const queries = gql`
 
 export const mutations = gql`
     extend type Mutation {
-        registerCore(input: InputRegisterCore!): Response!
+        registerCore(input: InputRegisterCore!): ResponseCore!
         deregisterCore(input: InputDeregisterCore!): Response!
     }
 `;
 
 
 export const types = gql`
+    type ResponseCore {
+        status: Boolean!
+        error: Error
+        data: Core
+    }
+
     type ResponseCores {
         status: Boolean!
         error: Error
