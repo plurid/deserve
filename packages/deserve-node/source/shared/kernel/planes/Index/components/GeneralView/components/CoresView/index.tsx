@@ -251,7 +251,7 @@ const CoresView: React.FC<CoresViewProperties> = (
             generalTheme={stateGeneralTheme}
             interactionTheme={stateInteractionTheme}
 
-            rowTemplate="auto 2fr 30px"
+            rowTemplate="2fr 1fr 30px"
             rowsHeader={rowsHeader}
             rows={filteredRows}
             noRows="no cores"

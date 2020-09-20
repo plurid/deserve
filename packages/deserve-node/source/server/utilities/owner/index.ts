@@ -16,7 +16,7 @@ const getClientCores = async (
     owner: Owner,
 ) => {
     const cores = await database.query(
-        'core',
+        'cores',
         'ownerID',
         owner.id,
     );
