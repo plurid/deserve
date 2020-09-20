@@ -4,6 +4,10 @@
         Context,
         InputDeregisterCore,
     } from '#server/data/interfaces';
+
+    import database from '#server/services/database';
+
+    import tunnelsManager from '#server/services/tunnelsManager';
     // #endregion external
 // #endregion imports
 
@@ -18,6 +22,9 @@ const deregisterCore = async (
         id,
     } = input;
 
+    tunnelsManager.remove(id);
+
+    // delete from database
 
     return {
         status: true,

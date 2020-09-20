@@ -14,6 +14,13 @@
     } from '#server/data/interfaces';
 
     import database from '#server/services/database';
+
+    import tunnelsManager from '#server/services/tunnelsManager';
+
+    import {
+        registerNodeToRouter,
+        registerNodeToCore,
+    } from '#server/logic/registration';
     // #endregion external
 // #endregion imports
 
@@ -24,30 +31,69 @@ const registerCore = async (
     input: InputRegisterCore,
     context: Context,
 ) => {
-    const {
-        domain,
-        identonym,
-        key,
-    } = input;
+    try {
+        const {
+            domain,
+            identonym,
+            key,
+        } = input;
 
-    const id = uuid.generate();
+        const id = uuid.generate();
 
-    const core: Core = {
-        id,
-        domain,
-        identonym,
-        key,
-    };
 
-    await database.store(
-        'core',
-        id,
-        core,
-    );
+        const routerResponse = await registerNodeToRouter(
+            domain,
+            identonym,
+            key,
+        );
 
-    return {
-        status: true,
-    };
+        if (!routerResponse.status) {
+            return {
+                status: false,
+            };
+        }
+
+        const {
+            data: {
+                core,
+                token,
+            },
+        } = routerResponse;
+
+        const client = await registerNodeToCore(
+            core,
+            token,
+        );
+
+        client.open(() => {});
+
+        tunnelsManager.add(
+            id,
+            client,
+        );
+
+
+        const storedCore: Core = {
+            id,
+            domain,
+            identonym,
+            key,
+        };
+
+        await database.store(
+            'core',
+            id,
+            storedCore,
+        );
+
+        return {
+            status: true,
+        };
+    } catch (error) {
+        return {
+            status: false,
+        };
+    }
 }
 // #endregion module
 
