@@ -5,6 +5,10 @@
     import {
         PluridIconDelete,
     } from '@plurid/plurid-icons-react';
+
+    import {
+        PluridSwitch,
+    } from '@plurid/plurid-ui-react';
     // #endregion libraries
 
 
@@ -39,6 +43,13 @@ export const coreRowRenderer = (
             <div>
                 {identonym}
             </div>
+
+            <PluridSwitch
+                checked={false}
+                atChange={() => {}}
+                level={2}
+                exclusive={true}
+            />
 
             <PluridIconDelete
                 atClick={() => handleProjectObliterate(id)}

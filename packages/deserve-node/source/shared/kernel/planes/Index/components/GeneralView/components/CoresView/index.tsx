@@ -242,6 +242,10 @@ const CoresView: React.FC<CoresViewProperties> = (
                 identonym
             </div>
 
+            <div>
+                active
+            </div>
+
             <div />
         </>
     );
@@ -251,7 +255,7 @@ const CoresView: React.FC<CoresViewProperties> = (
             generalTheme={stateGeneralTheme}
             interactionTheme={stateInteractionTheme}
 
-            rowTemplate="2fr 1fr 30px"
+            rowTemplate="2fr 1fr 80px 30px"
             rowsHeader={rowsHeader}
             rows={filteredRows}
             noRows="no cores"
