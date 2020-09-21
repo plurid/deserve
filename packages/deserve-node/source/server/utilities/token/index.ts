@@ -34,7 +34,7 @@
 // #region module
 const generateToken = (
     owner: Owner,
-    attributes?: any,
+    attributes?: Record<string, any>,
 ): string => {
     return (jsonWebToken as any).sign(
         {
@@ -70,6 +70,21 @@ const setCookieToken = (
     );
 
     return true;
+}
+
+
+const refreshToken = (
+    owner: Owner,
+    response: Response,
+) => {
+    const token = generateToken(
+        owner,
+    );
+
+    setCookieToken(
+        response,
+        token,
+    );
 }
 
 
@@ -125,7 +140,10 @@ const tradeTokenForOwner = async (
             return;
         }
 
-        // TODO refresh token
+        refreshToken(
+            owner,
+            response,
+        );
 
         return await clientOwner(owner);
     }
