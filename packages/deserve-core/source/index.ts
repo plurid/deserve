@@ -7,7 +7,9 @@
         Response,
     } from 'express';
 
+    import cors from 'cors';
     import bodyParser from 'body-parser';
+    import cookieParser from 'cookie-parser';
     // #endregion libraries
 
     // #region internal
@@ -92,9 +94,21 @@ const registerTunnel = async (
     }
 }
 
+const corsOptions = {
+    credentials: true,
+    origin: (_: any, callback: any) => {
+        return callback(null, true);
+    },
+}
+
+
 const main = () => {
+    // server.options('*', cors(corsOptions));
+
     server.use(
+        // cors(corsOptions),
         bodyParser.json(),
+        cookieParser(),
     );
 
     server.use((
@@ -109,20 +123,17 @@ const main = () => {
             return;
         }
 
-        // if (!client) {
-        //     const responseData = {
-        //         id: '',
-        //         port: '3355',
-        //         max_conn_count: 1,
-        //         url: 'http://localhost:3355',
-        //     };
-        //     response.setHeader(
-        //         'Content-Type',
-        //         'application/json',
-        //     );
-        //     response.send(JSON.stringify(responseData));
-        //     return;
-        // }
+        if (!client) {
+            const responseData = {
+                status: false,
+            };
+            response.setHeader(
+                'Content-Type',
+                'application/json',
+            );
+            response.send(JSON.stringify(responseData));
+            return;
+        }
 
         next();
     });
@@ -133,15 +144,13 @@ const main = () => {
     );
 
     server.all('*', (req, res) => {
-        // const hostname = req.headers.host;
-        // console.log('request hostname', hostname, !!client, req.url, req.method);
+        console.log('*', req.method);
 
         if (!client) {
             res.status(404).send('404');
             return;
         }
 
-        // console.log('CLINT', client);
         client.handleRequest(req, res);
     });
 
@@ -150,8 +159,6 @@ const main = () => {
     });
 
     instance.on('upgrade', (req, socket, head) => {
-        // console.log('upgrade');
-
         if (!client) {
             socket.destroy();
             return;
