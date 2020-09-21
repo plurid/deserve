@@ -24,6 +24,10 @@
     } from '#kernel-services/graphql/mutate';
 
     import {
+        getCurrentOwner,
+    } from '#kernel-services/logic/queries';
+
+    import {
         StyledPluridTextline,
     } from '#kernel-services/styled';
 
@@ -120,7 +124,7 @@ const LoginView: React.FC<LoginViewProperties> = (
                 return;
             }
 
-            // await getSetup(dispatch);
+            getCurrentOwner(dispatch)
 
             const owner = response.data;
 

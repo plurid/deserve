@@ -13,7 +13,6 @@
     import client from '#kernel-services/graphql/client';
     import {
         GET_CURRENT_OWNER,
-        // GET_SETUP,
     } from '#kernel-services/graphql/query';
 
     import actions from '#kernel-services/state/actions';
