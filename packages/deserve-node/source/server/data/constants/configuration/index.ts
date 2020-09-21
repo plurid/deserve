@@ -28,5 +28,5 @@ export const STORAGE_TYPE = (process.env.PERFORMER_STORAGE_TYPE as StorageType |
 export const BASE_PATH = process.env.DESERVE_BASE_PATH || process.cwd();
 
 
-export const COOKIE_DOMAIN = 'young-crab-55.localhost';
+export const COOKIE_DOMAIN = process.env.DESERVE_COOKIE_DOMAIN || 'localhost';
 // #endregion module
