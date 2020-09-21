@@ -5,7 +5,6 @@
 
 
     // #region internal
-    import setupGlobal from './global';
     import setupMiddleware from './middleware';
     import setupGraphQL from './graphql';
     // #endregion internal
@@ -19,10 +18,10 @@ const setupHandlers = (
 ) => {
     const instance = server.instance();
 
-    setupGlobal();
     setupMiddleware(
         instance,
     );
+
     setupGraphQL(
         instance,
     );

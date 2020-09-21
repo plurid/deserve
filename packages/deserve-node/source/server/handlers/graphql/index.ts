@@ -43,6 +43,9 @@ const setupGraphQLServer = async (
 ) => {
     // TODO no playground if production
     const playground = {
+        // settings: {
+        //     'request.credentials': 'include',
+        // },
         faviconUrl: GRAPHQL_FAVICON,
         title: GRAPHQL_TITLE,
     };
@@ -79,6 +82,7 @@ const setupGraphQLServer = async (
     graphQLServer.applyMiddleware({
         app: instance,
         path: GRAPHQL_ENDPOINT,
+        // cors: false,
     });
 }
 // #endregion module
