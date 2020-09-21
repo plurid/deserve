@@ -15,6 +15,7 @@
     } from '#server/data/interfaces';
 
     import {
+        COOKIE_DOMAIN,
         COOKIE_OWNER_TOKEN,
     } from '#server/data/constants';
 
@@ -23,6 +24,8 @@
     import {
         clientOwner,
     } from '../owner';
+
+    import environment from '../environment';
     // #endregion external
 // #endregion imports
 
@@ -51,18 +54,19 @@ const generateToken = (
 const setCookieToken = (
     response: Response,
     token: string,
-    domain: string,
+    domain?: string,
 ) => {
     response.cookie(
         COOKIE_OWNER_TOKEN,
         token,
         {
-            domain,
-            maxAge: 604800000, // in miliseconds, one week: 60 * 60 * 24 * 7 * 1000
+            domain: domain || COOKIE_DOMAIN,
+            // in miliseconds, 52 * 604_800_000, 52 x one week, 60 * 60 * 24 * 7 * 1000
+            maxAge: 31_449_600_000,
             httpOnly: true,
-            // secure: environment.production,
-            // sameSite: environment.production ? 'none' : 'lax',
-        }
+            secure: environment.production,
+            sameSite: environment.production ? 'none' : 'lax',
+        },
     );
 
     return true;

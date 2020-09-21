@@ -78,7 +78,6 @@ const registerOwner = async (
         setCookieToken(
             response,
             token,
-            'localhost',
         );
 
         return {

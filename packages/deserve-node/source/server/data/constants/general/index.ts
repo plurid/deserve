@@ -13,6 +13,7 @@ const DATA_OWNERSPACE_FILES = '/files';
 
 
 const COOKIE_OWNER_TOKEN = 'OWNTKN';
+const COOKIE_EMPTY_VALUE = '';
 // #endregion module
 
 
@@ -30,5 +31,6 @@ export {
     DATA_OWNERSPACE_FILES,
 
     COOKIE_OWNER_TOKEN,
+    COOKIE_EMPTY_VALUE,
 };
 // #endregion exports

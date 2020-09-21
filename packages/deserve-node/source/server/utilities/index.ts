@@ -1,5 +1,6 @@
 // #region exports
 export * from './directory';
+export * from './environment';
 export * from './error';
 export * from './key';
 export * from './logging';

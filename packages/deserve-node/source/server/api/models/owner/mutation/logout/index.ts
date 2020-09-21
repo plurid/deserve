@@ -5,6 +5,10 @@
     } from '#server/data/interfaces';
 
     import {
+        COOKIE_EMPTY_VALUE,
+    } from '#server/data/constants';
+
+    import {
         setCookieToken,
     } from '#server/utilities';
     // #endregion external
@@ -23,8 +27,7 @@ const logout = async (
 
         setCookieToken(
             response,
-            '',
-            'localhost',
+            COOKIE_EMPTY_VALUE,
         );
 
         return {

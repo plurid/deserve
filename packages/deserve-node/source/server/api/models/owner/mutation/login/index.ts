@@ -64,7 +64,6 @@ const login = async (
         setCookieToken(
             response,
             token,
-            'localhost',
         );
 
         return {
