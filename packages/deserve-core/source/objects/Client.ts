@@ -6,6 +6,11 @@
     import {
         EventEmitter,
     } from 'events';
+
+    import {
+        Request,
+        Response,
+    } from 'express';
     // #endregion libraries
 // #endregion imports
 
@@ -71,31 +76,27 @@ class Client extends EventEmitter {
     }
 
     handleRequest(
-        req: any,
-        res: any,
+        request: any,
+        response: Response,
     ) {
-        // this.debug('> %s', req.url);
-        // console.log('handleRequest', req.url);
-
         const opt = {
-            path: req.url,
+            path: request.url,
             agent: this.agent,
-            method: req.method,
-            headers: req.headers,
+            method: request.method,
+            headers: request.headers,
         };
         // console.log('opt', opt);
 
         const clientReq = http.request(opt, (clientRes) => {
-            this.debug('< %s', req.url);
-            // console.log('clientReq handleRequest', req.url);
-
             // write response code and headers
-            res.writeHead(clientRes.statusCode, clientRes.headers);
+            response.writeHead(
+                clientRes.statusCode || 500,
+                clientRes.headers,
+            );
 
             // using pump is deliberate - see the pump docs for why
-            pump(clientRes, res);
+            pump(clientRes, response);
         });
-        // console.log('clientReq', clientReq);
 
         // this can happen when underlying agent produces an error
         // in our case we 504 gateway error this?
@@ -103,21 +104,17 @@ class Client extends EventEmitter {
         clientReq.once('error', (err) => {
             // console.log('clientReq.once', err);
 
-            // res.send('errors');
             // TODO(roman): if headers not sent - respond with gateway unavailable
         });
 
         // using pump is deliberate - see the pump docs for why
-        pump(req, clientReq);
+        pump(request, clientReq);
     }
 
     handleUpgrade(
-        req: any,
+        request: Request,
         socket: any,
     ) {
-        // this.debug('> [up] %s', req.url);
-        // console.log('> [up] %s', req.url);
-
         socket.once('error', (err: any) => {
             // These client side errors can happen if the client dies while we are reading
             // We don't need to surface these in our logs.
@@ -128,7 +125,6 @@ class Client extends EventEmitter {
         });
 
         this.agent.createConnection({}, (err: any, conn: any) => {
-            // this.debug('< [up] %s', req.url);
             // any errors getting a connection mean we cannot service this request
             if (err) {
                 socket.end();
@@ -145,9 +141,17 @@ class Client extends EventEmitter {
             // websocket requests are special in that we simply re-create the header info
             // then directly pipe the socket data
             // avoids having to rebuild the request and handle upgrades via the http client
-            const arr = [`${req.method} ${req.url} HTTP/${req.httpVersion}`];
-            for (let i=0 ; i < (req.rawHeaders.length-1) ; i+=2) {
-                arr.push(`${req.rawHeaders[i]}: ${req.rawHeaders[i+1]}`);
+            const {
+                method,
+                url,
+                httpVersion,
+                rawHeaders,
+            } = request;
+
+            const arr = [`${method} ${url} HTTP/${httpVersion}`];
+
+            for (let i = 0; i < (rawHeaders.length-1); i += 2) {
+                arr.push(`${rawHeaders[i]}: ${rawHeaders[i+1]}`);
             }
 
             arr.push('');

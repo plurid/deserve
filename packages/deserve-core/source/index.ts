@@ -127,7 +127,10 @@ const main = () => {
         next();
     });
 
-    server.post('/register', registerTunnel);
+    server.post(
+        '/register',
+        registerTunnel,
+    );
 
     server.all('*', (req, res) => {
         // const hostname = req.headers.host;
