@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import {
+        parse,
+    } from 'url';
+
+    import {
         Request,
         Response,
     } from 'express';
@@ -12,6 +16,7 @@
     // #region external
     import {
         Owner,
+        Core,
     } from '#server/data/interfaces';
 
     import {
@@ -71,6 +76,34 @@ const setCookieToken = (
 
     return true;
 }
+
+
+const setCookieTokens = (
+    response: Response,
+    token: string,
+    cores: Core[],
+) => {
+    setCookieToken(
+        response,
+        token,
+    );
+
+    for (const core of cores) {
+        const parsedDomain = parse(core.link);
+        const domain = parsedDomain.hostname;
+
+        if (!domain) {
+            continue;
+        }
+
+        setCookieToken(
+            response,
+            token,
+            domain,
+        );
+    }
+}
+
 
 
 const refreshToken = (
@@ -156,6 +189,7 @@ const tradeTokenForOwner = async (
 export {
     generateToken,
     setCookieToken,
+    setCookieTokens,
     tradeTokenForOwner,
 };
 // #endregion exports

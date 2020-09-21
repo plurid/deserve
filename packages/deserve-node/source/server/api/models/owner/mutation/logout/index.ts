@@ -8,8 +8,10 @@
         COOKIE_EMPTY_VALUE,
     } from '#server/data/constants';
 
+    import database from '#server/services/database';
+
     import {
-        setCookieToken,
+        setCookieTokens,
     } from '#server/utilities';
     // #endregion external
 // #endregion imports
@@ -25,9 +27,14 @@ const logout = async (
             response,
         } = context;
 
-        setCookieToken(
+        const coresQuery = await database.getAll(
+            'cores',
+        );
+
+        setCookieTokens(
             response,
             COOKIE_EMPTY_VALUE,
+            coresQuery,
         );
 
         return {

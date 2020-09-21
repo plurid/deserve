@@ -10,7 +10,7 @@
     import {
         validateKey,
         generateToken,
-        setCookieToken,
+        setCookieTokens,
     } from '#server/utilities';
     // #endregion external
 // #endregion imports
@@ -57,14 +57,21 @@ const login = async (
             };
         }
 
+
         const token = generateToken(
             owner,
         );
 
-        setCookieToken(
+        const coresQuery = await database.getAll(
+            'cores',
+        );
+
+        setCookieTokens(
             response,
             token,
+            coresQuery,
         );
+
 
         return {
             status: true,

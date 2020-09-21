@@ -18,7 +18,7 @@
     import {
         hashKey,
         generateToken,
-        setCookieToken,
+        setCookieTokens,
         clientOwner,
     } from '#server/utilities';
     // #endregion external
@@ -71,14 +71,21 @@ const registerOwner = async (
             owner,
         );
 
+
         const token = generateToken(
             owner,
         );
 
-        setCookieToken(
+        const coresQuery = await database.getAll(
+            'cores',
+        );
+
+        setCookieTokens(
             response,
             token,
+            coresQuery,
         );
+
 
         return {
             status: true,
