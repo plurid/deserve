@@ -6,12 +6,18 @@
 
     import {
         EventEmitter,
-     } from 'events';
+    } from 'events';
+
+    // import Debug from 'debug';
 
     import axios from 'axios';
-
-    import Debug from 'debug';
     // #endregion libraries
+
+
+    // #region external
+    import tunnelsManager from '#server/services/tunnelsManager';
+    // #endregion external
+
 
     // #region internal
     import TunnelCluster from './TunnelCluster';
@@ -21,7 +27,7 @@
 
 
 // #region module
-const debug = Debug.debug('localtunnel:client');
+// const debug = Debug.debug('localtunnel:client');
 
 class Tunnel extends EventEmitter {
     private opts: any;
@@ -133,7 +139,9 @@ class Tunnel extends EventEmitter {
         this.tunnelCluster.on('error', (err: any) => {
             // debug('got socket error', err.message);
             // console.log('got socket error', err.message);
-            this.emit('error', err);
+
+            tunnelsManager.remove(this.opts.id);
+            // this.emit('error', err);
         });
 
         let tunnelCount = 0;

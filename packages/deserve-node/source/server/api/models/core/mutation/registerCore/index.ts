@@ -83,6 +83,7 @@ const registerCore = async (
         const {
             client,
         } = await registerNodeToCore(
+            id,
             core,
             token,
         );

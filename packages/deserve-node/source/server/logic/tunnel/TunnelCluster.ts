@@ -9,14 +9,14 @@
 
     import HeaderHostTransformer from './HeaderHostTransformer';
 
-    import Debug from 'debug';
+    // import Debug from 'debug';
     // #endregion libraries
 // #endregion imports
 
 
 
 // #region module
-const debug = Debug.debug('localtunnel:client');
+// const debug = Debug.debug('localtunnel:client');
 
 // manages groups of tunnels
 class TunnelCluster extends EventEmitter {
@@ -38,14 +38,14 @@ class TunnelCluster extends EventEmitter {
         const localProtocol = opt.local_https ? 'https' : 'http';
         const allowInvalidCert = opt.allow_invalid_cert;
 
-        console.log(
-            'establishing tunnel %s://%s:%s <> %s:%s',
-            localProtocol,
-            localHost,
-            localPort,
-            remoteHostOrIp,
-            remotePort
-        );
+        // console.log(
+        //     'establishing tunnel %s://%s:%s <> %s:%s',
+        //     localProtocol,
+        //     localHost,
+        //     localPort,
+        //     remoteHostOrIp,
+        //     remotePort
+        // );
 
         // connection to localtunnel server
         const remote = net.connect({
@@ -102,7 +102,7 @@ class TunnelCluster extends EventEmitter {
                 : net.connect({ host: localHost, port: localPort });
 
             const remoteClose = () => {
-                console.log('remote close');
+                // console.log('remote close');
                 this.emit('dead');
                 local.end();
             };
@@ -135,7 +135,7 @@ class TunnelCluster extends EventEmitter {
                 // if user requested specific local host
                 // then we use host header transform to replace the host header
                 if (opt.local_host) {
-                    console.log('transform Host header to %s', opt.local_host);
+                    // console.log('transform Host header to %s', opt.local_host);
                     stream = remote.pipe(new HeaderHostTransformer({ host: opt.local_host }));
                 }
 
@@ -143,7 +143,7 @@ class TunnelCluster extends EventEmitter {
 
                 // when local closes, also get a new remote
                 local.once('close', hadError => {
-                    console.log('local connection closed [%s]', hadError);
+                    // console.log('local connection closed [%s]', hadError);
                 });
             });
         };

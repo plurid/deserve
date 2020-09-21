@@ -84,6 +84,7 @@ const activateCore = async (
         const {
             client,
         } = await registerNodeToCore(
+            id,
             core,
             token,
         );

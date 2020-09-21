@@ -48,6 +48,7 @@ const registerNodeToRouter = async (
 
 
 const registerNodeToCore = async (
+    id: string,
     url: string,
     token: string,
 ) => {
@@ -73,6 +74,7 @@ const registerNodeToCore = async (
     const host = parsedURL.protocol + '//' + parsedURL.host;
 
     const client = new Tunnel({
+        id,
         port: PORT,
         host,
     });
