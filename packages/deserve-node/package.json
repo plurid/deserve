@@ -3,7 +3,8 @@
     "version": "0.0.0",
     "description": "Owner Data Deserver Node",
     "keywords": [
-        "deserve"
+        "deserve",
+        "node"
     ],
     "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
     "license": "MIT",
@@ -15,7 +16,7 @@
         "email": "source@plurid.com",
         "url": "https://github.com/plurid/deserve/issues"
     },
-    "homepage": "https://github.com/plurid/deserve/blob/master/packages/deserve/README.md",
+    "homepage": "https://github.com/plurid/deserve/blob/master/packages/deserve-node/README.md",
     "publishConfig": {
         "access": "public"
     },
