@@ -1,7 +1,5 @@
 // #region imports
     // #region libraries
-    import http from 'http';
-
     import express, {
         Request,
         Response,
@@ -10,11 +8,8 @@
     import cors from 'cors';
     import bodyParser from 'body-parser';
     import cookieParser from 'cookie-parser';
-
-
-    import Koa from 'koa';
-    import Router from 'koa-router';
     // #endregion libraries
+
 
     // #region internal
     import Client from './objects/Client';
@@ -32,18 +27,14 @@ const port = parseInt(process.env.PORT || '') || 3355;
 let client: any;
 
 
-const handlePaths = (
-    request: Request,
-    response: Response,
-) => {
-    response.send('Deserve Core');
-}
-
-
 const registerTunnel = async (
     request: Request,
     response: Response,
 ) => {
+    if (response.headersSent) {
+        return;
+    }
+
     const data = request.body;
     const {
         token,
@@ -108,92 +99,7 @@ const corsOptions = {
 }
 
 
-const mainKoa = () => {
-    const app = new Koa();
-    const router = new Router();
-
-
-    router.post(
-        '/register',
-        async (ctx, next) => {
-            if (client) {
-                await next();
-                return;
-            }
-
-            const path = ctx.request.path;
-            console.log('post register ctx', path);
-
-            const id = Math.random() + '';
-
-            const agent = new TunnelAgent({
-                clientId: id,
-                maxSockets: 10,
-            });
-
-            try {
-                const info: any = await agent.listen();
-
-                client = new Client({
-                    id,
-                    agent,
-                });
-
-                client.on('offline', () => {
-                    client = null;
-                });
-
-                const responseData = {
-                    id: id,
-                    port: info.port,
-                    max_conn_count: 10,
-                };
-                ctx.body = responseData;
-            } catch (error) {
-                const responseData = {};
-                ctx.body = responseData;
-            }
-        },
-    );
-
-    app.use(router.routes());
-    app.use(router.allowedMethods());
-
-
-    const server = http.createServer();
-
-    const appCallback = app.callback();
-
-    server.on('request', (req, res) => {
-        console.log('client', client);
-
-        const path = req.url;
-        console.log('server request', path);
-
-        if (!client) {
-            appCallback(req, res);
-            return;
-        }
-
-        client.handleRequest(req, res);
-    });
-
-    server.on('upgrade', (req, socket, head) => {
-        if (!client) {
-            socket.destroy();
-            return;
-        }
-
-        client.handleUpgrade(req, socket);
-    });
-
-    server.listen(3355, 'localhost', () => {
-        console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);
-    });
-}
-
-
-const mainExpress = () => {
+const main = () => {
     server.options('*', cors(corsOptions));
 
     server.use(
@@ -207,6 +113,10 @@ const mainExpress = () => {
         response,
         next,
     ) => {
+        if (response.headersSent) {
+            return;
+        }
+
         const path = request.url;
 
         if (path !== '/') {
@@ -235,10 +145,13 @@ const mainExpress = () => {
     );
 
     server.all('*', (req, res) => {
-        console.log('*', req.method);
-
         if (!client) {
             res.status(404).send('404');
+            return;
+        }
+
+        const method = req.method;
+        if (method === 'POST') {
             return;
         }
 
@@ -247,6 +160,17 @@ const mainExpress = () => {
 
     const instance = server.listen(port, () => {
         console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);
+    });
+
+    instance.on('request', (req, res) => {
+        // HACK
+        // to account for POST not receiving adequate response in the '*' catch-all.
+
+        const method = req.method;
+
+        if (client && method === 'POST') {
+            client.handleRequest(req, res);
+        }
     });
 
     instance.on('upgrade', (req, socket, head) => {
@@ -260,6 +184,5 @@ const mainExpress = () => {
 }
 
 
-mainKoa();
-// mainExpress();
+main();
 // #endregion module
