@@ -83,7 +83,7 @@ const crossCommand = (
 
 
 /** COMMANDS */
-const webpackWatch = `${crossCommand('webpack')} --watch --config ./scripts/workings/development.js`;
+const rollupWatch = `${crossCommand('rollup')} --watch --config ./scripts/workings/development.js`;
 const nodemonWatch = `${crossCommand('nodemon')} --watch ${path.join(buildFolder, '/index.js')} ${buildFolder}`;
 
 const commandStart = [
@@ -95,7 +95,7 @@ const commandStartLocal = [
 ];
 
 const commandWatch = [
-    `PLURID_WATCH_MODE=true concurrently \"${webpackWatch}\" \"${nodemonWatch}\"`,
+    `PLURID_WATCH_MODE=true concurrently \"${rollupWatch}\" \"${nodemonWatch}\"`,
 ];
 
 
@@ -114,13 +114,13 @@ const commandTest = [
 
 const commandBuildDevelopment = [
     ...commandClean,
-    `${crossCommand('webpack')} --config ./scripts/workings/development.js`,
+    `${crossCommand('rollup')} --config ./scripts/workings/development.js`,
 ];
 const commandBuildProduction = [
     ...commandClean,
     ...commandLint,
     ...commandTest,
-    `${crossCommand('webpack')} --config ./scripts/workings/production.js`,
+    `${crossCommand('rollup')} --config ./scripts/workings/production.js`,
 ];
 
 
