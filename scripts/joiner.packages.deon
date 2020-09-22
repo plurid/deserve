@@ -1,0 +1,28 @@
+{
+    #packages
+    #package
+    #commit
+    yarnWorkspace false
+    runFrom ../
+}
+
+
+packages [
+    /packages/deserve-core
+    /packages/deserve-node
+    /packages/deserve-router
+]
+
+package {
+    manager yarn
+    publisher npm
+}
+
+commit {
+    engine git
+    combine true
+    root ''
+    fullFolder false
+    divider ' > '
+    message 'setup: package'
+}
