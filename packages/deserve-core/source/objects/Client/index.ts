@@ -107,7 +107,7 @@ class Client extends EventEmitter {
         // in our case we 504 gateway error this?
         // if we have already sent headers?
         clientReq.once('error', (err) => {
-            console.log('clientReq.once', err);
+            // console.log('clientReq.once', err);
 
             // TODO: if headers not sent - respond with gateway unavailable
         });

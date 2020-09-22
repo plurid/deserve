@@ -1,9 +1,6 @@
 // #region imports
     // #region libraries
-    import express, {
-        Request,
-        Response,
-    } from 'express';
+    import express from 'express';
 
     import cors from 'cors';
     import bodyParser from 'body-parser';
@@ -12,132 +9,87 @@
 
 
     // #region internal
-    import Client from './objects/Client';
-    import TunnelAgent from './objects/TunnelAgent';
+    import {
+        DeserveRequest,
+        DeserveCoreLogic,
+    } from './data/interfaces';
+
+    import {
+        PORT,
+    } from './data/constants';
+
+    import {
+        registerTunnel,
+    } from './logic/registration';
+
+    import clientStore from './services/clientStore';
+
+    import corsOptions from './utilities/cors';
+
+    import mockLogic from './logic/mock';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-const server = express();
-const port = parseInt(process.env.PORT || '') || 3355;
-
-
-let client: any;
-
-
-const registerTunnel = async (
-    request: Request,
-    response: Response,
+const main = (
+    deserveCoreLogic: DeserveCoreLogic,
 ) => {
-    if (response.headersSent) {
-        return;
-    }
+    const server = express();
 
-    const data = request.body;
-    const {
-        token,
-    } = data;
-
-    // verify token
-    // if (token !== '123') {
-    //     const responseData = {
-    //         status: false,
-    //     };
-    //     response.setHeader(
-    //         'Content-Type',
-    //         'application/json',
-    //     );
-    //     response.send(JSON.stringify(responseData));
-
-    //     return;
-    // }
-
-
-    // establish connection
-    const id = Math.random() + '';
-
-    const agent = new TunnelAgent({
-        clientId: id,
-        maxSockets: 10,
-    });
-
-    try {
-        const info: any = await agent.listen();
-        // console.log('info', info);
-
-        client = new Client({
-            id,
-            agent,
-        });
-
-        client.on('offline', () => {
-            client = null;
-        });
-
-        const responseData = {
-            id: id,
-            port: info.port,
-            max_conn_count: 10,
-        };
-        response.setHeader(
-            'Content-Type',
-            'application/json',
-        );
-        response.send(JSON.stringify(responseData));
-    } catch (error) {
-        throw error;
-    }
-}
-
-const corsOptions = {
-    credentials: true,
-    origin: (_: any, callback: any) => {
-        return callback(null, true);
-    },
-}
-
-
-const main = () => {
     server.options('*', cors(corsOptions));
 
     server.use(
         cors(corsOptions),
         bodyParser.json(),
         cookieParser(),
-    );
 
-    server.use((
-        request,
-        response,
-        next,
-    ) => {
-        if (response.headersSent) {
-            return;
-        }
+        // Attach logic
+        (
+            request,
+            _,
+            next,
+        ) => {
+            (request as DeserveRequest).deserveCoreLogic = deserveCoreLogic;
 
-        const path = request.url;
-
-        if (path !== '/') {
             next();
-            return;
-        }
+        },
 
-        if (!client) {
-            const responseData = {
-                status: false,
-            };
-            response.setHeader(
-                'Content-Type',
-                'application/json',
-            );
-            response.send(JSON.stringify(responseData));
-            return;
-        }
+        // Handle request
+        (
+            request,
+            response,
+            next,
+        ) => {
+            if (response.headersSent) {
+                return;
+            }
 
-        next();
-    });
+            const path = request.url;
+
+            if (path !== '/') {
+                next();
+                return;
+            }
+
+            const client = clientStore.get();
+
+            if (!client) {
+                const responseData = {
+                    status: false,
+                };
+                response.setHeader(
+                    'Content-Type',
+                    'application/json',
+                );
+                response.send(JSON.stringify(responseData));
+                return;
+            }
+
+            next();
+        },
+    );
 
     server.post(
         '/register',
@@ -145,6 +97,8 @@ const main = () => {
     );
 
     server.all('*', (req, res) => {
+        const client = clientStore.get();
+
         if (!client) {
             res.status(404).send('404');
             return;
@@ -158,13 +112,14 @@ const main = () => {
         client.handleRequest(req, res);
     });
 
-    const instance = server.listen(port, () => {
-        console.log(`\n\tDeserve Core Server on /, port ${port}\n\thttp://localhost:${port}`);
+    const instance = server.listen(PORT, () => {
+        console.log(`\n\tDeserve Core Server on /, port ${PORT}\n\thttp://localhost:${PORT}`);
     });
 
     instance.on('request', (req, res) => {
         // HACK
         // to account for POST not receiving adequate response in the '*' catch-all.
+        const client = clientStore.get();
 
         const method = req.method;
 
@@ -174,6 +129,8 @@ const main = () => {
     });
 
     instance.on('upgrade', (req, socket, head) => {
+        const client = clientStore.get();
+
         if (!client) {
             socket.destroy();
             return;
@@ -184,5 +141,15 @@ const main = () => {
 }
 
 
-main();
+if (require.main === module) {
+    main(
+        mockLogic,
+    );
+}
 // #endregion module
+
+
+
+// #region exports
+export default main;
+// #endregion exports
