@@ -18,10 +18,10 @@ export const logLevel = QUIET
     : parseInt(LOG_LEVEL);
 
 
-export const DATABASE_TYPE = (process.env.PERFORMER_DATABASE_TYPE as DatabaseType | undefined)
+export const DATABASE_TYPE = (process.env.DESERVE_DATABASE_TYPE as DatabaseType | undefined)
     || 'filesystem';
 
-export const STORAGE_TYPE = (process.env.PERFORMER_STORAGE_TYPE as StorageType | undefined)
+export const STORAGE_TYPE = (process.env.DESERVE_STORAGE_TYPE as StorageType | undefined)
     || 'filesystem';
 
 
