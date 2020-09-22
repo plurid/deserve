@@ -36,7 +36,18 @@ The `deserve node` is part of the [`deserve`](https://github.com/plurid/deserve)
 ## Build
 
 ``` bash
-docker build -t deserve-node -f ./configurations/production.dockerfile .
+docker build \
+    -t deserve-node \
+    -f ./configurations/production.dockerfile \
+    --build-arg JWT_ENCRYPTION=$JWT_ENCRYPTION \
+    .
+```
+
+
+``` bash
+docker run \
+    -d -p 8080:3366 \
+    deserve-node
 ```
 
 
