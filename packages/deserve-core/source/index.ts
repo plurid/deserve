@@ -33,11 +33,12 @@
 
 
 // #region module
+const server = express();
+
+
 const main = (
     deserveCoreLogic: DeserveCoreLogic,
 ) => {
-    const server = express();
-
     server.options('*', cors(corsOptions));
 
     server.use(
@@ -151,5 +152,12 @@ if (require.main === module) {
 
 
 // #region exports
+export * from './data/interfaces';
+
+export {
+    server,
+    clientStore,
+};
+
 export default main;
 // #endregion exports
