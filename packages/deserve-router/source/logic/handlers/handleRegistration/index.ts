@@ -55,8 +55,6 @@ const handleRegister = async (
             return;
         }
 
-        await logic.triggerCoreGeneration();
-
         const responseData = {
             status: true,
             data: {

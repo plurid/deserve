@@ -44,13 +44,8 @@ export type HandleGetPath = (
 ) => Promise<void>;
 
 
-export type TriggerCoreGeneration = (
-) => Promise<void>;
-
-
 export interface DeserveRouterLogic {
     verifyIdentonymKey: VerifyIdentonymKey;
     handleGetPath: HandleGetPath;
-    triggerCoreGeneration: TriggerCoreGeneration;
 }
 // #endregion module

@@ -4,7 +4,6 @@
         DeserveRouterLogic,
         VerifyIdentonymKey,
         HandleGetPath,
-        TriggerCoreGeneration,
     } from '../../data/interfaces';
     // #endregion external
 // #endregion imports
@@ -34,15 +33,9 @@ const handleGetPath: HandleGetPath = async (
 };
 
 
-const triggerCoreGeneration: TriggerCoreGeneration = async (
-) => {
-};
-
-
 const logic: DeserveRouterLogic = {
     verifyIdentonymKey,
     handleGetPath,
-    triggerCoreGeneration,
 };
 // #endregion module
 
