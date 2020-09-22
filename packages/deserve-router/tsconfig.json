@@ -8,36 +8,12 @@
 
         "baseUrl": ".",
         "paths": {
-            "#client/*": [
-                "./source/client/*"
+            "#data/*": [
+                "./source/data/*"
             ],
-            "#server/*": [
-                "./source/server/*"
+            "#logic/*": [
+                "./source/logic/*"
             ],
-            "#kernel-assets/*": [
-                "./source/shared/kernel/assets/*"
-            ],
-            "#kernel-components/*": [
-                "./source/shared/kernel/components/*"
-            ],
-            "#kernel-containers/*": [
-                "./source/shared/kernel/containers/*"
-            ],
-            "#kernel-planes/*": [
-                "./source/shared/kernel/planes/*"
-            ],
-            "#kernel-data/*": [
-                "./source/shared/kernel/data/*"
-            ],
-            "#kernel-services/*": [
-                "./source/shared/kernel/services/*"
-            ],
-            "#routes/*": [
-                "./source/shared/routes/*"
-            ],
-            "#shell/*": [
-                "./source/shared/shell/*"
-            ]
         },
 
         "outDir": "build",

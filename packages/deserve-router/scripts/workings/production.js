@@ -1,21 +1,21 @@
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const merge = require('webpack-merge').merge;
-const nodeExternals = require('webpack-node-externals');
-
-const path = require('path');
-
-const common = require('./common.js');
-
+const {
+    input,
+    output,
+    plugins,
+    externalPackages,
+} = require('./common');
 
 
-module.exports = merge(common, {
-    devtool: 'source-map',
 
-    externals: [ nodeExternals({ }) ],
-
-    mode: 'production',
-
+export default {
+    input,
+    output,
+    external: externalPackages,
     plugins: [
-        new CleanWebpackPlugin(),
+        plugins.external(),
+        plugins.resolve(),
+        plugins.commonjs(),
+        plugins.sourceMaps(),
+        plugins.typescript(),
     ],
-});
+}
