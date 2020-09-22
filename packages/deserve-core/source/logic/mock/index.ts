@@ -1,6 +1,7 @@
 // #region imports
     // #region external
     import {
+        VerifyToken,
         DeserveCoreLogic,
     } from '#data/interfaces';
     // #endregion external
@@ -9,13 +10,16 @@
 
 
 // #region module
+const verifyToken: VerifyToken = async (
+    coreID,
+    token,
+) => {
+    return true;
+};
+
+
 const mock: DeserveCoreLogic = {
-    verifyToken: async (
-        coreID,
-        token,
-    ) => {
-        return true;
-    },
+    verifyToken,
 };
 // #endregion module
 
