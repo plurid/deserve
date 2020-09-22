@@ -30,6 +30,7 @@
 ‡ the <i>few</i> should always be entities that know and meet each other on a near-daily basis; a `deserve` server loses its meaning when 'shared' by thousands or more of mutually unknown, unrelated entities; as a general heuristic, it is better to have thousands of `deserve`s with few entities each than few servers with thousands entities each.
 
 
+
 ### Contents
 
 + [The Why](#the-why)
