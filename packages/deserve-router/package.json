@@ -3,7 +3,8 @@
     "version": "0.0.0",
     "description": "Owner Data Deserver Router",
     "keywords": [
-        "deserve"
+        "deserve",
+        "router"
     ],
     "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
     "license": "MIT",
@@ -22,11 +23,10 @@
     "engines": {
         "node": ">=12.0.0"
     },
-    "main": "distribution/index.js",
-    "module": "distribution/index.es.js",
-    "typings": "distribution/types/index.d.ts",
+    "main": "build/index.js",
+    "typings": "build/index.d.ts",
     "files": [
-        "distribution"
+        "build"
     ],
     "scripts": {
         "start": "node scripts start",
@@ -37,7 +37,9 @@
         "test": "node scripts test",
         "build.local": "node scripts build.local",
         "build.development": "node scripts build.development",
-        "build.production": "node scripts build.production"
+        "build.production": "node scripts build.production",
+        "build.removeTests": "rimraf `find ./build/ -type d -name __tests__`",
+        "prepublish": "yarn build.production && yarn build.removeTests"
     },
     "dependencies": {
         "body-parser": "^1.19.0",

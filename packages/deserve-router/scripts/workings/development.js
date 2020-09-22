@@ -18,4 +18,4 @@ export default {
         plugins.typescript(),
         plugins.sourceMaps(),
     ],
-}
+};
