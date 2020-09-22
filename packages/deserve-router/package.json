@@ -39,7 +39,7 @@
         "build.development": "node scripts build.development",
         "build.production": "node scripts build.production",
         "build.removeTests": "rimraf `find ./build/ -type d -name __tests__`",
-        "prepublish": "yarn build.production && yarn build.removeTests"
+        "prepublishOnly": "yarn build.production && yarn build.removeTests"
     },
     "dependencies": {
         "body-parser": "^1.19.0",
