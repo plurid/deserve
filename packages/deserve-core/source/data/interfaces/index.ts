@@ -14,17 +14,20 @@ export type DeserveRequest = Request & {
 }
 
 
-export interface DeserveCoreLogic {
-    verifyToken: (
-        /**
-         * The `coreID` is set at the `deserve core` startup.
-         */
-        coreID: string,
+export type VerifyToken = (
+    /**
+     * The `coreID` is set at the `deserve core` startup.
+     */
+    coreID: string,
 
-        /**
-         * The `token` is received from the `deserve router`.
-         */
-        token: string,
-    ) => Promise<boolean>;
+    /**
+     * The `token` is received from the `deserve router`.
+     */
+    token: string,
+) => Promise<boolean>;
+
+
+export interface DeserveCoreLogic {
+    verifyToken: VerifyToken;
 }
 // #endregion module
