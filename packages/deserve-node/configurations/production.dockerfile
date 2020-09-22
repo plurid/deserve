@@ -25,6 +25,11 @@ FROM node:12-alpine
 ARG PORT=3366
 
 
+ENV ENV_MODE production
+ENV NODE_ENV production
+ENV PORT $PORT
+
+
 WORKDIR /app
 
 
