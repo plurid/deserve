@@ -64,9 +64,12 @@ const main = (
 }
 
 
-main(
-    mockLogic,
-);
+
+if (require.main === module) {
+    main(
+        mockLogic,
+    );
+}
 // #endregion module
 
 
