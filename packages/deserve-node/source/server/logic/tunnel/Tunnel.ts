@@ -214,7 +214,7 @@ class Tunnel extends EventEmitter {
         this.closed = true;
         this.emit('close');
     }
-};
+}
 // #endregion module
 
 

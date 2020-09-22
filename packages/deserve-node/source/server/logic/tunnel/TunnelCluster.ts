@@ -166,7 +166,7 @@ class TunnelCluster extends EventEmitter {
             connLocal();
         });
     }
-};
+}
 // #endregion module
 
 

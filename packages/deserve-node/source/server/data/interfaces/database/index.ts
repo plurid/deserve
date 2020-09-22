@@ -41,7 +41,7 @@ export interface DatabaseQueryResponse<T> {
     empty: boolean;
     results: T[];
     first?: T;
-};
+}
 
 
 export type DatabaseStore = (

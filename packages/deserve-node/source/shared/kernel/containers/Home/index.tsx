@@ -1,8 +1,6 @@
 // #region imports
     // #region libraries
-    import React, {
-        useEffect,
-    } from 'react';
+    import React from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -51,30 +49,6 @@ export type HomeProperties = HomeOwnProperties
 const Home: React.FC<HomeProperties> = (
     properties,
 ) => {
-    // #region properties
-    const {
-        // #region state
-        // stateGeneralTheme,
-        // stateInteractionTheme,
-        // #endregion state
-
-        // #region dispatch
-        // #endregion dispatch
-    } = properties;
-    // #endregion properties
-
-
-    // #region effects
-    useEffect(() => {
-        const loadData = async () => {
-
-        }
-
-        loadData();
-    }, []);
-    // #endregion effects
-
-
     // #region render
     return (
         <StyledHome>
