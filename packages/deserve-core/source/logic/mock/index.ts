@@ -1,9 +1,9 @@
 // #region imports
-    // #region internal
+    // #region external
     import {
         DeserveCoreLogic,
-    } from '../../data/interfaces';
-    // #endregion internal
+    } from '#data/interfaces';
+    // #endregion external
 // #endregion imports
 
 

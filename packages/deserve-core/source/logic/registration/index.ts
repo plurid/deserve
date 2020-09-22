@@ -7,20 +7,20 @@
     // #endregion libraries
 
 
-    // #region internal
+    // #region external
     import {
         DeserveRequest,
-    } from '../../data/interfaces';
+    } from '#data/interfaces';
 
     import {
         CORE_ID,
-    } from '../../data/constants';
+    } from '#data/constants';
 
-    import Client from '../../objects/Client';
-    import TunnelAgent from '../../objects/TunnelAgent';
+    import Client from '#objects/Client';
+    import TunnelAgent from '#objects/TunnelAgent';
 
-    import clientStore from '../../services/clientStore';
-    // #endregion internal
+    import clientStore from '#services/clientStore';
+    // #endregion external
 // #endregion imports
 
 
