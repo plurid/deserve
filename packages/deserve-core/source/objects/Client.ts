@@ -92,12 +92,6 @@ class Client extends EventEmitter {
             headers,
         };
 
-        // if (method === 'POST' || method === 'PUT') {
-        //     console.log('request.body', request.body);
-        //     console.log('handleRequest', url, method, headers);
-        // }
-        // console.log('opt', opt);
-
         const clientReq = http.request(opt, (clientRes) => {
             // write response code and headers
             response.writeHead(
@@ -116,55 +110,6 @@ class Client extends EventEmitter {
             console.log('clientReq.once', err);
 
             // TODO: if headers not sent - respond with gateway unavailable
-        });
-
-
-        clientReq.on('pipe', () => {
-            console.log('clientReq.pipe', url, method);
-        });
-
-        clientReq.on('continue', () => {
-            console.log('clientReq.continue', url, method);
-        });
-
-        clientReq.on('drain', () => {
-            console.log('clientReq.drain', url, method);
-        });
-
-        clientReq.on('error', () => {
-            console.log('clientReq.error', url, method);
-        });
-
-        clientReq.on('finish', () => {
-            console.log('clientReq.finish', url, method);
-        });
-
-        clientReq.on('information', () => {
-            console.log('clientReq.information', url, method);
-        });
-
-        clientReq.on('response', () => {
-            console.log('clientReq.response', url, method);
-        });
-
-        clientReq.on('socket', () => {
-            console.log('clientReq.socket', url, method);
-        });
-
-        clientReq.on('timeout', () => {
-            console.log('clientReq.timeout', url, method);
-        });
-
-        clientReq.on('upgrade', () => {
-            console.log('clientReq.upgrade', url, method);
-        });
-
-        clientReq.on('connect', () => {
-            console.log('clientReq.connect', url, method);
-        });
-
-        clientReq.on('unpipe', () => {
-            console.log('clientReq.unpipe', url, method);
         });
 
         // using pump is deliberate - see the pump docs for why
