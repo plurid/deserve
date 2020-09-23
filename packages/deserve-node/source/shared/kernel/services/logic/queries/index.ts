@@ -45,6 +45,7 @@ const getCurrentOwner = async (
 
     const query = await client.query({
         query: GET_CURRENT_OWNER,
+        fetchPolicy: 'no-cache',
     });
 
     const response = query.data.getCurrentOwner;
