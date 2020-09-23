@@ -14,6 +14,10 @@ const verifyToken: VerifyToken = async (
     coreID,
     token,
 ) => {
+    if (!token) {
+        return false;
+    }
+
     return true;
 };
 

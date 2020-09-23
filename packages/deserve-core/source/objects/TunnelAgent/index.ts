@@ -5,11 +5,16 @@
     } from 'http';
 
     import net from 'net';
-    // import assert from 'assert';
 
-    // import log from 'book';
     import Debug from 'debug';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        TUNNEL_PORT,
+    } from '#data/constants';
+    // #endregion external
 // #endregion imports
 
 
@@ -87,15 +92,17 @@ class TunnelAgent extends Agent {
         });
 
         return new Promise((resolve) => {
-            server.listen(() => {
-                const port = (server as any).address().port;
-                // console.log('tcp server listening on port: %d', port);
+            server.listen(
+                TUNNEL_PORT,
+                () => {
+                    const port = (server as any).address().port;
+                    // console.log('tcp server listening on port: %d', port);
 
-                resolve({
-                    // port for lt client tcp connections
-                    port: port,
-                });
-            });
+                    resolve({
+                        port,
+                    });
+                },
+            );
         });
     }
 
@@ -196,15 +203,6 @@ class TunnelAgent extends Agent {
         // console.log('socket given');
         cb(null, sock);
     }
-
-    // addSocket(
-    //     socket: any,
-    // ) {
-    //     console.log('new connection from: %s:%s', socket.address().address, socket.address().port);
-
-    //     this.connectedSockets += 1;
-    //     this.availableSockets.push(socket);
-    // }
 
     destroy() {
         this.server.close();
