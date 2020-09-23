@@ -78,8 +78,6 @@ class Tunnel extends EventEmitter {
     _init(
         cb: any,
     ) {
-        // console.log('_init ---');
-
         const opt = this.opts;
         const getInfo = this._getInfo.bind(this);
 
@@ -93,14 +91,18 @@ class Tunnel extends EventEmitter {
         const assignedDomain = opt.subdomain;
         // where to quest
         const uri = baseUri + (assignedDomain || '?new');
-        // console.log('uri', uri);
 
         (function getUrl() {
             axios
-                .post(uri, params)
+                .post(
+                    uri,
+                    {
+                        token: opt.token,
+                    },
+                    params,
+                )
                 .then((res: any) => {
                     const body = res.data;
-                    // debug('got tunnel information', res.data);
                     // console.log('got tunnel information', res.data);
                     if (res.status !== 200) {
                         const err = new Error(

@@ -52,22 +52,23 @@ const registerNodeToCore = async (
     url: string,
     token: string,
 ) => {
-    const data = {
-        token,
-    };
+    // const data = {
+    //     token,
+    // };
 
-    const response = await fetch(
-        url,
-        {
-            method: 'post',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        },
-    );
+    // const response = await fetch(
+    //     url,
+    //     {
+    //         method: 'post',
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     },
+    // );
 
-    const responseData = await response.json();
+    // const responseData = await response.json();
+    // console.log('responseData', responseData);
 
     const parsedURL = parse(url);
 
@@ -77,6 +78,7 @@ const registerNodeToCore = async (
         id,
         port: PORT,
         host,
+        token,
     });
 
     return {
