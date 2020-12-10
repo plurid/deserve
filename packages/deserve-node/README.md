@@ -30,6 +30,7 @@ The `deserve node` is part of the [`deserve`](https://github.com/plurid/deserve)
 
 + [Build](#build)
 + [Packages](#packages)
++ [Codeophon](#codeophon)
 
 
 
@@ -80,3 +81,10 @@ docker run \
 [@plurid/deserve-router][deserve-router] • service-side
 
 [deserve-router]: https://github.com/plurid/deserve/tree/master/packages/deserve-router
+
+
+
+## [Codeophon](https://github.com/ly3xqhl8g9/codeophon)
+
++ licensing: [delicense](https://github.com/ly3xqhl8g9/delicense)
++ versioning: [αver](https://github.com/ly3xqhl8g9/alpha-versioning)

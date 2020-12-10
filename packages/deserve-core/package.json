@@ -1,6 +1,6 @@
 {
     "name": "@plurid/deserve-core",
-    "version": "0.0.3",
+    "version": "0.0.0-0",
     "description": "Owner Data Deserver Core",
     "keywords": [
         "deserve",
@@ -18,10 +18,12 @@
     },
     "homepage": "https://github.com/plurid/deserve/blob/master/packages/deserve-core/README.md",
     "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
         "access": "public"
     },
     "engines": {
-        "node": ">=12.0.0"
+        "node": ">=12",
+        "npm": ">=6"
     },
     "main": "build/index.js",
     "typings": "build/index.d.ts",
@@ -52,26 +54,26 @@
         "pump": "^3.0.0"
     },
     "devDependencies": {
-        "@rollup/plugin-commonjs": "^16.0.0",
-        "@rollup/plugin-node-resolve": "^10.0.0",
+        "@rollup/plugin-commonjs": "^17.0.0",
+        "@rollup/plugin-node-resolve": "^11.0.0",
         "@types/cookie-parser": "^1.4.2",
-        "@types/cors": "^2.8.8",
+        "@types/cors": "^2.8.9",
         "@types/debug": "^4.1.5",
-        "@types/jest": "^26.0.15",
-        "@types/node": "^14.14.7",
+        "@types/jest": "^26.0.18",
+        "@types/node": "^14.14.12",
         "@types/pump": "^1.1.0",
-        "@typescript-eslint/eslint-plugin": "^4.7.0",
-        "@typescript-eslint/parser": "^4.7.0",
+        "@typescript-eslint/eslint-plugin": "^4.9.1",
+        "@typescript-eslint/parser": "^4.9.1",
         "concurrently": "^5.3.0",
-        "eslint": "^7.13.0",
+        "eslint": "^7.15.0",
         "jest": "^26.6.3",
         "nodemon": "^2.0.6",
         "rimraf": "^3.0.2",
-        "rollup": "^2.33.2",
+        "rollup": "^2.34.2",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-sourcemaps": "^0.6.3",
         "rollup-plugin-typescript2": "^0.29.0",
         "ts-jest": "^26.4.4",
-        "typescript": "^4.0.5"
+        "typescript": "^4.1.2"
     }
 }
