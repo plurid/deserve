@@ -8,10 +8,10 @@
         PluridServerTemplateConfiguration,
     } from '@plurid/plurid-react-server';
 
-    import helmet from '#kernel-services/helmet';
+    import helmet from '~kernel-services/helmet';
 
-    import reduxStore from '#kernel-services/state/store';
-    import apolloClient from '#kernel-services/graphql/client';
+    import reduxStore from '~kernel-services/state/store';
+    import apolloClient from '~kernel-services/graphql/client';
     // #endregion libraries
 
 

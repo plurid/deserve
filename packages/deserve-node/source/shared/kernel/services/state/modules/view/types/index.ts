@@ -2,7 +2,7 @@
     // #region external
     import {
         ClientOwner,
-    } from '#server/data/interfaces/general';
+    } from '~server/data/interfaces/general';
     // #endregion external
 // #endregion imports
 

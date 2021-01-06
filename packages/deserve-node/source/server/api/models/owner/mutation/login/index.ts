@@ -3,15 +3,15 @@
     import {
         Context,
         InputLogin,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
-    import database from '#server/services/database';
+    import database from '~server/services/database';
 
     import {
         validateKey,
         generateToken,
         setCookieTokens,
-    } from '#server/utilities';
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 

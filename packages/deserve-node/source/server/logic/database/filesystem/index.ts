@@ -14,14 +14,14 @@
         DatabaseUpdate,
         DatabaseObliterate,
         DatabaseObliterateAll,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
     import {
         DATA_OWNERS,
         DATA_CORES,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
-    import filesystemStorage from '#server/logic/storage/filesystem';
+    import filesystemStorage from '~server/logic/storage/filesystem';
     // #endregion external
 // #endregion imports
 

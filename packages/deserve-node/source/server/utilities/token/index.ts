@@ -17,14 +17,14 @@
     import {
         Owner,
         Core,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
     import {
         COOKIE_DOMAIN,
         COOKIE_OWNER_TOKEN,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
-    import database from '#server/services/database';
+    import database from '~server/services/database';
 
     import {
         clientOwner,

@@ -13,7 +13,7 @@
     // #region external
     import {
         Context,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
     import {
         GRAPHQL_FAVICON,
@@ -22,16 +22,16 @@
 
         logLevel,
         logLevels,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
     import {
         resolvers,
         schemas,
-    } from '#server/api';
+    } from '~server/api';
 
     import {
         tradeTokenForOwner,
-    } from '#server/utilities';
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 

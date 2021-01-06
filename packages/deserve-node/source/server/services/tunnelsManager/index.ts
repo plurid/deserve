@@ -1,6 +1,6 @@
 // #region imports
     // #region external
-    import TunnelsManager from '#server/logic/tunnel/TunnelsManager';
+    import TunnelsManager from '~server/logic/tunnel/TunnelsManager';
     // #endregion external
 // #endregion imports
 

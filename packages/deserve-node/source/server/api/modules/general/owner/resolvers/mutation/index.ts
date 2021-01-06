@@ -5,11 +5,11 @@
         Context,
         InputRegisterOwner,
         InputLogin,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
     import {
         Owner,
-    } from '#server/api/models';
+    } from '~server/api/models';
     // #endregion external
 // #endregion imports
 

@@ -3,11 +3,11 @@
     import {
         Owner,
         ClientOwner,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
-    import tunnelsManager from '#server/services/tunnelsManager';
+    import tunnelsManager from '~server/services/tunnelsManager';
 
-    import database from '#server/services/database';
+    import database from '~server/services/database';
     // #endregion external
 // #endregion imports
 

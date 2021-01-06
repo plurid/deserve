@@ -12,7 +12,7 @@
     // #region external
     import {
         GRAPHQL_ENDPOINT,
-    } from '#server/data/constants/graphql';
+    } from '~server/data/constants/graphql';
     // #endregion external
 // #endregion imports
 

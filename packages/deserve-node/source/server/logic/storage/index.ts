@@ -2,12 +2,12 @@
     // #region libraries
     import {
         storageType,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
     import {
         StorageType,
         StorageUploadKind,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
     // #endregion libraries
 
     // #region internal

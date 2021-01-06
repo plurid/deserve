@@ -2,11 +2,11 @@
     // #region external
     import {
         databaseType,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
     import {
         DatabaseType,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
     // #endregion external
 
     // #region internal

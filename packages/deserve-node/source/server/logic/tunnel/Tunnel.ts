@@ -15,7 +15,7 @@
 
 
     // #region external
-    import tunnelsManager from '#server/services/tunnelsManager';
+    import tunnelsManager from '~server/services/tunnelsManager';
     // #endregion external
 
 

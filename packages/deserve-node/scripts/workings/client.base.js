@@ -129,6 +129,10 @@ const baseConfig = {
                 configFile: path.resolve(__dirname, '../../tsconfig.json'),
             }),
         ],
+
+        alias: {
+            crypto: false,
+        },
     },
 
     stats: {

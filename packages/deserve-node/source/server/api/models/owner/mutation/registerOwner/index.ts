@@ -11,16 +11,16 @@
         Context,
         InputRegisterOwner,
         Owner,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
-    import database from '#server/services/database';
+    import database from '~server/services/database';
 
     import {
         hashKey,
         generateToken,
         setCookieTokens,
         clientOwner,
-    } from '#server/utilities';
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 

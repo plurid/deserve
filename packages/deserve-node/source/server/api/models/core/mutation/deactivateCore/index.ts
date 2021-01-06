@@ -3,11 +3,11 @@
     import {
         Context,
         InputValueString,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
-    import database from '#server/services/database';
+    import database from '~server/services/database';
 
-    import tunnelsManager from '#server/services/tunnelsManager';
+    import tunnelsManager from '~server/services/tunnelsManager';
     // #endregion external
 // #endregion imports
 

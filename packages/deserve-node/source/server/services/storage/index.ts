@@ -2,9 +2,9 @@
     // #region external
     import {
         STORAGE_TYPE,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
-    import Storage from '#server/logic/storage';
+    import Storage from '~server/logic/storage';
     // #endregion external
 // #endregion imports
 

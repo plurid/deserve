@@ -15,16 +15,16 @@
         Context,
         InputRegisterCore,
         Core,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
-    import database from '#server/services/database';
+    import database from '~server/services/database';
 
-    import tunnelsManager from '#server/services/tunnelsManager';
+    import tunnelsManager from '~server/services/tunnelsManager';
 
     import {
         registerNodeToRouter,
         registerNodeToCore,
-    } from '#server/logic/registration';
+    } from '~server/logic/registration';
     // #endregion external
 // #endregion imports
 

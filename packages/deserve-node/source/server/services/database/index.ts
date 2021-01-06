@@ -2,9 +2,9 @@
     // #region external
     import {
         DATABASE_TYPE,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
-    import Database from '#server/logic/database';
+    import Database from '~server/logic/database';
     // #endregion external
 // #endregion imports
 

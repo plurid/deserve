@@ -2,17 +2,17 @@
     // #region external
     import {
         Context,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
     import {
         COOKIE_EMPTY_VALUE,
-    } from '#server/data/constants';
+    } from '~server/data/constants';
 
-    import database from '#server/services/database';
+    import database from '~server/services/database';
 
     import {
         setCookieTokens,
-    } from '#server/utilities';
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
