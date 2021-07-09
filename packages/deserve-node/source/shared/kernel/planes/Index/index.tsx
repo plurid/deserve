@@ -10,6 +10,7 @@
 
     // #region external
     import { AppState } from '~kernel-services/state/store';
+    import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
     // import actions from '~kernel-services/state/actions';
     // #endregion external
@@ -95,6 +96,10 @@ const mapDispatchToProperties = (
 const ConnectedIndex =connect(
     mapStateToProperties,
     mapDispatchToProperties,
+    null,
+    {
+        context: StateContext,
+    },
 )(Index);
 // #endregion module
 
