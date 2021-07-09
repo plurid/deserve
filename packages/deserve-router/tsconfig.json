@@ -8,10 +8,10 @@
 
         "baseUrl": ".",
         "paths": {
-            "#data/*": [
+            "~data/*": [
                 "./source/data/*"
             ],
-            "#logic/*": [
+            "~logic/*": [
                 "./source/logic/*"
             ],
         },
