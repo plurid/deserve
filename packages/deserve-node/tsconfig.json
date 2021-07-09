@@ -32,6 +32,9 @@
             "~kernel-services/*": [
                 "./source/shared/kernel/services/*"
             ],
+            "~planes/*": [
+                "./source/shared/planes/*"
+            ],
             "~routes/*": [
                 "./source/shared/routes/*"
             ],
