@@ -50,7 +50,9 @@ const handleRegister = async (
         );
 
         if (!logicResponse.status) {
-            response.send(JSON.stringify(unsuccessfulResponse));
+            response
+                .status(404)
+                .json(unsuccessfulResponse);
 
             return;
         }
@@ -62,11 +64,13 @@ const handleRegister = async (
             },
         };
 
-        response.send(JSON.stringify(responseData));
+        response.json(responseData);
 
         return;
     } catch (error) {
-        response.send(JSON.stringify(unsuccessfulResponse));
+        response
+            .status(500)
+            .json(unsuccessfulResponse);
 
         return;
     }
