@@ -3,7 +3,9 @@
     import express from 'express';
 
     import cors from 'cors';
-    import bodyParser from 'body-parser';
+    import {
+        json as jsonParser,
+    } from 'body-parser';
     import cookieParser from 'cookie-parser';
     // #endregion libraries
 
@@ -33,18 +35,18 @@
 
 
 // #region module
-const server = express();
+const server: express.Application = express();
 
 
 const main = (
     deserveCoreLogic: DeserveCoreLogic,
 ) => {
-    server.options('*', cors(corsOptions));
+    server.options('*', cors(corsOptions) as any);
 
     server.use(
-        cors(corsOptions),
-        bodyParser.json(),
-        cookieParser(),
+        cors(corsOptions) as any,
+        jsonParser() as any,
+        cookieParser() as any,
 
         // Attach logic
         (
