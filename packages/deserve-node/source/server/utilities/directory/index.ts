@@ -49,7 +49,7 @@ const copyDirectory = async (
                 // reject(0);
             }
 
-            resolve();
+            resolve(true);
         });
     });
 }
