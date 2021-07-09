@@ -8,19 +8,19 @@
 
         "baseUrl": ".",
         "paths": {
-            "#data/*": [
+            "~data/*": [
                 "./source/data/*"
             ],
-            "#logic/*": [
+            "~logic/*": [
                 "./source/logic/*"
             ],
-            "#objects/*": [
+            "~objects/*": [
                 "./source/objects/*"
             ],
-            "#services/*": [
+            "~services/*": [
                 "./source/services/*"
             ],
-            "#utilities/*": [
+            "~utilities/*": [
                 "./source/utilities/*"
             ],
         },
