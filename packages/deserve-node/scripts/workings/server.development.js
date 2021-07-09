@@ -2,7 +2,6 @@ const {
     input,
     output,
     plugins,
-    externalPackages,
 } = require('./server.base');
 
 
@@ -10,7 +9,6 @@ const {
 export default {
     input,
     output,
-    external: externalPackages,
     plugins: [
         plugins.postcss(),
         plugins.url(),
@@ -22,4 +20,4 @@ export default {
         plugins.typescript(),
         plugins.sourceMaps(),
     ],
-}
+};
