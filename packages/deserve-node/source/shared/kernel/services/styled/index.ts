@@ -21,6 +21,9 @@ const {
         Switch: PluridSwitch,
         Dropdown: PluridDropdown,
     },
+    form: {
+        FormLeftRight: PluridFormLeftRight,
+    },
 } = universal;
 
 
@@ -52,5 +55,7 @@ export {
     PluridSwitch,
     PluridTextline,
     PluridDropdown,
+
+    PluridFormLeftRight,
 };
 // #endregion module

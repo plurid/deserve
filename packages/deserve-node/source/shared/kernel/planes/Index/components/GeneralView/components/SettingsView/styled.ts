@@ -5,7 +5,7 @@
     import {
         PluridFormLeftRight,
         PluridTextline,
-    } from '@plurid/plurid-ui-react';
+    } from '~kernel-services/styled';
     // #endregion libraries
 // #endregion imports
 
