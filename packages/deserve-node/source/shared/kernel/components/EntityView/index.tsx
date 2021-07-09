@@ -10,14 +10,17 @@
     } from '@plurid/plurid-themes';
 
     import {
-        PluridTextline,
-        PluridPureButton,
-    } from '@plurid/plurid-ui-react';
-
-    import {
         PluridIconReset,
     } from '@plurid/plurid-icons-react';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        PluridTextline,
+        PluridPureButton,
+    } from '~kernel-services/styled';
+    // #endregion external
 
 
     // #region internal

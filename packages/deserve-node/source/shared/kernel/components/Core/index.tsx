@@ -14,21 +14,21 @@
     // #region external
     import {
         ClientCore,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
 
     import {
         addEntityMutation,
-    } from '#kernel-services/logic/mutations';
+    } from '~kernel-services/logic/mutations';
 
     import {
         REGISTER_CORE,
-    } from '#kernel-services/graphql/mutate';
+    } from '~kernel-services/graphql/mutate';
 
     import {
         StyledPluridTextline,
         StyledPluridPureButton,
         StyledPluridLinkButton,
-    } from '#kernel-services/styled';
+    } from '~kernel-services/styled';
     // #endregion external
 
 
