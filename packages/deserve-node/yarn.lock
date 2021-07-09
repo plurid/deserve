@@ -880,6 +880,23 @@
     encoding "^0.1.13"
     sync-fetch "^0.3.0"
 
+"@plurid/elementql-client-react@^0.0.0-1":
+  version "0.0.0-1"
+  resolved "https://npm.plurid.cloud/@plurid%2felementql-client-react/-/elementql-client-react-0.0.0-1.tgz#e4d44bdc3392e1e978890cfe7c613239e5586cf4"
+  integrity sha512-Ve+7E1yQGNiNjyz+rC3KskK1f+AR/Ihyu6mPFE8y/raBnNVCB6ghoUZWjbaeVcyH5vWvRrNmp9lIqDDXtac1VQ==
+  dependencies:
+    "@plurid/elementql-client" "^0.0.0-1"
+
+"@plurid/elementql-client@^0.0.0-1":
+  version "0.0.0-1"
+  resolved "https://npm.plurid.cloud/@plurid%2felementql-client/-/elementql-client-0.0.0-1.tgz#07bba33786a56e34c92e4de1acb87c806415347b"
+  integrity sha512-gskixEW98sFNh0wQ7j2eK8peaM7+yyoh6t/yesjnnTqaw69tH11wUmhaUuBL/BWeXhy3BXgCknoXgss5ItHnUQ==
+
+"@plurid/elementql@^0.0.0-1":
+  version "0.0.0-1"
+  resolved "https://npm.plurid.cloud/@plurid%2felementql/-/elementql-0.0.0-1.tgz#6639dd5b71c72cd2df0bf16b615b2e4dfab54af3"
+  integrity sha512-ZhIRA9sGeegviDNFEdA71leocIwPXwU4vK81p+B7UEhBRl0hZ+O9pD1Rr5wuW9rU5FtfjDnEprntmyVi0ZEL4Q==
+
 "@plurid/plurid-data@^0.0.0-5":
   version "0.0.0-5"
   resolved "https://npm.plurid.cloud/@plurid%2fplurid-data/-/plurid-data-0.0.0-5.tgz#7a5083827dc3006a8dd328e9cdd0430ce2c2127b"
@@ -5229,6 +5246,15 @@ jest-watcher@^27.0.6:
     jest-util "^27.0.6"
     string-length "^4.0.1"
 
+jest-worker@^26.2.1:
+  version "26.6.2"
+  resolved "https://npm.plurid.cloud/jest-worker/-/jest-worker-26.6.2.tgz#7f72cbc4d643c365e27b9fd775f9d0eaa9c7a8ed"
+  integrity sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==
+  dependencies:
+    "@types/node" "*"
+    merge-stream "^2.0.0"
+    supports-color "^7.0.0"
+
 jest-worker@^27.0.2, jest-worker@^27.0.6:
   version "27.0.6"
   resolved "https://npm.plurid.cloud/jest-worker/-/jest-worker-27.0.6.tgz#a5fdb1e14ad34eb228cfe162d9f729cdbfa28aed"
@@ -6998,6 +7024,16 @@ rollup-plugin-sourcemaps@^0.6.3:
     "@rollup/pluginutils" "^3.0.9"
     source-map-resolve "^0.6.0"
 
+rollup-plugin-terser@^7.0.2:
+  version "7.0.2"
+  resolved "https://npm.plurid.cloud/rollup-plugin-terser/-/rollup-plugin-terser-7.0.2.tgz#e8fbba4869981b2dc35ae7e8a502d5c6c04d324d"
+  integrity sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==
+  dependencies:
+    "@babel/code-frame" "^7.10.4"
+    jest-worker "^26.2.1"
+    serialize-javascript "^4.0.0"
+    terser "^5.0.0"
+
 rollup-plugin-typescript2@^0.30.0:
   version "0.30.0"
   resolved "https://npm.plurid.cloud/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.30.0.tgz#1cc99ac2309bf4b9d0a3ebdbc2002aecd56083d3"
@@ -7146,6 +7182,13 @@ send@0.17.1:
     on-finished "~2.3.0"
     range-parser "~1.2.1"
     statuses "~1.5.0"
+
+serialize-javascript@^4.0.0:
+  version "4.0.0"
+  resolved "https://npm.plurid.cloud/serialize-javascript/-/serialize-javascript-4.0.0.tgz#b525e1238489a5ecfc42afacc3fe99e666f4b1aa"
+  integrity sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==
+  dependencies:
+    randombytes "^2.1.0"
 
 serialize-javascript@^6.0.0:
   version "6.0.0"
@@ -7694,7 +7737,7 @@ terser-webpack-plugin@^5.1.3, terser-webpack-plugin@^5.1.4:
     source-map "^0.6.1"
     terser "^5.7.0"
 
-terser@^5.7.0:
+terser@^5.0.0, terser@^5.7.0:
   version "5.7.1"
   resolved "https://npm.plurid.cloud/terser/-/terser-5.7.1.tgz#2dc7a61009b66bb638305cb2a824763b116bf784"
   integrity sha512-b3e+d5JbHAe/JSjwsC3Zn55wsBIM7AsHLjKxT31kGCldgbpFePaFo+PiddtO6uwRZWRw7sPXmAN8dTW61xmnSg==

@@ -55,6 +55,8 @@
     "dependencies": {
         "@apollo/client": "^3.3.21",
         "@plurid/deon": "^0.0.0-4",
+        "@plurid/elementql": "^0.0.0-1",
+        "@plurid/elementql-client-react": "^0.0.0-1",
         "@plurid/plurid-data": "^0.0.0-5",
         "@plurid/plurid-engine": "^0.0.0-4",
         "@plurid/plurid-functions": "^0.0.0-5",
@@ -132,6 +134,7 @@
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-postcss": "^4.0.0",
         "rollup-plugin-sourcemaps": "^0.6.3",
+        "rollup-plugin-terser": "^7.0.2",
         "rollup-plugin-typescript2": "^0.30.0",
         "source-map-loader": "^3.0.0",
         "style-loader": "^3.0.0",
