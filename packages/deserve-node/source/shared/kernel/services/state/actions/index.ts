@@ -2,6 +2,7 @@
     // #region external
     import {
         data,
+        general,
         themes,
         view,
     } from '../modules';
@@ -12,6 +13,7 @@
 
 // #region module
 const actions = {
+    general: general.actions,
     data: data.actions,
     themes: themes.actions,
     view: view.actions,

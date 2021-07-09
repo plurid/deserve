@@ -17,11 +17,11 @@
 //     navigator.serviceWorker.register('/service-worker.js');
 // }
 
-const performerApp = document.getElementById('deserve-application');
+const deserveApp = document.getElementById('deserve-application');
 
 
 ReactDOM.hydrate(
     <Client />,
-    performerApp,
+    deserveApp,
 );
 // #endregion module

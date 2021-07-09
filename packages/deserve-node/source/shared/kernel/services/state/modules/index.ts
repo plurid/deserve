@@ -1,6 +1,7 @@
 // #region imports
     // #region internal
     import * as data from './data';
+    import * as general from './general';
     import * as themes from './themes';
     import * as view from './view';
     // #endregion internal
@@ -11,6 +12,7 @@
 // #region exports
 export {
     data,
+    general,
     themes,
     view,
 };

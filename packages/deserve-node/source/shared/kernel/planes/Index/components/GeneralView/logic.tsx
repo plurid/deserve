@@ -19,7 +19,7 @@
     // #region external
     import deserveLogo from '../../assets/deserve-logo.png';
 
-    import Core from '#kernel-components/Core';
+    import Core from '~kernel-components/Core';
     // #endregion external
 
 

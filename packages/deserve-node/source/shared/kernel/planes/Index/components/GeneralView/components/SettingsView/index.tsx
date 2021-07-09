@@ -12,17 +12,17 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
-
-    import {
-        PluridDropdown,
-    } from '@plurid/plurid-ui-react';
     // #endregion libraries
 
 
     // #region external
-    import { AppState } from '#kernel-services/state/store';
-    import selectors from '#kernel-services/state/selectors';
-    import actions from '#kernel-services/state/actions';
+    import {
+        PluridDropdown,
+    } from '~kernel-services/styled';
+
+    import { AppState } from '~kernel-services/state/store';
+    import selectors from '~kernel-services/state/selectors';
+    import actions from '~kernel-services/state/actions';
     // #endregion external
 
 
@@ -47,14 +47,6 @@ export interface SettingsViewOwnProperties {
         setGeneralView: any;
         // #endregion methods
     // #endregion required
-
-    // #region optional
-        // #region values
-        // #endregion values
-
-        // #region methods
-        // #endregion methods
-    // #endregion optional
 }
 
 export interface SettingsViewStateProperties {
@@ -84,14 +76,6 @@ const SettingsView: React.FC<SettingsViewProperties> = (
             setGeneralView,
             // #endregion methods
         // #endregion required
-
-        // #region optional
-            // #region values
-            // #endregion values
-
-            // #region methods
-            // #endregion methods
-        // #endregion optional
 
         // #region state
         stateGeneralTheme,

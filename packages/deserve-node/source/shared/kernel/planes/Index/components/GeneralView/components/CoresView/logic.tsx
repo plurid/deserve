@@ -8,10 +8,6 @@
     } from '@plurid/plurid-icons-react';
 
     import {
-        PluridSwitch,
-    } from '@plurid/plurid-ui-react';
-
-    import {
         clipboard,
     } from '@plurid/plurid-functions';
     // #endregion libraries
@@ -20,11 +16,15 @@
     // #region external
     import {
         ClientCore,
-    } from '#server/data/interfaces';
+    } from '~server/data/interfaces';
+
+    import {
+        PluridSwitch,
+    } from '~kernel-services/styled';
 
     import {
         cleanDomainName,
-    } from '#kernel-services/utilities';
+    } from '~kernel-services/utilities';
     // #endregion external
 // #endregion imports
 

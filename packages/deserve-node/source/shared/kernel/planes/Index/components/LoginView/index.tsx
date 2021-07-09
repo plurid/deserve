@@ -7,33 +7,33 @@
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
     import { ThunkDispatch } from 'redux-thunk';
-
-    import {
-        PluridPureButton,
-        PluridLinkButton,
-    } from '@plurid/plurid-ui-react';
     // #endregion libraries
 
 
     // #region external
     import deserveLogo from '../../assets/deserve-logo.png';
 
-    import client from '#kernel-services/graphql/client';
+    import {
+        PluridPureButton,
+        PluridLinkButton,
+    } from '~kernel-services/styled';
+
+    import client from '~kernel-services/graphql/client';
     import {
         LOGIN,
-    } from '#kernel-services/graphql/mutate';
+    } from '~kernel-services/graphql/mutate';
 
     import {
         getCurrentOwner,
-    } from '#kernel-services/logic/queries';
+    } from '~kernel-services/logic/queries';
 
     import {
         StyledPluridTextline,
-    } from '#kernel-services/styled';
+    } from '~kernel-services/styled';
 
-    import { AppState } from '#kernel-services/state/store';
-    import selectors from '#kernel-services/state/selectors';
-    import actions from '#kernel-services/state/actions';
+    import { AppState } from '~kernel-services/state/store';
+    import selectors from '~kernel-services/state/selectors';
+    import actions from '~kernel-services/state/actions';
     // #endregion external
 
 

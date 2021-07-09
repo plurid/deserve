@@ -9,6 +9,7 @@
     // #region external
     import {
         data,
+        general,
         themes,
         view,
     } from '../../modules';
@@ -20,6 +21,7 @@
 // #region module
 const reducers = combineReducers({
     data: data.reducer,
+    general: general.reducer,
     themes: themes.reducer,
     view: view.reducer,
 });

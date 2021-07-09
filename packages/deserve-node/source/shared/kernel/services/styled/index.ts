@@ -3,16 +3,28 @@
     import styled from 'styled-components';
 
     import {
-        PluridTextline,
-        PluridPureButton,
-        PluridLinkButton,
-    } from '@plurid/plurid-ui-react';
+        universal,
+    } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 // #endregion imports
 
 
 
 // #region module
+const {
+    buttons: {
+        PureButton: PluridPureButton,
+        LinkButton: PluridLinkButton,
+    },
+    inputs: {
+        Textline: PluridTextline,
+        Switch: PluridSwitch,
+        Dropdown: PluridDropdown,
+    },
+} = universal;
+
+
+
 export const StyledPluridTextline = styled(PluridTextline)`
     margin: 20px auto;
     width: 350px;
@@ -30,4 +42,15 @@ export const StyledPluridLinkButton = styled(PluridLinkButton)`
     place-content: center;
     margin: 30px auto;
 `;
+
+
+
+export {
+    PluridPureButton,
+    PluridLinkButton,
+
+    PluridSwitch,
+    PluridTextline,
+    PluridDropdown,
+};
 // #endregion module

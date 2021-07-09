@@ -9,7 +9,7 @@
     import { ThunkDispatch } from 'redux-thunk';
 
     import {
-        PluridComponent,
+        PluridReactComponent,
     } from '@plurid/plurid-react';
     // #endregion libraries
 
@@ -17,11 +17,11 @@
     // #region external
     import {
         getCurrentOwner,
-    } from '#kernel-services/logic/queries';
+    } from '~kernel-services/logic/queries';
 
-    import { AppState } from '#kernel-services/state/store';
-    import selectors from '#kernel-services/state/selectors';
-    import actions from '#kernel-services/state/actions';
+    import { AppState } from '~kernel-services/state/store';
+    import selectors from '~kernel-services/state/selectors';
+    import actions from '~kernel-services/state/actions';
     // #endregion external
 
 
@@ -47,9 +47,11 @@ export interface ShellDispatchProperties {
     dispatchSetViewType: typeof actions.view.setViewType;
 }
 
-export type ShellProperties = ShellOwnProperties
+export type ShellProperties =
+    & ShellOwnProperties
     & ShellStateProperties
     & ShellDispatchProperties;
+
 
 const Shell: React.FC<ShellProperties> = (
     properties,
@@ -156,10 +158,7 @@ const ConnectedShell = connect(
 )(Shell);
 
 
-const shell: PluridComponent = {
-    kind: 'react',
-    element: ConnectedShell,
-};
+const shell: PluridReactComponent = ConnectedShell;
 // #endregion module
 
 

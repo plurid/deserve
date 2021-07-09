@@ -4,7 +4,9 @@
         Express,
     } from 'express';
 
-    import bodyParser from 'body-parser';
+    import {
+        json as jsonParser,
+    } from 'body-parser';
     import cookieParser from 'cookie-parser';
     import cors from 'cors';
     // #endregion libraries
@@ -33,14 +35,14 @@ const corsOptions = {
 const setupMiddleware = async (
     instance: Express,
 ) => {
-    instance.options('*', cors(corsOptions));
+    instance.options('*', cors(corsOptions) as any);
 
     instance.use(
-        cors(corsOptions),
-        cookieParser(),
-        bodyParser.json({
+        cors(corsOptions) as any,
+        cookieParser() as any,
+        jsonParser({
             limit: '100mb',
-        }),
+        }) as any,
     );
 
     instance.post(
