@@ -2,7 +2,9 @@
     // #region libraries
     import express from 'express';
 
-    import bodyParser from 'body-parser';
+    import {
+        json as jsonParser,
+    } from 'body-parser';
     // #endregion libraries
 
 
@@ -29,7 +31,7 @@
 
 
 // #region module
-const server = express();
+const server: express.Application = express();
 
 
 const main = (
@@ -37,7 +39,7 @@ const main = (
 ) => {
     // Middlewares.
     server.use(
-        bodyParser.json(),
+        jsonParser() as any,
         (request, _, next) => {
             (request as DeserveRequest).deserveLogic = logic;
             next();
