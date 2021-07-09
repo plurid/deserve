@@ -50,11 +50,9 @@ const registerTunnel = async (
         const responseData = {
             status: false,
         };
-        response.setHeader(
-            'Content-Type',
-            'application/json',
-        );
-        response.send(JSON.stringify(responseData));
+        response
+            .status(404)
+            .json(responseData);
 
         return;
     }
@@ -87,13 +85,10 @@ const registerTunnel = async (
             port: info.port,
             max_conn_count: 10,
         };
-        response.setHeader(
-            'Content-Type',
-            'application/json',
-        );
-        response.send(JSON.stringify(responseData));
+
+        response.json(responseData);
     } catch (error) {
-        throw error;
+        console.log(`Deserve Core Error ::`, error);
     }
 }
 // #endregion module

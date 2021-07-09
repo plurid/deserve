@@ -70,23 +70,17 @@ const main = (
             }
 
             const path = request.url;
-
             if (path !== '/') {
                 next();
                 return;
             }
 
             const client = clientStore.get();
-
             if (!client) {
                 const responseData = {
                     status: false,
                 };
-                response.setHeader(
-                    'Content-Type',
-                    'application/json',
-                );
-                response.send(JSON.stringify(responseData));
+                response.json(responseData);
                 return;
             }
 
