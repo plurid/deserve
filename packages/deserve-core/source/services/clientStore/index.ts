@@ -1,6 +1,6 @@
 // #region imports
     // #region external
-    import ClientStore from '#objects/ClientStore';
+    import ClientStore from '~objects/ClientStore';
     // #endregion external
 // #endregion imports
 

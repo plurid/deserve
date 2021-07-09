@@ -3,7 +3,7 @@
     import {
         VerifyToken,
         DeserveCoreLogic,
-    } from '#data/interfaces';
+    } from '~data/interfaces';
     // #endregion external
 // #endregion imports
 

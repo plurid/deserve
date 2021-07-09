@@ -13,7 +13,7 @@
     // #region external
     import {
         TUNNEL_PORT,
-    } from '#data/constants';
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 
