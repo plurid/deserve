@@ -24,7 +24,7 @@
 <br />
 
 
-`deserve` is a conception of <i>generator-owned data inter-transfer</i>† and an implementation of such a data server to be queried by network services for data owned by one or <i>few</i>† entities.
+`deserve` is a conception of <i>generator-owned data inter-transfer</i>† and an implementation of such a data server, owned by one or <i>few</i>† entities, to be queried by network services for data.
 
 
 † <i>generator-owned data</i> means that the entity which generated a piece of data is ultimately the entity which controls, owns that data; <i>data inter-transfer</i> means that the data is ultimately meant to be used, shared in a network of entities and services;
