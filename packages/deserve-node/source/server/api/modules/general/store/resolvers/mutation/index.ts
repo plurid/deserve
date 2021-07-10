@@ -2,6 +2,15 @@
     // #region external
     import {
         Context,
+        InputOf,
+
+        InputStoreBlob,
+        InputStoreKey,
+
+        InputUpdateKey,
+
+        InputDeleteBlob,
+        InputDeleteKey,
     } from '~server/data/interfaces';
 
     import {
@@ -14,35 +23,47 @@
 
 // #region exports
 export default {
-    requestBlob: (
-        _: any,
-        { input }: any,
-        context: Context,
-    ) => Store.Mutation.requestBlob(
-        input,
-        context,
-    ),
     storeBlob: (
         _: any,
-        { input }: any,
+        { input }: InputOf<InputStoreBlob>,
         context: Context,
-    ) => Store.Mutation.requestBlob(
-        input,
-        context,
-    ),
-    requestKey: (
-        _: any,
-        { input }: any,
-        context: Context,
-    ) => Store.Mutation.requestData(
+    ) => Store.Mutation.storeBlob(
         input,
         context,
     ),
     storeKey: (
         _: any,
-        { input }: any,
+        { input }: InputOf<InputStoreKey>,
         context: Context,
-    ) => Store.Mutation.requestData(
+    ) => Store.Mutation.storeKey(
+        input,
+        context,
+    ),
+
+
+    updateKey: (
+        _: any,
+        { input }: InputOf<InputUpdateKey>,
+        context: Context,
+    ) => Store.Mutation.updateKey(
+        input,
+        context,
+    ),
+
+
+    deleteBlob: (
+        _: any,
+        { input }: InputOf<InputDeleteBlob>,
+        context: Context,
+    ) => Store.Mutation.deleteBlob(
+        input,
+        context,
+    ),
+    deleteKey: (
+        _: any,
+        { input }: InputOf<InputDeleteKey>,
+        context: Context,
+    ) => Store.Mutation.deleteKey(
         input,
         context,
     ),

@@ -2,6 +2,8 @@
     // #region external
     import {
         Context,
+
+        InputStoreKey,
     } from '~server/data/interfaces';
     // #endregion external
 // #endregion imports
@@ -9,10 +11,10 @@
 
 
 // #region module
-const requestBlob = async (
-    input: any,
+const storeKey = async (
+    input: InputStoreKey,
     context: Context,
-) => {
+): Promise<any> => {
     return {
         status: true,
     };
@@ -22,5 +24,5 @@ const requestBlob = async (
 
 
 // #region exports
-export default requestBlob;
+export default storeKey;
 // #endregion exports

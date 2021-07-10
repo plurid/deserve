@@ -1,7 +1,12 @@
 // #region imports
     // #region internal
-    import requestBlob from './requestBlob';
-    import requestData from './requestData';
+    import storeBlob from './storeBlob';
+    import storeKey from './storeKey';
+
+    import updateKey from './updateKey';
+
+    import deleteBlob from './deleteBlob';
+    import deleteKey from './deleteKey';
     // #endregion internal
 // #endregion imports
 
@@ -9,7 +14,12 @@
 
 // #region exports
 export default {
-    requestBlob,
-    requestData,
+    storeBlob,
+    storeKey,
+
+    updateKey,
+
+    deleteBlob,
+    deleteKey,
 };
 // #endregion exports
