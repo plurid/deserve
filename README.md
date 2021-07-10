@@ -67,7 +67,7 @@ The `owner`'s server is the `node`. A `node` can run on any machine, it will con
     <img src="https://raw.githubusercontent.com/plurid/deserve/master/about/diagrams/topology.png" width="800px">
 </p>
 
-The `relater` is the evolution of the browser from a mere exploratory tool to one with direct dataflow control.
+The `relater` is the evolution of the browser from a mere exploratory tool to one of direct dataflow control.
 
 The `owner` runs the `node` on a separate machine. It is best if the `owner` actually owns that particular machine, however pooled datacenters can be deployed.
 
