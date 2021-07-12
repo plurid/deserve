@@ -6,6 +6,14 @@
         InputRequestKey,
         ResponseRequestedKey,
     } from '~server/data/interfaces';
+
+    import database, {
+        getDeserveDataCollection,
+    } from '~server/services/database';
+
+    import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
     // #endregion external
 // #endregion imports
 
@@ -15,21 +23,46 @@
 const requestKey = async (
     input: InputRequestKey,
     context: Context,
-): Promise<any> => {
+): Promise<ResponseRequestedKey> => {
     try {
         const {
-            owner,
+            request,
         } = context;
 
-        if (!owner) {
+        const core = await getCoreFromRequest(request);
+        if (!core) {
+            // console.log('No core');
+
             return {
                 status: false,
             };
         }
 
 
+        const deserveDataCollection = await getDeserveDataCollection();
+        if (
+            !deserveDataCollection
+        ) {
+            // console.log('No database');
+
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            id,
+        } = input;
+
+        const data: any = await database.getById(
+            deserveDataCollection,
+            id,
+        );
+
         return {
             status: true,
+            data: JSON.stringify(data.value),
         };
     } catch (error) {
         return {

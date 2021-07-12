@@ -15,9 +15,12 @@
     } from '~server/data/interfaces';
 
     import database, {
-        getDeserveCoresCollection,
         getDeserveDataCollection,
     } from '~server/services/database';
+
+    import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
 
     import {
         dataToObjectOrDefault,
@@ -37,10 +40,9 @@ const storeKey = async (
             request,
         } = context;
 
-        const origin = request.header('Host');
-        const token = request.header('Deserve-Token');
-        if (!origin || !token) {
-            // console.log('No origin or token');
+        const core = await getCoreFromRequest(request);
+        if (!core) {
+            // console.log('No core');
 
             return {
                 status: false,
@@ -49,10 +51,8 @@ const storeKey = async (
 
 
         const deserveDataCollection = await getDeserveDataCollection();
-        const deserveCoresCollection = await getDeserveCoresCollection();
         if (
             !deserveDataCollection
-            || !deserveCoresCollection
         ) {
             // console.log('No database');
 
@@ -61,20 +61,6 @@ const storeKey = async (
             };
         }
 
-        const cores: any[] = await database.getAllWhere(
-            deserveCoresCollection,
-            {
-                token,
-            },
-        );
-        const core = cores[0];
-        if (!core) {
-            // console.log('No core');
-
-            return {
-                status: false,
-            };
-        }
 
         const {
             data,

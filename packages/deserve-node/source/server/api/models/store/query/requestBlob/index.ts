@@ -6,6 +6,10 @@
         InputRequestBlob,
         ResponseRequestedBlob,
     } from '~server/data/interfaces';
+
+    import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
     // #endregion external
 // #endregion imports
 
@@ -15,13 +19,16 @@
 const requestBlob = async (
     input: InputRequestBlob,
     context: Context,
-): Promise<any> => {
+): Promise<ResponseRequestedBlob> => {
     try {
         const {
-            owner,
+            request,
         } = context;
 
-        if (!owner) {
+        const core = await getCoreFromRequest(request);
+        if (!core) {
+            // console.log('No core');
+
             return {
                 status: false,
             };

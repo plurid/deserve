@@ -11,6 +11,10 @@
     import database, {
         getDeserveDataCollection,
     } from '~server/services/database';
+
+    import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
     // #endregion external
 // #endregion imports
 
@@ -23,10 +27,13 @@ const deleteKey = async (
 ): Promise<Response> => {
     try {
         const {
-            owner,
+            request,
         } = context;
 
-        if (!owner) {
+        const core = await getCoreFromRequest(request);
+        if (!core) {
+            // console.log('No core');
+
             return {
                 status: false,
             };

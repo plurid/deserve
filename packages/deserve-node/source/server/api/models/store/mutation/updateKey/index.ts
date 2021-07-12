@@ -12,6 +12,10 @@
     } from '~server/services/database';
 
     import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
+
+    import {
         dataToObjectOrDefault,
     } from '~server/utilities';
     // #endregion external
@@ -26,10 +30,13 @@ const updateKey = async (
 ): Promise<Response> => {
     try {
         const {
-            owner,
+            request,
         } = context;
 
-        if (!owner) {
+        const core = await getCoreFromRequest(request);
+        if (!core) {
+            // console.log('No core');
+
             return {
                 status: false,
             };
@@ -52,7 +59,9 @@ const updateKey = async (
         await database.updateDocument(
             deserveDataCollection,
             id,
-            dataToObjectOrDefault(data),
+            {
+                value: dataToObjectOrDefault(data),
+            },
         );
 
 
