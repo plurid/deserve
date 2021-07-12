@@ -16,6 +16,14 @@
 
     // #region external
     import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
+
+    import storage, {
+        BLOBS,
+    } from '~server/services/storage';
+
+    import {
         createSHAStream,
     } from '~server/utilities/sha';
     // #endregion external
@@ -74,8 +82,37 @@ const setupUpload = (
         '/upload',
         cors(corsOptions) as any,
         multerInstance.single('blob') as any,
-        (request, response) => {
+        async (request, response) => {
+            const core = await getCoreFromRequest(request);
+            if (!core) {
+                // console.log('No core');
+                response.status(400).end();
+                return;
+            }
 
+            if (!request.file) {
+                // console.log('No file');
+                response.status(400).end();
+                return;
+            }
+
+
+            const localFilePath = request.file.path;
+            const fileSHA = (request.file as any).sha;
+            const filename = `${core.ownerID}/${fileSHA}`;
+            const inStream = fs.createReadStream(localFilePath);
+            const stored = await storage.object.store(
+                BLOBS,
+                filename,
+                inStream,
+            );
+            if (!stored) {
+                response.status(500).end();
+                return;
+            }
+            fs.unlink(localFilePath, () => {});
+
+            response.end();
         },
     );
 }
