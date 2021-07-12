@@ -3,26 +3,72 @@
     import {
         Context,
 
-        InputStoreKey,
+        InputUpdateKey,
+        Response,
     } from '~server/data/interfaces';
+
+    import database, {
+        getDeserveDataCollection,
+    } from '~server/services/database';
+
+    import {
+        dataToObjectOrDefault,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const storeKey = async (
-    input: InputStoreKey,
+const updateKey = async (
+    input: InputUpdateKey,
     context: Context,
-): Promise<any> => {
-    return {
-        status: true,
-    };
+): Promise<Response> => {
+    try {
+        const {
+            owner,
+        } = context;
+
+        if (!owner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const deserveDataCollection = await getDeserveDataCollection();
+        if (!deserveDataCollection) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            id,
+            data,
+        } = input;
+
+        await database.updateDocument(
+            deserveDataCollection,
+            id,
+            dataToObjectOrDefault(data),
+        );
+
+
+        return {
+            status: true,
+        };
+    } catch (error) {
+        return {
+            status: false,
+        };
+    }
 }
 // #endregion module
 
 
 
 // #region exports
-export default storeKey;
+export default updateKey;
 // #endregion exports

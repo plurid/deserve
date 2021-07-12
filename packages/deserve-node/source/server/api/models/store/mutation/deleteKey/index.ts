@@ -16,10 +16,27 @@
 const deleteKey = async (
     input: InputDeleteKey,
     context: Context,
-): Promise<any> => {
-    return {
-        status: true,
-    };
+): Promise<Response> => {
+    try {
+        const {
+            owner,
+        } = context;
+
+        if (!owner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        return {
+            status: true,
+        };
+    } catch (error) {
+        return {
+            status: false,
+        };
+    }
 }
 // #endregion module
 

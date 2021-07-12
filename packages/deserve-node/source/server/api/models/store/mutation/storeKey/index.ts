@@ -17,6 +17,10 @@
     import database, {
         getDeserveDataCollection,
     } from '~server/services/database';
+
+    import {
+        dataToObjectOrDefault,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -51,10 +55,10 @@ const storeKey = async (
 
         const dataID = owner.id + '-' + uuid.generate();
 
-        database.updateDocument(
+        await database.updateDocument(
             deserveDataCollection,
             dataID,
-            data,
+            dataToObjectOrDefault(data),
         );
 
         return {
