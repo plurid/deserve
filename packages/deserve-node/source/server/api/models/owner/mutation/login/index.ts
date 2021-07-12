@@ -5,7 +5,10 @@
         InputLogin,
     } from '~server/data/interfaces';
 
-    import database from '~server/services/database';
+    import database, {
+        getDeserveOwnersCollection,
+        getDeserveCoresCollection,
+    } from '~server/services/database';
 
     import {
         validateKey,
@@ -23,6 +26,18 @@ const login = async (
     context: Context,
 ) => {
     try {
+        const deserveOwnersCollection = await getDeserveOwnersCollection();
+        const deserveCoresCollection = await getDeserveCoresCollection();
+        if (
+            !deserveOwnersCollection
+            || !deserveCoresCollection
+        ) {
+            return {
+                status: false,
+            };
+        }
+
+
         const {
             response,
         } = context;
@@ -32,19 +47,19 @@ const login = async (
             key,
         } = input;
 
-        const ownerQuery = await database.query(
-            'owners',
+        const ownerQuery: any = await database.getBy(
+            deserveOwnersCollection,
             'identonym',
             identonym,
         );
 
-        if (ownerQuery.empty) {
+        if (!ownerQuery) {
             return {
                 status: false,
             };
         }
 
-        const owner = ownerQuery.first;
+        const owner = ownerQuery;
 
         const validKey = await validateKey(
             key,
@@ -62,8 +77,10 @@ const login = async (
             owner,
         );
 
-        const coresQuery = await database.getAll(
-            'cores',
+        const coresQuery: any[] = await database.getAllBy(
+            deserveCoresCollection,
+            'ownerID',
+            owner.id,
         );
 
         setCookieTokens(

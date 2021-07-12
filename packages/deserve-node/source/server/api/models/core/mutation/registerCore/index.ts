@@ -17,7 +17,9 @@
         Core,
     } from '~server/data/interfaces';
 
-    import database from '~server/services/database';
+    import database, {
+        getDeserveCoresCollection,
+    } from '~server/services/database';
 
     import tunnelsManager from '~server/services/tunnelsManager';
 
@@ -36,6 +38,16 @@ const registerCore = async (
     context: Context,
 ) => {
     try {
+        const deserveCoresCollection = await getDeserveCoresCollection();
+        if (
+            !deserveCoresCollection
+        ) {
+            return {
+                status: false,
+            };
+        }
+
+
         const {
             owner,
         } = context;
@@ -105,8 +117,8 @@ const registerCore = async (
             ownerID,
         };
 
-        await database.store(
-            'core',
+        await database.updateDocument(
+            deserveCoresCollection,
             id,
             storedCore,
         );

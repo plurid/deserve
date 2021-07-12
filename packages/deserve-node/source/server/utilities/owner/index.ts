@@ -24,7 +24,7 @@ const getClientCores = async (
         return;
     }
 
-    const cores: any = await database.getBy(
+    const cores: any[] = await database.getAllBy(
         deserveCoresCollection,
         'ownerID',
         owner.id,
@@ -32,7 +32,7 @@ const getClientCores = async (
 
     const activeCores = tunnelsManager.list();
 
-    const coresResults = cores.results.map((coreResult: any) => {
+    const coresResults = cores.map((coreResult: any) => {
         let active = false;
 
         if (activeCores.includes(coreResult.id)) {

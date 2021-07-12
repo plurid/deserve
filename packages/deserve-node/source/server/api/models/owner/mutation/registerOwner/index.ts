@@ -13,7 +13,10 @@
         Owner,
     } from '~server/data/interfaces';
 
-    import database from '~server/services/database';
+    import database, {
+        getDeserveOwnersCollection,
+        getDeserveCoresCollection,
+    } from '~server/services/database';
 
     import {
         hashKey,
@@ -32,9 +35,21 @@ const registerOwner = async (
     context: Context,
 ) => {
     try {
-        const {
-            response,
-        } = context;
+        const deserveOwnersCollection = await getDeserveOwnersCollection();
+        const deserveCoresCollection = await getDeserveCoresCollection();
+        if (
+            !deserveOwnersCollection
+            || !deserveCoresCollection
+        ) {
+            return {
+                status: false,
+            };
+        }
+
+
+        // const {
+        //     response,
+        // } = context;
 
         const {
             identonym,
@@ -42,13 +57,13 @@ const registerOwner = async (
         } = input;
 
 
-        const ownerQuery = await database.query(
-            'owners',
+        const ownerQuery: any = await database.getBy(
+            deserveOwnersCollection,
             'identonym',
             identonym,
         );
 
-        if (!ownerQuery.empty) {
+        if (!ownerQuery) {
             return {
                 status: false,
             };
@@ -65,26 +80,27 @@ const registerOwner = async (
             key: hashedKey,
         };
 
-        await database.store(
-            'owner',
+        await database.updateDocument(
+            deserveOwnersCollection,
             id,
             owner,
         );
 
 
-        const token = generateToken(
-            owner,
-        );
+        // const token = generateToken(
+        //     owner,
+        // );
 
-        const coresQuery = await database.getAll(
-            'cores',
-        );
+        // const coresQuery: any[] = await database.getAllWhere(
+        //     deserveCoresCollection,
+        //     {},
+        // );
 
-        setCookieTokens(
-            response,
-            token,
-            coresQuery,
-        );
+        // setCookieTokens(
+        //     response,
+        //     token,
+        //     coresQuery,
+        // );
 
 
         return {
