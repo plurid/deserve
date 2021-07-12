@@ -39,8 +39,9 @@ const storeKey = async (
 
         const origin = request.header('Host');
         const token = request.header('Deserve-Token');
-        // console.log(origin, token);
         if (!origin || !token) {
+            // console.log('No origin or token');
+
             return {
                 status: false,
             };
@@ -53,6 +54,8 @@ const storeKey = async (
             !deserveDataCollection
             || !deserveCoresCollection
         ) {
+            // console.log('No database');
+
             return {
                 status: false,
             };
@@ -66,6 +69,8 @@ const storeKey = async (
         );
         const core = cores[0];
         if (!core) {
+            // console.log('No core');
+
             return {
                 status: false,
             };
@@ -80,7 +85,9 @@ const storeKey = async (
         await database.updateDocument(
             deserveDataCollection,
             dataID,
-            dataToObjectOrDefault(data),
+            {
+                value: dataToObjectOrDefault(data),
+            },
         );
 
 
@@ -91,6 +98,8 @@ const storeKey = async (
             },
         };
     } catch (error) {
+        // console.log('Error', error);
+
         return {
             status: false,
         };
