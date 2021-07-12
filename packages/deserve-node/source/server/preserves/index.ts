@@ -9,8 +9,7 @@
 
 
 // #region module
-const preserves: PluridPreserve<any>[] = [
-];
+const preserves: PluridPreserve<any>[] = [];
 // #endregion module
 
 
