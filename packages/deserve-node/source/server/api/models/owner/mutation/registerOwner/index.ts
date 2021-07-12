@@ -21,6 +21,8 @@
     import {
         hashKey,
         clientOwner,
+        generateToken,
+        setCookieToken,
     } from '~server/utilities';
     // #endregion external
 // #endregion imports
@@ -45,6 +47,10 @@ const registerOwner = async (
             };
         }
 
+
+        const {
+            response,
+        } = context;
 
         const {
             identonym,
@@ -80,6 +86,16 @@ const registerOwner = async (
             deserveOwnersCollection,
             id,
             owner,
+        );
+
+
+        const token = generateToken(
+            owner,
+        );
+
+        setCookieToken(
+            response,
+            token,
         );
 
 
