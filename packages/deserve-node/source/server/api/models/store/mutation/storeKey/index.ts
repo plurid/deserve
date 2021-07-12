@@ -15,6 +15,7 @@
     } from '~server/data/interfaces';
 
     import database, {
+        getDeserveCoresCollection,
         getDeserveDataCollection,
     } from '~server/services/database';
 
@@ -33,10 +34,38 @@ const storeKey = async (
 ): Promise<ResponseStoredKey> => {
     try {
         const {
-            owner,
+            request,
         } = context;
 
-        if (!owner) {
+        const origin = request.header('Host');
+        const token = request.header('Deserve-Token');
+        // console.log(origin, token);
+        if (!origin || !token) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const deserveDataCollection = await getDeserveDataCollection();
+        const deserveCoresCollection = await getDeserveCoresCollection();
+        if (
+            !deserveDataCollection
+            || !deserveCoresCollection
+        ) {
+            return {
+                status: false,
+            };
+        }
+
+        const cores: any[] = await database.getAllWhere(
+            deserveCoresCollection,
+            {
+                token,
+            },
+        );
+        const core = cores[0];
+        if (!core) {
             return {
                 status: false,
             };
@@ -46,20 +75,14 @@ const storeKey = async (
             data,
         } = input;
 
-        const deserveDataCollection = await getDeserveDataCollection();
-        if (!deserveDataCollection) {
-            return {
-                status: false,
-            };
-        }
-
-        const dataID = owner.id + '-' + uuid.generate();
+        const dataID = core.ownerID + '-' + uuid.generate();
 
         await database.updateDocument(
             deserveDataCollection,
             dataID,
             dataToObjectOrDefault(data),
         );
+
 
         return {
             status: true,
