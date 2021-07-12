@@ -1,3 +1,3 @@
 // #region module
-export const FILES = 'files';
+export const BLOBS = 'blobs';
 // #endregion module

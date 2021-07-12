@@ -13,7 +13,7 @@
     } from '~server/logic/core';
 
     import storage, {
-        FILES,
+        BLOBS,
     } from '~server/services/storage';
     // #endregion external
 // #endregion imports
@@ -45,7 +45,7 @@ const deleteBlob = async (
         } = input;
 
         const obliterated = await storage.object.obliterate(
-            FILES,
+            BLOBS,
             id,
         );
 
