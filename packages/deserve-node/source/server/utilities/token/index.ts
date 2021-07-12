@@ -24,7 +24,9 @@
         COOKIE_OWNER_TOKEN,
     } from '~server/data/constants';
 
-    import database from '~server/services/database';
+    import database, {
+        getDeserveOwnersCollection,
+    } from '~server/services/database';
 
     import {
         clientOwner,
@@ -131,6 +133,11 @@ const tradeTokenForOwner = async (
         return;
     }
 
+    const deserveOwnersCollection = await getDeserveOwnersCollection();
+    if (!deserveOwnersCollection) {
+        return;
+    }
+
     try {
         const tokenContent = jsonWebToken.verify(
             token,
@@ -139,8 +146,8 @@ const tradeTokenForOwner = async (
 
         const ownerID = tokenContent.id;
 
-        const owner = await database.get(
-            'owner',
+        const owner: any = await database.getById(
+            deserveOwnersCollection,
             ownerID,
         );
 
@@ -164,8 +171,8 @@ const tradeTokenForOwner = async (
             return;
         }
 
-        const owner = await database.get(
-            'owner',
+        const owner: any = await database.getById(
+            deserveOwnersCollection,
             ownerID,
         );
 

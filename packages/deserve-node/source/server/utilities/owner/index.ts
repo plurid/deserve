@@ -7,7 +7,9 @@
 
     import tunnelsManager from '~server/services/tunnelsManager';
 
-    import database from '~server/services/database';
+    import database, {
+        getDeserveCoresCollection,
+    } from '~server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -17,15 +19,20 @@
 const getClientCores = async (
     owner: Owner,
 ) => {
-    const cores = await database.query(
-        'cores',
+    const deserveCoresCollection = await getDeserveCoresCollection();
+    if (!deserveCoresCollection) {
+        return;
+    }
+
+    const cores: any = await database.getBy(
+        deserveCoresCollection,
         'ownerID',
         owner.id,
     );
 
     const activeCores = tunnelsManager.list();
 
-    const coresResults = cores.results.map(coreResult => {
+    const coresResults = cores.results.map((coreResult: any) => {
         let active = false;
 
         if (activeCores.includes(coreResult.id)) {
