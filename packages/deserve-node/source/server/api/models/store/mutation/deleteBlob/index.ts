@@ -11,6 +11,10 @@
     import {
         getCoreFromRequest,
     } from '~server/logic/core';
+
+    import storage, {
+        FILES,
+    } from '~server/services/storage';
     // #endregion external
 // #endregion imports
 
@@ -30,6 +34,22 @@ const deleteBlob = async (
         if (!core) {
             // console.log('No core');
 
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            id,
+        } = input;
+
+        const obliterated = await storage.object.obliterate(
+            FILES,
+            id,
+        );
+
+        if (!obliterated) {
             return {
                 status: false,
             };
