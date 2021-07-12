@@ -7,6 +7,10 @@
 
         Response,
     } from '~server/data/interfaces';
+
+    import database, {
+        getDeserveDataCollection,
+    } from '~server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -27,6 +31,24 @@ const deleteKey = async (
                 status: false,
             };
         }
+
+
+        const deserveDataCollection = await getDeserveDataCollection();
+        if (!deserveDataCollection) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            id,
+        } = input;
+
+        await database.deleteDocument(
+            deserveDataCollection,
+            id,
+        );
 
 
         return {
