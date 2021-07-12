@@ -20,8 +20,6 @@
 
     import {
         hashKey,
-        generateToken,
-        setCookieTokens,
         clientOwner,
     } from '~server/utilities';
     // #endregion external
@@ -41,15 +39,12 @@ const registerOwner = async (
             !deserveOwnersCollection
             || !deserveCoresCollection
         ) {
+            // console.log('No database connection');
             return {
                 status: false,
             };
         }
 
-
-        // const {
-        //     response,
-        // } = context;
 
         const {
             identonym,
@@ -63,7 +58,8 @@ const registerOwner = async (
             identonym,
         );
 
-        if (!ownerQuery) {
+        if (ownerQuery) {
+            // console.log('Owner exists');
             return {
                 status: false,
             };
@@ -87,27 +83,12 @@ const registerOwner = async (
         );
 
 
-        // const token = generateToken(
-        //     owner,
-        // );
-
-        // const coresQuery: any[] = await database.getAllWhere(
-        //     deserveCoresCollection,
-        //     {},
-        // );
-
-        // setCookieTokens(
-        //     response,
-        //     token,
-        //     coresQuery,
-        // );
-
-
         return {
             status: true,
             data: clientOwner(owner),
         };
     } catch (error) {
+        // console.log(error);
         return {
             status: false,
         };
