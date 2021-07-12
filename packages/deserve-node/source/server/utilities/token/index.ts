@@ -1,7 +1,7 @@
 // #region imports
     // #region libraries
     import {
-        parse,
+        URL,
     } from 'url';
 
     import {
@@ -91,7 +91,7 @@ const setCookieTokens = (
     );
 
     for (const core of cores) {
-        const parsedDomain = parse(core.link);
+        const parsedDomain = new URL(core.link);
         const domain = parsedDomain.hostname;
 
         if (!domain) {
