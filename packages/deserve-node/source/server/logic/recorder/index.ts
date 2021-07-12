@@ -12,7 +12,9 @@
         RecorderStore,
     } from '~server/data/interfaces';
 
-    import database from '~server/services/database';
+    import database, {
+        getDeserveGlobalCollection,
+    } from '~server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -38,8 +40,12 @@ class Recorder {
             ...entry,
         };
 
-        await database.store(
-            'record',
+        const deserveGlobalCollection = await getDeserveGlobalCollection();
+        if (!deserveGlobalCollection) {
+            return;
+        }
+        await database.updateDocument(
+            deserveGlobalCollection,
             id,
             recorderStore,
         );

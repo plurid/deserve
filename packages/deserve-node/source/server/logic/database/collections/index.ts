@@ -6,6 +6,11 @@
 
     // #region external
     import {
+        DESERVE_DATABASE,
+        DESERVE_GLOBAL,
+    } from '~server/data/constants';
+
+    import {
         database,
     } from '../connection';
     // #endregion external
