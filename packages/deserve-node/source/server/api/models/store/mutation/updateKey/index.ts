@@ -54,15 +54,26 @@ const updateKey = async (
         const {
             id,
             data,
+            field,
         } = input;
 
-        await database.updateDocument(
-            deserveDataCollection,
-            id,
-            {
-                value: dataToObjectOrDefault(data),
-            },
-        );
+        if (field) {
+            await database.updateField(
+                deserveDataCollection,
+                id,
+                'value.' + field,
+                dataToObjectOrDefault(data),
+            );
+        } else {
+            await database.updateDocument(
+                deserveDataCollection,
+                id,
+                {
+                    value: dataToObjectOrDefault(data),
+                },
+            );
+        }
+
 
 
         return {

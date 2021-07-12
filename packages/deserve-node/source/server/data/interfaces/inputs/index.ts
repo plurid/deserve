@@ -62,6 +62,7 @@ export interface InputStoreKey {
 export interface InputUpdateKey {
     id: string;
     data: string;
+    field?: string;
 }
 
 

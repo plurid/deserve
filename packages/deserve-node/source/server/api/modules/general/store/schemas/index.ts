@@ -128,6 +128,7 @@ export const inputs = gql`
     input InputUpdateKey {
         id: ID!
         data: String!
+        field: String
     }
 
 
