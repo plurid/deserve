@@ -7,6 +7,7 @@
     // #region internal
     import setupMiddleware from './middleware';
     import setupGraphQL from './graphql';
+    import setupUpload from './upload';
     // #endregion internal
 // #endregion imports
 
@@ -23,6 +24,10 @@ const setupHandlers = (
     );
 
     setupGraphQL(
+        instance,
+    );
+
+    setupUpload(
         instance,
     );
 }
