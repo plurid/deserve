@@ -14,6 +14,14 @@
     import {
         getCoreFromRequest,
     } from '~server/logic/core';
+
+    import {
+        resolveFilter,
+    } from '~server/logic/database/filter';
+
+    import {
+        stringFromObject,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -42,33 +50,49 @@ const queryKeys = async (
 
         const {
             filter,
+            start,
+            count,
         } = input;
 
         const {
             ownerID,
         } = core;
 
+        const resolvedFilter = resolveFilter(filter);
+        if (!resolvedFilter) {
+            // console.log('Invalid filter');
+
+            return {
+                status: false,
+            };
+        }
+
         const query: any = await database.getAllWhere(
             collections.keys,
             {
                 ownerID,
-                ...JSON.parse(filter),
+                ...resolvedFilter,
+            },
+            {
+                count,
+                start,
+                type: 'last',
             },
         );
 
         const data: Key[] = [];
 
-        for (const queryItem of query) {
-            if (queryItem.ownerID === ownerID) {
+        for (const item of query) {
+            if (item.ownerID === ownerID) {
                 const {
                     value,
                     storedAt,
                     updatedAt,
                     sha,
-                } = queryItem;
+                } = item;
 
                 data.push({
-                    value: JSON.stringify(value),
+                    value: stringFromObject(value),
                     storedAt,
                     updatedAt,
                     sha,

@@ -87,6 +87,8 @@ export const inputs = gql`
 
     input InputQueryKeys {
         filter: String!
+        count: Int
+        start: String
     }
 
 

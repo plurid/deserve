@@ -12,6 +12,10 @@
     import {
         getCoreFromRequest,
     } from '~server/logic/core';
+
+    import {
+        stringFromObject,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -57,7 +61,7 @@ const requestKey = async (
         return {
             status: true,
             data: {
-                value: JSON.stringify(value),
+                value: stringFromObject(value),
                 storedAt,
                 updatedAt,
                 sha,

@@ -8,4 +8,15 @@ export const dataToObjectOrDefault = (
         return data;
     }
 }
+
+
+export const stringFromObject = (
+    data: any,
+) => {
+    if (typeof data === 'string') {
+        return data;
+    }
+
+    return JSON.stringify(data);
+}
 // #endregion module

@@ -44,6 +44,8 @@ export interface InputRequestKeys {
 
 export interface InputQueryKeys {
     filter: string;
+    count?: number;
+    start?: string;
 }
 
 

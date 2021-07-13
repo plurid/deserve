@@ -14,6 +14,10 @@
     import {
         getCoreFromRequest,
     } from '~server/logic/core';
+
+    import {
+        stringFromObject,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -60,7 +64,7 @@ const requestKeys = async (
             } = idData;
 
             data.push({
-                value: JSON.stringify(value),
+                value: stringFromObject(value),
                 storedAt,
                 updatedAt,
                 sha,
