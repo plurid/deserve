@@ -40,6 +40,7 @@ export interface Error {
 
 
 export interface Key {
+    id: string;
     value: string;
     storedAt: number;
     sha: string;

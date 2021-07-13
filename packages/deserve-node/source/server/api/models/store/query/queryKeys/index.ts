@@ -20,7 +20,7 @@
     } from '~server/logic/database/filter';
 
     import {
-        stringFromObject,
+        keyFromData,
     } from '~server/utilities';
     // #endregion external
 // #endregion imports
@@ -84,19 +84,8 @@ const queryKeys = async (
 
         for (const item of query) {
             if (item.ownerID === ownerID) {
-                const {
-                    value,
-                    storedAt,
-                    updatedAt,
-                    sha,
-                } = item;
-
-                data.push({
-                    value: stringFromObject(value),
-                    storedAt,
-                    updatedAt,
-                    sha,
-                });
+                const key = keyFromData(item);
+                data.push(key);
             }
         }
 

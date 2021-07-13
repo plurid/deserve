@@ -14,7 +14,7 @@
     } from '~server/logic/core';
 
     import {
-        stringFromObject,
+        keyFromData,
     } from '~server/utilities';
     // #endregion external
 // #endregion imports
@@ -46,26 +46,24 @@ const requestKey = async (
             id,
         } = input;
 
-        const data: any = await database.getById(
+        const query: any = await database.getById(
             collections.keys,
             id,
         );
+        if (!query) {
+            // console.log('Not found');
 
-        const {
-            value,
-            storedAt,
-            updatedAt,
-            sha,
-        } = data;
+            return {
+                status: false,
+            };
+        }
+
+        const data = keyFromData(query);
+
 
         return {
             status: true,
-            data: {
-                value: stringFromObject(value),
-                storedAt,
-                updatedAt,
-                sha,
-            },
+            data,
         };
     } catch (error) {
         return {

@@ -58,8 +58,9 @@ export const types = gql`
 
 
     type Key {
+        id: ID!
         # The value can be an actual string, or any other kind of value
-        # (boolean, number, object, array). The consumer mut ensure
+        # (boolean, number, object, array). The consumer must ensure
         # that the correct type is consumed.
         value: String!
         storedAt: Float!

@@ -16,7 +16,7 @@
     } from '~server/logic/core';
 
     import {
-        stringFromObject,
+        keyFromData,
     } from '~server/utilities';
     // #endregion external
 // #endregion imports
@@ -56,19 +56,12 @@ const requestKeys = async (
                 id,
             );
 
-            const {
-                value,
-                storedAt,
-                updatedAt,
-                sha,
-            } = idData;
+            if (!idData) {
+                continue;
+            }
 
-            data.push({
-                value: stringFromObject(value),
-                storedAt,
-                updatedAt,
-                sha,
-            });
+            const key = keyFromData(idData);
+            data.push(key);
         }
 
 
