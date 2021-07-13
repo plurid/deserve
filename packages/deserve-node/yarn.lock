@@ -875,6 +875,18 @@
   resolved "https://npm.plurid.cloud/@plurid%2fdataface-mongo/-/dataface-mongo-0.0.0-0.tgz#aa249b3464e18a89b95406166524be41def2797a"
   integrity sha512-Jdb/MltREZRR80m1TMub+q9xhGWNiS/75dLRzKQ1KJD/lPe2Shck4FVIGTOx8ZbzJT8fJlqQFa3kGO29yNElOw==
 
+"@plurid/delog@^0.0.0-1":
+  version "0.0.0-1"
+  resolved "https://npm.plurid.cloud/@plurid%2fdelog/-/delog-0.0.0-1.tgz#9e3c6213a67ded0aef4ac176c1de2ba7eafa3711"
+  integrity sha512-ivySUtfPIf7nSO3AGqoeX1HNa7eMTip3b+EB/0Vj6Ljor7S8rEg+iy0o0DWKkVFjn32vmSTG0JmQhucsfdufiQ==
+  dependencies:
+    "@apollo/client" "^3.3.21"
+    "@plurid/plurid-functions" "0.0.0-5"
+    cross-fetch "^3.1.4"
+    graphql "^15.5.1"
+    graphql-tag "^2.12.5"
+    subscriptions-transport-ws "^0.9.19"
+
 "@plurid/deon@^0.0.0-4":
   version "0.0.0-4"
   resolved "https://npm.plurid.cloud/@plurid%2fdeon/-/deon-0.0.0-4.tgz#e403b1bc1178319b1b4f623e5bdeecf43ae9c425"
@@ -922,7 +934,7 @@
   resolved "https://npm.plurid.cloud/@plurid%2fplurid-functions-react/-/plurid-functions-react-0.0.0-1.tgz#374ea1b2a8673c46548c8e1c0a95d2f395994833"
   integrity sha512-4Vw0vo1QeJ77TUzneHPPyPucS8Qtp8qDFZUhq4aFMakoXLicW2iom6owy/2+KMGYaU8uAjHAWFcWYrKW2AN/zA==
 
-"@plurid/plurid-functions@^0.0.0-5":
+"@plurid/plurid-functions@0.0.0-5", "@plurid/plurid-functions@^0.0.0-5":
   version "0.0.0-5"
   resolved "https://npm.plurid.cloud/@plurid%2fplurid-functions/-/plurid-functions-0.0.0-5.tgz#9e404f340e745d1fcfafd130f18973bb945437c4"
   integrity sha512-/I0rBQpVUIlXGqsPraJlb6BNVNcvJP7SjyaUcMLw9CJkMheawhuItHqX9YSz1kToVDQz0e7Lq0hLYAnamFnXFQ==
