@@ -4,7 +4,6 @@
         Context,
         InputOf,
 
-        InputStoreBlob,
         InputStoreKey,
 
         InputUpdateKey,
@@ -23,14 +22,6 @@
 
 // #region exports
 export default {
-    storeBlob: (
-        _: any,
-        { input }: InputOf<InputStoreBlob>,
-        context: Context,
-    ) => Store.Mutation.storeBlob(
-        input,
-        context,
-    ),
     storeKey: (
         _: any,
         { input }: InputOf<InputStoreKey>,

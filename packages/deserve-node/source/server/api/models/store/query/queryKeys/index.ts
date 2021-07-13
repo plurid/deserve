@@ -39,8 +39,46 @@ const queryKeys = async (
         }
 
 
+        const deserveDataCollection = await getDeserveDataCollection();
+        if (
+            !deserveDataCollection
+        ) {
+            // console.log('No database');
+
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            filter,
+        } = input;
+
+        const {
+            ownerID,
+        } = core;
+
+        const query: any = await database.getAllWhere(
+            deserveDataCollection,
+            {
+                ownerID,
+                ...JSON.parse(filter),
+            },
+        );
+
+        const data: string[] = [];
+
+        for (const queryItem of query) {
+            if (queryItem.ownerID === ownerID) {
+                data.push(JSON.stringify(queryItem.value));
+            }
+        }
+
+
         return {
             status: true,
+            data,
         };
     } catch (error) {
         return {

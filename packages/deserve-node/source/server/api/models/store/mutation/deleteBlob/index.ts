@@ -44,6 +44,10 @@ const deleteBlob = async (
             id,
         } = input;
 
+        // TODO:
+        // mark as deleted
+        // and set for obliteration following the obliteration policy
+
         const obliterated = await storage.object.obliterate(
             DESERVE_BLOBS,
             id,

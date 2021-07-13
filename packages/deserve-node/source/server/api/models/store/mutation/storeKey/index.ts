@@ -66,12 +66,17 @@ const storeKey = async (
             data,
         } = input;
 
-        const dataID = core.ownerID + '-' + uuid.generate() + uuid.generate() + uuid.generate();
+        const {
+            ownerID,
+        } = core;
+
+        const dataID = ownerID + '/' + uuid.generate() + uuid.generate() + uuid.generate();
 
         await database.updateDocument(
             deserveDataCollection,
             dataID,
             {
+                ownerID,
                 value: dataToObjectOrDefault(data),
             },
         );

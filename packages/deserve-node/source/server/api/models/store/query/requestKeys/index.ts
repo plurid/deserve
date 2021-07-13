@@ -39,8 +39,36 @@ const requestKeys = async (
         }
 
 
+        const deserveDataCollection = await getDeserveDataCollection();
+        if (
+            !deserveDataCollection
+        ) {
+            // console.log('No database');
+
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            ids,
+        } = input;
+
+        const data = [];
+
+        for (const id of ids) {
+            const idData: any = await database.getById(
+                deserveDataCollection,
+                id,
+            );
+            data.push(JSON.stringify(idData.value));
+        }
+
+
         return {
             status: true,
+            data,
         };
     } catch (error) {
         return {

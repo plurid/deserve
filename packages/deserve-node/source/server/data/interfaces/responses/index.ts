@@ -5,37 +5,26 @@ export interface Response {
 }
 
 
-export interface ResponseRequestedBlob {
-    status: boolean;
-    error?: Error;
-    data?: Blob;
-}
 
 export interface ResponseRequestedKey {
     status: boolean;
     error?: Error;
-    data?: Key;
+    data?: string;
 }
 
 export interface ResponseRequestedKeys {
     status: boolean;
     error?: Error;
-    data?: Key[];
+    data?: string[];
 }
 
 
 export interface ResponseQueriedKeys {
     status: boolean;
     error?: Error;
-    data?: Key[];
+    data?: string[];
 }
 
-
-export interface ResponseStoredBlob {
-    status: boolean;
-    error?: Error;
-    data?: StoredBlob;
-}
 
 export interface ResponseStoredKey {
     status: boolean;
@@ -49,9 +38,6 @@ export interface Error {
     message: string;
 }
 
-export interface Blob {}
-export interface Key {}
-export interface StoredBlob {}
 
 export interface StoredKey {
     id: string;

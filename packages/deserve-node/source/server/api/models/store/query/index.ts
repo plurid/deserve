@@ -1,6 +1,5 @@
 // #region imports
     // #region internal
-    import requestBlob from './requestBlob';
     import requestKey from './requestKey';
     import requestKeys from './requestKeys';
 
@@ -12,7 +11,6 @@
 
 // #region exports
 export default {
-    requestBlob,
     requestKey,
     requestKeys,
 

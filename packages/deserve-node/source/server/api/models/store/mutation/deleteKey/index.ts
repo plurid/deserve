@@ -52,6 +52,10 @@ const deleteKey = async (
             id,
         } = input;
 
+        // TODO:
+        // mark as deleted
+        // and set for obliteration following the obliteration policy
+
         await database.deleteDocument(
             deserveDataCollection,
             id,

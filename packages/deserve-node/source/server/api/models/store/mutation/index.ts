@@ -1,6 +1,5 @@
 // #region imports
     // #region internal
-    import storeBlob from './storeBlob';
     import storeKey from './storeKey';
 
     import updateKey from './updateKey';
@@ -14,7 +13,6 @@
 
 // #region exports
 export default {
-    storeBlob,
     storeKey,
 
     updateKey,

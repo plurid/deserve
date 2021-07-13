@@ -32,9 +32,6 @@ export interface InputLogin {
 
 
 
-export interface InputRequestBlob {
-    id: string;
-}
 
 export interface InputRequestKey {
     id: string;
@@ -49,10 +46,6 @@ export interface InputQueryKeys {
     filter: string;
 }
 
-
-export interface InputStoreBlob {
-    sha: string;
-}
 
 export interface InputStoreKey {
     data: string;
