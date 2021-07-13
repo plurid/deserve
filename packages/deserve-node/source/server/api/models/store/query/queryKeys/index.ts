@@ -1,4 +1,11 @@
 // #region imports
+    // #region libraries
+    import delog, {
+        delogLevels,
+    } from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -89,12 +96,22 @@ const queryKeys = async (
             }
         }
 
+        delog({
+            text: 'queryKeys success',
+            level: delogLevels.trace,
+        });
 
         return {
             status: true,
             data,
         };
     } catch (error) {
+        delog({
+            text: 'queryKeys error',
+            level: delogLevels.error,
+            error,
+        });
+
         return {
             status: false,
         };
