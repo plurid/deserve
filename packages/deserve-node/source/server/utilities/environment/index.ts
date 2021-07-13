@@ -10,5 +10,9 @@ const environment = {
 
 
 // #region exports
+export {
+    environment,
+};
+
 export default environment;
 // #endregion exports
