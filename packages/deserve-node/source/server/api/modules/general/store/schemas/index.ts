@@ -63,6 +63,7 @@ export const types = gql`
         # that the correct type is consumed.
         value: String!
         storedAt: Float!
+        sha: String!
         updatedAt: Float
     }
 
