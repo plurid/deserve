@@ -1,6 +1,7 @@
 // #region imports
     // #region libraries
     import fs from 'fs';
+    import path from 'path';
     import cors from 'cors';
     import multer from 'multer';
 
@@ -71,23 +72,26 @@ const setupBlobs = (
     const multerInstance = multer(
         {
             storage: {
-                _handleFile: (_, file, cb) => {
+                _handleFile: (_, file, callback) => {
                     const shaStream = createSHAStream();
                     let sha = '';
                     shaStream.on('digest', (result: string) => {
                         sha = result;
                     });
 
-                    const localpath = `./data/${uuid.generate()}`;
+                    const localpath = path.join(
+                        DATA_PATH,
+                        uuid.generate(),
+                    );
                     const outStream = fs.createWriteStream(localpath);
 
                     file.stream
                         .pipe(shaStream)
                         .pipe(outStream);
 
-                    outStream.on('error', cb);
+                    outStream.on('error', callback);
                     outStream.on('finish', () => {
-                        cb(
+                        callback(
                             null,
                             {
                                 path: localpath,
@@ -97,8 +101,8 @@ const setupBlobs = (
                         );
                     });
                 },
-                _removeFile: (_, file, cb) => {
-                    fs.unlink(file.path, cb);
+                _removeFile: (_, file, callback) => {
+                    fs.unlink(file.path, callback);
                 },
             },
         },
