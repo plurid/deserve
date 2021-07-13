@@ -56,14 +56,20 @@ const updateKey = async (
                 dataToObjectOrDefault(data),
             );
         } else {
-            await database.updateDocument(
+            await database.updateField(
                 collections.keys,
                 id,
-                {
-                    value: dataToObjectOrDefault(data),
-                },
+                'value',
+                dataToObjectOrDefault(data),
             );
         }
+
+        await database.updateField(
+            collections.keys,
+            id,
+            'updatedAt',
+            Date.now(),
+        );
 
 
         return {

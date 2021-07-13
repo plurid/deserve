@@ -41,6 +41,8 @@ export interface Error {
 
 export interface Key {
     value: string;
+    storedAt?: number;
+    updatedAt?: number;
 }
 
 export interface StoredKey {

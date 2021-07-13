@@ -65,6 +65,7 @@ const storeKey = async (
             {
                 ownerID,
                 value: dataToObjectOrDefault(data),
+                storedAt: Date.now(),
             },
         );
 

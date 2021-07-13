@@ -47,10 +47,18 @@ const requestKey = async (
             id,
         );
 
+        const {
+            value,
+            storedAt,
+            updatedAt,
+        } = data;
+
         return {
             status: true,
             data: {
-                value: JSON.stringify(data.value),
+                value: JSON.stringify(value),
+                storedAt,
+                updatedAt,
             },
         };
     } catch (error) {

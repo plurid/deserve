@@ -51,8 +51,17 @@ const requestKeys = async (
                 collections.keys,
                 id,
             );
+
+            const {
+                value,
+                storedAt,
+                updatedAt,
+            } = idData;
+
             data.push({
-                value: JSON.stringify(idData.value),
+                value: JSON.stringify(value),
+                storedAt,
+                updatedAt,
             });
         }
 

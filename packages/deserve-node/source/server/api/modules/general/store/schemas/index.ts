@@ -62,6 +62,8 @@ export const types = gql`
         # (boolean, number, object, array). The consumer mut ensure
         # that the correct type is consumed.
         value: String!
+        storedAt: Float!
+        updatedAt: Float
     }
 
     type StoredKey {

@@ -60,8 +60,16 @@ const queryKeys = async (
 
         for (const queryItem of query) {
             if (queryItem.ownerID === ownerID) {
+                const {
+                    value,
+                    storedAt,
+                    updatedAt,
+                } = queryItem;
+
                 data.push({
-                    value: JSON.stringify(queryItem.value),
+                    value: JSON.stringify(value),
+                    storedAt,
+                    updatedAt,
                 });
             }
         }
