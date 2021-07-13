@@ -106,15 +106,22 @@ const setupUpload = (
         multerInstance.single('blob') as any,
         async (request, response) => {
             try {
-                const core = await getCoreFromRequest(request);
-                if (!core) {
-                    // console.log('No core');
+                if (!request.file) {
+                    // console.log('No file');
                     response.status(400).end();
                     return;
                 }
 
-                if (!request.file) {
-                    // console.log('No file');
+                const blobSHA = (request.file as any).sha;
+                if (!blobSHA) {
+                    // console.log('No blob sha');
+                    response.status(400).end();
+                }
+
+
+                const core = await getCoreFromRequest(request);
+                if (!core) {
+                    // console.log('No core');
                     response.status(400).end();
                     return;
                 }
@@ -127,9 +134,12 @@ const setupUpload = (
                 }
 
 
+                const {
+                    ownerID,
+                } = core;
+
+                const blobName = `${ownerID}/${blobSHA}`;
                 const localFilePath = request.file.path;
-                const blobSHA = (request.file as any).sha;
-                const blobName = `${core.ownerID}/${blobSHA}`;
                 const inStream = fs.createReadStream(localFilePath);
                 const stored = await storage.object.store(
                     DESERVE_BLOBS,
@@ -144,8 +154,8 @@ const setupUpload = (
 
 
                 const blobData = {
+                    ownerID,
                     blobSHA,
-                    blobName,
                     size: request.file.size,
                     origin: request.header('Host') || '',
                 };
