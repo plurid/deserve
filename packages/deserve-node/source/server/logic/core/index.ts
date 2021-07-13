@@ -19,6 +19,7 @@ export const getCoreFromRequest = async (
 ) => {
     const origin = request.header('Host');
     const token = request.header('Deserve-Token');
+    // console.log(origin, token);
     if (!origin || !token) {
         // console.log('No origin or token');
 
@@ -46,11 +47,11 @@ export const getCoreFromRequest = async (
         return;
     }
 
-    // if (!core.origins.includes(origin)) {
-    //     // console.log('No origin on core');
+    if (!core.origins.includes(origin)) {
+        // console.log('No origin on core');
 
-    //     return;
-    // }
+        return;
+    }
 
     return core;
 }

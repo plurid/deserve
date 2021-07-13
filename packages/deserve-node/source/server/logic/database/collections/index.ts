@@ -11,6 +11,7 @@
         DESERVE_OWNERS,
         DESERVE_CORES,
         DESERVE_DATA,
+        DESERVE_BLOBS,
     } from '~server/data/constants';
 
     import {
@@ -28,4 +29,5 @@ export const getDeserveGlobalCollection = async <T = any>() => (await getDeserve
 export const getDeserveOwnersCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_OWNERS);
 export const getDeserveCoresCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_CORES);
 export const getDeserveDataCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_DATA);
+export const getDeserveBlobsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_BLOBS);
 // #endregion module

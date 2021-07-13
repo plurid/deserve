@@ -23,6 +23,10 @@
         BLOBS,
     } from '~server/services/storage';
 
+    import database, {
+        getDeserveBlobsCollection,
+    } from '~server/services/database';
+
     import {
         createSHAStream,
     } from '~server/utilities/sha';
@@ -115,6 +119,13 @@ const setupUpload = (
                     return;
                 }
 
+                const deserveBlobsCollection = await getDeserveBlobsCollection();
+                if (!deserveBlobsCollection) {
+                    // console.log('No database');
+                    response.status(500).end();
+                    return;
+                }
+
 
                 const localFilePath = request.file.path;
                 const fileSHA = (request.file as any).sha;
@@ -130,6 +141,21 @@ const setupUpload = (
                     response.status(500).end();
                     return;
                 }
+
+
+                const blobData = {
+                    fileSHA,
+                    filename,
+                    size: request.file.size,
+                    origin: request.header('Host') || '',
+                };
+
+                await database.updateDocument(
+                    deserveBlobsCollection,
+                    filename,
+                    blobData,
+                );
+
 
                 response.end();
             } catch (error) {
