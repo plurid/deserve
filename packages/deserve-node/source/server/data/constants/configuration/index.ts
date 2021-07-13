@@ -17,8 +17,8 @@ export const logLevel = QUIET
 
 export const BASE_PATH = process.env.DESERVE_BASE_PATH || process.cwd();
 export const DATA_PATH = path.join(
-    __dirname,
     BASE_PATH,
+    'data',
 );
 
 
