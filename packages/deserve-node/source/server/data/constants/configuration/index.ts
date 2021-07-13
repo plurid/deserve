@@ -1,3 +1,11 @@
+// #region imports
+    // #region libraries
+    import path from 'path';
+    // #endregion libraries
+// #endregion imports
+
+
+
 // #region module
 export const LOG_LEVEL = process.env.DESERVE_LOG_LEVEL || '7';
 export const QUIET = process.env.DESERVE_QUIET === 'true';
@@ -8,6 +16,10 @@ export const logLevel = QUIET
 
 
 export const BASE_PATH = process.env.DESERVE_BASE_PATH || process.cwd();
+export const DATA_PATH = path.join(
+    __dirname,
+    BASE_PATH,
+);
 
 
 export const COOKIE_DOMAIN = process.env.DESERVE_COOKIE_DOMAIN || 'localhost';

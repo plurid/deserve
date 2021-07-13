@@ -16,6 +16,10 @@
 
     // #region external
     import {
+        DATA_PATH,
+    } from '~server/data/constants';
+
+    import {
         Store,
     } from '~server/api/models';
 
@@ -33,17 +37,28 @@
 
 // #region module
 const initializeStorage = async () => {
-    const buckets = [
-        DESERVE_BLOBS,
-    ];
-
-    buckets.forEach(async (bucket) => {
-        const bucketExists = await storage.bucket.exists(bucket);
-
-        if (!bucketExists) {
-            await storage.bucket.generate(bucket);
+    try {
+        const dataPathExists = fs.existsSync(DATA_PATH);
+        if (!dataPathExists) {
+            fs.mkdirSync(DATA_PATH);
         }
-    });
+
+
+        const buckets = [
+            DESERVE_BLOBS,
+        ];
+
+        buckets.forEach(async (bucket) => {
+            const bucketExists = await storage.bucket.exists(bucket);
+
+            if (!bucketExists) {
+                await storage.bucket.generate(bucket);
+            }
+        });
+    } catch (error) {
+        console.log('Could not initialize storage');
+        return;
+    }
 }
 
 
