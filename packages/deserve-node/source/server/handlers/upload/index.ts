@@ -128,12 +128,12 @@ const setupUpload = (
 
 
                 const localFilePath = request.file.path;
-                const fileSHA = (request.file as any).sha;
-                const filename = `${core.ownerID}/${fileSHA}`;
+                const blobSHA = (request.file as any).sha;
+                const blobName = `${core.ownerID}/${blobSHA}`;
                 const inStream = fs.createReadStream(localFilePath);
                 const stored = await storage.object.store(
                     DESERVE_BLOBS,
-                    filename,
+                    blobName,
                     inStream,
                 );
                 fs.unlink(localFilePath, () => {});
@@ -144,20 +144,22 @@ const setupUpload = (
 
 
                 const blobData = {
-                    fileSHA,
-                    filename,
+                    blobSHA,
+                    blobName,
                     size: request.file.size,
                     origin: request.header('Host') || '',
                 };
 
                 await database.updateDocument(
                     deserveBlobsCollection,
-                    filename,
+                    blobName,
                     blobData,
                 );
 
 
-                response.end();
+                response.json({
+                    sha: blobSHA,
+                });
             } catch (error) {
                 response.status(500).end();
                 return;
