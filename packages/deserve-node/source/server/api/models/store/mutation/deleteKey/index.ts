@@ -9,7 +9,7 @@
     } from '~server/data/interfaces';
 
     import database, {
-        getDeserveDataCollection,
+        getDeserveKeysCollection,
     } from '~server/services/database';
 
     import {
@@ -40,8 +40,8 @@ const deleteKey = async (
         }
 
 
-        const deserveDataCollection = await getDeserveDataCollection();
-        if (!deserveDataCollection) {
+        const deserveKeysCollection = await getDeserveKeysCollection();
+        if (!deserveKeysCollection) {
             return {
                 status: false,
             };
@@ -57,7 +57,7 @@ const deleteKey = async (
         // and set for obliteration following the obliteration policy
 
         await database.deleteDocument(
-            deserveDataCollection,
+            deserveKeysCollection,
             id,
         );
 

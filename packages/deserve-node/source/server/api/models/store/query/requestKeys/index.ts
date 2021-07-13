@@ -8,7 +8,7 @@
     } from '~server/data/interfaces';
 
     import database, {
-        getDeserveDataCollection,
+        getDeserveKeysCollection,
     } from '~server/services/database';
 
     import {
@@ -39,9 +39,9 @@ const requestKeys = async (
         }
 
 
-        const deserveDataCollection = await getDeserveDataCollection();
+        const deserveKeysCollection = await getDeserveKeysCollection();
         if (
-            !deserveDataCollection
+            !deserveKeysCollection
         ) {
             // console.log('No database');
 
@@ -59,7 +59,7 @@ const requestKeys = async (
 
         for (const id of ids) {
             const idData: any = await database.getById(
-                deserveDataCollection,
+                deserveKeysCollection,
                 id,
             );
             data.push(JSON.stringify(idData.value));

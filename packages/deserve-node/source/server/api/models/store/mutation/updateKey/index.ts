@@ -8,7 +8,7 @@
     } from '~server/data/interfaces';
 
     import database, {
-        getDeserveDataCollection,
+        getDeserveKeysCollection,
     } from '~server/services/database';
 
     import {
@@ -43,8 +43,8 @@ const updateKey = async (
         }
 
 
-        const deserveDataCollection = await getDeserveDataCollection();
-        if (!deserveDataCollection) {
+        const deserveKeysCollection = await getDeserveKeysCollection();
+        if (!deserveKeysCollection) {
             return {
                 status: false,
             };
@@ -59,14 +59,14 @@ const updateKey = async (
 
         if (field) {
             await database.updateField(
-                deserveDataCollection,
+                deserveKeysCollection,
                 id,
                 'value.' + field,
                 dataToObjectOrDefault(data),
             );
         } else {
             await database.updateDocument(
-                deserveDataCollection,
+                deserveKeysCollection,
                 id,
                 {
                     value: dataToObjectOrDefault(data),

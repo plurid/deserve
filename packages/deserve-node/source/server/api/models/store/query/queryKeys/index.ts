@@ -8,7 +8,7 @@
     } from '~server/data/interfaces';
 
     import database, {
-        getDeserveDataCollection,
+        getDeserveKeysCollection,
     } from '~server/services/database';
 
     import {
@@ -39,9 +39,9 @@ const queryKeys = async (
         }
 
 
-        const deserveDataCollection = await getDeserveDataCollection();
+        const deserveKeysCollection = await getDeserveKeysCollection();
         if (
-            !deserveDataCollection
+            !deserveKeysCollection
         ) {
             // console.log('No database');
 
@@ -60,7 +60,7 @@ const queryKeys = async (
         } = core;
 
         const query: any = await database.getAllWhere(
-            deserveDataCollection,
+            deserveKeysCollection,
             {
                 ownerID,
                 ...JSON.parse(filter),

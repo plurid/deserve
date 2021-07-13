@@ -15,6 +15,10 @@
     import storage, {
         DESERVE_BLOBS,
     } from '~server/services/storage';
+
+    import database, {
+        getDeserveBlobsCollection,
+    } from '~server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -40,17 +44,31 @@ const deleteBlob = async (
         }
 
 
+        const deserveBlobsCollection = await getDeserveBlobsCollection();
+        if (!deserveBlobsCollection) {
+            return {
+                status: false,
+            };
+        }
+
+
         const {
             id,
         } = input;
+
+        const {
+            ownerID,
+        } = core;
 
         // TODO:
         // mark as deleted
         // and set for obliteration following the obliteration policy
 
+        const blobID = ownerID + '/' + id;
+
         const obliterated = await storage.object.obliterate(
             DESERVE_BLOBS,
-            id,
+            blobID,
         );
 
         if (!obliterated) {
@@ -58,6 +76,12 @@ const deleteBlob = async (
                 status: false,
             };
         }
+
+
+        await database.deleteDocument(
+            deserveBlobsCollection,
+            blobID,
+        );
 
 
         return {

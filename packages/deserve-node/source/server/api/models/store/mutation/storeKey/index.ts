@@ -15,7 +15,7 @@
     } from '~server/data/interfaces';
 
     import database, {
-        getDeserveDataCollection,
+        getDeserveKeysCollection,
     } from '~server/services/database';
 
     import {
@@ -50,9 +50,9 @@ const storeKey = async (
         }
 
 
-        const deserveDataCollection = await getDeserveDataCollection();
+        const deserveKeysCollection = await getDeserveKeysCollection();
         if (
-            !deserveDataCollection
+            !deserveKeysCollection
         ) {
             // console.log('No database');
 
@@ -73,7 +73,7 @@ const storeKey = async (
         const dataID = ownerID + '/' + uuid.generate() + uuid.generate() + uuid.generate();
 
         await database.updateDocument(
-            deserveDataCollection,
+            deserveKeysCollection,
             dataID,
             {
                 ownerID,
