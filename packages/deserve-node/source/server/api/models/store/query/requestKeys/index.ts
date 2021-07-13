@@ -56,12 +56,14 @@ const requestKeys = async (
                 value,
                 storedAt,
                 updatedAt,
+                sha,
             } = idData;
 
             data.push({
                 value: JSON.stringify(value),
                 storedAt,
                 updatedAt,
+                sha,
             });
         }
 

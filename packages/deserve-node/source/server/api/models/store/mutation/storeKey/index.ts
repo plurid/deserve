@@ -2,6 +2,7 @@
     // #region libraries
     import {
         uuid,
+        sha,
     } from '@plurid/plurid-functions';
     // #endregion libraries
 
@@ -58,14 +59,18 @@ const storeKey = async (
         } = core;
 
         const dataID = ownerID + '/' + uuid.generate() + uuid.generate() + uuid.generate();
+        const storedAt = Date.now();
+        const keySHA = await sha.compute(ownerID + storedAt + data);
+        const value = dataToObjectOrDefault(data);
 
         await database.updateDocument(
             collections.keys,
             dataID,
             {
                 ownerID,
-                value: dataToObjectOrDefault(data),
-                storedAt: Date.now(),
+                storedAt,
+                sha: keySHA,
+                value,
             },
         );
 

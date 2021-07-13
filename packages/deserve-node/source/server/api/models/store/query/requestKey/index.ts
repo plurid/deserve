@@ -51,6 +51,7 @@ const requestKey = async (
             value,
             storedAt,
             updatedAt,
+            sha,
         } = data;
 
         return {
@@ -59,6 +60,7 @@ const requestKey = async (
                 value: JSON.stringify(value),
                 storedAt,
                 updatedAt,
+                sha,
             },
         };
     } catch (error) {

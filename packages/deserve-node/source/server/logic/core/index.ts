@@ -37,18 +37,13 @@ export const getCoreFromRequest = async (
     const cores: any[] = await database.getAllWhere(
         deserveCoresCollection,
         {
-            token,
+            origins: origin,
+            tokens: token,
         },
     );
     const core = cores[0];
     if (!core) {
         // console.log('No core');
-
-        return;
-    }
-
-    if (!core.origins.includes(origin)) {
-        // console.log('No origin on core');
 
         return;
     }

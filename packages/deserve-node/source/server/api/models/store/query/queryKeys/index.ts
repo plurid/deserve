@@ -64,12 +64,14 @@ const queryKeys = async (
                     value,
                     storedAt,
                     updatedAt,
+                    sha,
                 } = queryItem;
 
                 data.push({
                     value: JSON.stringify(value),
                     storedAt,
                     updatedAt,
+                    sha,
                 });
             }
         }

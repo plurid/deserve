@@ -53,6 +53,8 @@ export interface Core {
     register: string;
     key: string;
     ownerID: string;
+    tokens: string[];
+    origins: string[];
 }
 
 export type ClientCore = Omit<Core, 'key' | 'ownerID'> & {
