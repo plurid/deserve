@@ -5,9 +5,7 @@
         InputDeregisterCore,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveCoresCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import tunnelsManager from '~server/services/tunnelsManager';
     // #endregion external
@@ -21,18 +19,9 @@ const deregisterCore = async (
     context: Context,
 ) => {
     try {
-        const deserveCoresCollection = await getDeserveCoresCollection();
-        if (
-            !deserveCoresCollection
-        ) {
-            return {
-                status: false,
-            };
-        }
-
-
         const {
             owner,
+            collections,
         } = context;
 
         if (!owner) {
@@ -47,7 +36,7 @@ const deregisterCore = async (
         } = input;
 
         const core: any = await database.getById(
-            deserveCoresCollection,
+            collections.cores,
             id,
         );
 
@@ -67,7 +56,7 @@ const deregisterCore = async (
         tunnelsManager.remove(id);
 
         await database.deleteDocument(
-            deserveCoresCollection,
+            collections.cores,
             id,
         );
 

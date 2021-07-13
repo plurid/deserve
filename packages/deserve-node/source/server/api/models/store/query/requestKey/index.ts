@@ -7,9 +7,7 @@
         ResponseRequestedKey,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveKeysCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         getCoreFromRequest,
@@ -27,6 +25,7 @@ const requestKey = async (
     try {
         const {
             request,
+            collections,
         } = context;
 
         const core = await getCoreFromRequest(request);
@@ -39,24 +38,12 @@ const requestKey = async (
         }
 
 
-        const deserveKeysCollection = await getDeserveKeysCollection();
-        if (
-            !deserveKeysCollection
-        ) {
-            // console.log('No database');
-
-            return {
-                status: false,
-            };
-        }
-
-
         const {
             id,
         } = input;
 
         const data: any = await database.getById(
-            deserveKeysCollection,
+            collections.keys,
             id,
         );
 

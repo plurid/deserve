@@ -5,6 +5,8 @@
         Request,
         Response,
     } from 'express';
+
+    import mongodb from 'mongodb';
     // #endregion libraries
 
 
@@ -28,6 +30,8 @@ export interface Context {
     logLevels: LogLevels;
 
     owner: ClientOwner | undefined;
+
+    collections: DatabaseCollections;
 }
 
 
@@ -55,6 +59,14 @@ export type ClientCore = Omit<Core, 'key' | 'ownerID'> & {
     active: boolean;
 };
 
+
+export interface DatabaseCollections {
+    global: mongodb.Collection;
+    owners: mongodb.Collection;
+    cores: mongodb.Collection;
+    keys: mongodb.Collection;
+    blobs: mongodb.Collection;
+}
 
 
 export interface DeserveEntity {

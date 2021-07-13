@@ -7,9 +7,7 @@
         Response,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveKeysCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         getCoreFromRequest,
@@ -31,20 +29,13 @@ const updateKey = async (
     try {
         const {
             request,
+            collections,
         } = context;
 
         const core = await getCoreFromRequest(request);
         if (!core) {
             // console.log('No core');
 
-            return {
-                status: false,
-            };
-        }
-
-
-        const deserveKeysCollection = await getDeserveKeysCollection();
-        if (!deserveKeysCollection) {
             return {
                 status: false,
             };
@@ -59,21 +50,20 @@ const updateKey = async (
 
         if (field) {
             await database.updateField(
-                deserveKeysCollection,
+                collections.keys,
                 id,
                 'value.' + field,
                 dataToObjectOrDefault(data),
             );
         } else {
             await database.updateDocument(
-                deserveKeysCollection,
+                collections.keys,
                 id,
                 {
                     value: dataToObjectOrDefault(data),
                 },
             );
         }
-
 
 
         return {

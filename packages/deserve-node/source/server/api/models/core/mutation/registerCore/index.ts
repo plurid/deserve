@@ -1,7 +1,7 @@
 // #region imports
     // #region libraries
     import {
-        parse,
+        URL,
     } from 'url';
 
     import {
@@ -17,9 +17,7 @@
         Core,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveCoresCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import tunnelsManager from '~server/services/tunnelsManager';
 
@@ -38,18 +36,9 @@ const registerCore = async (
     context: Context,
 ) => {
     try {
-        const deserveCoresCollection = await getDeserveCoresCollection();
-        if (
-            !deserveCoresCollection
-        ) {
-            return {
-                status: false,
-            };
-        }
-
-
         const {
             owner,
+            collections,
         } = context;
 
         if (!owner) {
@@ -89,7 +78,7 @@ const registerCore = async (
             },
         } = routerResponse;
 
-        const parsedLink = parse(core);
+        const parsedLink = new URL(core);
         const link = parsedLink.protocol + '//' + parsedLink.host;
 
         const {
@@ -118,7 +107,7 @@ const registerCore = async (
         };
 
         await database.updateDocument(
-            deserveCoresCollection,
+            collections.cores,
             id,
             storedCore,
         );

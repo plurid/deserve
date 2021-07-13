@@ -14,9 +14,7 @@
         ResponseStoredKey,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveKeysCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         getCoreFromRequest,
@@ -38,23 +36,12 @@ const storeKey = async (
     try {
         const {
             request,
+            collections,
         } = context;
 
         const core = await getCoreFromRequest(request);
         if (!core) {
             // console.log('No core');
-
-            return {
-                status: false,
-            };
-        }
-
-
-        const deserveKeysCollection = await getDeserveKeysCollection();
-        if (
-            !deserveKeysCollection
-        ) {
-            // console.log('No database');
 
             return {
                 status: false,
@@ -73,7 +60,7 @@ const storeKey = async (
         const dataID = ownerID + '/' + uuid.generate() + uuid.generate() + uuid.generate();
 
         await database.updateDocument(
-            deserveKeysCollection,
+            collections.keys,
             dataID,
             {
                 ownerID,

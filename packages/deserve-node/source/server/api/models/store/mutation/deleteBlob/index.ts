@@ -16,9 +16,7 @@
         DESERVE_BLOBS,
     } from '~server/services/storage';
 
-    import database, {
-        getDeserveBlobsCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -32,20 +30,13 @@ const deleteBlob = async (
     try {
         const {
             request,
+            collections,
         } = context;
 
         const core = await getCoreFromRequest(request);
         if (!core) {
             // console.log('No core');
 
-            return {
-                status: false,
-            };
-        }
-
-
-        const deserveBlobsCollection = await getDeserveBlobsCollection();
-        if (!deserveBlobsCollection) {
             return {
                 status: false,
             };
@@ -79,7 +70,7 @@ const deleteBlob = async (
 
 
         await database.deleteDocument(
-            deserveBlobsCollection,
+            collections.blobs,
             blobID,
         );
 

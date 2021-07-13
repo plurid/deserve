@@ -30,4 +30,31 @@ export const getDeserveOwnersCollection = async <T = any>() => (await getDeserve
 export const getDeserveCoresCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_CORES);
 export const getDeserveKeysCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_KEYS);
 export const getDeserveBlobsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_BLOBS);
+
+
+export const loadCollections = async () => {
+    const deserveGlobalCollection = await getDeserveGlobalCollection();
+    const deserveOwnersCollection = await getDeserveOwnersCollection();
+    const deserveCoresCollection = await getDeserveCoresCollection();
+    const deserveKeysCollection = await getDeserveKeysCollection();
+    const deserveBlobsCollection = await getDeserveBlobsCollection();
+
+    if (
+        !deserveGlobalCollection
+        || !deserveOwnersCollection
+        || !deserveCoresCollection
+        || !deserveKeysCollection
+        || !deserveBlobsCollection
+    ) {
+        return;
+    }
+
+    return {
+        global: deserveGlobalCollection,
+        owners: deserveOwnersCollection,
+        cores: deserveCoresCollection,
+        keys: deserveKeysCollection,
+        blobs: deserveBlobsCollection,
+    };
+}
 // #endregion module

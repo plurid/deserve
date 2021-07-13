@@ -13,10 +13,7 @@
         Owner,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveOwnersCollection,
-        getDeserveCoresCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         hashKey,
@@ -35,21 +32,9 @@ const registerOwner = async (
     context: Context,
 ) => {
     try {
-        const deserveOwnersCollection = await getDeserveOwnersCollection();
-        const deserveCoresCollection = await getDeserveCoresCollection();
-        if (
-            !deserveOwnersCollection
-            || !deserveCoresCollection
-        ) {
-            // console.log('No database connection');
-            return {
-                status: false,
-            };
-        }
-
-
         const {
             response,
+            collections,
         } = context;
 
         const {
@@ -59,7 +44,7 @@ const registerOwner = async (
 
 
         const ownerQuery: any = await database.getBy(
-            deserveOwnersCollection,
+            collections.owners,
             'identonym',
             identonym,
         );
@@ -83,7 +68,7 @@ const registerOwner = async (
         };
 
         await database.updateDocument(
-            deserveOwnersCollection,
+            collections.owners,
             id,
             owner,
         );

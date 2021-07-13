@@ -8,9 +8,7 @@
         Response,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveKeysCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         getCoreFromRequest,
@@ -28,20 +26,13 @@ const deleteKey = async (
     try {
         const {
             request,
+            collections,
         } = context;
 
         const core = await getCoreFromRequest(request);
         if (!core) {
             // console.log('No core');
 
-            return {
-                status: false,
-            };
-        }
-
-
-        const deserveKeysCollection = await getDeserveKeysCollection();
-        if (!deserveKeysCollection) {
             return {
                 status: false,
             };
@@ -57,7 +48,7 @@ const deleteKey = async (
         // and set for obliteration following the obliteration policy
 
         await database.deleteDocument(
-            deserveKeysCollection,
+            collections.keys,
             id,
         );
 

@@ -5,10 +5,7 @@
         InputLogin,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveOwnersCollection,
-        getDeserveCoresCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         validateKey,
@@ -26,20 +23,9 @@ const login = async (
     context: Context,
 ) => {
     try {
-        const deserveOwnersCollection = await getDeserveOwnersCollection();
-        const deserveCoresCollection = await getDeserveCoresCollection();
-        if (
-            !deserveOwnersCollection
-            || !deserveCoresCollection
-        ) {
-            return {
-                status: false,
-            };
-        }
-
-
         const {
             response,
+            collections,
         } = context;
 
         const {
@@ -48,7 +34,7 @@ const login = async (
         } = input;
 
         const ownerQuery: any = await database.getBy(
-            deserveOwnersCollection,
+            collections.owners,
             'identonym',
             identonym,
         );
@@ -78,7 +64,7 @@ const login = async (
         );
 
         const coresQuery: any[] = await database.getAllBy(
-            deserveCoresCollection,
+            collections.cores,
             'ownerID',
             owner.id,
         );

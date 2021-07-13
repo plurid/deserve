@@ -8,9 +8,7 @@
         COOKIE_EMPTY_VALUE,
     } from '~server/data/constants';
 
-    import database, {
-        getDeserveCoresCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         setCookieTokens,
@@ -25,18 +23,10 @@ const logout = async (
     context: Context,
 ) => {
     try {
-        const deserveCoresCollection = await getDeserveCoresCollection();
-        if (
-            !deserveCoresCollection
-        ) {
-            return {
-                status: false,
-            };
-        }
-
         const {
             response,
             owner,
+            collections,
         } = context;
 
         if (!owner) {
@@ -46,7 +36,7 @@ const logout = async (
         }
 
         const coresQuery: any[] = await database.getAllBy(
-            deserveCoresCollection,
+            collections.cores,
             'ownerID',
             owner.id,
         );

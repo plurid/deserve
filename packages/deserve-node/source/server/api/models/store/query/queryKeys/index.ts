@@ -7,9 +7,7 @@
         ResponseQueriedKeys,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveKeysCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         getCoreFromRequest,
@@ -27,23 +25,12 @@ const queryKeys = async (
     try {
         const {
             request,
+            collections,
         } = context;
 
         const core = await getCoreFromRequest(request);
         if (!core) {
             // console.log('No core');
-
-            return {
-                status: false,
-            };
-        }
-
-
-        const deserveKeysCollection = await getDeserveKeysCollection();
-        if (
-            !deserveKeysCollection
-        ) {
-            // console.log('No database');
 
             return {
                 status: false,
@@ -60,7 +47,7 @@ const queryKeys = async (
         } = core;
 
         const query: any = await database.getAllWhere(
-            deserveKeysCollection,
+            collections.keys,
             {
                 ownerID,
                 ...JSON.parse(filter),

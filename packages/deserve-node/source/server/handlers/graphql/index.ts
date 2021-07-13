@@ -30,6 +30,10 @@
     } from '~server/api';
 
     import {
+        loadCollections,
+    } from '~server/logic/database';
+
+    import {
         tradeTokenForOwner,
     } from '~server/utilities';
     // #endregion external
@@ -41,6 +45,12 @@
 const setupGraphQLServer = async (
     instance: Application,
 ) => {
+    const collections = await loadCollections();
+    if (!collections) {
+        console.log('Database not loaded');
+        return;
+    }
+
     // TODO no playground if production
     const playground = {
         // settings: {
@@ -73,6 +83,8 @@ const setupGraphQLServer = async (
                 logLevels,
 
                 owner,
+
+                collections,
             };
 
             return context;

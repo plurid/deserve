@@ -5,9 +5,7 @@
         InputValueString,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveCoresCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import tunnelsManager from '~server/services/tunnelsManager';
 
@@ -26,18 +24,9 @@ const activateCore = async (
     context: Context,
 ) => {
     try {
-        const deserveCoresCollection = await getDeserveCoresCollection();
-        if (
-            !deserveCoresCollection
-        ) {
-            return {
-                status: false,
-            };
-        }
-
-
         const {
             owner,
+            collections,
         } = context;
 
         if (!owner) {
@@ -52,7 +41,7 @@ const activateCore = async (
         } = input;
 
         const databaseCore: any = await database.getById(
-            deserveCoresCollection,
+            collections.cores,
             id,
         );
 
