@@ -22,7 +22,7 @@ export const getCoreFromRequest = async (
     if (!origin || !token) {
         // console.log('No origin or token');
 
-        return
+        return;
     }
 
 
@@ -30,7 +30,7 @@ export const getCoreFromRequest = async (
     if (!deserveCoresCollection) {
         // console.log('No database');
 
-        return
+        return;
     }
 
     const cores: any[] = await database.getAllWhere(
@@ -43,8 +43,14 @@ export const getCoreFromRequest = async (
     if (!core) {
         // console.log('No core');
 
-        return
+        return;
     }
+
+    // if (!core.origins.includes(origin)) {
+    //     // console.log('No origin on core');
+
+    //     return;
+    // }
 
     return core;
 }
