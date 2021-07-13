@@ -20,7 +20,7 @@
     } from '~server/logic/core';
 
     import storage, {
-        BLOBS,
+        DESERVE_BLOBS,
     } from '~server/services/storage';
 
     import database, {
@@ -38,7 +38,7 @@
 // #region module
 const initializeStorage = async () => {
     const buckets = [
-        BLOBS,
+        DESERVE_BLOBS,
     ];
 
     buckets.forEach(async (bucket) => {
@@ -132,7 +132,7 @@ const setupUpload = (
                 const filename = `${core.ownerID}/${fileSHA}`;
                 const inStream = fs.createReadStream(localFilePath);
                 const stored = await storage.object.store(
-                    BLOBS,
+                    DESERVE_BLOBS,
                     filename,
                     inStream,
                 );

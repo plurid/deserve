@@ -1,3 +1,3 @@
 // #region module
-export const BLOBS = 'blobs';
+export const DESERVE_BLOBS = 'deserve-blobs';
 // #endregion module
