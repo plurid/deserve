@@ -5,6 +5,8 @@
 
         InputRequestKeys,
         ResponseRequestedKeys,
+
+        Key,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -42,14 +44,16 @@ const requestKeys = async (
             ids,
         } = input;
 
-        const data = [];
+        const data: Key[] = [];
 
         for (const id of ids) {
             const idData: any = await database.getById(
                 collections.keys,
                 id,
             );
-            data.push(JSON.stringify(idData.value));
+            data.push({
+                value: JSON.stringify(idData.value),
+            });
         }
 
 

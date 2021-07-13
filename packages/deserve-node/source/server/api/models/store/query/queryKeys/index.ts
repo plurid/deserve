@@ -5,6 +5,8 @@
 
         InputQueryKeys,
         ResponseQueriedKeys,
+
+        Key,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -54,11 +56,13 @@ const queryKeys = async (
             },
         );
 
-        const data: string[] = [];
+        const data: Key[] = [];
 
         for (const queryItem of query) {
             if (queryItem.ownerID === ownerID) {
-                data.push(JSON.stringify(queryItem.value));
+                data.push({
+                    value: JSON.stringify(queryItem.value),
+                });
             }
         }
 

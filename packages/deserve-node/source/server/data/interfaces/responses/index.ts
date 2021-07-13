@@ -9,20 +9,20 @@ export interface Response {
 export interface ResponseRequestedKey {
     status: boolean;
     error?: Error;
-    data?: string;
+    data?: Key;
 }
 
 export interface ResponseRequestedKeys {
     status: boolean;
     error?: Error;
-    data?: string[];
+    data?: Key[];
 }
 
 
 export interface ResponseQueriedKeys {
     status: boolean;
     error?: Error;
-    data?: string[];
+    data?: Key[];
 }
 
 
@@ -38,6 +38,10 @@ export interface Error {
     message: string;
 }
 
+
+export interface Key {
+    value: string;
+}
 
 export interface StoredKey {
     id: string;

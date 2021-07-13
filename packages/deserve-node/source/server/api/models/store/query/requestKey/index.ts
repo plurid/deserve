@@ -49,7 +49,9 @@ const requestKey = async (
 
         return {
             status: true,
-            data: JSON.stringify(data.value),
+            data: {
+                value: JSON.stringify(data.value),
+            },
         };
     } catch (error) {
         return {
