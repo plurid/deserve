@@ -97,6 +97,7 @@ const options: PluridServerPartialOptions = {
     ignore: [
         '/deserve',
         '/registry',
+        '/download',
     ],
 };
 

@@ -47,7 +47,7 @@ const initializeStorage = async () => {
 }
 
 
-const setupUpload = (
+const setupBlobs = (
     instance: Application,
 ) => {
     initializeStorage();
@@ -103,7 +103,7 @@ const setupUpload = (
         Store.blobs.upload,
     );
 
-    instance.post(
+    instance.get(
         '/download',
         cors(corsOptions) as any,
         Store.blobs.download,
@@ -114,5 +114,5 @@ const setupUpload = (
 
 
 // #region exports
-export default setupUpload;
+export default setupBlobs;
 // #endregion exports
