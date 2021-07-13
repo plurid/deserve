@@ -32,9 +32,27 @@
 
 
 // #region module
+const initializeStorage = async () => {
+    const buckets = [
+        BLOBS,
+    ];
+
+    buckets.forEach(async (bucket) => {
+        const bucketExists = await storage.bucket.exists(bucket);
+
+        if (!bucketExists) {
+            await storage.bucket.generate(bucket);
+        }
+    });
+}
+
+
 const setupUpload = (
     instance: Application,
 ) => {
+    initializeStorage();
+
+
     const multerInstance = multer(
         {
             storage: {
