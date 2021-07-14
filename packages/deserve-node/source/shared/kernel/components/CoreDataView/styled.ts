@@ -20,7 +20,7 @@ export const StyledCoreDataView = styled.div<IStyledCoreDataView>`
 
 
 export const StyledName = styled.div`
-    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
     font-size: 1.2rem;
 `;
 
@@ -28,7 +28,7 @@ export const StyledName = styled.div`
 export const StyledDataSelect = styled.div`
     display: flex;
     align-items: center;
-    padding: 1rem;
+    margin-bottom: 2rem;
 `;
 
 
@@ -71,6 +71,5 @@ export const StyledDataSelectItem = styled.div<IStyledDataSelectItem>`
 
 
 export const StyledData = styled.div`
-    padding: 1rem;
 `;
 // #region module
