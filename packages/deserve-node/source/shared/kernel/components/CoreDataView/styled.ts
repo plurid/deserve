@@ -20,7 +20,7 @@ export const StyledCoreDataView = styled.div<IStyledCoreDataView>`
 
 
 export const StyledName = styled.div`
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     font-size: 1.2rem;
 `;
 
@@ -49,7 +49,19 @@ export const StyledDataSelectItem = styled.div<IStyledDataSelectItem>`
             active,
         }: IStyledDataSelectItem) => {
             if (active) {
-                return theme.backgroundColorSecondary;
+                return theme.backgroundColorTertiary;
+            }
+
+            return 'initial';
+        }
+    };
+    box-shadow: ${
+        ({
+            theme,
+            active,
+        }: IStyledDataSelectItem) => {
+            if (active) {
+                return theme.boxShadowUmbra;
             }
 
             return 'initial';
@@ -59,5 +71,6 @@ export const StyledDataSelectItem = styled.div<IStyledDataSelectItem>`
 
 
 export const StyledData = styled.div`
+    padding: 1rem;
 `;
 // #region module

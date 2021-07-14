@@ -15,6 +15,8 @@
 
 
     // #region external
+    import EntityView from '../EntityView';
+
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
@@ -60,7 +62,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const {
         // #region state
         stateGeneralTheme,
-        // stateInteractionTheme,
+        stateInteractionTheme,
         // #endregion state
     } = properties;
     // #endregion properties
@@ -75,6 +77,11 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
 
     // #region render
+    const rowsHeader = (
+        <>
+        </>
+    );
+
     return (
         <StyledCoreDataView
             theme={stateGeneralTheme}
@@ -106,7 +113,18 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             </StyledDataSelect>
 
             <StyledData>
-                data
+                <EntityView
+                    generalTheme={stateGeneralTheme}
+                    interactionTheme={stateInteractionTheme}
+
+                    rowTemplate="1fr"
+                    rowsHeader={rowsHeader}
+                    rows={[]}
+                    noRows="no blobs"
+
+                    filterUpdate={() => {}}
+                    refresh={() => {}}
+                />
             </StyledData>
         </StyledCoreDataView>
     );
