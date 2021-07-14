@@ -25,6 +25,7 @@
     // } from '#server/data/interfaces';
 
     import EntityView from '~kernel-components/EntityView';
+    import CoreDataView from '~kernel-components/CoreDataView';
 
     import client from '~kernel-services/graphql/client';
 
@@ -237,26 +238,30 @@ const CoresView: React.FC<CoresViewProperties> = (
         </>
     );
 
+    // return (
+    //     <EntityView
+    //         generalTheme={stateGeneralTheme}
+    //         interactionTheme={stateInteractionTheme}
+
+    //         rowTemplate="auto 30px"
+    //         rowsHeader={rowsHeader}
+    //         rows={filteredRows}
+    //         noRows="no data"
+
+    //         // actionButtonText=""
+    //         // actionButtonClick={() => {
+    //         //     setGeneralView('');
+    //         // }}
+
+    //         filterUpdate={filterUpdate}
+    //         // refresh={() => {
+    //         //     getSetup(dispatch);
+    //         // }}
+    //     />
+    // );
+
     return (
-        <EntityView
-            generalTheme={stateGeneralTheme}
-            interactionTheme={stateInteractionTheme}
-
-            rowTemplate="auto 30px"
-            rowsHeader={rowsHeader}
-            rows={filteredRows}
-            noRows="no data"
-
-            // actionButtonText=""
-            // actionButtonClick={() => {
-            //     setGeneralView('');
-            // }}
-
-            filterUpdate={filterUpdate}
-            // refresh={() => {
-            //     getSetup(dispatch);
-            // }}
-        />
+        <CoreDataView />
     );
     // #endregion render
 }
