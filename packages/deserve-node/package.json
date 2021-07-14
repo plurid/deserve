@@ -55,7 +55,7 @@
     "dependencies": {
         "@apollo/client": "^3.3.21",
         "@plurid/dataface-mongo": "^0.0.0-0",
-        "@plurid/delog": "^0.0.0-1",
+        "@plurid/delog": "^0.0.0-4",
         "@plurid/deon": "^0.0.0-4",
         "@plurid/elementql": "^0.0.0-1",
         "@plurid/elementql-client-react": "^0.0.0-1",
