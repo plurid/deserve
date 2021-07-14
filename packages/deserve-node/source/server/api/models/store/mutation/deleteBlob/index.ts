@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -35,7 +40,10 @@ const deleteBlob = async (
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'deleteBlob no core',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -63,6 +71,11 @@ const deleteBlob = async (
         );
 
         if (!obliterated) {
+            delog({
+                text: 'deleteBlob not obliterated',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -75,10 +88,22 @@ const deleteBlob = async (
         );
 
 
+        delog({
+            text: 'deleteBlob success',
+            level: 'trace',
+        });
+
+
         return {
             status: true,
         };
     } catch (error) {
+        delog({
+            text: 'deleteBlob error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

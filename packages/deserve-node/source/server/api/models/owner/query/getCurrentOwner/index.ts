@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -30,6 +35,12 @@ const getCurrentOwner = async (
             },
         };
     } catch (error) {
+        delog({
+            text: 'getCurrentOwner error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

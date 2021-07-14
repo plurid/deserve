@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -34,7 +39,10 @@ const updateKey = async (
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'updateKey no core',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -64,18 +72,41 @@ const updateKey = async (
             );
         }
 
-        await database.updateField(
+        const updated = await database.updateField(
             collections.keys,
             id,
             'updatedAt',
             Date.now(),
         );
 
+        if (!updated) {
+            delog({
+                text: 'updateKey not updated',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+
+        delog({
+            text: 'updateKey success',
+            level: 'trace',
+        });
+
 
         return {
             status: true,
         };
     } catch (error) {
+        delog({
+            text: 'updateKey error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

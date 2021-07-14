@@ -1,8 +1,10 @@
 // #region imports
     // #region libraries
+    import delog from '@plurid/delog';
+
     import {
         uuid,
-    } from '@plurid/plurid-functions'
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -50,7 +52,11 @@ const registerOwner = async (
         );
 
         if (ownerQuery) {
-            // console.log('Owner exists');
+            delog({
+                text: 'registerOwner owner exists',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -84,12 +90,23 @@ const registerOwner = async (
         );
 
 
+        delog({
+            text: 'registerOwner success',
+            level: 'trace',
+        });
+
+
         return {
             status: true,
             data: clientOwner(owner),
         };
     } catch (error) {
-        // console.log(error);
+        delog({
+            text: 'registerOwner error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

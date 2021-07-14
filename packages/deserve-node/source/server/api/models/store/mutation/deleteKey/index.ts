@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -31,7 +36,10 @@ const deleteKey = async (
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'deleteKey no core',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -47,16 +55,39 @@ const deleteKey = async (
         // mark as deleted
         // and set for obliteration following the obliteration policy
 
-        await database.deleteDocument(
+        const deleted = await database.deleteDocument(
             collections.keys,
             id,
         );
+
+        if (!deleted) {
+            delog({
+                text: 'deleteKey not deleted',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+
+        delog({
+            text: 'deleteKey success',
+            level: 'trace',
+        });
 
 
         return {
             status: true,
         };
     } catch (error) {
+        delog({
+            text: 'deleteKey error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

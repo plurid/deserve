@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -30,6 +35,11 @@ const logout = async (
         } = context;
 
         if (!owner) {
+            delog({
+                text: 'logout no owner',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -47,10 +57,23 @@ const logout = async (
             coresQuery,
         );
 
+
+        delog({
+            text: 'logout success',
+            level: 'trace',
+        });
+
+
         return {
             status: false,
         };
     } catch (error) {
+        delog({
+            text: 'logout error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

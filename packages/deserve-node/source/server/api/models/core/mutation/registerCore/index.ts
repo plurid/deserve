@@ -4,6 +4,8 @@
         URL,
     } from 'url';
 
+    import delog from '@plurid/delog';
+
     import {
         uuid,
     } from '@plurid/plurid-functions';
@@ -42,6 +44,11 @@ const registerCore = async (
         } = context;
 
         if (!owner) {
+            delog({
+                text: 'registerCore no owner',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -66,6 +73,11 @@ const registerCore = async (
         );
 
         if (!routerResponse.status) {
+            delog({
+                text: 'registerCore could not registerNodeToRouter',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -123,11 +135,23 @@ const registerCore = async (
         };
 
 
+        delog({
+            text: 'registerCore success',
+            level: 'trace',
+        });
+
+
         return {
             status: true,
             data,
         };
     } catch (error) {
+        delog({
+            text: 'registerCore error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

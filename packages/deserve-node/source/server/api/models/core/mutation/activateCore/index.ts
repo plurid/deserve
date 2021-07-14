@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -30,6 +35,11 @@ const activateCore = async (
         } = context;
 
         if (!owner) {
+            delog({
+                text: 'activateCore no owner',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -46,12 +56,22 @@ const activateCore = async (
         );
 
         if (!databaseCore) {
+            delog({
+                text: 'activateCore no databaseCore',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
         }
 
         if (databaseCore.ownerID !== owner.id) {
+            delog({
+                text: 'activateCore core not owned by owner',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -70,6 +90,11 @@ const activateCore = async (
         );
 
         if (!routerResponse.status) {
+            delog({
+                text: 'activateCore could not registerNodeToRouter',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -97,10 +122,23 @@ const activateCore = async (
             client,
         );
 
+
+        delog({
+            text: 'activateCore success',
+            level: 'trace',
+        });
+
+
         return {
             status: true,
         };
     } catch (error) {
+        delog({
+            text: 'activateCore error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

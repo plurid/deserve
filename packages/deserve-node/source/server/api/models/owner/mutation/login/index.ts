@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -40,6 +45,11 @@ const login = async (
         );
 
         if (!ownerQuery) {
+            delog({
+                text: 'login no ownerQuery',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -53,6 +63,11 @@ const login = async (
         );
 
         if (!validKey) {
+            delog({
+                text: 'login no validKey',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -76,6 +91,12 @@ const login = async (
         );
 
 
+        delog({
+            text: 'login success',
+            level: 'trace',
+        });
+
+
         return {
             status: true,
             data: {
@@ -83,6 +104,12 @@ const login = async (
             },
         };
     } catch (error) {
+        delog({
+            text: 'login error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

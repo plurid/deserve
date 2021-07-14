@@ -1,8 +1,6 @@
 // #region imports
     // #region libraries
-    import delog, {
-        delogLevels,
-    } from '@plurid/delog';
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -47,7 +45,10 @@ const queryKeys = async (
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'queryKeys no core',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -67,7 +68,10 @@ const queryKeys = async (
 
         const resolvedFilter = resolveFilter(filter);
         if (!resolvedFilter) {
-            // console.log('Invalid filter');
+            delog({
+                text: 'queryKeys invalid filter',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -98,7 +102,7 @@ const queryKeys = async (
 
         delog({
             text: 'queryKeys success',
-            level: delogLevels.trace,
+            level: 'trace',
         });
 
         return {
@@ -108,7 +112,7 @@ const queryKeys = async (
     } catch (error) {
         delog({
             text: 'queryKeys error',
-            level: delogLevels.error,
+            level: 'error',
             error,
         });
 

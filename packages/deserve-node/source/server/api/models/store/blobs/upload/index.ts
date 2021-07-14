@@ -3,6 +3,8 @@
     import fs from 'fs';
 
     import express from 'express';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -30,28 +32,44 @@ const upload = async (
 ) => {
     try {
         if (!request.file) {
-            // console.log('No file');
+            delog({
+                text: 'upload no file',
+                level: 'warn',
+            });
+
             response.status(400).end();
             return;
         }
 
         const blobSHA = (request.file as any).sha;
         if (!blobSHA) {
-            // console.log('No blob sha');
+            delog({
+                text: 'upload no blob sha',
+                level: 'warn',
+            });
+
             response.status(400).end();
         }
 
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'upload no core',
+                level: 'warn',
+            });
+
             response.status(400).end();
             return;
         }
 
         const deserveBlobsCollection = await getDeserveBlobsCollection();
         if (!deserveBlobsCollection) {
-            // console.log('No database');
+            delog({
+                text: 'upload no database',
+                level: 'warn',
+            });
+
             response.status(500).end();
             return;
         }
@@ -71,6 +89,11 @@ const upload = async (
         );
         fs.unlink(localFilePath, () => {});
         if (!stored) {
+            delog({
+                text: 'upload not stored',
+                level: 'warn',
+            });
+
             response.status(500).end();
             return;
         }
@@ -91,10 +114,22 @@ const upload = async (
         );
 
 
+        delog({
+            text: 'upload success',
+            level: 'trace',
+        });
+
+
         response.json({
             sha: blobSHA,
         });
     } catch (error) {
+        delog({
+            text: 'upload error',
+            level: 'error',
+            error,
+        });
+
         response.status(500).end();
         return;
     }

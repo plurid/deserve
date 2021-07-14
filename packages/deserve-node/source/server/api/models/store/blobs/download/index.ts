@@ -1,6 +1,8 @@
 // #region imports
     // #region libraries
     import express from 'express';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -29,7 +31,10 @@ const download = async (
     try {
         const blobSHA = request.query.blob;
         if (typeof blobSHA !== 'string') {
-            // console.log('No blob sha');
+            delog({
+                text: 'download no blob sha',
+                level: 'warn',
+            });
 
             response.status(400).end();
             return;
@@ -38,7 +43,11 @@ const download = async (
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'download no core',
+                level: 'warn',
+            });
+
             response.status(400).end();
             return;
         }
@@ -49,7 +58,11 @@ const download = async (
 
         const deserveBlobsCollection = await getDeserveBlobsCollection();
         if (!deserveBlobsCollection) {
-            // console.log('No database');
+            delog({
+                text: 'download no database',
+                level: 'warn',
+            });
+
             response.status(500).end();
             return;
         }
@@ -62,7 +75,11 @@ const download = async (
             blobID,
         );
         if (!blobData) {
-            // console.log('No blob data');
+            delog({
+                text: 'download no blob data',
+                level: 'warn',
+            });
+
             response.status(404).end();
             return;
         }
@@ -73,7 +90,10 @@ const download = async (
             blobID,
         );
         if (!outStream) {
-            // console.log('No read stream');
+            delog({
+                text: 'download no read stream',
+                level: 'warn',
+            });
 
             response.status(500).end();
             return;
@@ -82,8 +102,21 @@ const download = async (
         response.setHeader('Content-Length', blobData.size);
         response.setHeader('Content-Type', blobData.mimetype);
 
+
+        delog({
+            text: 'download success',
+            level: 'trace',
+        });
+
+
         outStream.pipe(response);
     } catch (error) {
+        delog({
+            text: 'download error',
+            level: 'error',
+            error,
+        });
+
         response.status(500).end();
         return;
     }

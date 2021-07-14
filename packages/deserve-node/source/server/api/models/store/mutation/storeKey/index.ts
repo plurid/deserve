@@ -1,5 +1,7 @@
 // #region imports
     // #region libraries
+    import delog from '@plurid/delog';
+
     import {
         uuid,
         sha,
@@ -42,7 +44,10 @@ const storeKey = async (
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'storeKey no core',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -63,7 +68,7 @@ const storeKey = async (
         const keySHA = await sha.compute(ownerID + storedAt + data);
         const value = dataToObjectOrDefault(data);
 
-        await database.updateDocument(
+        const stored = await database.updateDocument(
             collections.keys,
             dataID,
             {
@@ -74,6 +79,23 @@ const storeKey = async (
             },
         );
 
+        if (!stored) {
+            delog({
+                text: 'storeKey not stored',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+
+        delog({
+            text: 'storeKey success',
+            level: 'trace',
+        });
+
 
         return {
             status: true,
@@ -82,7 +104,11 @@ const storeKey = async (
             },
         };
     } catch (error) {
-        // console.log('Error', error);
+        delog({
+            text: 'storeKey error',
+            level: 'error',
+            error,
+        });
 
         return {
             status: false,

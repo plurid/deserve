@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -34,7 +39,10 @@ const requestKey = async (
 
         const core = await getCoreFromRequest(request);
         if (!core) {
-            // console.log('No core');
+            delog({
+                text: 'requestKey no core',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -51,7 +59,10 @@ const requestKey = async (
             id,
         );
         if (!query) {
-            // console.log('Not found');
+            delog({
+                text: 'requestKey not found',
+                level: 'warn',
+            });
 
             return {
                 status: false,
@@ -61,11 +72,23 @@ const requestKey = async (
         const data = keyFromData(query);
 
 
+        delog({
+            text: 'requestKey success',
+            level: 'trace',
+        });
+
+
         return {
             status: true,
             data,
         };
     } catch (error) {
+        delog({
+            text: 'requestKey error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };

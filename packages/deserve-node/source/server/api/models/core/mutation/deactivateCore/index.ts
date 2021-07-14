@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         Context,
@@ -25,6 +30,11 @@ const deactivateCore = async (
         } = context;
 
         if (!owner) {
+            delog({
+                text: 'deactivateCore no owner',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -41,12 +51,22 @@ const deactivateCore = async (
         );
 
         if (!databaseCore) {
+            delog({
+                text: 'deactivateCore no databaseCore',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
         }
 
         if (databaseCore.ownerID !== owner.id) {
+            delog({
+                text: 'deactivateCore core not owned by owner',
+                level: 'warn',
+            });
+
             return {
                 status: false,
             };
@@ -57,10 +77,23 @@ const deactivateCore = async (
             id,
         );
 
+
+        delog({
+            text: 'deactivateCore success',
+            level: 'trace',
+        });
+
+
         return {
             status: true,
         };
     } catch (error) {
+        delog({
+            text: 'deactivateCore error',
+            level: 'error',
+            error,
+        });
+
         return {
             status: false,
         };
