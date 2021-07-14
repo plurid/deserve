@@ -9,6 +9,8 @@
         Application,
     } from 'express';
 
+    import delog from '@plurid/delog';
+
     import {
         uuid,
     } from '@plurid/plurid-functions';
@@ -57,7 +59,12 @@ const initializeStorage = async () => {
             }
         });
     } catch (error) {
-        console.log('Could not initialize storage');
+        delog({
+            text: 'could not initialize storage',
+            level: 'error',
+            error,
+        });
+
         return;
     }
 }

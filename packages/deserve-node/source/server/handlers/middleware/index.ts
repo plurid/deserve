@@ -32,6 +32,7 @@ const corsOptions = {
     },
 }
 
+
 const setupMiddleware = async (
     instance: Express,
 ) => {
