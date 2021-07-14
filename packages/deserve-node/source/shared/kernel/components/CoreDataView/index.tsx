@@ -1,6 +1,8 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useState,
+    } from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -25,6 +27,7 @@
         StyledCoreDataView,
         StyledName,
         StyledDataSelect,
+        StyledDataSelectItem,
         StyledData,
     } from './styled';
     // #endregion internal
@@ -63,6 +66,14 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     // #endregion properties
 
 
+    // #region state
+    const [
+        dataView,
+        setDataView,
+    ] = useState('BLOBS')
+    // #endregion state
+
+
     // #region render
     return (
         <StyledCoreDataView
@@ -73,13 +84,25 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             </StyledName>
 
             <StyledDataSelect>
-                <div>
+                <StyledDataSelectItem
+                    theme={stateGeneralTheme}
+                    active={dataView === 'BLOBS'}
+                    onClick={() => {
+                        setDataView('BLOBS');
+                    }}
+                >
                     blobs
-                </div>
+                </StyledDataSelectItem>
 
-                <div>
+                <StyledDataSelectItem
+                    theme={stateGeneralTheme}
+                    active={dataView === 'KEYS'}
+                    onClick={() => {
+                        setDataView('KEYS');
+                    }}
+                >
                     keys
-                </div>
+                </StyledDataSelectItem>
             </StyledDataSelect>
 
             <StyledData>
