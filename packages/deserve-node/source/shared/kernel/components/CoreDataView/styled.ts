@@ -27,6 +27,7 @@ export const StyledName = styled.div`
 
 export const StyledDataSelect = styled.div`
     display: flex;
+    align-items: center;
     padding: 1rem;
 `;
 
@@ -37,7 +38,8 @@ export interface IStyledDataSelectItem {
 }
 
 export const StyledDataSelectItem = styled.div<IStyledDataSelectItem>`
-    margin: 1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
     cursor: pointer;
     user-select: none;
 
