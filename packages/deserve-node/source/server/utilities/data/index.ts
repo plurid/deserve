@@ -54,7 +54,7 @@ export const blobFromData = (
         mimetype,
         size,
         origin,
-        metadata,
+        metadata: stringFromObject(metadata),
     };
 
     return blob;
