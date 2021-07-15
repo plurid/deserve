@@ -198,6 +198,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     ...blobs,
                     ...(result.data || []),
                 ];
+                setBlobs(newBlobs);
                 setFilteredRows(
                     newBlobs.map(
                         blob => blobRowRenderer(
@@ -211,6 +212,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                 ...keys,
                 ...(result.data || []),
             ];
+            setKeys(newKeys);
             setFilteredRows(
                 newKeys.map(
                     blob => blobRowRenderer(
@@ -221,7 +223,9 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         }
 
         load();
-    }, []);
+    }, [
+        dataView,
+    ]);
     // #endregion effects
 
 
