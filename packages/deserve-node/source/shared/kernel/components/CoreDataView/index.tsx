@@ -194,10 +194,30 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             const result = await query(dataView);
 
             if (dataView === 'BLOBS') {
-                setBlobs(result.data || []);
+                const newBlobs = [
+                    ...blobs,
+                    ...(result.data || []),
+                ];
+                setFilteredRows(
+                    newBlobs.map(
+                        blob => blobRowRenderer(
+                            blob,
+                        ),
+                    ),
+                );
             }
 
-            setKeys(result.data || []);
+            const newKeys = [
+                ...keys,
+                ...(result.data || []),
+            ];
+            setFilteredRows(
+                newKeys.map(
+                    blob => blobRowRenderer(
+                        blob,
+                    ),
+                ),
+            );
         }
 
         load();
