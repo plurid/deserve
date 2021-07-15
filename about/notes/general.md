@@ -5,6 +5,12 @@ curl -v \
     -F 'blob=@<path/to/file>' \
     -H 'Deserve-Token: test' \
     http://localhost:3366/upload
+
+curl -v \
+    -F 'blob=@<path/to/file>' \
+    -F 'metadata=<stringified JSON>' \
+    -H 'Deserve-Token: test' \
+    http://localhost:3366/upload
 ```
 
 
