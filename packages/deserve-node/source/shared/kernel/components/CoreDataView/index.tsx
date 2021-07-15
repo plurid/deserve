@@ -88,14 +88,19 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     ] = useState('BLOBS');
 
     const [
+        activeCore,
+        setActiveCore,
+    ] = useState(core);
+
+    const [
         blobs,
         setBlobs,
-    ] = useState(stateBlobs[core.id] || []);
+    ] = useState(stateBlobs[activeCore.id] || []);
 
     const [
         keys,
         setKeys,
-    ] = useState(stateKeys[core.id] || []);
+    ] = useState(stateKeys[activeCore.id] || []);
     // #endregion state
 
 
@@ -110,7 +115,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             theme={stateGeneralTheme}
         >
             <StyledName>
-                name
+                {activeCore.link}
             </StyledName>
 
             <StyledDataSelect>
