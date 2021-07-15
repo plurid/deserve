@@ -1,9 +1,6 @@
 // #region imports
     // #region libraries
-    import React, {
-        useState,
-        useEffect,
-    } from 'react';
+    import React from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -16,40 +13,17 @@
 
 
     // #region external
-    // import {
-    //     compareValues,
-    // } from '#server/utilities/general';
+    import {
+        ClientCore,
+    } from '~server/data/interfaces';
 
-    // import {
-    //     Core,
-    // } from '#server/data/interfaces';
-
-    import EntityView from '~kernel-components/EntityView';
     import CoreDataView from '~kernel-components/CoreDataView';
-
-    import client from '~kernel-services/graphql/client';
-
-    // import {
-    //     getSetup,
-    // } from '~kernel-services/logic/queries';
 
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
-    import actions from '~kernel-services/state/actions';
-
-    import {
-        getFilterIDs,
-    } from '~kernel-services/utilities';
+    // import actions from '~kernel-services/state/actions';
     // #endregion external
-
-
-    // #region internal
-    import {
-        dataRowRenderer,
-        createSearchTerms,
-    } from './logic';
-    // #endregion internal
 // #endregion imports
 
 
@@ -64,204 +38,53 @@ export interface CoresViewOwnProperties {
         setGeneralView: any;
         // #endregion methods
     // #endregion required
-
-    // #region optional
-        // #region values
-        // #endregion values
-
-        // #region methods
-        // #endregion methods
-    // #endregion optional
 }
 
 export interface CoresViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    // stateCores: Core[];
+    stateCores: ClientCore[];
 }
 
 export interface CoresViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    // dispatchRemoveEntity: typeof actions.data.removeEntity;
 }
 
-export type CoresViewProperties = CoresViewOwnProperties
+export type CoresViewProperties =
+    & CoresViewOwnProperties
     & CoresViewStateProperties
     & CoresViewDispatchProperties;
+
 
 const CoresView: React.FC<CoresViewProperties> = (
     properties,
 ) => {
     // #region properties
     const {
-        // #region required
-            // #region values
-            // #endregion values
-
-            // #region methods
-            setGeneralView,
-            // #endregion methods
-        // #endregion required
-
-        // #region optional
-            // #region values
-            // #endregion values
-
-            // #region methods
-            // #endregion methods
-        // #endregion optional
-
         // #region state
-        stateGeneralTheme,
-        stateInteractionTheme,
-        // stateCores,
+        stateCores,
         // #endregion state
-
-        // #region dispatch
-        dispatch,
-        // dispatchRemoveEntity,
-        // #endregion dispatch
     } = properties;
     // #endregion properties
 
 
-    const stateCores: any[] = [];
-
-
-    // #region handlers
-    const handleProjectObliterate = async (
-        id: string,
-    ) => {
-        try {
-            // dispatchRemoveEntity({
-            //     type: 'project',
-            //     id,
-            // });
-
-            // const input = {
-            //     value: id,
-            // };
-
-            // await client.mutate({
-            //     mutation: OBLITERATE_CORE,
-            //     variables: {
-            //         input,
-            //     },
-            // });
-        } catch (error) {
-            return;
-        }
-    }
-    // #endregion handlers
-
-
-    // #region state
-    const [searchTerms, setSearchTerms] = useState(
-        createSearchTerms(stateCores),
-    );
-
-    const [filteredRows, setFilteredRows] = useState(
-        []
-        // stateCores.map(
-        //     project => dataRowRenderer(
-        //         project,
-        //         handleProjectObliterate,
-        //     ),
-        // ),
-    );
-    // #endregion state
-
-
-    // #region handlers
-    const filterUpdate = (
-        rawValue: string,
-    ) => {
-        // const value = rawValue.toLowerCase();
-
-        // const filterIDs = getFilterIDs(
-        //     searchTerms,
-        //     value,
-        // );
-
-        // const filteredCores = stateCores.filter(stateProject => {
-        //     if (filterIDs.includes(stateProject.id)) {
-        //         return true;
-        //     }
-
-        //     return false;
-        // });
-
-        // const sortedCores = filteredCores.sort(
-        //     compareValues('name'),
-        // );
-
-        // setFilteredRows(
-        //     sortedCores.map(
-        //         project => dataRowRenderer(
-        //             project,
-        //             handleProjectObliterate,
-        //         ),
-        //     ),
-        // );
-    }
-    // #endregion handlers
-
-
-    // #region effects
-    // useEffect(() => {
-    //     const searchTerms = createSearchTerms(
-    //         stateCores,
-    //     );
-    //     const filteredRows = stateCores.map(
-    //         project => dataRowRenderer(
-    //             project,
-    //             handleProjectObliterate,
-    //         ),
-    //     );
-
-    //     setSearchTerms(searchTerms);
-    //     setFilteredRows(filteredRows);
-    // }, [
-    //     stateCores,
-    // ]);
-    // #endregion effects
-
-
     // #region render
-    const rowsHeader = (
-        <>
-            <div>
-                name
+    if (stateCores.length === 0) {
+        return (
+            <div
+                style={{
+                    textAlign: 'center',
+                }}
+            >
+                no data
             </div>
-
-            <div />
-        </>
-    );
-
-    // return (
-    //     <EntityView
-    //         generalTheme={stateGeneralTheme}
-    //         interactionTheme={stateInteractionTheme}
-
-    //         rowTemplate="auto 30px"
-    //         rowsHeader={rowsHeader}
-    //         rows={filteredRows}
-    //         noRows="no data"
-
-    //         // actionButtonText=""
-    //         // actionButtonClick={() => {
-    //         //     setGeneralView('');
-    //         // }}
-
-    //         filterUpdate={filterUpdate}
-    //         // refresh={() => {
-    //         //     getSetup(dispatch);
-    //         // }}
-    //     />
-    // );
+        );
+    }
 
     return (
-        <CoreDataView />
+        <CoreDataView
+            core={stateCores[0]}
+        />
     );
     // #endregion render
 }
@@ -272,7 +95,7 @@ const mapStateToProperties = (
 ): CoresViewStateProperties => ({
     stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateInteractionTheme: selectors.themes.getInteractionTheme(state),
-    // stateCores: selectors.data.getCores(state),
+    stateCores: selectors.data.getCores(state),
 });
 
 
@@ -280,11 +103,6 @@ const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): CoresViewDispatchProperties => ({
     dispatch,
-    // dispatchRemoveEntity: (
-    //     payload,
-    // ) => dispatch (
-    //     actions.data.removeEntity(payload),
-    // ),
 });
 
 

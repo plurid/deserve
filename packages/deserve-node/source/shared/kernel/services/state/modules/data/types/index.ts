@@ -77,8 +77,8 @@ export interface PushDataAction {
 
 export interface State {
     cores: ClientCore[];
-    blobs: Record<string, any[]>;
-    keys: Record<string, any[]>;
+    blobs: Record<string, any[] | undefined>;
+    keys: Record<string, any[] | undefined>;
 }
 
 

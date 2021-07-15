@@ -15,6 +15,10 @@
 
 
     // #region external
+    import {
+        ClientCore,
+    } from '~server/data/interfaces';
+
     import EntityView from '../EntityView';
 
     import { AppState } from '~kernel-services/state/store';
@@ -39,11 +43,14 @@
 
 // #region module
 export interface CoreDataViewOwnProperties {
+    core: ClientCore;
 }
 
 export interface CoreDataViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
+    stateBlobs: Record<string, any[] | undefined>;
+    stateKeys: Record<string, any[] | undefined>;
 }
 
 export interface CoreDataViewDispatchProperties {
@@ -60,9 +67,15 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 ) => {
     // #region properties
     const {
+        // #region own
+        core,
+        // #endregion own
+
         // #region state
         stateGeneralTheme,
         stateInteractionTheme,
+        stateBlobs,
+        stateKeys,
         // #endregion state
     } = properties;
     // #endregion properties
@@ -72,7 +85,17 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const [
         dataView,
         setDataView,
-    ] = useState('BLOBS')
+    ] = useState('BLOBS');
+
+    const [
+        blobs,
+        setBlobs,
+    ] = useState(stateBlobs[core.id] || []);
+
+    const [
+        keys,
+        setKeys,
+    ] = useState(stateKeys[core.id] || []);
     // #endregion state
 
 
@@ -137,6 +160,8 @@ const mapStateToProperties = (
 ): CoreDataViewStateProperties => ({
     stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateInteractionTheme: selectors.themes.getInteractionTheme(state),
+    stateBlobs: selectors.data.getBlobs(state),
+    stateKeys: selectors.data.getKeys(state),
 });
 
 
