@@ -59,6 +59,16 @@ export const clearData = (): Types.ClearDataAction => {
 }
 
 
+export const pushData = (
+    payload: Types.PushDataPayload,
+): Types.PushDataAction => {
+    return {
+        type: Types.PUSH_DATA,
+        payload,
+    };
+}
+
+
 
 const actions = {
     addEntity,
@@ -66,6 +76,7 @@ const actions = {
     setCores,
     activateCore,
     clearData,
+    pushData,
 };
 // #endregion module
 

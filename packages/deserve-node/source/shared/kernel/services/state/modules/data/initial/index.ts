@@ -9,6 +9,8 @@
 // #region module
 const initialState: Types.State = {
     cores: [],
+    blobs: {},
+    keys: {},
 };
 // #endregion module
 

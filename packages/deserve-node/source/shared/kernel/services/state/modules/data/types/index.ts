@@ -62,9 +62,23 @@ export interface ClearDataAction {
 }
 
 
+export const PUSH_DATA = 'PUSH_DATA';
+export interface PushDataPayload {
+    coreID: string;
+    type: 'blobs' | 'keys';
+    data: any;
+}
+export interface PushDataAction {
+    type: typeof PUSH_DATA;
+    payload: PushDataPayload;
+}
+
+
 
 export interface State {
     cores: ClientCore[];
+    blobs: Record<string, any[]>;
+    keys: Record<string, any[]>;
 }
 
 
@@ -73,5 +87,6 @@ export type Actions =
     | RemoveEntityAction
     | SetCoresAction
     | ActivateCoreAction
-    | ClearDataAction;
+    | ClearDataAction
+    | PushDataAction;
 // #endregion module

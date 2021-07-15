@@ -26,6 +26,8 @@ const reducer = (
             return resolvers.activateCore(state, action);
         case Types.CLEAR_DATA:
             return resolvers.clearData(state, action);
+        case Types.PUSH_DATA:
+            return resolvers.pushData(state, action);
         default:
             return {
                 ...state,
