@@ -63,7 +63,7 @@ export const blobRowRenderer = (
     return (
         <>
             <div>
-                sha
+                {id}
             </div>
 
             <div>
@@ -76,6 +76,43 @@ export const blobRowRenderer = (
 
             <div>
                 {size}
+            </div>
+
+            <div>
+                {metadata}
+            </div>
+        </>
+    );
+}
+
+
+export const keyRowRenderer = (
+    key: any,
+) => {
+    const {
+        id,
+        value,
+        storedAt,
+        updatedAt,
+        sha,
+    } = key;
+
+    return (
+        <>
+            <div>
+                {id}
+            </div>
+
+            <div>
+                {storedAt}
+            </div>
+
+            <div>
+                {updatedAt}
+            </div>
+
+            <div>
+                {value}
             </div>
         </>
     );
@@ -216,8 +253,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             setKeys(newKeys);
             setFilteredRows(
                 newKeys.map(
-                    blob => blobRowRenderer(
-                        blob,
+                    key => keyRowRenderer(
+                        key,
                     ),
                 ),
             );
@@ -303,8 +340,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     interactionTheme={stateInteractionTheme}
 
                     rowTemplate={dataView === 'BLOBS'
-                        ? '1fr 1fr 1fr 1fr'
-                        : '1fr 1fr 1fr'
+                        ? '1fr 1fr 1fr 1fr 1fr'
+                        : '1fr 1fr 1fr 1fr'
                     }
                     rowsHeader={dataView === 'BLOBS'
                         ? blobsHeader
