@@ -232,8 +232,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
             if (dataView === 'BLOBS') {
                 const newBlobs = [
-                    ...blobs,
-                    ...(result.data || []),
+                    ... new Set([
+                        ...blobs,
+                        ...(result.data || []),
+                    ]),
                 ];
                 setBlobs(newBlobs);
                 setFilteredRows(
@@ -247,8 +249,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             }
 
             const newKeys = [
-                ...keys,
-                ...(result.data || []),
+                ... new Set([
+                    ...keys,
+                    ...(result.data || []),
+                ]),
             ];
             setKeys(newKeys);
             setFilteredRows(
@@ -285,6 +289,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             <div>
                 size
             </div>
+
+            <div>
+                metadata
+            </div>
         </>
     );
 
@@ -296,6 +304,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
             <div>
                 stored at
+            </div>
+
+            <div>
+                updated at
             </div>
 
             <div>
