@@ -42,6 +42,16 @@
 
 
 // #region module
+export const blobRowRenderer = (
+    blob: any,
+) => {
+    return (
+        <>
+        </>
+    );
+}
+
+
 export interface CoreDataViewOwnProperties {
     core: ClientCore;
 }
@@ -101,12 +111,54 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         keys,
         setKeys,
     ] = useState(stateKeys[activeCore.id] || []);
+
+    const [
+        filteredRows,
+        setFilteredRows,
+    ] = useState(
+        blobs.map(
+            blob => blobRowRenderer(
+                blob,
+            ),
+        ),
+    );
     // #endregion state
 
 
     // #region render
-    const rowsHeader = (
+    const blobsHeader = (
         <>
+            <div>
+                sha
+            </div>
+
+            <div>
+                stored at
+            </div>
+
+            <div>
+                type
+            </div>
+
+            <div>
+                size
+            </div>
+        </>
+    );
+
+    const keysHeader = (
+        <>
+            <div>
+                id
+            </div>
+
+            <div>
+                stored at
+            </div>
+
+            <div>
+                value
+            </div>
         </>
     );
 
@@ -145,14 +197,19 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     generalTheme={stateGeneralTheme}
                     interactionTheme={stateInteractionTheme}
 
-                    rowTemplate="1fr"
-                    rowsHeader={rowsHeader}
-                    rows={[]}
+                    rowTemplate={dataView === 'BLOBS'
+                        ? '1fr 1fr 1fr 1fr'
+                        : '1fr 1fr 1fr'
+                    }
+                    rowsHeader={dataView === 'BLOBS'
+                        ? blobsHeader
+                        : keysHeader
+                    }
+                    rows={filteredRows}
                     noRows={dataView === 'BLOBS'
                         ? 'no blobs'
                         : 'no keys'
                     }
-
 
                     filterUpdate={() => {}}
                     refresh={() => {}}
