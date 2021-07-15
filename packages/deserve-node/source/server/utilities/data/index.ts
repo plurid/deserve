@@ -43,6 +43,7 @@ export const blobFromData = (
         mimetype,
         size,
         origin,
+        metadata,
     } = data;
 
     const blob: Blob = {
@@ -53,6 +54,7 @@ export const blobFromData = (
         mimetype,
         size,
         origin,
+        metadata,
     };
 
     return blob;

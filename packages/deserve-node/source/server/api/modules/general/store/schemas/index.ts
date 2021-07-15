@@ -86,6 +86,7 @@ export const types = gql`
         storedAt: Float!
         mimetype: String!
         size: Float!
+        metadata: String!
     }
 
     type Key {
