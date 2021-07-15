@@ -150,7 +150,7 @@ export const pushData = (
         ...state,
     };
 
-    const coreData = newState[type][coreID];
+    const coreData = newState[type][coreID] || [];
     const newCoreData = [
         ...coreData,
         ...data,
