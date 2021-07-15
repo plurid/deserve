@@ -55,7 +55,7 @@ const requestBlob = async (
         } = input;
 
         const query: any = await database.getById(
-            collections.keys,
+            collections.blobs,
             id,
         );
         if (!query) {

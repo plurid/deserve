@@ -79,7 +79,7 @@ const queryBlobs = async (
         }
 
         const query: any = await database.getAllWhere(
-            collections.keys,
+            collections.blobs,
             {
                 ownerID,
                 ...resolvedFilter,
