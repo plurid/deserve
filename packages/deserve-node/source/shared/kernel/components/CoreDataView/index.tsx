@@ -206,6 +206,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                         ),
                     ),
                 );
+                return;
             }
 
             const newKeys = [
