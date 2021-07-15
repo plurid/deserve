@@ -10,6 +10,10 @@
 
     // #region external
     import {
+        Blob,
+    } from '~server/data/interfaces';
+
+    import {
         getCoreFromRequest,
     } from '~server/logic/core';
 
@@ -99,8 +103,9 @@ const upload = async (
         }
 
 
-        const blobData = {
+        const blobData: Blob = {
             ownerID,
+            storedAt: Date.now(),
             blobSHA,
             mimetype: request.file.mimetype || '',
             size: request.file.size,

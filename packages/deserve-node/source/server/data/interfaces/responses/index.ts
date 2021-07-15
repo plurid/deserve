@@ -1,4 +1,15 @@
-// #region methods
+// #region imports
+    // #region external
+    import {
+        Key,
+        StoredKey,
+    } from '../general';
+    // #endregion external
+// #endregion imports
+
+
+
+// #region module
 export interface Response {
     status: boolean;
     error?: Error;
@@ -37,17 +48,4 @@ export interface Error {
     path: string;
     message: string;
 }
-
-
-export interface Key {
-    id: string;
-    value: string;
-    storedAt: number;
-    sha: string;
-    updatedAt?: number;
-}
-
-export interface StoredKey {
-    id: string;
-}
-// #endregion methods
+// #endregion module

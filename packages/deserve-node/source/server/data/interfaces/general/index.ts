@@ -75,4 +75,30 @@ export interface DeserveEntity {
     type: 'file' | 'field';
     id: string;
 }
+
+
+
+
+export interface Blob {
+    ownerID: string;
+    storedAt: number;
+    blobSHA: string;
+    mimetype: string;
+    size: number;
+    origin: string;
+}
+
+
+export interface Key {
+    id: string;
+    value: string;
+    storedAt: number;
+    sha: string;
+    updatedAt?: number;
+}
+
+
+export interface StoredKey {
+    id: string;
+}
 // #endregion module
