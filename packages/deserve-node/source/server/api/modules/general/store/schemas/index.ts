@@ -116,6 +116,7 @@ export const inputs = gql`
     }
 
     input InputQueryBlobs {
+        coreID: String
         filter: String!
         count: Int
         start: String
@@ -131,6 +132,7 @@ export const inputs = gql`
     }
 
     input InputQueryKeys {
+        coreID: String
         filter: String!
         count: Int
         start: String

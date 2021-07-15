@@ -41,9 +41,14 @@ const queryBlobs = async (
         const {
             request,
             collections,
+            owner,
         } = context;
 
-        const core = await getCoreFromRequest(request);
+        const core = await getCoreFromRequest(
+            request,
+            owner,
+            input.coreID,
+        );
         if (!core) {
             delog({
                 text: 'queryBlobs no core',

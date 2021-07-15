@@ -42,6 +42,7 @@ export interface InputRequestBlobs {
 }
 
 export interface InputQueryBlobs {
+    coreID?: string;
     filter: string;
     count?: number;
     start?: string;
@@ -57,6 +58,7 @@ export interface InputRequestKeys {
 }
 
 export interface InputQueryKeys {
+    coreID?: string;
     filter: string;
     count?: number;
     start?: string;

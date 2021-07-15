@@ -5,6 +5,10 @@
 
 
     // #region external
+    import {
+        ClientOwner,
+    } from '~server/data/interfaces';
+
     import database, {
         getDeserveCoresCollection,
     } from '~server/services/database';
@@ -16,7 +20,35 @@
 // #region module
 export const getCoreFromRequest = async (
     request: express.Request,
+    owner?: ClientOwner | undefined,
+    coreID?: string | undefined,
 ) => {
+    if (owner && coreID) {
+        const deserveCoresCollection = await getDeserveCoresCollection();
+        if (!deserveCoresCollection) {
+            // console.log('No database');
+
+            return;
+        }
+
+        const cores: any[] = await database.getAllWhere(
+            deserveCoresCollection,
+            {
+                id: coreID,
+                ownerID: owner.id,
+            },
+        );
+        const core = cores[0];
+        if (!core) {
+            // console.log('No core');
+
+            return;
+        }
+
+        return core;
+    }
+
+
     const origin = request.header('Host');
     const token = request.header('Deserve-Token');
     // console.log(origin, token);
