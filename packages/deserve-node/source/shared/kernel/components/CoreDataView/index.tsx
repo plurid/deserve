@@ -2,6 +2,7 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import { AnyAction } from 'redux';
@@ -20,6 +21,12 @@
     } from '~server/data/interfaces';
 
     import EntityView from '../EntityView';
+
+    import graphqlClient from '~kernel-services/graphql/client';
+    import {
+        QUERY_BLOBS,
+        QUERY_KEYS,
+    } from '~kernel-services/graphql/query';
 
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
@@ -45,8 +52,31 @@
 export const blobRowRenderer = (
     blob: any,
 ) => {
+    const {
+        id,
+        storedAt,
+        mimetype,
+        size,
+        metadata,
+    } = blob;
+
     return (
         <>
+            <div>
+                sha
+            </div>
+
+            <div>
+                {storedAt}
+            </div>
+
+            <div>
+                {mimetype}
+            </div>
+
+            <div>
+                {size}
+            </div>
         </>
     );
 }
@@ -95,7 +125,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const [
         dataView,
         setDataView,
-    ] = useState('BLOBS');
+    ] = useState<'BLOBS' | 'KEYS'>('BLOBS');
 
     const [
         activeCore,
@@ -123,6 +153,56 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         ),
     );
     // #endregion state
+
+
+    // #region handlers
+    const query = async (
+        type: 'BLOBS' | 'KEYS',
+    ) => {
+        if (type === 'BLOBS') {
+            const request = await graphqlClient.query({
+                query: QUERY_BLOBS,
+                variables: {
+                    input: {
+                        coreID: activeCore.id,
+                        filter: '{}',
+                    },
+                },
+            });
+
+            return request.data.queryBlobs;
+        }
+
+        const request = await graphqlClient.query({
+            query: QUERY_KEYS,
+            variables: {
+                input: {
+                    coreID: activeCore.id,
+                    filter: '{}',
+                },
+            },
+        });
+
+        return request.data.queryKeys;
+    }
+    // #endregion handlers
+
+
+    // #region effects
+    useEffect(() => {
+        const load = async () => {
+            const result = await query(dataView);
+
+            if (dataView === 'BLOBS') {
+                setBlobs(result.data || []);
+            }
+
+            setKeys(result.data || []);
+        }
+
+        load();
+    }, []);
+    // #endregion effects
 
 
     // #region render
