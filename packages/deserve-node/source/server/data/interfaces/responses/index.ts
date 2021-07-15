@@ -1,6 +1,7 @@
 // #region imports
     // #region external
     import {
+        Blob,
         Key,
         StoredKey,
     } from '../general';
@@ -17,6 +18,26 @@ export interface Response {
 
 
 
+export interface ResponseRequestedBlob {
+    status: boolean;
+    error?: Error;
+    data?: Blob;
+}
+
+export interface ResponseRequestedBlobs {
+    status: boolean;
+    error?: Error;
+    data?: Blob[];
+}
+
+export interface ResponseQueriedBlobs {
+    status: boolean;
+    error?: Error;
+    data?: Blob[];
+}
+
+
+
 export interface ResponseRequestedKey {
     status: boolean;
     error?: Error;
@@ -28,7 +49,6 @@ export interface ResponseRequestedKeys {
     error?: Error;
     data?: Key[];
 }
-
 
 export interface ResponseQueriedKeys {
     status: boolean;

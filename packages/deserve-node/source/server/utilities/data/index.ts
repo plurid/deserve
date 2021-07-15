@@ -2,6 +2,7 @@
     // #region external
     import {
         Key,
+        Blob,
     } from '~server/data/interfaces';
     // #endregion external
 // #endregion imports
@@ -28,6 +29,31 @@ export const stringFromObject = (
     }
 
     return JSON.stringify(data);
+}
+
+
+export const blobFromData = (
+    data: any,
+) => {
+    const {
+        ownerID,
+        storedAt,
+        blobSHA,
+        mimetype,
+        size,
+        origin,
+    } = data;
+
+    const blob: Blob = {
+        ownerID,
+        storedAt,
+        blobSHA,
+        mimetype,
+        size,
+        origin,
+    };
+
+    return blob;
 }
 
 

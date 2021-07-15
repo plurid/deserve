@@ -8,10 +8,8 @@
     import {
         Context,
 
-        InputQueryKeys,
-        ResponseQueriedKeys,
-
-        Key,
+        InputRequestBlob,
+        ResponseRequestedBlob,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -21,11 +19,7 @@
     } from '~server/logic/core';
 
     import {
-        resolveFilter,
-    } from '~server/logic/database/filter';
-
-    import {
-        keyFromData,
+        blobFromData,
     } from '~server/utilities';
     // #endregion external
 // #endregion imports
@@ -33,10 +27,10 @@
 
 
 // #region module
-const queryKeys = async (
-    input: InputQueryKeys,
+const requestBlob = async (
+    input: InputRequestBlob,
     context: Context,
-): Promise<ResponseQueriedKeys> => {
+): Promise<ResponseRequestedBlob> => {
     try {
         const {
             request,
@@ -46,7 +40,7 @@ const queryKeys = async (
         const core = await getCoreFromRequest(request);
         if (!core) {
             delog({
-                text: 'queryKeys no core',
+                text: 'requestBlob no core',
                 level: 'warn',
             });
 
@@ -57,19 +51,16 @@ const queryKeys = async (
 
 
         const {
-            filter,
-            start,
-            count,
+            id,
         } = input;
 
-        const {
-            ownerID,
-        } = core;
-
-        const resolvedFilter = resolveFilter(filter);
-        if (!resolvedFilter) {
+        const query: any = await database.getById(
+            collections.keys,
+            id,
+        );
+        if (!query) {
             delog({
-                text: 'queryKeys invalid filter',
+                text: 'requestBlob not found',
                 level: 'warn',
             });
 
@@ -78,31 +69,11 @@ const queryKeys = async (
             };
         }
 
-        const query: any = await database.getAllWhere(
-            collections.keys,
-            {
-                ownerID,
-                ...resolvedFilter,
-            },
-            {
-                count,
-                start,
-                type: 'last',
-            },
-        );
-
-        const data: Key[] = [];
-
-        for (const item of query) {
-            if (item.ownerID === ownerID) {
-                const key = keyFromData(item);
-                data.push(key);
-            }
-        }
+        const data = blobFromData(query);
 
 
         delog({
-            text: 'queryKeys success',
+            text: 'requestBlob success',
             level: 'trace',
         });
 
@@ -113,7 +84,7 @@ const queryKeys = async (
         };
     } catch (error) {
         delog({
-            text: 'queryKeys error',
+            text: 'requestBlob error',
             level: 'error',
             error,
         });
@@ -128,5 +99,5 @@ const queryKeys = async (
 
 
 // #region exports
-export default queryKeys;
+export default requestBlob;
 // #endregion exports

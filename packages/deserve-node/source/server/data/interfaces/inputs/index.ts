@@ -33,6 +33,21 @@ export interface InputLogin {
 
 
 
+export interface InputRequestBlob {
+    id: string;
+}
+
+export interface InputRequestBlobs {
+    ids: string[];
+}
+
+export interface InputQueryBlobs {
+    filter: string;
+    count?: number;
+    start?: string;
+}
+
+
 export interface InputRequestKey {
     id: string;
 }
@@ -40,7 +55,6 @@ export interface InputRequestKey {
 export interface InputRequestKeys {
     ids: string[];
 }
-
 
 export interface InputQueryKeys {
     filter: string;

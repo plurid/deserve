@@ -4,6 +4,11 @@
         Context,
         InputOf,
 
+        InputRequestBlob,
+        InputRequestBlobs,
+
+        InputQueryBlobs,
+
         InputRequestKey,
         InputRequestKeys,
 
@@ -20,6 +25,31 @@
 
 // #region exports
 export default {
+    requestBlob: (
+        _: any,
+        { input }: InputOf<InputRequestBlob>,
+        context: Context,
+    ) => Store.Query.requestBlob(
+        input,
+        context,
+    ),
+    requestBlobs: (
+        _: any,
+        { input }: InputOf<InputRequestBlobs>,
+        context: Context,
+    ) => Store.Query.requestBlobs(
+        input,
+        context,
+    ),
+    queryBlobs: (
+        _: any,
+        { input }: InputOf<InputQueryBlobs>,
+        context: Context,
+    ) => Store.Query.queryBlobs(
+        input,
+        context,
+    ),
+
     requestKey: (
         _: any,
         { input }: InputOf<InputRequestKey>,
@@ -36,8 +66,6 @@ export default {
         input,
         context,
     ),
-
-
     queryKeys: (
         _: any,
         { input }: InputOf<InputQueryKeys>,

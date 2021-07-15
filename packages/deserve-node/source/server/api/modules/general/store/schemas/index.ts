@@ -9,6 +9,11 @@
 // #region module
 export const queries = gql`
     extend type Query {
+        requestBlob(input: InputRequestBlob!): ResponseRequestedBlob!
+        requestBlobs(input: InputRequestBlobs!): ResponseRequestedBlobs!
+
+        queryBlobs(input: InputQueryBlobs!): ResponseQueriedBlobs!
+
         requestKey(input: InputRequestKey!): ResponseRequestedKey!
         requestKeys(input: InputRequestKeys!): ResponseRequestedKeys!
 
@@ -30,6 +35,25 @@ export const mutations = gql`
 
 
 export const types = gql`
+    type ResponseRequestedBlob {
+        status: Boolean!
+        error: Error
+        data: Blob
+    }
+
+    type ResponseRequestedBlobs {
+        status: Boolean!
+        error: Error
+        data: [Blob!]
+    }
+
+    type ResponseQueriedBlobs {
+        status: Boolean!
+        error: Error
+        data: [Blob!]
+    }
+
+
     type ResponseRequestedKey {
         status: Boolean!
         error: Error
@@ -41,7 +65,6 @@ export const types = gql`
         error: Error
         data: [Key!]
     }
-
 
     type ResponseQueriedKeys {
         status: Boolean!
@@ -56,6 +79,12 @@ export const types = gql`
         data: StoredKey
     }
 
+
+
+    type Blob {
+        storedAt: Float!
+        size: Float!
+    }
 
     type Key {
         id: ID!
@@ -75,16 +104,28 @@ export const types = gql`
 
 
 export const inputs = gql`
+    input InputRequestBlob {
+        id: ID!
+    }
+
+    input InputRequestBlobs {
+        ids: [String!]!
+    }
+
+    input InputQueryBlobs {
+        filter: String!
+        count: Int
+        start: String
+    }
+
+
     input InputRequestKey {
         id: ID!
-        # entity: String!
-        # data: String!
     }
 
     input InputRequestKeys {
         ids: [String!]!
     }
-
 
     input InputQueryKeys {
         filter: String!

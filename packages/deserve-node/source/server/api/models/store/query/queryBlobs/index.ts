@@ -8,10 +8,10 @@
     import {
         Context,
 
-        InputQueryKeys,
-        ResponseQueriedKeys,
+        InputQueryBlobs,
+        ResponseQueriedBlobs,
 
-        Key,
+        Blob,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -25,7 +25,7 @@
     } from '~server/logic/database/filter';
 
     import {
-        keyFromData,
+        blobFromData,
     } from '~server/utilities';
     // #endregion external
 // #endregion imports
@@ -33,10 +33,10 @@
 
 
 // #region module
-const queryKeys = async (
-    input: InputQueryKeys,
+const queryBlobs = async (
+    input: InputQueryBlobs,
     context: Context,
-): Promise<ResponseQueriedKeys> => {
+): Promise<ResponseQueriedBlobs> => {
     try {
         const {
             request,
@@ -46,7 +46,7 @@ const queryKeys = async (
         const core = await getCoreFromRequest(request);
         if (!core) {
             delog({
-                text: 'queryKeys no core',
+                text: 'queryBlobs no core',
                 level: 'warn',
             });
 
@@ -69,7 +69,7 @@ const queryKeys = async (
         const resolvedFilter = resolveFilter(filter);
         if (!resolvedFilter) {
             delog({
-                text: 'queryKeys invalid filter',
+                text: 'queryBlobs invalid filter',
                 level: 'warn',
             });
 
@@ -91,18 +91,18 @@ const queryKeys = async (
             },
         );
 
-        const data: Key[] = [];
+        const data: Blob[] = [];
 
         for (const item of query) {
             if (item.ownerID === ownerID) {
-                const key = keyFromData(item);
-                data.push(key);
+                const blob = blobFromData(item);
+                data.push(blob);
             }
         }
 
 
         delog({
-            text: 'queryKeys success',
+            text: 'queryBlobs success',
             level: 'trace',
         });
 
@@ -113,7 +113,7 @@ const queryKeys = async (
         };
     } catch (error) {
         delog({
-            text: 'queryKeys error',
+            text: 'queryBlobs error',
             level: 'error',
             error,
         });
@@ -128,5 +128,5 @@ const queryKeys = async (
 
 
 // #region exports
-export default queryKeys;
+export default queryBlobs;
 // #endregion exports
