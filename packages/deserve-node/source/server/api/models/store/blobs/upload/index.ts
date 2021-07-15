@@ -28,6 +28,10 @@
     import database, {
         getDeserveBlobsCollection,
     } from '~server/services/database';
+
+    import {
+        dataToObjectOrDefault,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -126,6 +130,7 @@ const upload = async (
 
 
         const blobID = uuid.generate() + uuid.generate() + uuid.generate();
+        const blobMetadata = dataToObjectOrDefault(request.body.metadata || '');
 
         const blobData: Blob = {
             id: blobID,
@@ -135,6 +140,7 @@ const upload = async (
             mimetype: request.file.mimetype,
             size: request.file.size,
             origin: request.header('Host') || '',
+            metadata: blobMetadata,
         };
 
         const saved = await database.updateDocument(

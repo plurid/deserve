@@ -87,6 +87,7 @@ export interface Blob {
     mimetype: string;
     size: number;
     origin: string;
+    metadata: string;
 }
 
 

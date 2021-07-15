@@ -66,7 +66,10 @@ const queryBlobs = async (
             ownerID,
         } = core;
 
-        const resolvedFilter = resolveFilter(filter);
+        const resolvedFilter = resolveFilter(
+            filter,
+            'metadata',
+        );
         if (!resolvedFilter) {
             delog({
                 text: 'queryBlobs invalid filter',
