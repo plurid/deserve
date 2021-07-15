@@ -82,7 +82,9 @@ export const types = gql`
 
 
     type Blob {
+        id: ID!
         storedAt: Float!
+        mimetype: String!
         size: Float!
     }
 

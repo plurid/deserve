@@ -5,6 +5,10 @@
     import express from 'express';
 
     import delog from '@plurid/delog';
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -30,6 +34,22 @@
 
 
 // #region module
+const cleanupUpload = async (
+    id: string,
+) => {
+    const cleaned = await storage.object.obliterate(
+        DESERVE_BLOBS,
+        id,
+    );
+    if (!cleaned) {
+        delog({
+            text: 'upload could not be cleaned up',
+            level: 'warn',
+        });
+    }
+}
+
+
 const upload = async (
     request: express.Request,
     response: express.Response,
@@ -99,24 +119,41 @@ const upload = async (
             });
 
             response.status(500).end();
+
+            await cleanupUpload(blobName);
             return;
         }
 
 
+        const blobID = uuid.generate() + uuid.generate() + uuid.generate();
+
         const blobData: Blob = {
+            id: blobID,
             ownerID,
             storedAt: Date.now(),
             blobSHA,
-            mimetype: request.file.mimetype || '',
+            mimetype: request.file.mimetype,
             size: request.file.size,
             origin: request.header('Host') || '',
         };
 
-        await database.updateDocument(
+        const saved = await database.updateDocument(
             deserveBlobsCollection,
             blobName,
             blobData,
         );
+
+        if (!saved) {
+            delog({
+                text: 'upload not saved to database',
+                level: 'warn',
+            });
+
+            response.status(500).end();
+
+            await cleanupUpload(blobName);
+            return;
+        }
 
 
         delog({
@@ -126,6 +163,7 @@ const upload = async (
 
 
         response.json({
+            id: blobID,
             sha: blobSHA,
         });
     } catch (error) {

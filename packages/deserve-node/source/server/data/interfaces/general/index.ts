@@ -80,6 +80,7 @@ export interface DeserveEntity {
 
 
 export interface Blob {
+    id: string;
     ownerID: string;
     storedAt: number;
     blobSHA: string;

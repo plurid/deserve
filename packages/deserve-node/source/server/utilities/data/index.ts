@@ -36,6 +36,7 @@ export const blobFromData = (
     data: any,
 ) => {
     const {
+        id,
         ownerID,
         storedAt,
         blobSHA,
@@ -45,6 +46,7 @@ export const blobFromData = (
     } = data;
 
     const blob: Blob = {
+        id,
         ownerID,
         storedAt,
         blobSHA,
