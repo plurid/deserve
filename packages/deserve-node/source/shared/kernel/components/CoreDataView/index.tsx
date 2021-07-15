@@ -148,7 +148,11 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     rowTemplate="1fr"
                     rowsHeader={rowsHeader}
                     rows={[]}
-                    noRows="no blobs"
+                    noRows={dataView === 'BLOBS'
+                        ? 'no blobs'
+                        : 'no keys'
+                    }
+
 
                     filterUpdate={() => {}}
                     refresh={() => {}}
