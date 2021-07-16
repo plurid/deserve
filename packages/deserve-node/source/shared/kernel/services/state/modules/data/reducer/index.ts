@@ -28,6 +28,8 @@ const reducer = (
             return resolvers.clearData(state, action);
         case Types.PUSH_DATA:
             return resolvers.pushData(state, action);
+        case Types.REMOVE_DATA:
+            return resolvers.removeData(state, action);
         default:
             return {
                 ...state,

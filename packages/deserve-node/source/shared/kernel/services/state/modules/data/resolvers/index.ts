@@ -141,8 +141,8 @@ export const pushData = (
     action: Types.PushDataAction,
 ): Types.State => {
     const {
-        coreID,
         type,
+        coreID,
         data,
     } = action.payload;
 
@@ -161,6 +161,28 @@ export const pushData = (
 }
 
 
+export const removeData = (
+    state: Types.State,
+    action: Types.RemoveDataAction,
+): Types.State => {
+    const {
+        type,
+        coreID,
+        id,
+    } = action.payload;
+
+    const newState = {
+        ...state,
+    };
+
+    const coreData = newState[type][coreID] || [];
+    const newCoreData = coreData.filter(core => core.id !== id);
+    newState[type][coreID] = newCoreData;
+
+    return newState;
+}
+
+
 
 const resolvers = {
     addEntity,
@@ -169,6 +191,7 @@ const resolvers = {
     activateCore,
     clearData,
     pushData,
+    removeData,
 };
 // #endregion module
 

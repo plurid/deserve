@@ -64,13 +64,25 @@ export interface ClearDataAction {
 
 export const PUSH_DATA = 'PUSH_DATA';
 export interface PushDataPayload {
-    coreID: string;
     type: 'blobs' | 'keys';
+    coreID: string;
     data: any;
 }
 export interface PushDataAction {
     type: typeof PUSH_DATA;
     payload: PushDataPayload;
+}
+
+
+export const REMOVE_DATA = 'REMOVE_DATA';
+export interface RemoveDataPayload {
+    type: 'blobs' | 'keys';
+    coreID: string;
+    id: string;
+}
+export interface RemoveDataAction {
+    type: typeof REMOVE_DATA;
+    payload: RemoveDataPayload;
 }
 
 
@@ -88,5 +100,6 @@ export type Actions =
     | SetCoresAction
     | ActivateCoreAction
     | ClearDataAction
-    | PushDataAction;
+    | PushDataAction
+    | RemoveDataAction;
 // #endregion module
