@@ -72,4 +72,26 @@ export const StyledDataSelectItem = styled.div<IStyledDataSelectItem>`
 
 export const StyledData = styled.div`
 `;
+
+
+export const StyledObliterateContainer = styled.div`
+    display: grid;
+    place-content: center;
+    height: 100%;
+    width: 400px;
+    margin: 0 auto;
+    word-break: break-all;
+`;
+
+
+export const StyledObliterateText = styled.div`
+    margin-bottom: 2rem;
+`;
+
+
+export const StyledObliterateButtons = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 4rem;
+`;
 // #region module

@@ -26,6 +26,11 @@
 
     import EntityView from '../EntityView';
 
+    import {
+        PluridPureButton,
+        PluridLinkButton,
+    } from '~kernel-services/styled';
+
     import graphqlClient from '~kernel-services/graphql/client';
     import {
         QUERY_BLOBS,
@@ -46,6 +51,9 @@
         StyledDataSelect,
         StyledDataSelectItem,
         StyledData,
+        StyledObliterateContainer,
+        StyledObliterateText,
+        StyledObliterateButtons,
     } from './styled';
     // #endregion internal
 // #endregion imports
@@ -55,6 +63,11 @@
 // #region module
 export const blobRowRenderer = (
     blob: any,
+    toggleObliterate: (
+        type: 'BLOBS',
+        id: string,
+    ) => void,
+    theme: Theme,
 ) => {
     const {
         id,
@@ -86,7 +99,15 @@ export const blobRowRenderer = (
                 {metadata}
             </div>
 
-            <PluridIconObliterate />
+            <PluridIconObliterate
+                atClick={() => {
+                    toggleObliterate(
+                        'BLOBS',
+                        id,
+                    );
+                }}
+                theme={theme}
+            />
         </>
     );
 }
@@ -94,6 +115,11 @@ export const blobRowRenderer = (
 
 export const keyRowRenderer = (
     key: any,
+    toggleObliterate: (
+        type: 'KEYS',
+        id: string,
+    ) => void,
+    theme: Theme,
 ) => {
     const {
         id,
@@ -121,7 +147,15 @@ export const keyRowRenderer = (
                 {value}
             </div>
 
-            <PluridIconObliterate />
+            <PluridIconObliterate
+                atClick={() => {
+                    toggleObliterate(
+                        'KEYS',
+                        id,
+                    );
+                }}
+                theme={theme}
+            />
         </>
     );
 }
@@ -188,15 +222,14 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     ] = useState(stateKeys[activeCore.id] || []);
 
     const [
-        filteredRows,
-        setFilteredRows,
-    ] = useState(
-        blobs.map(
-            blob => blobRowRenderer(
-                blob,
-            ),
-        ),
-    );
+        obliterateID,
+        setObliterateID,
+    ] = useState('');
+
+    const [
+        obliterateType,
+        setObliterateType,
+    ] = useState('');
     // #endregion state
 
 
@@ -230,7 +263,47 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
         return request.data.queryKeys;
     }
+
+    const toggleObliterate = (
+        type: 'BLOBS' | 'KEYS',
+        id: string,
+    ) => {
+        setObliterateType(type);
+        setObliterateID(id);
+    }
+
+    const handleObliterate = () => {
+        if (
+            !obliterateID
+            || !obliterateType
+        ) {
+            return;
+        }
+
+        // send obliterate request
+
+        // remove from local state
+
+        setObliterateType('');
+        setObliterateID('');
+    }
     // #endregion handlers
+
+
+    // #region state
+    const [
+        filteredRows,
+        setFilteredRows,
+    ] = useState(
+        blobs.map(
+            blob => blobRowRenderer(
+                blob,
+                toggleObliterate,
+                stateGeneralTheme,
+            ),
+        ),
+    );
+    // #endregion state
 
 
     // #region effects
@@ -250,6 +323,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     newBlobs.map(
                         blob => blobRowRenderer(
                             blob,
+                            toggleObliterate,
+                            stateGeneralTheme,
                         ),
                     ),
                 );
@@ -267,6 +342,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                 newKeys.map(
                     key => keyRowRenderer(
                         key,
+                        toggleObliterate,
+                        stateGeneralTheme,
                     ),
                 ),
             );
@@ -332,6 +409,38 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         </>
     );
 
+    if (obliterateID && obliterateType) {
+        const type = obliterateType === 'BLOBS'
+            ? 'blob'
+            : 'key';
+
+        return (
+            <StyledObliterateContainer>
+                <StyledObliterateText>
+                    obliterate {type} {obliterateID}?
+                </StyledObliterateText>
+
+                <StyledObliterateButtons>
+                    <PluridPureButton
+                        text="Obliterate"
+                        atClick={handleObliterate}
+                        theme={stateGeneralTheme}
+                        level={2}
+                    />
+
+                    <PluridLinkButton
+                        text="cancel"
+                        atClick={() => {
+                            setObliterateType('');
+                            setObliterateID('');
+                        }}
+                        theme={stateGeneralTheme}
+                    />
+                </StyledObliterateButtons>
+            </StyledObliterateContainer>
+        );
+    }
+
     return (
         <StyledCoreDataView
             theme={stateGeneralTheme}
@@ -368,8 +477,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     interactionTheme={stateInteractionTheme}
 
                     rowTemplate={dataView === 'BLOBS'
-                        ? '1fr 1fr 1fr 1fr 1fr 40px'
-                        : '1fr 1fr 1fr 1fr 40px'
+                        ? '1fr 1fr 1fr 1fr 1fr 100px'
+                        : '1fr 1fr 1fr 1fr 100px'
                     }
                     rowsHeader={dataView === 'BLOBS'
                         ? blobsHeader
