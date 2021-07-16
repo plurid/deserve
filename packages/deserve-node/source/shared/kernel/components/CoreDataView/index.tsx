@@ -329,6 +329,32 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             id: obliterateID,
         });
 
+
+        if (obliterateType === 'BLOBS') {
+            const filteredBlobs = blobs.filter(blob => blob.id !== obliterateID);
+            setFilteredRows(
+                filteredBlobs.map(
+                    blob => blobRowRenderer(
+                        blob,
+                        toggleObliterate,
+                        stateGeneralTheme,
+                    ),
+                ),
+            );
+        } else {
+            const filteredKeys = keys.filter(key => key.id !== obliterateID);
+            setFilteredRows(
+                filteredKeys.map(
+                    key => keyRowRenderer(
+                        key,
+                        toggleObliterate,
+                        stateGeneralTheme,
+                    ),
+                ),
+            );
+        }
+
+
         setObliterateType('');
         setObliterateID('');
 
@@ -433,8 +459,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         setKeys(coreKeys);
         setFilteredRows(
             coreKeys.map(
-                blob => blobRowRenderer(
-                    blob,
+                key => keyRowRenderer(
+                    key,
                     toggleObliterate,
                     stateGeneralTheme,
                 ),
