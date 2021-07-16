@@ -29,7 +29,7 @@ export const mutations = gql`
         updateKey(input: InputUpdateKey!): Response!
 
         deleteBlob(input: InputDeleteBlob!): Response!
-        deleteKey(input: InputDeleteBlob!): Response!
+        deleteKey(input: InputDeleteKey!): Response!
     }
 `;
 
@@ -152,10 +152,12 @@ export const inputs = gql`
 
 
     input InputDeleteBlob {
+        coreID: String
         id: ID!
     }
 
     input InputDeleteKey {
+        coreID: String
         id: ID!
     }
 `;

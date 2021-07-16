@@ -36,9 +36,14 @@ const deleteBlob = async (
         const {
             request,
             collections,
+            owner,
         } = context;
 
-        const core = await getCoreFromRequest(request);
+        const core = await getCoreFromRequest(
+            request,
+            owner,
+            input.coreID,
+        );
         if (!core) {
             delog({
                 text: 'deleteBlob no core',

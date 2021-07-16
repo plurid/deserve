@@ -32,9 +32,14 @@ const deleteKey = async (
         const {
             request,
             collections,
+            owner,
         } = context;
 
-        const core = await getCoreFromRequest(request);
+        const core = await getCoreFromRequest(
+            request,
+            owner,
+            input.coreID,
+        );
         if (!core) {
             delog({
                 text: 'deleteKey no core',

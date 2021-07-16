@@ -78,10 +78,12 @@ export interface InputUpdateKey {
 
 
 export interface InputDeleteBlob {
+    coreID?: string;
     id: string;
 }
 
 export interface InputDeleteKey {
+    coreID?: string;
     id: string;
 }
 // #endregion module
