@@ -12,6 +12,10 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
+
+    import {
+        PluridIconObliterate,
+    } from '@plurid/plurid-icons-react';
     // #endregion libraries
 
 
@@ -81,6 +85,8 @@ export const blobRowRenderer = (
             <div>
                 {metadata}
             </div>
+
+            <PluridIconObliterate />
         </>
     );
 }
@@ -114,6 +120,8 @@ export const keyRowRenderer = (
             <div>
                 {value}
             </div>
+
+            <PluridIconObliterate />
         </>
     );
 }
@@ -293,6 +301,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             <div>
                 metadata
             </div>
+
+            <div>
+                obliterate
+            </div>
         </>
     );
 
@@ -312,6 +324,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
             <div>
                 value
+            </div>
+
+            <div>
+                obliterate
             </div>
         </>
     );
@@ -352,8 +368,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     interactionTheme={stateInteractionTheme}
 
                     rowTemplate={dataView === 'BLOBS'
-                        ? '1fr 1fr 1fr 1fr 1fr'
-                        : '1fr 1fr 1fr 1fr'
+                        ? '1fr 1fr 1fr 1fr 1fr 40px'
+                        : '1fr 1fr 1fr 1fr 40px'
                     }
                     rowsHeader={dataView === 'BLOBS'
                         ? blobsHeader
