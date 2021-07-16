@@ -45,7 +45,7 @@ export interface EntityViewProperties {
         generalTheme: Theme;
         interactionTheme: Theme;
 
-        loading: boolean;
+        loading?: boolean;
         rowsHeader: JSX.Element;
         rowTemplate: string;
         rows: JSX.Element[];
