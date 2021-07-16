@@ -95,7 +95,7 @@ const deleteBlob = async (
         }
 
 
-        const blobLocation = ownerID + '/' + id;
+        const blobLocation = ownerID + '/' + blobData.blobSHA;
 
         const obliterated = await storage.object.obliterate(
             DESERVE_BLOBS,
