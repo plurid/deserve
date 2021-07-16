@@ -287,6 +287,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                         filter: '{}',
                     },
                 },
+                fetchPolicy: 'no-cache',
             });
 
             return request.data.queryBlobs;
@@ -300,6 +301,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     filter: '{}',
                 },
             },
+            fetchPolicy: 'no-cache',
         });
 
         return request.data.queryKeys;
