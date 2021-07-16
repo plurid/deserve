@@ -101,8 +101,9 @@ export const StyledObliterateButtons = styled.div`
 
 
 export const StyledInlineItem = styled.div`
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 16px auto;
+    grid-gap: 1rem;
     align-items: center;
 `;
 // #region module
