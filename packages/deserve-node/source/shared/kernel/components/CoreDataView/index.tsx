@@ -98,7 +98,7 @@ export const blobRowRenderer = (
             </div>
 
             <div>
-                {new Date(storedAt).toLocaleString}
+                {new Date(storedAt).toLocaleString()}
             </div>
 
             <div>
@@ -161,11 +161,11 @@ export const keyRowRenderer = (
             </div>
 
             <div>
-                {new Date(storedAt).toLocaleString}
+                {new Date(storedAt).toLocaleString()}
             </div>
 
             <div>
-                {updatedAt ? new Date(updatedAt).toLocaleString : ''}
+                {updatedAt ? new Date(updatedAt).toLocaleString() : ''}
             </div>
 
             <StyledInlineItem>
