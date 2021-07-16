@@ -36,6 +36,10 @@
         QUERY_BLOBS,
         QUERY_KEYS,
     } from '~kernel-services/graphql/query';
+    import {
+        DELETE_BLOB,
+        DELETE_KEY,
+    } from '~kernel-services/graphql/mutate';
 
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
@@ -229,7 +233,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const [
         obliterateType,
         setObliterateType,
-    ] = useState('');
+    ] = useState<'BLOBS' | 'KEYS' | ''>('');
     // #endregion state
 
 
@@ -272,7 +276,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         setObliterateID(id);
     }
 
-    const handleObliterate = () => {
+    const handleObliterate = async () => {
         if (
             !obliterateID
             || !obliterateType
@@ -280,12 +284,24 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             return;
         }
 
-        // send obliterate request
-
         // remove from local state
 
         setObliterateType('');
         setObliterateID('');
+
+        const mutation = obliterateType === 'BLOBS'
+            ? DELETE_BLOB
+            : DELETE_KEY;
+
+        const request = await graphqlClient.mutate({
+            mutation,
+            variables: {
+                input: {
+                    coreID: activeCore.id,
+                    id: obliterateID,
+                },
+            },
+        });
     }
     // #endregion handlers
 

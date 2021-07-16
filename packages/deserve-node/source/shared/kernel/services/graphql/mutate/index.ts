@@ -113,6 +113,24 @@ const LOGOUT = gql`
         }
     }
 `;
+
+
+
+const DELETE_BLOB = gql`
+    mutation DeleteBlob($input: InputDeleteBlob!) {
+        deleteBlob(input: $input) {
+            status
+        }
+    }
+`;
+
+const DELETE_KEY = gql`
+    mutation DeleteKey($input: InputDeleteKey!) {
+        deleteKey(input: $input) {
+            status
+        }
+    }
+`;
 // #endregion module
 
 
@@ -129,5 +147,8 @@ export {
 
     LOGIN,
     LOGOUT,
+
+    DELETE_BLOB,
+    DELETE_KEY,
 };
 // #endregion exports
