@@ -44,7 +44,7 @@
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
-    // import actions from '~kernel-services/state/actions';
+    import actions from '~kernel-services/state/actions';
     // #endregion external
 
 
@@ -177,6 +177,7 @@ export interface CoreDataViewStateProperties {
 }
 
 export interface CoreDataViewDispatchProperties {
+    dispatchRemoveData: typeof actions.data.removeData;
 }
 
 export type CoreDataViewProperties =
@@ -200,6 +201,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         stateBlobs,
         stateKeys,
         // #endregion state
+
+        // #region dispatch
+        dispatchRemoveData,
+        // #endregion dispatch
     } = properties;
     // #endregion properties
 
@@ -284,7 +289,11 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             return;
         }
 
-        // remove from local state
+        dispatchRemoveData({
+            type: obliterateType.toLowerCase() as any,
+            coreID: activeCore.id,
+            id: obliterateID,
+        });
 
         setObliterateType('');
         setObliterateID('');
@@ -293,7 +302,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             ? DELETE_BLOB
             : DELETE_KEY;
 
-        const request = await graphqlClient.mutate({
+        await graphqlClient.mutate({
             mutation,
             variables: {
                 input: {
@@ -535,6 +544,11 @@ const mapStateToProperties = (
 const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): CoreDataViewDispatchProperties => ({
+    dispatchRemoveData: (
+        payload,
+    ) => dispatch(
+        actions.data.removeData(payload),
+    ),
 });
 
 
