@@ -378,6 +378,15 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
         if (dataView === 'BLOBS') {
             if (result.data.length === blobs.length) {
+                setFilteredRows(
+                    blobs.map(
+                        blob => blobRowRenderer(
+                            blob,
+                            toggleObliterate,
+                            stateGeneralTheme,
+                        ),
+                    ),
+                );
                 return;
             }
             const newBlobs = [
@@ -400,6 +409,15 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         }
 
         if (result.data.length === keys.length) {
+            setFilteredRows(
+                keys.map(
+                    key => keyRowRenderer(
+                        key,
+                        toggleObliterate,
+                        stateGeneralTheme,
+                    ),
+                ),
+            );
             return;
         }
         const newKeys = [
