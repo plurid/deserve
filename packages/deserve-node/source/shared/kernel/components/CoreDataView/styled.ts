@@ -86,6 +86,10 @@ export const StyledObliterateContainer = styled.div`
 
 export const StyledObliterateText = styled.div`
     margin-bottom: 2rem;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
 `;
 
 

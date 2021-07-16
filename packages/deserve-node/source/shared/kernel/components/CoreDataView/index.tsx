@@ -417,7 +417,13 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         return (
             <StyledObliterateContainer>
                 <StyledObliterateText>
-                    obliterate {type} {obliterateID}?
+                    <div>
+                        obliterate {type}
+                    </div>
+
+                    <div>
+                        {obliterateID}
+                    </div>
                 </StyledObliterateText>
 
                 <StyledObliterateButtons>
