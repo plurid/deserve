@@ -14,6 +14,10 @@
     } from '@plurid/plurid-themes';
 
     import {
+        size as sizeUtility,
+    } from '@plurid/plurid-functions';
+
+    import {
         PluridLink,
     } from '@plurid/plurid-react';
 
@@ -94,7 +98,7 @@ export const blobRowRenderer = (
             </div>
 
             <div>
-                {storedAt}
+                {new Date(storedAt).toLocaleString}
             </div>
 
             <div>
@@ -102,7 +106,7 @@ export const blobRowRenderer = (
             </div>
 
             <div>
-                {size}
+                {sizeUtility.humanFormat(size)}
             </div>
 
             <StyledInlineItem>
@@ -157,11 +161,11 @@ export const keyRowRenderer = (
             </div>
 
             <div>
-                {storedAt}
+                {new Date(storedAt).toLocaleString}
             </div>
 
             <div>
-                {updatedAt}
+                {updatedAt ? new Date(updatedAt).toLocaleString : ''}
             </div>
 
             <StyledInlineItem>
@@ -413,7 +417,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const blobsHeader = (
         <>
             <div>
-                sha
+                id
             </div>
 
             <div>
@@ -462,6 +466,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         </>
     );
 
+
     if (obliterateID && obliterateType) {
         const type = obliterateType === 'BLOBS'
             ? 'blob'
@@ -499,6 +504,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             </StyledObliterateContainer>
         );
     }
+
 
     return (
         <StyledCoreDataView
