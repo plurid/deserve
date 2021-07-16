@@ -441,7 +441,11 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
     useEffect(() => {
         if (dataView === 'BLOBS') {
-            const coreBlobs = stateBlobs[activeCore.id] || [];
+            const coreBlobs = [
+                ... new Set([
+                    ...(stateBlobs[activeCore.id] || []),
+                ]),
+            ];
             setBlobs(coreBlobs);
             setFilteredRows(
                 coreBlobs.map(
@@ -455,7 +459,11 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             return;
         }
 
-        const coreKeys = stateKeys[activeCore.id] || [];
+        const coreKeys = [
+            ... new Set([
+                ...(stateKeys[activeCore.id] || []),
+            ]),
+        ];
         setKeys(coreKeys);
         setFilteredRows(
             coreKeys.map(
