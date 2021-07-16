@@ -45,6 +45,7 @@ export interface EntityViewProperties {
         generalTheme: Theme;
         interactionTheme: Theme;
 
+        loading: boolean;
         rowsHeader: JSX.Element;
         rowTemplate: string;
         rows: JSX.Element[];
@@ -73,6 +74,7 @@ const EntityView: React.FC<EntityViewProperties> = (
             generalTheme,
             interactionTheme,
 
+            loading,
             rowsHeader,
             rowTemplate,
             rows,
@@ -162,13 +164,17 @@ const EntityView: React.FC<EntityViewProperties> = (
                 </StyledTopButtons>
             </StyledEntityViewTop>
 
-            {rows.length === 0 && (
+            {rows.length === 0
+            && !loading
+            && (
                 <StyledNoRows>
                     {noRows}
                 </StyledNoRows>
             )}
 
-            {rows.length !== 0 && (
+            {rows.length !== 0
+            && !loading
+            && (
                 <StyledEntityList
                     theme={generalTheme}
                 >
@@ -193,7 +199,9 @@ const EntityView: React.FC<EntityViewProperties> = (
                 </StyledEntityList>
             )}
 
-            {actionButtonText && (
+            {actionButtonText
+            && !loading
+            && (
                 <StyledActionButton>
                     <PluridPureButton
                         text={actionButtonText}

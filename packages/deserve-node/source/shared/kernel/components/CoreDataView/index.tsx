@@ -243,6 +243,11 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
     // #region state
     const [
+        loading,
+        setLoading,
+    ] = useState(true);
+
+    const [
         dataView,
         setDataView,
     ] = useState<'BLOBS' | 'KEYS'>('BLOBS');
@@ -387,6 +392,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                         ),
                     ),
                 );
+                setLoading(false);
                 return;
             }
             const newBlobs = [
@@ -405,6 +411,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     ),
                 ),
             );
+            setLoading(false);
             return;
         }
 
@@ -418,6 +425,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     ),
                 ),
             );
+            setLoading(false);
             return;
         }
         const newKeys = [
@@ -436,6 +444,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                 ),
             ),
         );
+        setLoading(false);
     }
     // #endregion handlers
 
@@ -614,6 +623,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     theme={stateGeneralTheme}
                     active={dataView === 'BLOBS'}
                     onClick={() => {
+                        setLoading(true);
                         setDataView('BLOBS');
                     }}
                 >
@@ -624,6 +634,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     theme={stateGeneralTheme}
                     active={dataView === 'KEYS'}
                     onClick={() => {
+                        setLoading(true);
                         setDataView('KEYS');
                     }}
                 >
@@ -636,6 +647,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     generalTheme={stateGeneralTheme}
                     interactionTheme={stateInteractionTheme}
 
+                    loading={loading}
                     rowTemplate={dataView === 'BLOBS'
                         ? '1fr 1fr 1fr 1fr 1fr 100px'
                         : '1fr 1fr 1fr 1fr 100px'
