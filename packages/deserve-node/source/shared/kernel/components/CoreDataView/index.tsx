@@ -410,6 +410,39 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     }, [
         dataView,
     ]);
+
+    useEffect(() => {
+        if (dataView === 'BLOBS') {
+            const coreBlobs = stateBlobs[activeCore.id] || [];
+            setBlobs(coreBlobs);
+            setFilteredRows(
+                coreBlobs.map(
+                    blob => blobRowRenderer(
+                        blob,
+                        toggleObliterate,
+                        stateGeneralTheme,
+                    ),
+                ),
+            );
+            return;
+        }
+
+        const coreKeys = stateKeys[activeCore.id] || [];
+        setKeys(coreKeys);
+        setFilteredRows(
+            coreKeys.map(
+                blob => blobRowRenderer(
+                    blob,
+                    toggleObliterate,
+                    stateGeneralTheme,
+                ),
+            ),
+        );
+    }, [
+        dataView,
+        stateBlobs,
+        stateKeys,
+    ]);
     // #endregion effects
 
 
