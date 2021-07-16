@@ -344,6 +344,47 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             },
         });
     }
+
+    const loadData = async () => {
+        const result = await query(dataView);
+
+        if (dataView === 'BLOBS') {
+            const newBlobs = [
+                ... new Set([
+                    ...blobs,
+                    ...(result.data || []),
+                ]),
+            ];
+            setBlobs(newBlobs);
+            setFilteredRows(
+                newBlobs.map(
+                    blob => blobRowRenderer(
+                        blob,
+                        toggleObliterate,
+                        stateGeneralTheme,
+                    ),
+                ),
+            );
+            return;
+        }
+
+        const newKeys = [
+            ... new Set([
+                ...keys,
+                ...(result.data || []),
+            ]),
+        ];
+        setKeys(newKeys);
+        setFilteredRows(
+            newKeys.map(
+                key => keyRowRenderer(
+                    key,
+                    toggleObliterate,
+                    stateGeneralTheme,
+                ),
+            ),
+        );
+    }
     // #endregion handlers
 
 
@@ -365,48 +406,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
     // #region effects
     useEffect(() => {
-        const load = async () => {
-            const result = await query(dataView);
-
-            if (dataView === 'BLOBS') {
-                const newBlobs = [
-                    ... new Set([
-                        ...blobs,
-                        ...(result.data || []),
-                    ]),
-                ];
-                setBlobs(newBlobs);
-                setFilteredRows(
-                    newBlobs.map(
-                        blob => blobRowRenderer(
-                            blob,
-                            toggleObliterate,
-                            stateGeneralTheme,
-                        ),
-                    ),
-                );
-                return;
-            }
-
-            const newKeys = [
-                ... new Set([
-                    ...keys,
-                    ...(result.data || []),
-                ]),
-            ];
-            setKeys(newKeys);
-            setFilteredRows(
-                newKeys.map(
-                    key => keyRowRenderer(
-                        key,
-                        toggleObliterate,
-                        stateGeneralTheme,
-                    ),
-                ),
-            );
-        }
-
-        load();
+        loadData();
     }, [
         dataView,
     ]);
@@ -440,8 +440,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         );
     }, [
         dataView,
-        stateBlobs,
-        stateKeys,
+        stateBlobs[activeCore.id],
+        stateKeys[activeCore.id],
     ]);
     // #endregion effects
 
@@ -589,7 +589,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     }
 
                     filterUpdate={() => {}}
-                    refresh={() => {}}
+                    refresh={() => loadData()}
                 />
             </StyledData>
         </StyledCoreDataView>
