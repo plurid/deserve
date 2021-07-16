@@ -56,9 +56,40 @@ const deleteKey = async (
             id,
         } = input;
 
+        const {
+            ownerID,
+        } = core;
+
         // TODO:
         // mark as deleted
         // and set for obliteration following the obliteration policy
+
+        const keyData: any = await database.getById(
+            collections.keys,
+            id,
+        );
+        if (!keyData) {
+            delog({
+                text: 'deleteKey key not found',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+        if (keyData.ownerID !== ownerID) {
+            delog({
+                text: 'deleteKey unauthorized',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
 
         const deleted = await database.deleteDocument(
             collections.keys,

@@ -68,11 +68,38 @@ const deleteBlob = async (
         // mark as deleted
         // and set for obliteration following the obliteration policy
 
-        const blobID = ownerID + '/' + id;
+        const blobData: any = await database.getById(
+            collections.blobs,
+            id,
+        );
+        if (!blobData) {
+            delog({
+                text: 'deleteBlob blob not found',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+        if (blobData.ownerID !== ownerID) {
+            delog({
+                text: 'deleteBlob unauthorized',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+
+        const blobLocation = ownerID + '/' + id;
 
         const obliterated = await storage.object.obliterate(
             DESERVE_BLOBS,
-            blobID,
+            blobLocation,
         );
 
         if (!obliterated) {
@@ -87,10 +114,21 @@ const deleteBlob = async (
         }
 
 
-        await database.deleteDocument(
+        const deleted = await database.deleteDocument(
             collections.blobs,
-            blobID,
+            id,
         );
+
+        if (!deleted) {
+            delog({
+                text: 'deleteBlob not deleted',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
 
 
         delog({
