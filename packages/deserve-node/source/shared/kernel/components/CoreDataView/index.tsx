@@ -14,6 +14,11 @@
     } from '@plurid/plurid-themes';
 
     import {
+        PluridLink,
+    } from '@plurid/plurid-react';
+
+    import {
+        PluridIconInfo,
         PluridIconObliterate,
     } from '@plurid/plurid-icons-react';
     // #endregion libraries
@@ -58,6 +63,7 @@
         StyledObliterateContainer,
         StyledObliterateText,
         StyledObliterateButtons,
+        StyledInlineItem,
     } from './styled';
     // #endregion internal
 // #endregion imports
@@ -99,11 +105,20 @@ export const blobRowRenderer = (
                 {size}
             </div>
 
-            <div>
+            <StyledInlineItem>
+                <PluridLink
+                    route={`/blob/${id}`}
+                    devisible={true}
+                >
+                    <PluridIconInfo
+                        theme={theme}
+                    />
+                </PluridLink>
+
                 <pre>
                     {metadata}
                 </pre>
-            </div>
+            </StyledInlineItem>
 
             <PluridIconObliterate
                 atClick={() => {
@@ -149,11 +164,20 @@ export const keyRowRenderer = (
                 {updatedAt}
             </div>
 
-            <div>
+            <StyledInlineItem>
+                <PluridLink
+                    route={`/key/${id}`}
+                    devisible={true}
+                >
+                    <PluridIconInfo
+                        theme={theme}
+                    />
+                </PluridLink>
+
                 <pre>
                     {value}
                 </pre>
-            </div>
+            </StyledInlineItem>
 
             <PluridIconObliterate
                 atClick={() => {

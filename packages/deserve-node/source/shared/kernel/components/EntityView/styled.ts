@@ -24,7 +24,7 @@ export const StyledEntityView = styled.div<IStyledEntityView>`
             ({
                 theme,
             }: IStyledEntityView) => theme.fontFamilySansSerif
-        }
+        };
     }
 
     pre {
@@ -32,7 +32,9 @@ export const StyledEntityView = styled.div<IStyledEntityView>`
             ({
                 theme,
             }: IStyledEntityView) => theme.fontFamilyMonospace
-        }
+        };
+        width: 150px;
+        overflow: scroll;
     }
 `;
 
