@@ -100,7 +100,9 @@ export const blobRowRenderer = (
             </div>
 
             <div>
-                {metadata}
+                <pre>
+                    {metadata}
+                </pre>
             </div>
 
             <PluridIconObliterate
@@ -148,7 +150,9 @@ export const keyRowRenderer = (
             </div>
 
             <div>
-                {value}
+                <pre>
+                    {value}
+                </pre>
             </div>
 
             <PluridIconObliterate
