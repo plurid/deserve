@@ -209,6 +209,7 @@ export interface CoreDataViewStateProperties {
 }
 
 export interface CoreDataViewDispatchProperties {
+    dispatchPushData: typeof actions.data.pushData;
     dispatchRemoveData: typeof actions.data.removeData;
 }
 
@@ -235,6 +236,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         // #endregion state
 
         // #region dispatch
+        dispatchPushData,
         dispatchRemoveData,
         // #endregion dispatch
     } = properties;
@@ -616,6 +618,11 @@ const mapStateToProperties = (
 const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): CoreDataViewDispatchProperties => ({
+    dispatchPushData: (
+        payload,
+    ) => dispatch(
+        actions.data.pushData(payload),
+    ),
     dispatchRemoveData: (
         payload,
     ) => dispatch(
