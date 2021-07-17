@@ -384,13 +384,16 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     }
 
     const loadData = async () => {
-        const result = await query(dataView);
+        setLoading(true);
 
-        dispatchPushData({
-            coreID: activeCore.id,
-            data: result.data,
-            type: dataView.toLowerCase() as any,
-        });
+        const result = await query(dataView);
+        if (result.status) {
+            dispatchPushData({
+                coreID: activeCore.id,
+                data: result.data,
+                type: dataView.toLowerCase() as any,
+            });
+        }
 
         setLoading(false);
     }
