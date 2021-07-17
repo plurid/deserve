@@ -197,6 +197,9 @@ export const keyRowRenderer = (
 }
 
 
+export type DataView = 'BLOBS' | 'KEYS';
+
+
 export interface CoreDataViewOwnProperties {
     core: ClientCore;
 }
@@ -252,7 +255,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const [
         dataView,
         setDataView,
-    ] = useState<'BLOBS' | 'KEYS'>('BLOBS');
+    ] = useState<DataView>('BLOBS');
 
     const [
         activeCore,
@@ -277,7 +280,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const [
         obliterateType,
         setObliterateType,
-    ] = useState<'BLOBS' | 'KEYS' | ''>('');
+    ] = useState<DataView | ''>('');
     // #endregion state
 
 
@@ -383,43 +386,12 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const loadData = async () => {
         const result = await query(dataView);
 
-        if (dataView === 'BLOBS') {
-            const newBlobs = [
-                ... new Set([
-                    ...blobs,
-                    ...(result.data || []),
-                ]),
-            ];
-            setBlobs(newBlobs);
-            setFilteredRows(
-                newBlobs.map(
-                    blob => blobRowRenderer(
-                        blob,
-                        toggleObliterate,
-                        stateGeneralTheme,
-                    ),
-                ),
-            );
-            setLoading(false);
-            return;
-        }
+        dispatchPushData({
+            coreID: activeCore.id,
+            data: result.data,
+            type: dataView.toLowerCase() as any,
+        });
 
-        const newKeys = [
-            ... new Set([
-                ...keys,
-                ...(result.data || []),
-            ]),
-        ];
-        setKeys(newKeys);
-        setFilteredRows(
-            newKeys.map(
-                key => keyRowRenderer(
-                    key,
-                    toggleObliterate,
-                    stateGeneralTheme,
-                ),
-            ),
-        );
         setLoading(false);
     }
     // #endregion handlers
@@ -446,6 +418,44 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         loadData();
     }, [
         dataView,
+    ]);
+
+    useEffect(() => {
+        setBlobs(stateBlobs[activeCore.id] || []);
+        setKeys(stateKeys[activeCore.id] || []);
+    }, [
+        stateBlobs[activeCore.id],
+        stateKeys[activeCore.id],
+    ]);
+
+    useEffect(() => {
+        if (dataView === 'BLOBS') {
+            setFilteredRows(
+                blobs.map(
+                    blob => blobRowRenderer(
+                        blob,
+                        toggleObliterate,
+                        stateGeneralTheme,
+                    ),
+                ),
+            );
+            setLoading(false);
+            return;
+        }
+
+        setFilteredRows(
+            keys.map(
+                key => keyRowRenderer(
+                    key,
+                    toggleObliterate,
+                    stateGeneralTheme,
+                ),
+            ),
+        );
+        setLoading(false);
+    }, [
+        blobs,
+        keys,
     ]);
     // #endregion effects
 
