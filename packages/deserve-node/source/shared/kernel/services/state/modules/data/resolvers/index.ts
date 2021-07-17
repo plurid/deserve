@@ -9,6 +9,25 @@
 
 
 // #region module
+const getUniqueFromArray = <T = any>(
+    array: T[],
+) => {
+    const result = [];
+    const map = new Map();
+
+    for (const item of array.reverse()) {
+        if (!map.has((item as any).id)) {
+            map.set((item as any).id, true);
+            result.push({
+                ...item,
+            });
+        }
+    }
+
+    return result.reverse();
+}
+
+
 export const addEntity = (
     state: Types.State,
     action: Types.AddEntityAction,
@@ -152,12 +171,10 @@ export const pushData = (
 
     const coreData = newState[type][coreID] || [];
     const newCoreData = [
-        ... new Set([
-            ...coreData,
-            ...data,
-        ]),
+        ...coreData,
+        ...data,
     ];
-    newState[type][coreID] = newCoreData;
+    newState[type][coreID] = getUniqueFromArray(newCoreData);
 
     return newState;
 }
