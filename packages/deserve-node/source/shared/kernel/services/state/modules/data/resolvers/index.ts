@@ -152,8 +152,10 @@ export const pushData = (
 
     const coreData = newState[type][coreID] || [];
     const newCoreData = [
-        ...coreData,
-        ...data,
+        ... new Set([
+            ...coreData,
+            ...data,
+        ]),
     ];
     newState[type][coreID] = newCoreData;
 
