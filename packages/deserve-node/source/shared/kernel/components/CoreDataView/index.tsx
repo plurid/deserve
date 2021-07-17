@@ -382,19 +382,6 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         const result = await query(dataView);
 
         if (dataView === 'BLOBS') {
-            if (result.data.length === blobs.length) {
-                setFilteredRows(
-                    blobs.map(
-                        blob => blobRowRenderer(
-                            blob,
-                            toggleObliterate,
-                            stateGeneralTheme,
-                        ),
-                    ),
-                );
-                setLoading(false);
-                return;
-            }
             const newBlobs = [
                 ... new Set([
                     ...blobs,
@@ -415,19 +402,6 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             return;
         }
 
-        if (result.data.length === keys.length) {
-            setFilteredRows(
-                keys.map(
-                    key => keyRowRenderer(
-                        key,
-                        toggleObliterate,
-                        stateGeneralTheme,
-                    ),
-                ),
-            );
-            setLoading(false);
-            return;
-        }
         const newKeys = [
             ... new Set([
                 ...keys,
@@ -470,50 +444,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         loadData();
     }, [
         dataView,
-        blobs,
-        keys,
     ]);
-
-    // useEffect(() => {
-    //     if (dataView === 'BLOBS') {
-    //         const coreBlobs = [
-    //             ... new Set([
-    //                 ...(stateBlobs[activeCore.id] || []),
-    //             ]),
-    //         ];
-    //         setBlobs(coreBlobs);
-    //         setFilteredRows(
-    //             coreBlobs.map(
-    //                 blob => blobRowRenderer(
-    //                     blob,
-    //                     toggleObliterate,
-    //                     stateGeneralTheme,
-    //                 ),
-    //             ),
-    //         );
-    //         return;
-    //     }
-
-    //     const coreKeys = [
-    //         ... new Set([
-    //             ...(stateKeys[activeCore.id] || []),
-    //         ]),
-    //     ];
-    //     setKeys(coreKeys);
-    //     setFilteredRows(
-    //         coreKeys.map(
-    //             key => keyRowRenderer(
-    //                 key,
-    //                 toggleObliterate,
-    //                 stateGeneralTheme,
-    //             ),
-    //         ),
-    //     );
-    // }, [
-    //     dataView,
-    //     stateBlobs[activeCore.id],
-    //     stateKeys[activeCore.id],
-    // ]);
     // #endregion effects
 
 
