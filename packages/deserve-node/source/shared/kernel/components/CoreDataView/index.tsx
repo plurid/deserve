@@ -128,11 +128,6 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     ] = useState(true);
 
     const [
-        _,
-        setRerender,
-    ] = useState(false);
-
-    const [
         dataView,
         setDataView,
     ] = useState<DataView>(dataViewing.blobs);
@@ -141,16 +136,6 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         activeCore,
         setActiveCore,
     ] = useState(core);
-
-    const [
-        blobs,
-        setBlobs,
-    ] = useState(stateBlobs[activeCore.id] || []);
-
-    const [
-        keys,
-        setKeys,
-    ] = useState(stateKeys[activeCore.id] || []);
 
     const [
         obliterateID,
@@ -221,7 +206,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
 
         if (obliterateType === dataViewing.blobs) {
-            const filteredBlobs = blobs.filter(blob => blob.id !== obliterateID);
+            const filteredBlobs = (stateBlobs[activeCore.id] || []).filter(blob => blob.id !== obliterateID);
             setFilteredRows(
                 filteredBlobs.map(
                     blob => blobRowRenderer(
@@ -233,7 +218,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                 ),
             );
         } else {
-            const filteredKeys = keys.filter(key => key.id !== obliterateID);
+            const filteredKeys = (stateKeys[activeCore.id] || []).filter(key => key.id !== obliterateID);
             setFilteredRows(
                 filteredKeys.map(
                     key => keyRowRenderer(
@@ -278,8 +263,6 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         }
 
         setLoading(false);
-
-        setRerender(rerender => !rerender);
     }
     // #endregion handlers
 
@@ -289,7 +272,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         filteredRows,
         setFilteredRows,
     ] = useState(
-        blobs.map(
+        (stateBlobs[activeCore.id] || []).map(
             blob => blobRowRenderer(
                 blob,
                 activeCore.id,
@@ -303,23 +286,9 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
     // #region effects
     useEffect(() => {
-        loadData();
-    }, [
-        dataView,
-    ]);
-
-    useEffect(() => {
-        setBlobs(stateBlobs[activeCore.id] || []);
-        setKeys(stateKeys[activeCore.id] || []);
-    }, [
-        JSON.stringify(stateBlobs[activeCore.id]),
-        JSON.stringify(stateKeys[activeCore.id]),
-    ]);
-
-    useEffect(() => {
         if (dataView === dataViewing.blobs) {
             setFilteredRows(
-                blobs.map(
+                (stateBlobs[activeCore.id] || []).map(
                     blob => blobRowRenderer(
                         blob,
                         activeCore.id,
@@ -333,7 +302,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         }
 
         setFilteredRows(
-            keys.map(
+            (stateKeys[activeCore.id] || []).map(
                 key => keyRowRenderer(
                     key,
                     activeCore.id,
@@ -344,8 +313,14 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         );
         setLoading(false);
     }, [
-        JSON.stringify(blobs),
-        JSON.stringify(keys),
+        JSON.stringify(stateBlobs[activeCore.id]),
+        JSON.stringify(stateKeys[activeCore.id]),
+    ]);
+
+    useEffect(() => {
+        loadData();
+    }, [
+        dataView,
     ]);
     // #endregion effects
 
