@@ -5,6 +5,10 @@
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
     import { ThunkDispatch } from 'redux-thunk';
+
+    import {
+        Theme,
+    } from '@plurid/plurid-themes';
     // #endregion libraries
 
 
@@ -34,6 +38,7 @@ export interface IndexOwnProperties {
 }
 
 export interface IndexStateProperties {
+    stateGeneralTheme: Theme;
     stateIndexView: string;
 }
 
@@ -50,6 +55,7 @@ const Index: React.FC<IndexProperties> = (
     // #region properties
     const {
         // #region state
+        stateGeneralTheme,
         stateIndexView,
         // #endregion state
     } = properties;
@@ -72,7 +78,9 @@ const Index: React.FC<IndexProperties> = (
     }
 
     return (
-        <StyledIndex>
+        <StyledIndex
+            theme={stateGeneralTheme}
+        >
             {renderView}
         </StyledIndex>
     );
@@ -83,6 +91,7 @@ const Index: React.FC<IndexProperties> = (
 const mapStateToProperties = (
     state: AppState,
 ): IndexStateProperties => ({
+    stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateIndexView: selectors.view.getIndexView(state),
 });
 

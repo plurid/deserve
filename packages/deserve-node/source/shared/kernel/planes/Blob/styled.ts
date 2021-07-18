@@ -16,5 +16,10 @@ export interface IStyledBlob {
 }
 
 export const StyledBlob = styled.div<IStyledBlob>`
+    font-family: ${
+        ({
+            theme,
+        }: IStyledBlob) => theme.fontFamilySansSerif
+    };
 `;
 // #region module

@@ -16,5 +16,10 @@ export interface IStyledKey {
 }
 
 export const StyledKey = styled.div<IStyledKey>`
+    font-family: ${
+        ({
+            theme,
+        }: IStyledKey) => theme.fontFamilySansSerif
+    };
 `;
 // #region module
