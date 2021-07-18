@@ -313,6 +313,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         );
         setLoading(false);
     }, [
+        dataView,
         JSON.stringify(stateBlobs[activeCore.id]),
         JSON.stringify(stateKeys[activeCore.id]),
     ]);
