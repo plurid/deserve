@@ -304,7 +304,9 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         setKeys(stateKeys[activeCore.id] || []);
     }, [
         stateBlobs[activeCore.id],
+        stateBlobs[activeCore.id]?.length,
         stateKeys[activeCore.id],
+        stateKeys[activeCore.id]?.length,
     ]);
 
     useEffect(() => {
@@ -342,7 +344,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
 
     // #region render
-    if (obliterateID && obliterateType) {
+    if (
+        obliterateID
+        && obliterateType
+    ) {
         const type = obliterateType === dataViewing.blobs
             ? 'blob'
             : 'key';
