@@ -21,6 +21,10 @@
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
     // import actions from '~kernel-services/state/actions';
+
+    import {
+        formatJSON,
+    } from '~kernel-services/utilities';
     // #endregion external
 
 
@@ -97,7 +101,7 @@ const Key: React.FC<KeyProperties> = (
             </div>
 
             <pre>
-                {value}
+                {formatJSON(value)}
             </pre>
         </StyledKey>
     );

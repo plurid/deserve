@@ -11,6 +11,10 @@
     } from '@plurid/plurid-themes';
 
     import {
+        size as sizeUtility,
+    } from '@plurid/plurid-functions';
+
+    import {
         PluridPlaneComponentProperty,
     } from '@plurid/plurid-react';
     // #endregion libraries
@@ -21,6 +25,10 @@
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
     // import actions from '~kernel-services/state/actions';
+
+    import {
+        formatJSON,
+    } from '~kernel-services/utilities';
     // #endregion external
 
 
@@ -99,11 +107,11 @@ const Blob: React.FC<BlobProperties> = (
             </div>
 
             <div>
-                {mimetype} · {size}
+                {mimetype} · {sizeUtility.humanFormat(size)}
             </div>
 
             <pre>
-                {metadata}
+                {formatJSON(metadata)}
             </pre>
         </StyledBlob>
     );
