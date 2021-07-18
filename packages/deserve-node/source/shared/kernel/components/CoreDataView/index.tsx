@@ -388,6 +388,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     theme={stateGeneralTheme}
                     active={dataView === dataViewing.blobs}
                     onClick={() => {
+                        if (dataView === dataViewing.blobs) {
+                            return;
+                        }
+
                         setLoading(true);
                         setDataView(dataViewing.blobs);
                     }}
@@ -397,10 +401,14 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
                 <StyledDataSelectItem
                     theme={stateGeneralTheme}
-                    active={dataView === 'KEYS'}
+                    active={dataView === dataViewing.keys}
                     onClick={() => {
+                        if (dataView === dataViewing.keys) {
+                            return;
+                        }
+
                         setLoading(true);
-                        setDataView('KEYS');
+                        setDataView(dataViewing.keys);
                     }}
                 >
                     keys
