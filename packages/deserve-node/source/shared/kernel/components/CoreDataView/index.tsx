@@ -312,10 +312,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         setBlobs(stateBlobs[activeCore.id] || []);
         setKeys(stateKeys[activeCore.id] || []);
     }, [
-        stateBlobs[activeCore.id],
-        stateBlobs[activeCore.id]?.length,
-        stateKeys[activeCore.id],
-        stateKeys[activeCore.id]?.length,
+        JSON.stringify(stateBlobs[activeCore.id]),
+        JSON.stringify(stateKeys[activeCore.id]),
     ]);
 
     useEffect(() => {
@@ -346,8 +344,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         );
         setLoading(false);
     }, [
-        blobs,
-        keys,
+        JSON.stringify(blobs),
+        JSON.stringify(keys),
     ]);
     // #endregion effects
 
