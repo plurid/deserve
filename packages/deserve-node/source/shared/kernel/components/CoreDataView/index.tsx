@@ -18,6 +18,8 @@
     // #region external
     import {
         ClientCore,
+        Blob,
+        Key,
     } from '~server/data/interfaces';
 
     import EntityView from '../EntityView';
@@ -80,8 +82,8 @@ export interface CoreDataViewOwnProperties {
 export interface CoreDataViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    stateBlobs: Record<string, any[] | undefined>;
-    stateKeys: Record<string, any[] | undefined>;
+    stateBlobs: Record<string, Blob[] | undefined>;
+    stateKeys: Record<string, Key[] | undefined>;
 }
 
 export interface CoreDataViewDispatchProperties {
@@ -124,6 +126,11 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         loading,
         setLoading,
     ] = useState(true);
+
+    const [
+        _,
+        setRerender,
+    ] = useState(false);
 
     const [
         dataView,
@@ -271,6 +278,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         }
 
         setLoading(false);
+
+        setRerender(rerender => !rerender);
     }
     // #endregion handlers
 
