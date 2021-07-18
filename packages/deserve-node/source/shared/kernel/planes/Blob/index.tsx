@@ -69,7 +69,23 @@ const Blob: React.FC<BlobProperties> = (
         // #endregion state
     } = properties;
 
-    const id = plurid.plane.parameters.id;
+    const coreID = plurid.plane.parameters.core;
+    const blobID = plurid.plane.parameters.id;
+    const coreBlobs = stateBlobs[coreID];
+    if (!coreBlobs) {
+        return (<></>);
+    }
+
+    const blob = coreBlobs.find(blob => blob.id === blobID);
+    if (!blob) {
+        return (<></>);
+    }
+
+    const {
+        mimetype,
+        size,
+        metadata,
+    } = blob;
     // #endregion properties
 
 
@@ -78,7 +94,17 @@ const Blob: React.FC<BlobProperties> = (
         <StyledBlob
             theme={stateGeneralTheme}
         >
-            Blob
+            <div>
+                {coreID} · {blobID}
+            </div>
+
+            <div>
+                {mimetype} · {size}
+            </div>
+
+            <pre>
+                {metadata}
+            </pre>
         </StyledBlob>
     );
     // #endregion render

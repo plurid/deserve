@@ -45,6 +45,7 @@
 // #region module
 export const blobRowRenderer = (
     blob: Blob,
+    coreID: string,
     toggleObliterate: (
         type: 'BLOBS',
         id: string,
@@ -58,6 +59,8 @@ export const blobRowRenderer = (
         size,
         metadata,
     } = blob;
+
+    const linkRoute = `/blob/${coreID}/${id.replace('/', '-')}`;
 
     return (
         <>
@@ -79,7 +82,7 @@ export const blobRowRenderer = (
 
             <StyledInlineItem>
                 <PluridLink
-                    route={`/blob/${id}`}
+                    route={linkRoute}
                     devisible={true}
                 >
                     <PluridIconInfo
@@ -108,6 +111,7 @@ export const blobRowRenderer = (
 
 export const keyRowRenderer = (
     key: Key,
+    coreID: string,
     toggleObliterate: (
         type: 'KEYS',
         id: string,
@@ -121,6 +125,8 @@ export const keyRowRenderer = (
         updatedAt,
         sha,
     } = key;
+
+    const linkRoute = `/key/${coreID}/${id.replace('/', '-')}`;
 
     return (
         <>
@@ -138,7 +144,7 @@ export const keyRowRenderer = (
 
             <StyledInlineItem>
                 <PluridLink
-                    route={`/key/${id}`}
+                    route={linkRoute}
                     devisible={true}
                 >
                     <PluridIconInfo

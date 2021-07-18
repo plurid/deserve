@@ -69,7 +69,21 @@ const Key: React.FC<KeyProperties> = (
         // #endregion state
     } = properties;
 
-    const id = plurid.plane.parameters.id;
+    const coreID = plurid.plane.parameters.core;
+    const keyID = (plurid.plane.parameters.id || '').replace('-', '/');
+    const coreKeys = stateKeys[coreID];
+    if (!coreKeys) {
+        return (<></>);
+    }
+
+    const key = coreKeys.find(key => key.id === keyID);
+    if (!key) {
+        return (<></>);
+    }
+
+    const {
+        value,
+    } = key;
     // #endregion properties
 
 
@@ -78,7 +92,13 @@ const Key: React.FC<KeyProperties> = (
         <StyledKey
             theme={stateGeneralTheme}
         >
-            Key
+            <div>
+                {coreID} · {keyID}
+            </div>
+
+            <pre>
+                {value}
+            </pre>
         </StyledKey>
     );
     // #endregion render

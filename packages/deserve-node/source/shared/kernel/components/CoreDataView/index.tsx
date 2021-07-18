@@ -219,6 +219,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                 filteredBlobs.map(
                     blob => blobRowRenderer(
                         blob,
+                        activeCore.id,
                         toggleObliterate,
                         stateGeneralTheme,
                     ),
@@ -230,6 +231,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                 filteredKeys.map(
                     key => keyRowRenderer(
                         key,
+                        activeCore.id,
                         toggleObliterate,
                         stateGeneralTheme,
                     ),
@@ -281,6 +283,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         blobs.map(
             blob => blobRowRenderer(
                 blob,
+                activeCore.id,
                 toggleObliterate,
                 stateGeneralTheme,
             ),
@@ -310,6 +313,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                 blobs.map(
                     blob => blobRowRenderer(
                         blob,
+                        activeCore.id,
                         toggleObliterate,
                         stateGeneralTheme,
                     ),
@@ -323,6 +327,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             keys.map(
                 key => keyRowRenderer(
                     key,
+                    activeCore.id,
                     toggleObliterate,
                     stateGeneralTheme,
                 ),

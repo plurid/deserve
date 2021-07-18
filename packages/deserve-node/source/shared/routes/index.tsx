@@ -32,11 +32,11 @@ const indexRoute: PluridReactRoute = {
             component: IndexPlane,
         },
         {
-            value: '/blob/:id',
+            value: '/blob/:core/:id',
             component: BlobPlane,
         },
         {
-            value: '/key/:id',
+            value: '/key/:core/:id',
             component: KeyPlane,
         },
     ],
