@@ -12,19 +12,6 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
-
-    import {
-        size as sizeUtility,
-    } from '@plurid/plurid-functions';
-
-    import {
-        PluridLink,
-    } from '@plurid/plurid-react';
-
-    import {
-        PluridIconInfo,
-        PluridIconObliterate,
-    } from '@plurid/plurid-icons-react';
     // #endregion libraries
 
 
@@ -67,139 +54,25 @@
         StyledObliterateContainer,
         StyledObliterateText,
         StyledObliterateButtons,
-        StyledInlineItem,
     } from './styled';
+
+    import {
+        DataView,
+        dataViewing,
+        blobsHeader,
+        keysHeader,
+    } from './data';
+
+    import {
+        blobRowRenderer,
+        keyRowRenderer,
+    } from './logic';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-export const blobRowRenderer = (
-    blob: any,
-    toggleObliterate: (
-        type: 'BLOBS',
-        id: string,
-    ) => void,
-    theme: Theme,
-) => {
-    const {
-        id,
-        storedAt,
-        mimetype,
-        size,
-        metadata,
-    } = blob;
-
-    return (
-        <>
-            <div>
-                {id}
-            </div>
-
-            <div>
-                {new Date(storedAt).toLocaleString()}
-            </div>
-
-            <div>
-                {mimetype}
-            </div>
-
-            <div>
-                {sizeUtility.humanFormat(size)}
-            </div>
-
-            <StyledInlineItem>
-                <PluridLink
-                    route={`/blob/${id}`}
-                    devisible={true}
-                >
-                    <PluridIconInfo
-                        theme={theme}
-                    />
-                </PluridLink>
-
-                <pre>
-                    {metadata}
-                </pre>
-            </StyledInlineItem>
-
-            <PluridIconObliterate
-                atClick={() => {
-                    toggleObliterate(
-                        'BLOBS',
-                        id,
-                    );
-                }}
-                theme={theme}
-            />
-        </>
-    );
-}
-
-
-export const keyRowRenderer = (
-    key: any,
-    toggleObliterate: (
-        type: 'KEYS',
-        id: string,
-    ) => void,
-    theme: Theme,
-) => {
-    const {
-        id,
-        value,
-        storedAt,
-        updatedAt,
-        sha,
-    } = key;
-
-    return (
-        <>
-            <div>
-                {id}
-            </div>
-
-            <div>
-                {new Date(storedAt).toLocaleString()}
-            </div>
-
-            <div>
-                {updatedAt ? new Date(updatedAt).toLocaleString() : ''}
-            </div>
-
-            <StyledInlineItem>
-                <PluridLink
-                    route={`/key/${id}`}
-                    devisible={true}
-                >
-                    <PluridIconInfo
-                        theme={theme}
-                    />
-                </PluridLink>
-
-                <pre>
-                    {value}
-                </pre>
-            </StyledInlineItem>
-
-            <PluridIconObliterate
-                atClick={() => {
-                    toggleObliterate(
-                        'KEYS',
-                        id,
-                    );
-                }}
-                theme={theme}
-            />
-        </>
-    );
-}
-
-
-export type DataView = 'BLOBS' | 'KEYS';
-
-
 export interface CoreDataViewOwnProperties {
     core: ClientCore;
 }
@@ -255,7 +128,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     const [
         dataView,
         setDataView,
-    ] = useState<DataView>('BLOBS');
+    ] = useState<DataView>(dataViewing.blobs);
 
     const [
         activeCore,
@@ -286,9 +159,9 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
     // #region handlers
     const query = async (
-        type: 'BLOBS' | 'KEYS',
+        type: DataView,
     ) => {
-        if (type === 'BLOBS') {
+        if (type === dataViewing.blobs) {
             const request = await graphqlClient.query({
                 query: QUERY_BLOBS,
                 variables: {
@@ -318,7 +191,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     }
 
     const toggleObliterate = (
-        type: 'BLOBS' | 'KEYS',
+        type: DataView,
         id: string,
     ) => {
         setObliterateType(type);
@@ -340,7 +213,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         });
 
 
-        if (obliterateType === 'BLOBS') {
+        if (obliterateType === dataViewing.blobs) {
             const filteredBlobs = blobs.filter(blob => blob.id !== obliterateID);
             setFilteredRows(
                 filteredBlobs.map(
@@ -368,7 +241,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         setObliterateType('');
         setObliterateID('');
 
-        const mutation = obliterateType === 'BLOBS'
+        const mutation = obliterateType === dataViewing.blobs
             ? DELETE_BLOB
             : DELETE_KEY;
 
@@ -432,7 +305,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
     ]);
 
     useEffect(() => {
-        if (dataView === 'BLOBS') {
+        if (dataView === dataViewing.blobs) {
             setFilteredRows(
                 blobs.map(
                     blob => blobRowRenderer(
@@ -464,61 +337,8 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
 
 
     // #region render
-    const blobsHeader = (
-        <>
-            <div>
-                id
-            </div>
-
-            <div>
-                stored at
-            </div>
-
-            <div>
-                type
-            </div>
-
-            <div>
-                size
-            </div>
-
-            <div>
-                metadata
-            </div>
-
-            <div>
-                obliterate
-            </div>
-        </>
-    );
-
-    const keysHeader = (
-        <>
-            <div>
-                id
-            </div>
-
-            <div>
-                stored at
-            </div>
-
-            <div>
-                updated at
-            </div>
-
-            <div>
-                value
-            </div>
-
-            <div>
-                obliterate
-            </div>
-        </>
-    );
-
-
     if (obliterateID && obliterateType) {
-        const type = obliterateType === 'BLOBS'
+        const type = obliterateType === dataViewing.blobs
             ? 'blob'
             : 'key';
 
@@ -555,7 +375,6 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
         );
     }
 
-
     return (
         <StyledCoreDataView
             theme={stateGeneralTheme}
@@ -567,10 +386,10 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             <StyledDataSelect>
                 <StyledDataSelectItem
                     theme={stateGeneralTheme}
-                    active={dataView === 'BLOBS'}
+                    active={dataView === dataViewing.blobs}
                     onClick={() => {
                         setLoading(true);
-                        setDataView('BLOBS');
+                        setDataView(dataViewing.blobs);
                     }}
                 >
                     blobs
@@ -594,16 +413,16 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
                     interactionTheme={stateInteractionTheme}
 
                     loading={loading}
-                    rowTemplate={dataView === 'BLOBS'
+                    rowTemplate={dataView === dataViewing.blobs
                         ? '1fr 1fr 1fr 1fr 1fr 100px'
                         : '1fr 1fr 1fr 1fr 100px'
                     }
-                    rowsHeader={dataView === 'BLOBS'
+                    rowsHeader={dataView === dataViewing.blobs
                         ? blobsHeader
                         : keysHeader
                     }
                     rows={filteredRows}
-                    noRows={dataView === 'BLOBS'
+                    noRows={dataView === dataViewing.blobs
                         ? 'no blobs'
                         : 'no keys'
                     }
