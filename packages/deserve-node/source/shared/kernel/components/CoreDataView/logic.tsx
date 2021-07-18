@@ -33,6 +33,10 @@
     import {
         StyledInlineItem,
     } from './styled';
+
+    import {
+        dataViewing,
+    } from './data';
     // #endregion internal
 // #endregion imports
 
@@ -91,7 +95,7 @@ export const blobRowRenderer = (
             <PluridIconObliterate
                 atClick={() => {
                     toggleObliterate(
-                        'BLOBS',
+                        dataViewing.blobs,
                         id,
                     );
                 }}
@@ -150,7 +154,7 @@ export const keyRowRenderer = (
             <PluridIconObliterate
                 atClick={() => {
                     toggleObliterate(
-                        'KEYS',
+                        dataViewing.keys,
                         id,
                     );
                 }}
