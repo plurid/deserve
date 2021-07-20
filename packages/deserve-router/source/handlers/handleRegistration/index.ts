@@ -64,6 +64,22 @@ const handleRegister = async (
             return;
         }
 
+        if (
+            !logicResponse.data?.core
+            || !logicResponse.data?.token
+        ) {
+            delog({
+                text: 'deserve router invalid data verifyIdentonymKey',
+                level: 'warn',
+            });
+
+            response
+                .status(400)
+                .json(unsuccessfulResponse);
+
+            return;
+        }
+
         const responseData = {
             status: true,
             data: {
