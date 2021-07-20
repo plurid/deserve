@@ -17,7 +17,6 @@ const verifyIdentonymKey: VerifyIdentonymKey = async (
     return {
         status: true,
         data: {
-            // core: 'https://a-core.data.domain.tld',
             core: 'http://localhost:3355/register',
             token: '123',
         },
@@ -26,7 +25,7 @@ const verifyIdentonymKey: VerifyIdentonymKey = async (
 
 
 const handleGetPath: HandleGetPath = async (
-    request,
+    _,
     response,
 ) => {
     response.send('Deserve Router');

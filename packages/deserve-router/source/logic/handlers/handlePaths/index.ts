@@ -4,13 +4,15 @@
         Request,
         Response,
     } from 'express';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
     // #region external
     import {
         DeserveRequest,
-    } from '../../../data/interfaces';
+    } from '~data/interfaces';
     // #endregion external
 // #endregion imports
 
@@ -21,12 +23,24 @@ const handlePaths = async (
     request: Request,
     response: Response,
 ) => {
-    const logic = (request as DeserveRequest).deserveLogic;
+    try {
+        const logic = (request as DeserveRequest).deserveLogic;
 
-    await logic.handleGetPath(
-        request as DeserveRequest,
-        response,
-    );
+        await logic.handleGetPath(
+            request as DeserveRequest,
+            response,
+        );
+    } catch (error) {
+        delog({
+            text: 'deserve router path error',
+            level: 'error',
+            error,
+        });
+
+        if (!response.headersSent) {
+            response.end();
+        }
+    }
 }
 // #endregion module
 

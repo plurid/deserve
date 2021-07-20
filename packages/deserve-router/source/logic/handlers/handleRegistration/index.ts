@@ -4,6 +4,8 @@
         Request,
         Response,
     } from 'express';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -11,7 +13,7 @@
     import {
         DeserveRequest,
         InputIdentonymKey,
-    } from '../../../data/interfaces';
+    } from '~data/interfaces';
     // #endregion external
 // #endregion imports
 
@@ -50,6 +52,11 @@ const handleRegister = async (
         );
 
         if (!logicResponse.status) {
+            delog({
+                text: 'deserve router could not verifyIdentonymKey',
+                level: 'warn',
+            });
+
             response
                 .status(404)
                 .json(unsuccessfulResponse);
@@ -64,10 +71,21 @@ const handleRegister = async (
             },
         };
 
+        delog({
+            text: 'deserve router registered successfully',
+            level: 'trace',
+        });
+
         response.json(responseData);
 
         return;
     } catch (error) {
+        delog({
+            text: 'deserve router register error',
+            level: 'error',
+            error,
+        });
+
         response
             .status(500)
             .json(unsuccessfulResponse);
