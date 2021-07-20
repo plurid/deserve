@@ -7,6 +7,8 @@
         json as jsonParser,
     } from 'body-parser';
     import cookieParser from 'cookie-parser';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -27,8 +29,6 @@
     import clientStore from './services/clientStore';
 
     import corsOptions from './utilities/cors';
-
-    import mockLogic from './logic/mock';
     // #endregion internal
 // #endregion imports
 
@@ -42,6 +42,7 @@ const main = (
     deserveCoreLogic: DeserveCoreLogic,
 ) => {
     server.options('*', cors(corsOptions) as any);
+
 
     server.use(
         cors(corsOptions) as any,
@@ -88,6 +89,7 @@ const main = (
         },
     );
 
+
     server.post(
         '/register',
         registerTunnel,
@@ -109,8 +111,12 @@ const main = (
         client.handleRequest(req, res);
     });
 
+
     const instance = server.listen(PORT, () => {
-        console.log(`\n\tDeserve Core Server on /, port ${PORT}\n\thttp://localhost:${PORT}`);
+        delog({
+            text: `deserve core server started · http://localhost:${PORT}`,
+            level: 'info',
+        });
     });
 
     instance.on('request', (req, res) => {
@@ -135,13 +141,9 @@ const main = (
 
         client.handleUpgrade(req, socket);
     });
-}
 
 
-if (require.main === module) {
-    main(
-        mockLogic,
-    );
+    return server;
 }
 // #endregion module
 

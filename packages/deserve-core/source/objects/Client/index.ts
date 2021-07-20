@@ -1,7 +1,6 @@
 // #region imports
     // #region libraries
     import http from 'http';
-    import Debug from 'debug';
     import pump from 'pump';
     import {
         EventEmitter,
@@ -11,6 +10,8 @@
         Request,
         Response,
     } from 'express';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 // #endregion imports
 
@@ -24,7 +25,6 @@
 class Client extends EventEmitter {
     private agent;
     private id;
-    private debug;
     private graceTimeout;
 
     constructor(options: any) {
@@ -33,20 +33,18 @@ class Client extends EventEmitter {
         const agent = this.agent = options.agent;
         const id = this.id = options.id;
 
-        this.debug = Debug(`lt:Client[${this.id}]`);
-
         // client is given a grace period in which they can connect before they are _removed_
         this.graceTimeout = setTimeout(() => {
             this.close();
         }, 1000).unref();
 
         agent.on('online', () => {
-            this.debug('client online %s', id);
+            // this.debug('client online %s', id);
             clearTimeout(this.graceTimeout);
         });
 
         agent.on('offline', () => {
-            this.debug('client offline %s', id);
+            // this.debug('client offline %s', id);
 
             // if there was a previous timeout set, we don't want to double trigger
             clearTimeout(this.graceTimeout);

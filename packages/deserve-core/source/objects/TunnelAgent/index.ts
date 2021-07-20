@@ -6,7 +6,7 @@
 
     import net from 'net';
 
-    import Debug from 'debug';
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -28,7 +28,6 @@ const DEFAULT_MAX_SOCKETS = 10;
 class TunnelAgent extends Agent {
     private availableSockets: any[];
     private waitingCreateConn: any[];
-    private debug;
     private connectedSockets;
     private maxTcpSockets;
     private server;
@@ -50,8 +49,6 @@ class TunnelAgent extends Agent {
         // when a createConnection cannot return a socket, it goes into a queue
         // once a socket is available it is handed out to the next callback
         this.waitingCreateConn = [];
-
-        this.debug = Debug(`lt:TunnelAgent[${options.clientId}]`);
 
         // track maximum allowed sockets
         this.connectedSockets = 0;

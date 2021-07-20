@@ -1,5 +1,7 @@
 // #region imports
+    // #region external
     import Client from '../Client';
+    // #endregion external
 // #endregion imports
 
 
