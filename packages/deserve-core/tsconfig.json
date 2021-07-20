@@ -25,14 +25,13 @@
             ],
         },
 
-        "outDir": "build",
+        "outDir": "distribution",
         "typeRoots": [
-            "node_modules/@types",
-            "source/types/typings.d.ts"
+            "node_modules/@types"
         ],
 
         "declaration": true,
-        "declarationDir": "build",
+        "declarationDir": "distribution",
         "sourceMap": true,
         "allowJs": false,
         "esModuleInterop": true,
@@ -51,7 +50,18 @@
         "noUnusedParameters": false,
 
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+
+        "plugins": [
+            {
+                "transform": "typescript-transform-paths",
+                "afterDeclarations": true,
+            },
+            {
+                "transform": "@zerollup/ts-transform-paths",
+                "exclude": ["*"]
+            }
+        ]
     },
     "include": [
         "source"
