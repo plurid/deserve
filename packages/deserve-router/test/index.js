@@ -1,6 +1,6 @@
 // #region imports
     // #region external
-    import deserveRouter from '../distribution';
+    const deserveRouter = require('../distribution').default;
     // #endregion external
 // #endregion imports
 
