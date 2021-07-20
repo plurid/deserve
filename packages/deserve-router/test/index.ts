@@ -1,10 +1,10 @@
 // #region imports
     // #region external
-    import {
+    import deserveRouter, {
         DeserveRouterLogic,
         VerifyIdentonymKey,
         HandleGetPath,
-    } from '../../distribution';
+    } from '../distribution';
     // #endregion external
 // #endregion imports
 
@@ -14,12 +14,21 @@
 const verifyIdentonymKey: VerifyIdentonymKey = async (
     input,
 ) => {
+    if (
+        input.identonym === 'a'
+        && input.key === 'a'
+    ) {
+        return {
+            status: true,
+            data: {
+                core: 'http://localhost:3355/register',
+                token: '123',
+            },
+        };
+    }
+
     return {
-        status: true,
-        data: {
-            core: 'http://localhost:3355/register',
-            token: '123',
-        },
+        status: false,
     };
 };
 
@@ -40,6 +49,6 @@ const logic: DeserveRouterLogic = {
 
 
 
-// #region exports
-export default logic;
-// #endregion exports
+// #region run
+deserveRouter(logic);
+// #endregion run
