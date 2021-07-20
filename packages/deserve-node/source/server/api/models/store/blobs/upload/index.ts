@@ -68,6 +68,8 @@ const upload = async (
             response.status(400).end();
             return;
         }
+        const localFilePath = request.file.path;
+
 
         const blobSHA = (request.file as any).sha;
         if (!blobSHA) {
@@ -77,6 +79,9 @@ const upload = async (
             });
 
             response.status(400).end();
+
+            fs.unlink(localFilePath, () => {});
+            return;
         }
 
 
@@ -88,6 +93,8 @@ const upload = async (
             });
 
             response.status(400).end();
+
+            fs.unlink(localFilePath, () => {});
             return;
         }
 
@@ -99,6 +106,8 @@ const upload = async (
             });
 
             response.status(500).end();
+
+            fs.unlink(localFilePath, () => {});
             return;
         }
 
@@ -108,7 +117,6 @@ const upload = async (
         } = core;
 
         const blobName = `${ownerID}/${blobSHA}`;
-        const localFilePath = request.file.path;
         const inStream = fs.createReadStream(localFilePath);
         const stored = await storage.object.store(
             DESERVE_BLOBS,
