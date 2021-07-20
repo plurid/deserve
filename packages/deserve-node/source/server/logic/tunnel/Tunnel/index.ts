@@ -152,7 +152,7 @@ class Tunnel extends EventEmitter {
             });
 
             tunnelsManager.remove(this.opts.id);
-            this.emit('error', error);
+            // this.emit('error', error);
         });
 
         let tunnelCount = 0;
