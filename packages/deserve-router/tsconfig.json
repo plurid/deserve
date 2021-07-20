@@ -18,8 +18,7 @@
 
         "outDir": "distribution",
         "typeRoots": [
-            "node_modules/@types",
-            "source/types/typings.d.ts"
+            "node_modules/@types"
         ],
 
         "declaration": true,
