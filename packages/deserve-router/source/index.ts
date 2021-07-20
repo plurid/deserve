@@ -5,6 +5,8 @@
     import {
         json as jsonParser,
     } from 'body-parser';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -22,7 +24,7 @@
     import {
         handlePaths,
         handleRegistration,
-    } from './logic/handlers';
+    } from './handlers';
     // #endregion external
 // #endregion imports
 
@@ -61,7 +63,10 @@ const main = (
 
     // Listen.
     server.listen(PORT, () => {
-        console.log(`\n\tDeserve Router Server on /, port ${PORT}\n\thttp://localhost:${PORT}`);
+        delog({
+            text: `\n\tDeserve Router Server on /, port ${PORT}\n\thttp://localhost:${PORT}`,
+            level: 'info',
+        });
     });
 
 
