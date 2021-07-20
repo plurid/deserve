@@ -25,11 +25,11 @@
         "node": ">=12",
         "npm": ">=6"
     },
-    "main": "distribution/index.js",
-    "module": "distribution/index.es.js",
-    "typings": "distribution/index.d.ts",
+    "main": "build/index.js",
+    "module": "build/index.es.js",
+    "typings": "build/index.d.ts",
     "files": [
-        "distribution"
+        "build"
     ],
     "scripts": {
         "start": "node scripts start",
