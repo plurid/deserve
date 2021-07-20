@@ -10,8 +10,8 @@
 
 // #region module
 class HeaderHostTransformer extends Transform {
-    private host: any;
-    private replaced: any;
+    private host: string;
+    private replaced: boolean;
 
     constructor(opts: any = {}) {
         super(opts);

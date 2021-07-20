@@ -23,4 +23,8 @@ export const DATA_PATH = path.join(
 
 
 export const COOKIE_DOMAIN = process.env.DESERVE_COOKIE_DOMAIN || 'localhost';
+
+
+
+export const DEFAULT_TUNNEL_HOST = process.env.DESERVE_DEFAULT_TUNNEL_HOST || 'https://deserve.plurid.cloud';
 // #endregion module

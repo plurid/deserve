@@ -1,34 +1,34 @@
 // #region imports
     // #region libraries
     import {
-        parse,
+        URL,
     } from 'url';
 
     import {
         EventEmitter,
     } from 'events';
 
-    // import Debug from 'debug';
-
     import axios from 'axios';
     // #endregion libraries
 
 
     // #region external
+    import {
+        DEFAULT_TUNNEL_HOST,
+    } from '~server/data/constants';
+
     import tunnelsManager from '~server/services/tunnelsManager';
     // #endregion external
 
 
     // #region internal
-    import TunnelCluster from './TunnelCluster';
+    import TunnelCluster from '../TunnelCluster';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-// const debug = Debug.debug('localtunnel:client');
-
 class Tunnel extends EventEmitter {
     private opts: any;
     private closed: any;
@@ -44,11 +44,12 @@ class Tunnel extends EventEmitter {
         this.closed = false;
 
         if (!this.opts.host) {
-            this.opts.host = 'https://deserve.plurid.cloud';
+            this.opts.host = DEFAULT_TUNNEL_HOST;
         }
     }
 
-    _getInfo(
+
+    private _getInfo(
         body: any,
     ) {
         const { id, ip, port, url, cached_url, max_conn_count } = body;
@@ -60,7 +61,7 @@ class Tunnel extends EventEmitter {
             url,
             cached_url,
             max_conn: max_conn_count || 1,
-            remote_host: parse(host).hostname,
+            remote_host: new URL(host).hostname,
             remote_ip: ip,
             remote_port: port,
             local_port,
@@ -75,7 +76,7 @@ class Tunnel extends EventEmitter {
 
     // initialize connection
     // callback with connection info
-    _init(
+    private _init(
         cb: any,
     ) {
         const opt = this.opts;
@@ -121,7 +122,7 @@ class Tunnel extends EventEmitter {
         })();
     }
 
-    _establish(
+    private _establish(
         info: any,
     ) {
         // console.log('_establish info', info);
@@ -188,7 +189,8 @@ class Tunnel extends EventEmitter {
         }
     }
 
-    open(
+
+    public open(
         cb: any,
     ) {
         this._init((
@@ -212,7 +214,7 @@ class Tunnel extends EventEmitter {
         });
     }
 
-    close() {
+    public close() {
         this.closed = true;
         this.emit('close');
     }

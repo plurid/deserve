@@ -6,28 +6,32 @@
     import fs from 'fs';
     import net from 'net';
     import tls from 'tls';
-
-    import HeaderHostTransformer from './HeaderHostTransformer';
-
-    // import Debug from 'debug';
     // #endregion libraries
+
+
+    // #region external
+    import HeaderHostTransformer from '../HeaderHostTransformer';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
-// const debug = Debug.debug('localtunnel:client');
-
-// manages groups of tunnels
+/**
+ * Manages groups of tunnels.
+ *
+ */
 class TunnelCluster extends EventEmitter {
     private opts: any;
+
 
     constructor(opts: any = {}) {
         super(opts);
         this.opts = opts;
     }
 
-    open() {
+
+    public open() {
         const opt = this.opts;
 
         // Prefer IP if returned by the server
