@@ -16,6 +16,11 @@ export interface IStyledKey {
 }
 
 export const StyledKey = styled.div<IStyledKey>`
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
+    word-break: break-all;
     font-family: ${
         ({
             theme,
