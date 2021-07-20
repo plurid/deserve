@@ -4,7 +4,7 @@
         DeserveRouterLogic,
         VerifyIdentonymKey,
         HandleGetPath,
-    } from '../../data/interfaces';
+    } from '../../distribution';
     // #endregion external
 // #endregion imports
 

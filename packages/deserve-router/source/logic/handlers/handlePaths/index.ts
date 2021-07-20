@@ -26,6 +26,16 @@ const handlePaths = async (
     try {
         const logic = (request as DeserveRequest).deserveLogic;
 
+        if (!logic.handleGetPath) {
+            delog({
+                text: 'deserve router get path handler not defined',
+                level: 'warn',
+            });
+
+            response.end();
+            return;
+        }
+
         await logic.handleGetPath(
             request as DeserveRequest,
             response,

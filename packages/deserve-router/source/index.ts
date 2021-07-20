@@ -23,8 +23,6 @@
         handlePaths,
         handleRegistration,
     } from './logic/handlers';
-
-    import mockLogic from './logic/mock';
     // #endregion external
 // #endregion imports
 
@@ -53,35 +51,32 @@ const main = (
         handleRegistration,
     );
 
-    server.get(
-        '*',
-        handlePaths,
-    );
+    if (logic.handleGetPath) {
+        server.get(
+            '*',
+            handlePaths,
+        );
+    }
 
 
     // Listen.
     server.listen(PORT, () => {
         console.log(`\n\tDeserve Router Server on /, port ${PORT}\n\thttp://localhost:${PORT}`);
     });
-}
 
 
-
-if (require.main === module) {
-    main(
-        mockLogic,
-    );
+    return server;
 }
 // #endregion module
 
 
 
 // #region exports
+export * from './data/interfaces';
+
 export default main;
 
 export {
     server,
 };
-
-export * from './data/interfaces';
 // #endregion exports

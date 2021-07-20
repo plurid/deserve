@@ -46,6 +46,6 @@ export type HandleGetPath = (
 
 export interface DeserveRouterLogic {
     verifyIdentonymKey: VerifyIdentonymKey;
-    handleGetPath: HandleGetPath;
+    handleGetPath?: HandleGetPath;
 }
 // #endregion module
