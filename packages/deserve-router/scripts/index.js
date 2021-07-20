@@ -31,7 +31,7 @@ require('dotenv').config({
 
 
 /** CONSTANTS */
-const BUILD_DIRECTORY = process.env.PLURID_BUILD_DIRECTORY || 'build';
+const BUILD_DIRECTORY = process.env.PLURID_BUILD_DIRECTORY || 'distribution';
 
 const buildFolder = path.join(process.cwd(), BUILD_DIRECTORY);
 const verbose = process.env.PLURID_DEFAULT_VERBOSE === 'true' && !process.argv[3]
@@ -91,7 +91,7 @@ const commandStart = [
 ];
 
 const commandStartLocal = [
-    nodemonWatch,
+    'node test/index.js',
 ];
 
 const commandWatch = [
