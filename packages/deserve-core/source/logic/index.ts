@@ -4,6 +4,12 @@
         Request,
         Response,
     } from 'express';
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -47,6 +53,11 @@ const registerTunnel = async (
     );
 
     if (!tokenVerified) {
+        delog({
+            text: 'deserve core token not verified',
+            level: 'warn',
+        });
+
         const responseData = {
             status: false,
         };
@@ -59,7 +70,7 @@ const registerTunnel = async (
 
 
     // establish connection
-    const id = Math.random() + '';
+    const id = uuid.generate();
 
     const agent = new TunnelAgent({
         clientId: id,
@@ -88,7 +99,11 @@ const registerTunnel = async (
 
         response.json(responseData);
     } catch (error) {
-        console.log(`Deserve Core Error ::`, error);
+        delog({
+            text: 'deserve core registerTunnel error',
+            level: 'error',
+            error,
+        });
     }
 }
 // #endregion module

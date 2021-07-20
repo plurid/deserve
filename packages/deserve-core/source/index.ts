@@ -24,7 +24,7 @@
 
     import {
         registerTunnel,
-    } from './logic/registration';
+    } from './logic';
 
     import clientStore from './services/clientStore';
 

@@ -18,10 +18,12 @@
 
 
 // #region module
-// A client encapsulates req/res handling using an agent
-//
-// If an agent is destroyed, the request handling will error
-// The caller is responsible for handling a failed request
+/**
+ * A client encapsulates req/res handling using an agent
+ *
+ * If an agent is destroyed, the request handling will error
+ * The caller is responsible for handling a failed request
+ */
 class Client extends EventEmitter {
     private agent;
     private id;
@@ -39,12 +41,19 @@ class Client extends EventEmitter {
         }, 1000).unref();
 
         agent.on('online', () => {
-            // this.debug('client online %s', id);
+            delog({
+                text: `deserve core client online ${id}`,
+                level: 'trace',
+            });
+
             clearTimeout(this.graceTimeout);
         });
 
         agent.on('offline', () => {
-            // this.debug('client offline %s', id);
+            delog({
+                text: `deserve core client offline ${id}`,
+                level: 'trace',
+            });
 
             // if there was a previous timeout set, we don't want to double trigger
             clearTimeout(this.graceTimeout);
@@ -58,7 +67,13 @@ class Client extends EventEmitter {
 
         // TODO(roman): an agent error removes the client, the user needs to re-connect?
         // how does a user realize they need to re-connect vs some random client being assigned same port?
-        agent.once('error', (err: any) => {
+        agent.once('error', (error: any) => {
+            delog({
+                text: 'deserve core error',
+                level: 'error',
+                error,
+            });
+
             this.close();
         });
     }
@@ -104,8 +119,12 @@ class Client extends EventEmitter {
         // this can happen when underlying agent produces an error
         // in our case we 504 gateway error this?
         // if we have already sent headers?
-        clientReq.once('error', (err) => {
-            // console.log('clientReq.once', err);
+        clientReq.once('error', (error) => {
+            delog({
+                text: 'deserve core Client handleRequest clientReq.once',
+                level: 'error',
+                error,
+            });
 
             // TODO: if headers not sent - respond with gateway unavailable
         });
@@ -118,18 +137,32 @@ class Client extends EventEmitter {
         request: Request,
         socket: any,
     ) {
-        socket.once('error', (err: any) => {
+        socket.once('error', (error: any) => {
             // These client side errors can happen if the client dies while we are reading
             // We don't need to surface these in our logs.
-            if (err.code == 'ECONNRESET' || err.code == 'ETIMEDOUT') {
+            if (error.code == 'ECONNRESET' || error.code == 'ETIMEDOUT') {
                 return;
             }
-            // console.error(err);
+
+            delog({
+                text: 'deserve core Client handleUpgrade socket error',
+                level: 'error',
+                error,
+            });
         });
 
-        this.agent.createConnection({}, (err: any, conn: any) => {
+        this.agent.createConnection({}, (
+            error: any,
+            conn: any,
+        ) => {
             // any errors getting a connection mean we cannot service this request
-            if (err) {
+            if (error) {
+                delog({
+                    text: 'deserve core Client handleUpgrade agent createConnection error',
+                    level: 'error',
+                    error,
+                });
+
                 socket.end();
                 return;
             }
