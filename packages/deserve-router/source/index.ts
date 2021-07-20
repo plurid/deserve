@@ -64,7 +64,7 @@ const main = (
     // Listen.
     server.listen(PORT, () => {
         delog({
-            text: `\n\tDeserve Router Server on /, port ${PORT}\n\thttp://localhost:${PORT}`,
+            text: `deserve router server started · http://localhost:${PORT}`,
             level: 'info',
         });
     });
