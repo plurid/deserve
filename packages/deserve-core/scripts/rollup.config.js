@@ -28,6 +28,7 @@ export default {
         'events',
 
         '@plurid/delog',
+        '@plurid/plurid-functions',
         'body-parser',
         'cookie-parser',
         'cors',

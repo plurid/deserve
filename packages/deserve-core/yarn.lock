@@ -602,7 +602,7 @@
     encoding "^0.1.13"
     sync-fetch "^0.3.0"
 
-"@plurid/plurid-functions@0.0.0-5":
+"@plurid/plurid-functions@0.0.0-5", "@plurid/plurid-functions@^0.0.0-5":
   version "0.0.0-5"
   resolved "https://npm.plurid.cloud/@plurid%2fplurid-functions/-/plurid-functions-0.0.0-5.tgz#9e404f340e745d1fcfafd130f18973bb945437c4"
   integrity sha512-/I0rBQpVUIlXGqsPraJlb6BNVNcvJP7SjyaUcMLw9CJkMheawhuItHqX9YSz1kToVDQz0e7Lq0hLYAnamFnXFQ==
