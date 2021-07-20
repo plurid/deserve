@@ -41,7 +41,18 @@
         "noUnusedParameters": false,
 
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+
+        "plugins": [
+            {
+                "transform": "typescript-transform-paths",
+                "afterDeclarations": true,
+            },
+            {
+                "transform": "@zerollup/ts-transform-paths",
+                "exclude": ["*"]
+            }
+        ]
     },
     "include": [
         "source"

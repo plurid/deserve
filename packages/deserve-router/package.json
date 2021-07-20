@@ -32,7 +32,7 @@
         "distribution"
     ],
     "scripts": {
-        "clean": "rm -rf ./distribution",
+        "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",
         "start": "deon environment ./environment/.env.local.deon -- node test/index.js",
         "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
