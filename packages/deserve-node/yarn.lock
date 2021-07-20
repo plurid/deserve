@@ -875,10 +875,10 @@
   resolved "https://npm.plurid.cloud/@plurid%2fdataface-mongo/-/dataface-mongo-0.0.0-0.tgz#aa249b3464e18a89b95406166524be41def2797a"
   integrity sha512-Jdb/MltREZRR80m1TMub+q9xhGWNiS/75dLRzKQ1KJD/lPe2Shck4FVIGTOx8ZbzJT8fJlqQFa3kGO29yNElOw==
 
-"@plurid/delog@^0.0.0-4":
-  version "0.0.0-4"
-  resolved "https://npm.plurid.cloud/@plurid%2fdelog/-/delog-0.0.0-4.tgz#91e73995f62041031fe40860c6d58df359602126"
-  integrity sha512-+QqyMauADUCyT7kKwJybQhx/+F+a7op77lbkECYtgKrc52zR9+N5G39LTGN5MpkEyDp8MRmw6eEIdAvM8fq4SA==
+"@plurid/delog@^0.0.0-5":
+  version "0.0.0-5"
+  resolved "https://npm.plurid.cloud/@plurid%2fdelog/-/delog-0.0.0-5.tgz#991adab6a9b1b988ec0d3b9a808e67da879ac346"
+  integrity sha512-6WORARj8XSRhsnSR/Hq31nXGy5BHRDfaNzBrPI08bUAJqUX9n4DvJx+2cdEhIrI1Jdc6iYJo6gGk3EAW6bMlWw==
   dependencies:
     "@apollo/client" "^3.3.21"
     "@plurid/plurid-functions" "0.0.0-5"
