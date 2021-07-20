@@ -40,7 +40,7 @@
         "build.local": "node scripts build.local",
         "build.development": "node scripts build.development",
         "build.production": "node scripts build.production",
-        "build.removeTests": "rimraf `find ./build/ -type d -name __tests__`",
+        "build.removeTests": "rimraf `find ./distribution/ -type d -name __tests__`",
         "build": "yarn build.production && yarn build.removeTests",
         "prepublishOnly": "yarn build"
     },
