@@ -47,8 +47,8 @@
 export const generalSelectors = [
     'cores',
     'data',
-    'records',
-    'settings',
+    // 'records',
+    // 'settings',
 ];
 
 export const generalSelectorsIcons = {
