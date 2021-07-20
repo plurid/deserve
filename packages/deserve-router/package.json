@@ -25,10 +25,10 @@
         "node": ">=12",
         "npm": ">=6"
     },
-    "main": "build/index.js",
-    "typings": "build/index.d.ts",
+    "main": "distribution/index.js",
+    "typings": "distribution/index.d.ts",
     "files": [
-        "build"
+        "distribution"
     ],
     "scripts": {
         "start": "node scripts start",
@@ -67,6 +67,7 @@
         "eslint": "^7.31.0",
         "jest": "^27.0.6",
         "nodemon": "^2.0.12",
+        "react": "^17.0.2",
         "rimraf": "^3.0.2",
         "rollup": "^2.53.2",
         "rollup-plugin-peer-deps-external": "^2.2.4",
