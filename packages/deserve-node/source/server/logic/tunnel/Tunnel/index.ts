@@ -9,6 +9,8 @@
     } from 'events';
 
     import axios from 'axios';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -87,7 +89,7 @@ class Tunnel extends EventEmitter {
         };
 
         const baseUri = `${opt.host}/register`;
-        // console.log('baseUri', baseUri);
+
         // no subdomain at first, maybe use requested domain
         const assignedDomain = opt.subdomain;
         // where to quest
@@ -113,9 +115,12 @@ class Tunnel extends EventEmitter {
                     }
                     cb(null, getInfo(body));
                 })
-                .catch((err: any) => {
-                    // debug(`tunnel server offline: ${err.message}, retry 1s`);
-                    // console.log(`tunnel server offline: ${err.message}, retry 1s`);
+                .catch((error: any) => {
+                    delog({
+                        text: `tunnel server offline ${error.message}`,
+                        level: 'error',
+                        error,
+                    });
 
                     return setTimeout(getUrl, 1000);
                 });
@@ -139,12 +144,15 @@ class Tunnel extends EventEmitter {
         });
 
         // re-emit socket error
-        this.tunnelCluster.on('error', (err: any) => {
-            // debug('got socket error', err.message);
-            // console.log('got socket error', err.message);
+        this.tunnelCluster.on('error', (error: any) => {
+            delog({
+                text: `got socket error ${error.message}`,
+                level: 'error',
+                error,
+            });
 
             tunnelsManager.remove(this.opts.id);
-            // this.emit('error', err);
+            this.emit('error', error);
         });
 
         let tunnelCount = 0;
@@ -152,8 +160,11 @@ class Tunnel extends EventEmitter {
         // track open count
         this.tunnelCluster.on('open', (tunnel: any) => {
             tunnelCount++;
-            // debug('tunnel open [total: %d]', tunnelCount);
-            // console.log('tunnel open [total: %d]', tunnelCount);
+
+            delog({
+                text: `tunnel open total ${tunnelCount}`,
+                level: 'trace',
+            });
 
             const closeHandler = () => {
                 tunnel.destroy();
@@ -172,15 +183,20 @@ class Tunnel extends EventEmitter {
         // when a tunnel dies, open a new one
         this.tunnelCluster.on('dead', () => {
             tunnelCount--;
-            // debug('tunnel dead [total: %d]', tunnelCount);
+
+            delog({
+                text: `tunnel dead total ${tunnelCount}`,
+                level: 'trace',
+            });
+
             if (this.closed) {
                 return;
             }
             this.tunnelCluster.open();
         });
 
-        this.tunnelCluster.on('request', (req: any) => {
-            this.emit('request', req);
+        this.tunnelCluster.on('request', (request: any) => {
+            this.emit('request', request);
         });
 
         // establish as many tunnels as allowed

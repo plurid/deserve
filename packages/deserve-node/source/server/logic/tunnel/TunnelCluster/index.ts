@@ -6,6 +6,8 @@
     import fs from 'fs';
     import net from 'net';
     import tls from 'tls';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -42,30 +44,29 @@ class TunnelCluster extends EventEmitter {
         const localProtocol = opt.local_https ? 'https' : 'http';
         const allowInvalidCert = opt.allow_invalid_cert;
 
-        // console.log(
-        //     'establishing tunnel %s://%s:%s <> %s:%s',
-        //     localProtocol,
-        //     localHost,
-        //     localPort,
-        //     remoteHostOrIp,
-        //     remotePort
-        // );
+        delog({
+            text: `establishing tunnel ${localProtocol}://${localHost}:${localPort} <> ${remoteHostOrIp}:${remotePort}`,
+            level: 'trace',
+        });
 
         // connection to localtunnel server
         const remote = net.connect({
             host: remoteHostOrIp,
             port: remotePort,
         });
-        // console.log('remote', remote);
 
         remote.setKeepAlive(true);
 
-        remote.on('error', (err: any) => {
-            // console.log('got remote connection error', err.message);
+        remote.on('error', (error: any) => {
+            delog({
+                text: `remote connection error ${error.message}`,
+                level: 'error',
+                error,
+            });
 
             // emit connection refused errors immediately, because they
             // indicate that the tunnel can't be established.
-            if (err.code === 'ECONNREFUSED') {
+            if (error.code === 'ECONNREFUSED') {
                 this.emit(
                     'error',
                     new Error(
@@ -79,16 +80,25 @@ class TunnelCluster extends EventEmitter {
 
         const connLocal = () => {
             if (remote.destroyed) {
-                console.log('remote destroyed');
+                delog({
+                    text: 'remote destroyed',
+                    level: 'info',
+                });
                 this.emit('dead');
                 return;
             }
 
-            // console.log('connecting locally to %s://%s:%d', localProtocol, localHost, localPort);
+            delog({
+                text: `connecting locally to ${localProtocol}://${localHost}:${localPort}`,
+                level: 'trace',
+            });
             remote.pause();
 
             if (allowInvalidCert) {
-                console.log('allowing invalid certificates');
+                delog({
+                    text: `allowing invalid certificates`,
+                    level: 'trace',
+                });
             }
 
             const getLocalCertOpts = () =>
@@ -106,7 +116,10 @@ class TunnelCluster extends EventEmitter {
                 : net.connect({ host: localHost, port: localPort });
 
             const remoteClose = () => {
-                // console.log('remote close');
+                delog({
+                    text: `remote close`,
+                    level: 'info',
+                });
                 this.emit('dead');
                 local.end();
             };
@@ -116,13 +129,17 @@ class TunnelCluster extends EventEmitter {
             // TODO some languages have single threaded servers which makes opening up
             // multiple local connections impossible. We need a smarter way to scale
             // and adjust for such instances to avoid beating on the door of the server
-            local.once('error', err => {
-                // console.log('local error %s', err.message);
+            local.once('error', (error) => {
+                delog({
+                    text: `local error ${error.message}`,
+                    level: 'error',
+                    error,
+                });
                 local.end();
 
                 remote.removeListener('close', remoteClose);
 
-                if (err.code !== 'ECONNREFUSED') {
+                if (error.code !== 'ECONNREFUSED') {
                     return remote.end();
                 }
 
@@ -131,7 +148,10 @@ class TunnelCluster extends EventEmitter {
             });
 
             local.once('connect', () => {
-                // console.log('connected locally');
+                delog({
+                    text: `connected locally`,
+                    level: 'trace',
+                });
                 remote.resume();
 
                 let stream: any = remote;
@@ -146,8 +166,14 @@ class TunnelCluster extends EventEmitter {
                 stream.pipe(local).pipe(remote);
 
                 // when local closes, also get a new remote
-                local.once('close', hadError => {
-                    // console.log('local connection closed [%s]', hadError);
+                local.once('close', error => {
+                    if (error) {
+                        delog({
+                            text: `local connection closed`,
+                            level: 'error',
+                            error,
+                        });
+                    }
                 });
             });
         };
