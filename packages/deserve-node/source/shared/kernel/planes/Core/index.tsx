@@ -21,10 +21,20 @@
         ClientCore,
     } from '~server/data/interfaces';
 
+    import client from '~kernel-services/graphql/client';
+
+    import {
+        DEREGISTER_CORE,
+    } from '~kernel-services/graphql/mutate';
+
+    import {
+        StyledPluridPureButton,
+    } from '~kernel-services/styled';
+
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
-    // import actions from '~kernel-services/state/actions';
+    import actions from '~kernel-services/state/actions';
     // #endregion external
 
 
@@ -49,6 +59,7 @@ export interface CoreStateProperties {
 }
 
 export interface CoreDispatchProperties {
+    dispatchRemoveEntity: typeof actions.data.removeEntity;
 }
 
 export type CoreProperties =
@@ -71,6 +82,10 @@ const Core: React.FC<CoreProperties> = (
         // stateInteractionTheme,
         stateCores,
         // #endregion state
+
+        // #region dispatch
+        dispatchRemoveEntity,
+        // #endregion dispatch
     } = properties;
 
     const coreID = plurid.plane.parameters.id;
@@ -80,10 +95,36 @@ const Core: React.FC<CoreProperties> = (
     }
 
     const {
+        id,
         link,
         origins,
     } = core;
     // #endregion properties
+
+
+    // #region handlers
+    const handleCoreObliterate = async () => {
+        try {
+            dispatchRemoveEntity({
+                type: 'core',
+                id,
+            });
+
+            const input = {
+                id,
+            };
+
+            await client.mutate({
+                mutation: DEREGISTER_CORE,
+                variables: {
+                    input,
+                },
+            });
+        } catch (error) {
+            return;
+        }
+    }
+    // #endregion handlers
 
 
     // #region render
@@ -103,9 +144,12 @@ const Core: React.FC<CoreProperties> = (
                 add origin
             </div>
 
-            <div>
-                obliterate core
-            </div>
+            <StyledPluridPureButton
+                text="Obliterate Core"
+                atClick={handleCoreObliterate}
+                theme={stateGeneralTheme}
+                level={2}
+            />
         </StyledCore>
     );
     // #endregion render
@@ -124,6 +168,11 @@ const mapStateToProperties = (
 const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): CoreDispatchProperties => ({
+    dispatchRemoveEntity: (
+        payload,
+    ) => dispatch (
+        actions.data.removeEntity(payload),
+    ),
 });
 
 

@@ -3,8 +3,16 @@
     import React from 'react';
 
     import {
+        Theme,
+    } from '@plurid/plurid-themes';
+
+    import {
+        PluridLink,
+    } from '@plurid/plurid-react';
+
+    import {
         PluridIconCopy,
-        PluridIconDelete,
+        PluridIconInfo,
     } from '@plurid/plurid-icons-react';
 
     import {
@@ -37,9 +45,7 @@ export const coreRowRenderer = (
         id: string,
         active: boolean,
     ) => void,
-    handleCoreObliterate: (
-        id: string,
-    ) => void,
+    theme: Theme,
 ) => {
     const {
         id,
@@ -48,6 +54,8 @@ export const coreRowRenderer = (
         identonym,
         active,
     } = core;
+
+    const coreRoute = `/core/${id}`;
 
     return (
         <>
@@ -86,9 +94,14 @@ export const coreRowRenderer = (
                 exclusive={true}
             />
 
-            <PluridIconDelete
-                atClick={() => handleCoreObliterate(id)}
-            />
+            <PluridLink
+                route={coreRoute}
+                devisible={true}
+            >
+                <PluridIconInfo
+                    theme={theme}
+                />
+            </PluridLink>
         </>
     );
 }

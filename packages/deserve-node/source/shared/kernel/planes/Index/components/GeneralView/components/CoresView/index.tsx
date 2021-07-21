@@ -29,7 +29,6 @@
     import client from '~kernel-services/graphql/client';
 
     import {
-        DEREGISTER_CORE,
         ACTIVATE_CORE,
         DEACTIVATE_CORE,
     } from '~kernel-services/graphql/mutate';
@@ -87,7 +86,6 @@ export interface CoresViewStateProperties {
 
 export interface CoresViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    dispatchRemoveEntity: typeof actions.data.removeEntity;
     dispatchActivateCore: typeof actions.data.activateCore;
 }
 
@@ -125,7 +123,6 @@ const CoresView: React.FC<CoresViewProperties> = (
 
         // #region dispatch
         dispatch,
-        dispatchRemoveEntity,
         dispatchActivateCore,
         // #endregion dispatch
     } = properties;
@@ -161,30 +158,6 @@ const CoresView: React.FC<CoresViewProperties> = (
             return;
         }
     }
-
-    const handleCoreObliterate = async (
-        id: string,
-    ) => {
-        try {
-            dispatchRemoveEntity({
-                type: 'core',
-                id,
-            });
-
-            const input = {
-                id,
-            };
-
-            await client.mutate({
-                mutation: DEREGISTER_CORE,
-                variables: {
-                    input,
-                },
-            });
-        } catch (error) {
-            return;
-        }
-    }
     // #endregion handlers
 
 
@@ -204,7 +177,7 @@ const CoresView: React.FC<CoresViewProperties> = (
             core => coreRowRenderer(
                 core,
                 handleCoreActivate,
-                handleCoreObliterate,
+                stateGeneralTheme,
             ),
         ),
     );
@@ -239,7 +212,7 @@ const CoresView: React.FC<CoresViewProperties> = (
                 core => coreRowRenderer(
                     core,
                     handleCoreActivate,
-                    handleCoreObliterate,
+                    stateGeneralTheme,
                 ),
             ),
         );
@@ -256,7 +229,7 @@ const CoresView: React.FC<CoresViewProperties> = (
             core => coreRowRenderer(
                 core,
                 handleCoreActivate,
-                handleCoreObliterate,
+                stateGeneralTheme,
             ),
         );
 
@@ -329,11 +302,6 @@ const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): CoresViewDispatchProperties => ({
     dispatch,
-    dispatchRemoveEntity: (
-        payload,
-    ) => dispatch (
-        actions.data.removeEntity(payload),
-    ),
     dispatchActivateCore: (
         payload,
     ) => dispatch (
