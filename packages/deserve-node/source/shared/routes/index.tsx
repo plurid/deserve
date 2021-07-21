@@ -10,6 +10,7 @@
 
     // #region external
     import IndexPlane from '~kernel-planes/Index';
+    import CorePlane from '~kernel-planes/Core';
     import BlobPlane from '~kernel-planes/Blob';
     import KeyPlane from '~kernel-planes/Key';
     import NotFoundPlane from '~kernel-planes/NotFound';
@@ -30,6 +31,10 @@ const indexRoute: PluridReactRoute = {
         {
             value: '/dashboard',
             component: IndexPlane,
+        },
+        {
+            value: '/core/:id',
+            component: CorePlane,
         },
         {
             value: '/blob/:core/:id',
