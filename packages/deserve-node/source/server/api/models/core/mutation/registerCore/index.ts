@@ -116,8 +116,12 @@ const registerCore = async (
             register,
             key,
             ownerID,
-            tokens: [],
-            origins: [],
+            origins: [
+                parsedLink.host,
+            ],
+            tokens: [
+                token,
+            ],
         };
 
         await database.updateDocument(

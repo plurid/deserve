@@ -43,6 +43,7 @@ export const types = gql`
         identonym: String!
         link: String!
         register: String!
+        origins: [String!]!
     }
 
     extend type Owner {
