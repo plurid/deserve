@@ -78,6 +78,15 @@ const main = (
 
             const client = clientStore.get();
             if (!client) {
+                const handleNotFound = (request as DeserveRequest).deserveCoreLogic.handleNotFound;
+                if (handleNotFound) {
+                    handleNotFound(
+                        request as DeserveRequest,
+                        response,
+                    );
+                    return;
+                }
+
                 const responseData = {
                     status: false,
                 };
@@ -95,20 +104,31 @@ const main = (
         registerTunnel,
     );
 
-    server.all('*', (req, res) => {
+    server.all('*', (
+        request,
+        response,
+    ) => {
         const client = clientStore.get();
 
         if (!client) {
-            res.status(404).send('404');
+            const handleNotFound = (request as DeserveRequest).deserveCoreLogic.handleNotFound;
+            if (handleNotFound) {
+                handleNotFound(
+                    request as DeserveRequest,
+                    response,
+                );
+                return;
+            }
+
+            response.status(404).send('404');
             return;
         }
 
-        const method = req.method;
-        if (method === 'POST') {
+        if (request.method === 'POST') {
             return;
         }
 
-        client.handleRequest(req, res);
+        client.handleRequest(request, response);
     });
 
 

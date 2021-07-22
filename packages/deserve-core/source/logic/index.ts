@@ -104,6 +104,8 @@ const registerTunnel = async (
             level: 'error',
             error,
         });
+
+        response.end();
     }
 }
 // #endregion module

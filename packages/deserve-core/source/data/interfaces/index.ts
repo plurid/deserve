@@ -2,6 +2,7 @@
     // #region libraries
     import {
         Request,
+        Response,
     } from 'express';
     // #endregion libraries
 // #endregion imports
@@ -27,7 +28,14 @@ export type VerifyToken = (
 ) => Promise<boolean>;
 
 
+export type HandleNotFound = (
+    request: DeserveRequest,
+    response: Response,
+) => Promise<void>;
+
+
 export interface DeserveCoreLogic {
     verifyToken: VerifyToken;
+    handleNotFound?: HandleNotFound;
 }
 // #endregion module
