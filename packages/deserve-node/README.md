@@ -103,8 +103,8 @@ docker pull deserve-node
 
 ```
 docker run \
-    -d \
     -p 33733:33733 \
+    -d \
     deserve-node
 ```
 
@@ -116,14 +116,14 @@ docker run \
 docker build \
     -t deserve-node \
     -f ./configurations/production.dockerfile \
-    --build-arg JWT_ENCRYPTION=$JWT_ENCRYPTION \
     .
 ```
 
 
 ``` bash
 docker run \
-    -d -p 33733:33733 \
+    -p 33733:33733 \
+    -d \
     deserve-node
 ```
 
