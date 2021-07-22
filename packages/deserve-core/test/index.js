@@ -19,6 +19,14 @@ const verifyToken = async (
 };
 
 
+const handleNotFound = async (
+    request,
+    response,
+) => {
+    response.send('Not found');
+}
+
+
 const logic = {
     verifyToken,
 };

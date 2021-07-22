@@ -2,6 +2,7 @@
     // #region external
     import {
         VerifyToken,
+        HandleNotFound,
         DeserveCoreLogic,
     } from '../distribution';
     // #endregion external
@@ -22,8 +23,17 @@ const verifyToken: VerifyToken = async (
 };
 
 
+const handleNotFound: HandleNotFound = async (
+    request,
+    response,
+) => {
+    response.send('Not found');
+}
+
+
 const mock: DeserveCoreLogic = {
     verifyToken,
+    handleNotFound,
 };
 // #endregion module
 
