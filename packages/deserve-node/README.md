@@ -37,7 +37,7 @@ The `deserve node` is part of the [`deserve`](https://github.com/plurid/deserve)
 
 ## Setup
 
-Run the commands below or run the script in `scripts/setup.sh`.
+Run the commands below or run the script in `scripts/setup.sh` (assumes `docker` is installed).
 
 
 ### Prerequisites
