@@ -24,6 +24,7 @@ export default {
     ],
     external: [
         'http',
+        'path',
         'net',
         'events',
 
