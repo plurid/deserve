@@ -47,6 +47,13 @@ const registerTunnel = async (
         token,
     } = data;
 
+    if (!CORE_ID) {
+        delog({
+            text: 'deserve core no DESERVE_CORE_ID defined',
+            level: 'warn',
+        });
+    }
+
     const tokenVerified = await logic.verifyToken(
         CORE_ID,
         token,
