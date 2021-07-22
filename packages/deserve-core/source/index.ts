@@ -1,6 +1,9 @@
 // #region imports
     // #region libraries
-    import express from 'express';
+    import express, {
+        Request,
+        Response,
+    } from 'express';
 
     import cors from 'cors';
     import {
@@ -20,6 +23,7 @@
 
     import {
         PORT,
+        FAVICON_PATH,
     } from './data/constants';
 
     import {
@@ -38,6 +42,29 @@
 
 // #region module
 const server: express.Application = express();
+
+
+const handleNotFound = (
+    request: Request,
+    response: Response,
+) => {
+    const handleNotFoundLogic = (request as DeserveRequest).deserveCoreLogic.handleNotFound;
+    if (handleNotFoundLogic) {
+        handleNotFoundLogic(
+            request as DeserveRequest,
+            response,
+        );
+        return;
+    }
+
+    if (request.path === '/favicon.ico') {
+        response.sendFile(FAVICON_PATH);
+        return;
+    }
+
+    response.status(404).send(notFoundPage);
+    return;
+}
 
 
 const main = (
@@ -80,16 +107,10 @@ const main = (
 
             const client = clientStore.get();
             if (!client) {
-                const handleNotFound = (request as DeserveRequest).deserveCoreLogic.handleNotFound;
-                if (handleNotFound) {
-                    handleNotFound(
-                        request as DeserveRequest,
-                        response,
-                    );
-                    return;
-                }
-
-                response.status(404).send(notFoundPage);
+                handleNotFound(
+                    request,
+                    response,
+                );
                 return;
             }
 
@@ -110,16 +131,10 @@ const main = (
         const client = clientStore.get();
 
         if (!client) {
-            const handleNotFound = (request as DeserveRequest).deserveCoreLogic.handleNotFound;
-            if (handleNotFound) {
-                handleNotFound(
-                    request as DeserveRequest,
-                    response,
-                );
-                return;
-            }
-
-            response.status(404).send(notFoundPage);
+            handleNotFound(
+                request,
+                response,
+            );
             return;
         }
 
