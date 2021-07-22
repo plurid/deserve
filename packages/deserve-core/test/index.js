@@ -29,7 +29,7 @@ const handleNotFound = async (
 
 const logic = {
     verifyToken,
-    handleNotFound,
+    // handleNotFound,
 };
 // #endregion module
 
