@@ -37,7 +37,7 @@ const notFoundPage = `
     </head>
     <body>
         <div class="deserve">
-            own your data with <a href="https://github.com/plurid/deserve">deserve</a>
+            own your data with <a href="https://plurid.com/deserve">deserve</a>
         </div>
     </body>
 `;
