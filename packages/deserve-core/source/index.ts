@@ -99,8 +99,7 @@ const main = (
                 return;
             }
 
-            const path = request.url;
-            if (path !== '/') {
+            if (request.path !== '/') {
                 next();
                 return;
             }
@@ -153,19 +152,24 @@ const main = (
         });
     });
 
-    instance.on('request', (req, res) => {
+    instance.on('request', (
+        request,
+        response,
+    ) => {
         // HACK
         // to account for POST not receiving adequate response in the '*' catch-all.
         const client = clientStore.get();
-
-        const method = req.method;
+        const method = request.method;
 
         if (client && method === 'POST') {
-            client.handleRequest(req, res);
+            client.handleRequest(request, response);
         }
     });
 
-    instance.on('upgrade', (req, socket, head) => {
+    instance.on('upgrade', (
+        request,
+        socket,
+    ) => {
         const client = clientStore.get();
 
         if (!client) {
@@ -173,7 +177,7 @@ const main = (
             return;
         }
 
-        client.handleUpgrade(req, socket);
+        client.handleUpgrade(request, socket);
     });
 
 
