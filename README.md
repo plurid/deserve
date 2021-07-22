@@ -57,6 +57,7 @@ The client-server architecture, and the underlying infrastructure, is meant to s
 This grounding of a `why` must happen at this depth, if not even deeper, since data will become ultimately the final material, and its flows ought to concern everyone and everything. However, very simply put, regarding the problem of data ownership there is only one solution: you must become your own server.
 
 
+
 ## The What
 
 The topology of a `deserve` environment is comprised of the `owner` and the network `service`.
@@ -74,6 +75,20 @@ The `owner` runs the `node` on a separate machine. It is best if the `owner` act
 On a `dent`, or on any of the legacy devices (laptops, tablets), the `owner` runs the `relater` software.
 
 Through the `relater` the `owner` controls the data in the owner's `node` and connects to `service`s on the network.
+
+
+
+## Usage
+
+`deserve` can be used by a `data owner`, someone who owns the data while using an internet service, and/or by a `data servicer`, an internet provider of a service.
+
+### Data Owner
+
+The `data owner` can buy or build a [`deserver`](https://plurid.com/deserver), a specialized computer that will work as the `deserve node`.
+
+### Data Servicer
+
+The `data servicer` must setup a `deserve-router` and provide `deserve-core`s as requested by the owners of data using their services.
 
 
 
