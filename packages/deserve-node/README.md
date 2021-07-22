@@ -42,7 +42,7 @@ Run the commands below or run the script in `scripts/setup.sh` (assumes `docker`
 
 ### Prerequisites
 
-+ [Install Docker](https://docs.docker.com/engine/install/ubuntu/)
++ [Install Docker](https://docs.docker.com/engine/install)
 
 
 + Setup MongoDB
