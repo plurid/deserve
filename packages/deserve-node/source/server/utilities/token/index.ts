@@ -48,11 +48,11 @@ const generateToken = (
             id: owner.id,
             ...attributes
         },
-        process.env.JWT_ENCRYPTION || '',
+        process.env.DESERVE_NODE_JWT_ENCRYPTION || '',
         {
-            algorithm: process.env.JWT_ALGORITHM,
-            expiresIn: process.env.JWT_EXPIRATION,
-            issuer: process.env.JWT_ISSUER,
+            algorithm: process.env.DESERVE_NODE_JWT_ALGORITHM,
+            expiresIn: process.env.DESERVE_NODE_JWT_EXPIRATION,
+            issuer: process.env.DESERVE_NODE_JWT_ISSUER,
         },
     );
 }
@@ -141,7 +141,7 @@ const tradeTokenForOwner = async (
     try {
         const tokenContent = jsonWebToken.verify(
             token,
-            process.env.JWT_ENCRYPTION || '',
+            process.env.DESERVE_NODE_JWT_ENCRYPTION || '',
         ) as any;
 
         const ownerID = tokenContent.id;
@@ -159,7 +159,7 @@ const tradeTokenForOwner = async (
     } catch (error) {
         const tokenContent = jsonWebToken.verify(
             token,
-            process.env.JWT_ENCRYPTION || '',
+            process.env.DESERVE_NODE_JWT_ENCRYPTION || '',
             {
                 ignoreExpiration: true,
             },

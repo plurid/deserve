@@ -9,7 +9,7 @@ const generateLog = (
         ? ` · ${usage}`
         : '';
 
-    const log = `[Performer ${type} : ${state}] :: ${method}` + usageString;
+    const log = `[Deserve ${type} : ${state}] :: ${method}` + usageString;
 
     return log;
 }
