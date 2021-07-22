@@ -84,7 +84,7 @@ Through the `relater` the `owner` controls the data in the owner's `node` and co
 
 ### Data Owner
 
-The `data owner` can buy or build a [`deserver`](https://plurid.com/deserver), a specialized computer that will work as the `deserve node`.
+The `data owner` can buy, build, or borrow a [`deserver`](https://plurid.com/deserver), a specialized computer that will work as the `deserve node`.
 
 ### Data Servicer
 
