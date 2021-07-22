@@ -20,12 +20,16 @@
 
     import {
         CORE_ID,
+
+        FAVICON_PATH,
     } from '~data/constants';
 
     import Client from '~objects/Client';
     import TunnelAgent from '~objects/TunnelAgent';
 
     import clientStore from '~services/clientStore';
+
+    import notFoundPage from '~utilities/html/notFoundPage';
     // #endregion external
 // #endregion imports
 
@@ -115,6 +119,30 @@ const registerTunnel = async (
         response.end();
     }
 }
+
+
+
+const handleNotFound = (
+    request: Request,
+    response: Response,
+) => {
+    const handleNotFoundLogic = (request as DeserveRequest).deserveCoreLogic.handleNotFound;
+    if (handleNotFoundLogic) {
+        handleNotFoundLogic(
+            request as DeserveRequest,
+            response,
+        );
+        return;
+    }
+
+    if (request.path === '/favicon.ico') {
+        response.sendFile(FAVICON_PATH);
+        return;
+    }
+
+    response.status(404).send(notFoundPage);
+    return;
+}
 // #endregion module
 
 
@@ -122,5 +150,6 @@ const registerTunnel = async (
 // #region exports
 export {
     registerTunnel,
+    handleNotFound,
 };
 // #endregion exports

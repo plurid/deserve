@@ -1,9 +1,6 @@
 // #region imports
     // #region libraries
-    import express, {
-        Request,
-        Response,
-    } from 'express';
+    import express from 'express';
 
     import cors from 'cors';
     import {
@@ -23,18 +20,16 @@
 
     import {
         PORT,
-        FAVICON_PATH,
     } from './data/constants';
 
     import {
         registerTunnel,
+        handleNotFound,
     } from './logic';
 
     import clientStore from './services/clientStore';
 
     import corsOptions from './utilities/cors';
-
-    import notFoundPage from './utilities/html/notFoundPage';
     // #endregion internal
 // #endregion imports
 
@@ -42,29 +37,6 @@
 
 // #region module
 const server: express.Application = express();
-
-
-const handleNotFound = (
-    request: Request,
-    response: Response,
-) => {
-    const handleNotFoundLogic = (request as DeserveRequest).deserveCoreLogic.handleNotFound;
-    if (handleNotFoundLogic) {
-        handleNotFoundLogic(
-            request as DeserveRequest,
-            response,
-        );
-        return;
-    }
-
-    if (request.path === '/favicon.ico') {
-        response.sendFile(FAVICON_PATH);
-        return;
-    }
-
-    response.status(404).send(notFoundPage);
-    return;
-}
 
 
 const main = (
