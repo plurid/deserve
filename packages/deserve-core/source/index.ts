@@ -29,6 +29,8 @@
     import clientStore from './services/clientStore';
 
     import corsOptions from './utilities/cors';
+
+    import notFoundPage from './utilities/html/notFoundPage';
     // #endregion internal
 // #endregion imports
 
@@ -87,10 +89,7 @@ const main = (
                     return;
                 }
 
-                const responseData = {
-                    status: false,
-                };
-                response.json(responseData);
+                response.status(404).send(notFoundPage);
                 return;
             }
 
@@ -120,7 +119,7 @@ const main = (
                 return;
             }
 
-            response.status(404).send('404');
+            response.status(404).send(notFoundPage);
             return;
         }
 
