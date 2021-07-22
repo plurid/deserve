@@ -40,12 +40,6 @@
 // #region module
 // #region constants
 /** ENVIRONMENT */
-process.env.MINIO_END_POINT = process.env.DESERVE_NODE_MINIO_END_POINT;
-process.env.MINIO_PORT = process.env.DESERVE_NODE_MINIO_PORT;
-process.env.MINIO_ACCESS_KEY = process.env.DESERVE_NODE_MINIO_ACCESS_KEY;
-process.env.MINIO_SECRET_KEY = process.env.DESERVE_NODE_MINIO_SECRET_KEY;
-
-
 const watchMode = process.env.PLURID_WATCH_MODE === 'true';
 const isProduction = process.env.ENV_MODE === 'production';
 const buildDirectory = process.env.PLURID_BUILD_DIRECTORY || 'build';
