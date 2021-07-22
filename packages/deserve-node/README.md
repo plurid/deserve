@@ -28,9 +28,85 @@ The `deserve node` is part of the [`deserve`](https://github.com/plurid/deserve)
 
 ### Contents
 
++ [Setup](#setup)
 + [Build](#build)
 + [Packages](#packages)
 + [Codeophon](#codeophon)
+
+
+
+## Setup
+
+### Prerequisites
+
++ [Install Docker](https://docs.docker.com/engine/install/ubuntu/)
+
+
++ Setup MongoDB
+
+```
+docker pull mongo
+```
+
+```
+sudo mkdir -p /deserve_node_database
+```
+
+```
+docker run -it \
+    -v deserve_node_database:/data/db \
+    --name deserve_node_mongodb \
+    -p 33734:27017 \
+    -d \
+    mongo
+```
+
++ Setup MinIO
+
+```
+docker pull minio/minio
+```
+
+```
+sudo mkdir -p /deserve_node_storage
+```
+
+```
+DESERVE_NODE_MINIO_ACCESS_KEY=`openssl rand -base64 32`
+```
+
+```
+DESERVE_NODE_MINIO_SECRET_KEY=`openssl rand -base64 32`
+```
+
+```
+docker run -it \
+    -v deserve_node_storage:/data \
+    --name deserve_node_minio \
+    -p 33735:9000 \
+    -e "MINIO_ROOT_USER=$DESERVE_NODE_MINIO_ACCESS_KEY" \
+    -e "MINIO_ROOT_PASSWORD=$DESERVE_NODE_MINIO_SECRET_KEY" \
+    -d \
+    minio/minio
+```
+
+```
+echo "Safely store the\nMINIO_ROOT_USER $DESERVE_NODE_MINIO_ACCESS_KEY\nand the\nMINIO_ROOT_PASSWORD $DESERVE_NODE_MINIO_SECRET_KEY"
+```
+
+
+### Deserve Node
+
+```
+docker pull deserve-node
+```
+
+```
+docker run \
+    -d \
+    -p 33733:33733 \
+    deserve-node
+```
 
 
 
@@ -47,7 +123,7 @@ docker build \
 
 ``` bash
 docker run \
-    -d -p 8080:3366 \
+    -d -p 33733:33733 \
     deserve-node
 ```
 
