@@ -1,6 +1,7 @@
 const path = require('path');
 
 const {
+    promises: fs,
     existsSync,
 } = require('fs');
 
@@ -57,6 +58,33 @@ const crossCommand = (
     }
 
     return 'node_modules/.bin/' + command;
+}
+
+
+const injectEnvironment = async () => {
+    const environmentData = `
+process.env.MINIO_END_POINT = process.env.DESERVE_NODE_MINIO_END_POINT;
+process.env.MINIO_PORT = process.env.DESERVE_NODE_MINIO_PORT;
+process.env.MINIO_ACCESS_KEY = process.env.DESERVE_NODE_MINIO_ACCESS_KEY;
+process.env.MINIO_SECRET_KEY = process.env.DESERVE_NODE_MINIO_SECRET_KEY;\n\n
+`;
+
+    const serverFile = path.join(
+        buildFolder,
+        'index.js',
+    );
+
+    if (!existsSync(serverFile)) {
+        return;
+    }
+
+    const fileData = await fs.readFile(serverFile);
+    const finalFile = environmentData + fileData;
+
+    await fs.writeFile(
+        serverFile,
+        finalFile,
+    );
 }
 
 
@@ -301,6 +329,7 @@ switch (command) {
         runCommand(commandBuildDevelopment, {
             stdio: verbose,
         });
+        injectEnvironment();
         console.log('\n\tFinished the Local Build Process.\n');
         break;
     case 'build.local.stills':
@@ -308,6 +337,7 @@ switch (command) {
         runCommand(commandBuildDevelopmentStills, {
             stdio: verbose,
         });
+        injectEnvironment();
         console.log('\n\tFinished the Stilled Development Build Process.\n');
         break;
     case 'build.development':
@@ -315,6 +345,7 @@ switch (command) {
         runCommand(commandBuildDevelopment, {
             stdio: verbose,
         });
+        injectEnvironment();
         console.log('\n\tFinished the Development Build Process.\n');
         break;
     case 'build.development.stills':
@@ -322,6 +353,7 @@ switch (command) {
         runCommand(commandBuildDevelopmentStills, {
             stdio: verbose,
         });
+        injectEnvironment();
         console.log('\n\tFinished the Stilled Development Build Process.\n');
         break;
     case 'build.production':
@@ -329,6 +361,7 @@ switch (command) {
         runCommand(commandBuildProduction, {
             stdio: verbose,
         });
+        injectEnvironment();
         console.log('\n\tFinished the Production Build Process.\n');
         break;
     case 'build.production.stills':
@@ -336,6 +369,7 @@ switch (command) {
         runCommand(commandBuildProductionStills, {
             stdio: verbose,
         });
+        injectEnvironment();
         console.log('\n\tFinished the Stilled Production Build Process.\n');
         break;
 }
