@@ -17,7 +17,7 @@
 
 
 <h3 align="center">
-    Generator-Owned Data Deserver
+    Own Your Data
 </h3>
 
 
