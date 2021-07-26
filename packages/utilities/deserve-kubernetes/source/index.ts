@@ -11,6 +11,8 @@
     // #region internal
     import {
         PORT,
+        CACHE_RESET_PATH,
+        CACHE_RESET_TOKEN,
     } from './data/constants';
 
     import CoresList from './objects/CoresList';
@@ -29,6 +31,30 @@ const coresList = new CoresList();
 
 const main = async () => {
     server.options('*', cors(corsOptions) as any);
+
+    server.post(CACHE_RESET_PATH, (
+        request,
+        response,
+        next,
+    ) => {
+        const cacheResetToken = request.header('Deserve-Cache-Reset-Token');
+
+        if (cacheResetToken === CACHE_RESET_TOKEN) {
+            delog({
+                text: `deserve kubernetes cache reset`,
+                level: 'info',
+            });
+
+            coresList.cacheReset();
+
+            response.json({
+                status: true,
+            });
+            return;
+        }
+
+        next();
+    });
 
     server.all('*', async (
         request,

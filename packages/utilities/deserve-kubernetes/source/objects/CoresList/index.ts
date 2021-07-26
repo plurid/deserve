@@ -7,6 +7,8 @@
     } from 'express';
 
     import k8s from '@kubernetes/client-node';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -45,8 +47,9 @@ const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 const identonymFromHost = (
     host: string,
 ) => {
-    return host.replace(HOST_PATTERN, '');;
+    return host.replace(HOST_PATTERN, '');
 }
+
 
 const serviceQuery = async (
     identonym: string,
@@ -100,16 +103,27 @@ class CoresList {
 
         const identonym = identonymFromHost(host);
         if (!identonym) {
+            delog({
+                text: `deserve kubernetes no identonym from host '${host}'`,
+                level: 'warn',
+            });
+
             return;
         }
 
         const address = await serviceQuery(identonym);
         if (!address) {
+            delog({
+                text: `deserve kubernetes no address for identonym '${identonym}'`,
+                level: 'warn',
+            });
+
             return;
         }
 
         this.addresses[host] = address;
         this.lastQueried[host] = Date.now();
+
         return address;
     }
 
@@ -119,11 +133,21 @@ class CoresList {
     ) {
         const host = request.header('host');
         if (!host) {
+            delog({
+                text: `deserve kubernetes no host`,
+                level: 'warn',
+            });
+
             return;
         }
 
         const serviceAddress = await this.getAddress(host);
         if (!serviceAddress) {
+            delog({
+                text: `deserve kubernetes no serviceAddress`,
+                level: 'warn',
+            });
+
             return;
         }
 
@@ -136,6 +160,12 @@ class CoresList {
         };
 
         return http.request(options);
+    }
+
+
+    public async cacheReset () {
+        this.addresses = {};
+        this.lastQueried = {};
     }
 }
 // #endregion module
