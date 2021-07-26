@@ -132,6 +132,12 @@ class CoresList {
         request: Request,
     ) {
         const host = request.header('host');
+
+        delog({
+            text: `deserve kubernetes request ${request.method} ${host}`,
+            level: 'trace',
+        });
+
         if (!host) {
             delog({
                 text: `deserve kubernetes no host`,

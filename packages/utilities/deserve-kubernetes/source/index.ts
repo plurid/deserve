@@ -101,7 +101,7 @@ const main = async () => {
                 return;
             }
 
-            coreRequest.pipe(response);
+            response.pipe(coreRequest);
         } catch (error) {
             delog({
                 text: `deserve kubernetes error`,
