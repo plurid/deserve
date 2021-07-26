@@ -3,10 +3,6 @@
     import express from 'express';
 
     import cors from 'cors';
-    import {
-        json as jsonParser,
-    } from 'body-parser';
-    import cookieParser from 'cookie-parser';
 
     import delog from '@plurid/delog';
     // #endregion libraries
@@ -49,6 +45,12 @@ const main = async () => {
 
             coreRequest.pipe(response);
         } catch (error) {
+            delog({
+                text: `deserve kubernetes error`,
+                level: 'error',
+                error,
+            });
+
             response
                 .status(500)
                 .end();

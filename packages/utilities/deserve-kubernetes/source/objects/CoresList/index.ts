@@ -11,6 +11,9 @@
     // #region external
     import {
         TUNNEL_PORT,
+
+        HOST_PATTERN,
+        CORE_PATTERN,
     } from '~data/constants';
     // #endregion external
 // #endregion imports
@@ -18,6 +21,30 @@
 
 
 // #region module
+/**
+ * Obtains `identonym` from `host`.
+ *
+ * e.g. from the `host` `'one.data.domain.com'` obtains the `identonym` `'one'`,
+ * given that the `HOST_PATTERN` is `'.data.domain.com'`
+ *
+ * @param host
+ * @returns
+ */
+const identonymFromHost = (
+    host: string,
+) => {
+    return host.replace(HOST_PATTERN, '');;
+}
+
+const serviceQuery = async (
+    identonym: string,
+) => {
+    const serviceName = CORE_PATTERN.replace('#IDENTONYM', identonym);
+
+    return '';
+}
+
+
 class CoresList {
     private addresses: Record<string, string> = {};
 
@@ -29,7 +56,18 @@ class CoresList {
             return this.addresses[host];
         }
 
-        return;
+        const identonym = identonymFromHost(host);
+        if (!identonym) {
+            return;
+        }
+
+        const address = await serviceQuery(identonym);
+        if (!address) {
+            return;
+        }
+
+        this.addresses[host] = address;
+        return address;
     }
 
 
