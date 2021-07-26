@@ -131,41 +131,51 @@ class CoresList {
     public async get(
         request: Request,
     ) {
-        const host = request.header('host');
+        try {
+            const host = request.header('host');
 
-        delog({
-            text: `deserve kubernetes request ${request.method} ${host}`,
-            level: 'trace',
-        });
-
-        if (!host) {
             delog({
-                text: `deserve kubernetes no host`,
-                level: 'warn',
+                text: `deserve kubernetes request ${request.method} ${host}`,
+                level: 'trace',
+            });
+
+            if (!host) {
+                delog({
+                    text: `deserve kubernetes no host`,
+                    level: 'warn',
+                });
+
+                return;
+            }
+
+            const serviceAddress = await this.getAddress(host);
+            if (!serviceAddress) {
+                delog({
+                    text: `deserve kubernetes no serviceAddress`,
+                    level: 'warn',
+                });
+
+                return;
+            }
+
+            const options = {
+                host: serviceAddress,
+                port: TUNNEL_PORT,
+                path: request.url,
+                method: request.method,
+                headers: request.headers,
+            };
+
+            return http.request(options);
+        } catch (error) {
+            delog({
+                text: `deserve kubernetes CoresList.get error`,
+                level: 'error',
+                error,
             });
 
             return;
         }
-
-        const serviceAddress = await this.getAddress(host);
-        if (!serviceAddress) {
-            delog({
-                text: `deserve kubernetes no serviceAddress`,
-                level: 'warn',
-            });
-
-            return;
-        }
-
-        const options = {
-            host: serviceAddress,
-            port: TUNNEL_PORT,
-            path: request.path,
-            method: request.method,
-            headers: request.headers,
-        };
-
-        return http.request(options);
     }
 
 
