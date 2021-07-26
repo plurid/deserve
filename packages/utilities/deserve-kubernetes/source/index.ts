@@ -11,7 +11,12 @@
     // #region internal
     import {
         PORT,
+
+        HOST_PATTERN,
+        CORE_PATTERN,
+
         CACHE_RESET_PATH,
+        DEFAULT_CACHE_RESET_TOKEN,
         CACHE_RESET_TOKEN,
     } from './data/constants';
 
@@ -28,9 +33,36 @@ const server: express.Application = express();
 
 const coresList = new CoresList();
 
+const logWarnings = () => {
+    if (!HOST_PATTERN) {
+        delog({
+            text: `deserve kubernetes 'DESERVE_HOST_PATTERN' not defined`,
+            level: 'warn',
+        });
+    }
+
+    if (!CORE_PATTERN) {
+        delog({
+            text: `deserve kubernetes 'DESERVE_CORE_PATTERN' not defined`,
+            level: 'warn',
+        });
+    }
+
+    if (CACHE_RESET_TOKEN === DEFAULT_CACHE_RESET_TOKEN) {
+        delog({
+            text: `deserve kubernetes 'DESERVE_CACHE_RESET_TOKEN' has default value '${DEFAULT_CACHE_RESET_TOKEN}'`,
+            level: 'warn',
+        });
+    }
+}
+
 
 const main = async () => {
+    logWarnings();
+
+
     server.options('*', cors(corsOptions) as any);
+
 
     server.post(CACHE_RESET_PATH, (
         request,
@@ -82,6 +114,7 @@ const main = async () => {
                 .end();
         }
     });
+
 
     server.listen(PORT, () => {
         delog({

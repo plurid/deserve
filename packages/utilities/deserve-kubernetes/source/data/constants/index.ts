@@ -12,7 +12,8 @@ const CORE_PATTERN = process.env.DESERVE_CORE_PATTERN || '';
 const CORES_NAMESPACE = process.env.DESERVE_CORES_NAMESPACE || 'default';
 
 const CACHE_RESET_PATH = process.env.DESERVE_CACHE_RESET_PATH || '/__deserve-cache-reset__';
-const CACHE_RESET_TOKEN = process.env.DESERVE_CACHE_RESET_TOKEN || 'cache-reset-token';
+const DEFAULT_CACHE_RESET_TOKEN = 'cache-reset-token';
+const CACHE_RESET_TOKEN = process.env.DESERVE_CACHE_RESET_TOKEN || DEFAULT_CACHE_RESET_TOKEN;
 // #endregion module
 
 
@@ -31,6 +32,7 @@ export {
     CORES_NAMESPACE,
 
     CACHE_RESET_PATH,
+    DEFAULT_CACHE_RESET_TOKEN,
     CACHE_RESET_TOKEN,
 };
 // #endregion exports
