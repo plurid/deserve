@@ -10,17 +10,15 @@
 const CORE_ID = process.env.DESERVE_CORE_ID || '';
 
 const PORT = parseInt(process.env.PORT || '') || 3355;
-const TUNNEL_PORT = process.env.DESERVE_TUNNEL_PORT;
+const TUNNEL_PORT = process.env.DESERVE_CORE_TUNNEL_PORT;
+
+const DEFAULT_MAX_SOCKETS = parseInt(process.env.DESERVE_CORE_MAX_SOCKETS || '') || 10;
 
 
-const FAVICON_PATH = process.env.DESERVE_FAVICON_PATH || path.join(
+const FAVICON_PATH = process.env.DESERVE_CORE_FAVICON_PATH || path.join(
     __dirname,
     './assets/favicon.ico',
 );
-
-
-
-const DEFAULT_MAX_SOCKETS = 10;
 // #endregion module
 
 
@@ -32,8 +30,8 @@ export {
     PORT,
     TUNNEL_PORT,
 
-    FAVICON_PATH,
-
     DEFAULT_MAX_SOCKETS,
+
+    FAVICON_PATH,
 };
 // #endregion exports

@@ -19,6 +19,7 @@
     } from '~data/interfaces';
 
     import {
+        DEFAULT_MAX_SOCKETS,
         CORE_ID,
 
         FAVICON_PATH,
@@ -85,7 +86,7 @@ const registerTunnel = async (
 
     const agent = new TunnelAgent({
         clientId: id,
-        maxSockets: 10,
+        maxSockets: DEFAULT_MAX_SOCKETS,
     });
 
     try {
@@ -105,7 +106,7 @@ const registerTunnel = async (
         const responseData = {
             id: id,
             port: info.port,
-            max_conn_count: 10,
+            maxConnections: DEFAULT_MAX_SOCKETS,
         };
 
         response.json(responseData);
