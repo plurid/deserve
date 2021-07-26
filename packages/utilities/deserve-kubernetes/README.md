@@ -31,7 +31,20 @@ The `deserve kubernetes` is part of the [`deserve`](https://github.com/plurid/de
 
 ### Contents
 
++ [Build](#build)
 + [Packages](#packages)
+
+
+
+## Build
+
+```
+docker build \
+    -f ./configurations/production.dockerfile \
+    --build-arg NPM_TOKEN \
+    -t deserve-kubernetes \
+    .
+```
 
 
 
