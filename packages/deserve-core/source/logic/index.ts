@@ -89,7 +89,7 @@ const registerTunnel = async (
     });
 
     try {
-        const info: any = await agent.listen();
+        const info = await agent.listen();
 
         const newClient = new Client({
             id,

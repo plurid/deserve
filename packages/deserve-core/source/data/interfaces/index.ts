@@ -1,5 +1,7 @@
 // #region imports
     // #region libraries
+    import net from 'net';
+
     import {
         Request,
         Response,
@@ -38,4 +40,19 @@ export interface DeserveCoreLogic {
     verifyToken: VerifyToken;
     handleNotFound?: HandleNotFound;
 }
+
+
+export interface TunnelAgentOptions {
+    clientId?: string,
+    maxSockets?: number,
+}
+
+export interface TunnelAgentListen {
+    port: number;
+}
+
+export type TunnelAgentCallback = (
+    error: any | null,
+    socket?: net.Socket | null,
+) => void;
 // #endregion module

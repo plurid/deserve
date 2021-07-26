@@ -12,6 +12,12 @@
 
     // #region external
     import {
+        TunnelAgentOptions,
+        TunnelAgentListen,
+        TunnelAgentCallback,
+    } from '~data/interfaces';
+
+    import {
         TUNNEL_PORT,
 
         DEFAULT_MAX_SOCKETS,
@@ -22,12 +28,14 @@
 
 
 // #region module
-// Implements an http.Agent interface to a pool of tunnel sockets
-// A tunnel socket is a connection _from_ a client that will
-// service http requests. This agent is usable wherever one can use an http.Agent
+/**
+ * Implements an http.Agent interface to a pool of tunnel sockets.
+ * A tunnel socket is a connection _from_ a client that will
+ * service http requests. This agent is usable wherever one can use an http.Agent
+ */
 class TunnelAgent extends Agent {
-    private availableSockets: any[];
-    private waitingCreateConn: any[];
+    private availableSockets: net.Socket[];
+    private waitingConnections: TunnelAgentCallback[];
     private connectedSockets;
     private maxTcpSockets;
     private server;
@@ -35,48 +43,53 @@ class TunnelAgent extends Agent {
     private closed;
 
 
-    constructor(options: any = {}) {
+    constructor(
+        options: TunnelAgentOptions = {},
+    ) {
         super({
             keepAlive: true,
-            // only allow keepalive to hold on to one socket
-            // this prevents it from holding on to all the sockets so they can be used for upgrades
+            // Only allow keepalive to hold on to one socket
+            // this prevents it from holding on to all the sockets so they can be used for upgrades.
             maxFreeSockets: 1,
         });
 
-        // sockets we can hand out via createConnection
+        // Sockets to can hand out via createConnection.
         this.availableSockets = [];
 
-        // when a createConnection cannot return a socket, it goes into a queue
-        // once a socket is available it is handed out to the next callback
-        this.waitingCreateConn = [];
+        // When a createConnection cannot return a socket, it goes into a queue
+        // once a socket is available it is handed out to the next callback.
+        this.waitingConnections = [];
 
-        // track maximum allowed sockets
         this.connectedSockets = 0;
-        this.maxTcpSockets = options.maxTcpSockets || DEFAULT_MAX_SOCKETS;
+        this.maxTcpSockets = options.maxSockets || DEFAULT_MAX_SOCKETS;
 
-        // new tcp server to service requests for this client
         this.server = net.createServer();
 
-        // flag to avoid double starts
         this.started = false;
         this.closed = false;
     }
 
 
-    _onClose() {
+    private _onClose() {
         this.closed = true;
-        // console.log('closed tcp socket');
-        // flush any waiting connections
-        for (const conn of this.waitingCreateConn) {
-            conn(new Error('closed'), null);
+
+        // Flush any waiting connections.
+        for (const connection of this.waitingConnections) {
+            connection(new Error('closed'), null);
         }
-        this.waitingCreateConn = [];
+
+        this.waitingConnections = [];
         (this as any).emit('end');
     }
 
-    // new socket connection from client for tunneling requests to client
-    _onConnection(
-        socket: any,
+    /**
+     * New socket connection from client for tunneling requests to client.
+     *
+     * @param socket
+     * @returns
+     */
+    private _onConnection(
+        socket: net.Socket,
     ) {
         delog({
             text: `deserve core TunnelAgent _onConnection socket`,
@@ -130,7 +143,7 @@ class TunnelAgent extends Agent {
         });
 
         // close will be emitted after this
-        socket.once('error', (err: any) => {
+        socket.once('error', (error: any) => {
             // we do not log these errors, sessions can drop from clients for many reasons
             // these are not actionable errors for our server
             socket.destroy();
@@ -141,29 +154,48 @@ class TunnelAgent extends Agent {
         }
 
         this.connectedSockets += 1;
+        const socketAddress: any = socket.address();
         delog({
-            text: `deserve core TunnelAgent new connection from ${socket.address().address + ':' + socket.address().port}`,
+            text: `deserve core TunnelAgent new connection from ${socketAddress.address + ':' + socketAddress.port}`,
             level: 'trace',
         });
 
-        // if there are queued callbacks, give this socket now and don't queue into available
-        const fn = this.waitingCreateConn.shift();
-        if (fn) {
+        // If there are queued callbacks, give this socket now and don't queue into available.
+        const callback = this.waitingConnections.shift();
+        if (callback) {
             delog({
-                text: `deserve core TunnelAgent giving socket to queued conn request`,
+                text: `deserve core TunnelAgent giving socket to queued connection request`,
                 level: 'trace',
             });
 
             setTimeout(() => {
-                fn(null, socket);
+                callback(null, socket);
             }, 0);
             return;
         }
 
-        // make socket available for those waiting on sockets
+        // Make socket available for those waiting on sockets.
         this.availableSockets.push(socket);
 
         return;
+    }
+
+    private _onError(
+        error: NodeJS.ErrnoException,
+    ) {
+        // Errors happen from killed connections.
+        if (
+            error.code == 'ECONNRESET'
+            || error.code == 'ETIMEDOUT'
+        ) {
+            return;
+        }
+
+        delog({
+            text: 'deserve core TunnelAgent listen error',
+            level: 'error',
+            error,
+        });
     }
 
 
@@ -173,7 +205,7 @@ class TunnelAgent extends Agent {
         };
     }
 
-    public listen() {
+    public listen(): Promise<TunnelAgentListen> {
         const server = this.server;
         if (this.started) {
             throw new Error('already started');
@@ -182,18 +214,7 @@ class TunnelAgent extends Agent {
 
         server.on('close', this._onClose.bind(this));
         server.on('connection', this._onConnection.bind(this));
-        server.on('error', (error: any) => {
-            // These errors happen from killed connections, we don't worry about them
-            if (error.code == 'ECONNRESET' || error.code == 'ETIMEDOUT') {
-                return;
-            }
-
-            delog({
-                text: 'deserve core TunnelAgent listen error',
-                level: 'error',
-                error,
-            });
-        });
+        server.on('error', this._onError.bind(this));
 
         return new Promise((resolve) => {
             server.listen(
@@ -203,7 +224,7 @@ class TunnelAgent extends Agent {
 
                     delog({
                         text: `tcp server listening on port ${port}`,
-                        level: 'trace',
+                        level: 'info',
                     });
 
                     resolve({
@@ -214,12 +235,20 @@ class TunnelAgent extends Agent {
         });
     }
 
-    // fetch a socket from the available socket pool for the agent
-    // if no socket is available, queue
-    // cb(err, socket)
-    public createConnection(options: any, cb: any) {
+    /**
+     * Fetch a socket from the available socket pool for the agent
+     * If no socket is available, queue `callback(error, socket)`
+     *
+     * @param options
+     * @param callback
+     * @returns
+     */
+    public createConnection(
+        _: any,
+        callback: TunnelAgentCallback,
+    ) {
         if (this.closed) {
-            cb(new Error('closed'));
+            callback(new Error('closed'));
             return;
         }
 
@@ -228,13 +257,12 @@ class TunnelAgent extends Agent {
             level: 'trace',
         });
 
-        // socket is a tcp connection back to the user hosting the site
-        const sock = this.availableSockets.shift();
+        // Socket is a TCP connection back to the owner's deserve node.
+        const socket = this.availableSockets.shift();
 
-        // no available sockets
-        // wait until we have one
-        if (!sock) {
-            this.waitingCreateConn.push(cb);
+        // No available sockets.
+        if (!socket) {
+            this.waitingConnections.push(callback);
 
             delog({
                 text: `deserve core TunnelAgent waiting connected ${this.connectedSockets}`,
@@ -253,7 +281,7 @@ class TunnelAgent extends Agent {
             level: 'trace',
         });
 
-        cb(null, sock);
+        callback(null, socket);
     }
 
     public destroy() {
