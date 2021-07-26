@@ -1,39 +1,31 @@
 FROM node:16-alpine AS builder
-
-
-WORKDIR /app
-
-
-COPY . .
-
-
-ENV ENV_MODE production
+ARG NPM_TOKEN
+ARG NPM_REGISTRY=registry.npmjs.org
+ENV PORT 8080
+ENV HOST 0.0.0.0
 ENV NODE_ENV production
-
-
-RUN yarn install --production false --network-timeout 1000000
-
-
-RUN yarn build.production
-
-
-
-
-FROM node:16-alpine
-
-
-ARG PORT=3388
-
-
+ENV ENV_MODE production
+ENV NPM_TOKEN $NPM_TOKEN
+ENV NPM_REGISTRY $NPM_REGISTRY
 WORKDIR /app
+COPY configurations ./configurations
+COPY package.json yarn.lock ./
+RUN ( echo "cat <<EOF" ; cat ./configurations/.npmrcx ; echo EOF ) | sh > ./.npmrc
+RUN yarn install --production false --network-timeout 1000000
+COPY . .
+RUN yarn run build.production verbose
 
 
+# Stage 1
+FROM node:16-alpine
+ENV PORT 8080
+ENV HOST 0.0.0.0
+ENV NODE_ENV production
+ENV ENV_MODE production
+WORKDIR /app
+COPY --from=builder /app/.npmrc ./
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/scripts ./scripts
-
-
 RUN yarn install --production --network-timeout 1000000
-
-
-CMD ["yarn", "start"]
+CMD [ "yarn", "start" ]
