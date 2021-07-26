@@ -1,3 +1,4 @@
+# Stage 0
 FROM node:16-alpine AS builder
 ARG NPM_TOKEN
 ARG NPM_REGISTRY=registry.npmjs.org
