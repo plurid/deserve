@@ -44,6 +44,7 @@
         "prepublishOnly": "yarn build"
     },
     "dependencies": {
+        "@kubernetes/client-node": "^0.15.0",
         "@plurid/delog": "^0.0.0-5",
         "@plurid/plurid-functions": "^0.0.0-5",
         "cors": "^2.8.5",
