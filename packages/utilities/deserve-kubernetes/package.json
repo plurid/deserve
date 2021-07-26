@@ -39,8 +39,7 @@
         "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
         "build.production": "rollup -c ./scripts/rollup.config.js --environment ENV_MODE:production",
         "build.removeTests": "rimraf `find ./distribution/ -type d -name __tests__`",
-        "build.copyAssets": "cp -r ./source/assets ./distribution/assets",
-        "build": "yarn clean && yarn build.production && yarn build.removeTests && yarn build.copyAssets",
+        "build": "yarn clean && yarn build.production && yarn build.removeTests",
         "prepublishOnly": "yarn build"
     },
     "dependencies": {

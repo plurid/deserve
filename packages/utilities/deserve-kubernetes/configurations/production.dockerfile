@@ -14,7 +14,7 @@ COPY package.json yarn.lock ./
 RUN ( echo "cat <<EOF" ; cat ./configurations/.npmrcx ; echo EOF ) | sh > ./.npmrc
 RUN yarn install --production false --network-timeout 1000000
 COPY . .
-RUN yarn run build.production verbose
+RUN yarn run build.production
 
 
 # Stage 1
@@ -26,7 +26,7 @@ ENV ENV_MODE production
 WORKDIR /app
 COPY --from=builder /app/.npmrc ./
 COPY --from=builder /app/package.json ./
-COPY --from=builder /app/build ./build
+COPY --from=builder /app/distribution ./distribution
 COPY --from=builder /app/scripts ./scripts
 RUN yarn install --production --network-timeout 1000000
 CMD [ "yarn", "start" ]

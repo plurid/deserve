@@ -28,10 +28,9 @@ export default {
         'net',
         'events',
 
+        '@kubernetes/client-node',
         '@plurid/delog',
         '@plurid/plurid-functions',
-        'body-parser',
-        'cookie-parser',
         'cors',
         'express',
         'pump',
