@@ -35,7 +35,7 @@
     "scripts": {
         "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",
-        "start": "deon environment ./environment/.env.local.deon -- node test/index.js",
+        "start": "node distribution/index.js",
         "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
         "build.production": "rollup -c ./scripts/rollup.config.js --environment ENV_MODE:production",
         "build.removeTests": "rimraf `find ./distribution/ -type d -name __tests__`",
@@ -50,7 +50,6 @@
         "express": "^4.17.1"
     },
     "devDependencies": {
-        "@plurid/deon": "^0.0.0-4",
         "@types/cors": "^2.8.12",
         "@types/express": "^4.17.13",
         "@types/jest": "^26.0.24",
