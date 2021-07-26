@@ -40,7 +40,9 @@ class Tunnel extends EventEmitter {
     private cachedUrl: any;
 
 
-    constructor(opts: any = {}) {
+    constructor(
+        opts: any = {},
+    ) {
         super(opts);
         this.opts = opts;
         this.closed = false;
@@ -54,15 +56,31 @@ class Tunnel extends EventEmitter {
     private _getInfo(
         body: any,
     ) {
-        const { id, ip, port, url, cached_url, max_conn_count } = body;
-        const { host, port: local_port, local_host } = this.opts;
-        const { local_https, local_cert, local_key, local_ca, allow_invalid_cert } = this.opts;
+        const {
+            id,
+            ip,
+            port,
+            url,
+            cached_url,
+            maxConnections,
+        } = body;
+
+        const {
+            host,
+            port: local_port,
+            local_host,
+            local_https,
+            local_cert,
+            local_key,
+            local_ca,
+            allow_invalid_cert,
+        } = this.opts;
 
         return {
             name: id,
             url,
             cached_url,
-            max_conn: max_conn_count || 1,
+            max_conn: maxConnections || 1,
             remote_host: new URL(host).hostname,
             remote_ip: ip,
             remote_port: port,

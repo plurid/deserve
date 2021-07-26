@@ -1,7 +1,7 @@
 // #region imports
     // #region libraries
     import {
-        parse,
+        URL,
     } from 'url';
 
     import fetch from 'cross-fetch';
@@ -52,25 +52,7 @@ const registerNodeToCore = async (
     url: string,
     token: string,
 ) => {
-    // const data = {
-    //     token,
-    // };
-
-    // const response = await fetch(
-    //     url,
-    //     {
-    //         method: 'post',
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //     },
-    // );
-
-    // const responseData = await response.json();
-    // console.log('responseData', responseData);
-
-    const parsedURL = parse(url);
+    const parsedURL = new URL(url);
 
     const host = parsedURL.protocol + '//' + parsedURL.host;
 

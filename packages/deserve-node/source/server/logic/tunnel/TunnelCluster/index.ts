@@ -27,7 +27,9 @@ class TunnelCluster extends EventEmitter {
     private opts: any;
 
 
-    constructor(opts: any = {}) {
+    constructor(
+        opts: any = {},
+    ) {
         super(opts);
         this.opts = opts;
     }
