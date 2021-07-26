@@ -5,15 +5,21 @@
     import {
         Request,
     } from 'express';
+
+    import k8s from '@kubernetes/client-node';
     // #endregion libraries
 
 
     // #region external
     import {
+        REQUERY_TIME,
         TUNNEL_PORT,
 
+        APP_SELECTOR,
         HOST_PATTERN,
         CORE_PATTERN,
+
+        CORES_NAMESPACE,
     } from '~data/constants';
     // #endregion external
 // #endregion imports
@@ -21,6 +27,12 @@
 
 
 // #region module
+const kc = new k8s.KubeConfig();
+kc.loadFromDefault();
+
+const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+
+
 /**
  * Obtains `identonym` from `host`.
  *
@@ -41,19 +53,49 @@ const serviceQuery = async (
 ) => {
     const serviceName = CORE_PATTERN.replace('#IDENTONYM', identonym);
 
-    return '';
+    const serviceQuery = await k8sApi.readNamespacedService(
+        serviceName,
+        CORES_NAMESPACE,
+    );
+
+    const selectors = serviceQuery.body.spec?.selector;
+    if (!selectors) {
+        return;
+    }
+    const selector = selectors[APP_SELECTOR];
+    if (!selector) {
+        return;
+    }
+
+    const podQuery = await k8sApi.listNamespacedPod(
+        CORES_NAMESPACE,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        `${APP_SELECTOR}=${selector}`,
+    );
+    const pod = podQuery.body.items.shift();
+    if (!pod) {
+        return;
+    }
+
+    return pod.status?.podIP;
 }
 
 
 class CoresList {
     private addresses: Record<string, string> = {};
+    private lastQueried: Record<string, number> = {};
 
 
     private async getAddress(
         host: string,
     ) {
         if (this.addresses[host]) {
-            return this.addresses[host];
+            if (this.lastQueried[host] > Date.now() - REQUERY_TIME) {
+                return this.addresses[host];
+            }
         }
 
         const identonym = identonymFromHost(host);
@@ -67,6 +109,7 @@ class CoresList {
         }
 
         this.addresses[host] = address;
+        this.lastQueried[host] = Date.now();
         return address;
     }
 
