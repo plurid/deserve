@@ -121,10 +121,12 @@ class CoresList {
             return;
         }
 
-        this.addresses[host] = address;
+        const serviceAddress = 'http://' + address;
+
+        this.addresses[host] = serviceAddress;
         this.lastQueried[host] = Date.now();
 
-        return address;
+        return serviceAddress;
     }
 
 
