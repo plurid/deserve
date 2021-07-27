@@ -7,6 +7,8 @@
 
 
 // #region module
+const REGISTER_PATH = process.env.DESERVE_REGISTER_PATH || '/register';
+
 const CORE_ID = process.env.DESERVE_CORE_ID || '';
 
 const PORT = parseInt(process.env.PORT || '') || 3355;
@@ -25,6 +27,8 @@ const FAVICON_PATH = process.env.DESERVE_CORE_FAVICON_PATH || path.join(
 
 // #region exports
 export {
+    REGISTER_PATH,
+
     CORE_ID,
 
     PORT,

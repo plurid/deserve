@@ -1,5 +1,7 @@
 // #region imports
     // #region libraries
+    import net from 'net';
+
     import express from 'express';
 
     import cors from 'cors';
@@ -19,6 +21,7 @@
     } from './data/interfaces';
 
     import {
+        REGISTER_PATH,
         PORT,
     } from './data/constants';
 
@@ -46,6 +49,7 @@ const main = (
 
 
     server.use(
+        // FORCED as any
         cors(corsOptions) as any,
         jsonParser() as any,
         cookieParser() as any,
@@ -60,40 +64,8 @@ const main = (
 
             next();
         },
-
-        // Handle request
-        (
-            request,
-            response,
-            next,
-        ) => {
-            if (response.headersSent) {
-                return;
-            }
-
-            if (request.path !== '/') {
-                next();
-                return;
-            }
-
-            const client = clientStore.get();
-            if (!client) {
-                handleNotFound(
-                    request,
-                    response,
-                );
-                return;
-            }
-
-            next();
-        },
     );
 
-
-    server.post(
-        '/register',
-        registerTunnel,
-    );
 
     server.all('*', (
         request,
@@ -101,7 +73,43 @@ const main = (
     ) => {
         const client = clientStore.get();
 
+        if (request.method === 'POST') {
+            if (!client) {
+                if (request.path === REGISTER_PATH) {
+                    delog({
+                        text: `deserve core registering tunnel`,
+                        level: 'trace',
+                    });
+
+                    registerTunnel(
+                        request,
+                        response,
+                    );
+                    return;
+                }
+
+                delog({
+                    text: `deserve core could not handle POST ${request.url} no client`,
+                    level: 'warn',
+                });
+
+                handleNotFound(
+                    request,
+                    response,
+                );
+                return;
+            }
+
+            // Handled on instance 'request'.
+            return;
+        }
+
         if (!client) {
+            delog({
+                text: `deserve core no client ${request.method} ${request.url}`,
+                level: 'warn',
+            });
+
             handleNotFound(
                 request,
                 response,
@@ -109,9 +117,11 @@ const main = (
             return;
         }
 
-        if (request.method === 'POST') {
-            return;
-        }
+
+        delog({
+            text: `deserve core handle request ${request.method} ${request.url}`,
+            level: 'trace',
+        });
 
         client.handleRequest(request, response);
     });
@@ -124,24 +134,38 @@ const main = (
         });
     });
 
-    instance.on('request', (
-        request,
-        response,
-    ) => {
-        // HACK
-        // to account for POST not receiving adequate response in the '*' catch-all.
-        const client = clientStore.get();
-        const method = request.method;
 
-        if (client && method === 'POST') {
+    // FORCED
+    // to account for POST not receiving adequate response in the '*' catch-all.
+    instance.on('request', (
+        request: express.Request,
+        response: express.Response,
+    ) => {
+        if (request.method === 'POST') {
+            const client = clientStore.get();
+            if (!client) {
+                // Handled in '*' catch-all.
+                return;
+            }
+
+            delog({
+                text: `deserve core handle request POST ${request.url}`,
+                level: 'trace',
+            });
+
             client.handleRequest(request, response);
         }
     });
 
     instance.on('upgrade', (
-        request,
-        socket,
+        request: express.Request,
+        socket: net.Socket,
     ) => {
+        delog({
+            text: `deserve core request upgraded`,
+            level: 'trace',
+        });
+
         const client = clientStore.get();
 
         if (!client) {
