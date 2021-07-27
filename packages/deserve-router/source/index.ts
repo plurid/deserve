@@ -37,6 +37,14 @@ const server: express.Application = express();
 const main = (
     logic: DeserveRouterLogic,
 ) => {
+    if (!logic.handleGetPath) {
+        delog({
+            text: 'deserve router handleGetPath not defined',
+            level: 'warn',
+        });
+    }
+
+
     // Middlewares.
     server.use(
         jsonParser() as any,
@@ -53,12 +61,10 @@ const main = (
         handleRegistration,
     );
 
-    if (logic.handleGetPath) {
-        server.get(
-            '*',
-            handlePaths,
-        );
-    }
+    server.get(
+        '*',
+        handlePaths,
+    );
 
 
     // Listen.

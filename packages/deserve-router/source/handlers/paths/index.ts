@@ -13,6 +13,12 @@
     import {
         DeserveRequest,
     } from '~data/interfaces';
+
+    import {
+        FAVICON_PATH,
+    } from '~data/constants';
+
+    import notFoundPage from '~utilities/html/notFoundPage';
     // #endregion external
 // #endregion imports
 
@@ -27,12 +33,12 @@ const handlePaths = async (
         const logic = (request as DeserveRequest).deserveLogic;
 
         if (!logic.handleGetPath) {
-            delog({
-                text: 'deserve router get path handler not defined',
-                level: 'warn',
-            });
+            if (request.path === '/favicon.ico') {
+                response.sendFile(FAVICON_PATH);
+                return;
+            }
 
-            response.end();
+            response.send(notFoundPage);
             return;
         }
 
