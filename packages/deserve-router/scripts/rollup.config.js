@@ -23,6 +23,8 @@ export default {
         }
     ],
     external: [
+        'path',
+
         '@plurid/delog',
         'body-parser',
         'express',
