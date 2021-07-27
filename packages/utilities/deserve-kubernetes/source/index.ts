@@ -2,7 +2,7 @@
     // #region libraries
     import express from 'express';
     import cors from 'cors';
-    import proxy from 'http-proxy';
+    import httpProxy from 'http-proxy';
 
     import delog from '@plurid/delog';
     // #endregion libraries
@@ -11,7 +11,6 @@
     // #region internal
     import {
         PORT,
-        TUNNEL_PORT,
 
         HOST_PATTERN,
         CORE_PATTERN,
@@ -31,6 +30,8 @@
 
 // #region module
 const server: express.Application = express();
+
+const proxy = httpProxy.createProxyServer({});
 
 const coresList = new CoresList();
 
@@ -96,6 +97,11 @@ const main = async () => {
         try {
             const coreAddress = await coresList.get(request);
             if (!coreAddress) {
+                delog({
+                    text: `deserve kubernetes core address not found`,
+                    level: 'warn',
+                });
+
                 response
                     .status(404)
                     .end();
@@ -109,6 +115,14 @@ const main = async () => {
                     target: coreAddress,
                 },
             );
+
+            proxy.on('error', (error) => {
+                delog({
+                    text: `deserve kubernetes proxy error`,
+                    level: 'error',
+                    error,
+                });
+            });
         } catch (error) {
             delog({
                 text: `deserve kubernetes error`,
