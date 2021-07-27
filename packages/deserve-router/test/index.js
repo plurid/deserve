@@ -39,7 +39,7 @@ const handleGetPath = async (
 
 const logic = {
     verifyIdentonymKey,
-    handleGetPath,
+    // handleGetPath,
 };
 // #endregion module
 

@@ -14,6 +14,9 @@
             "~logic/*": [
                 "./source/logic/*"
             ],
+            "~utilities/*": [
+                "./source/utilities/*"
+            ],
         },
 
         "outDir": "distribution",
