@@ -1,6 +1,11 @@
 // #region imports
     // #region libraries
     import http from 'http';
+
+    import {
+        Agent,
+    } from 'http';
+
     import pump from 'pump';
     import {
         EventEmitter,
@@ -13,11 +18,25 @@
 
     import delog from '@plurid/delog';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        GRACE_TIMEOUT,
+    } from '~data/constants';
+
+    import TunnelAgent from '~objects/TunnelAgent';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
+export interface ClientOptions {
+    id: string;
+    agent: TunnelAgent;
+}
+
 /**
  * A client encapsulates req/res handling using an agent
  *
@@ -25,22 +44,33 @@
  * The caller is responsible for handling a failed request
  */
 class Client extends EventEmitter {
-    private agent;
     private id;
+    private agent;
     private graceTimeout;
 
-    constructor(options: any) {
+    constructor(
+        options: ClientOptions,
+    ) {
         super();
 
-        const agent = this.agent = options.agent;
-        const id = this.id = options.id;
+        const {
+            id,
+            agent,
+        } = options;
+
+        this.id = id;
+        this.agent = agent;
 
         // client is given a grace period in which they can connect before they are _removed_
-        this.graceTimeout = setTimeout(() => {
-            this.close();
-        }, 1000).unref();
+        this.graceTimeout = setTimeout(
+            () => {
+                this.close();
+            },
+            GRACE_TIMEOUT,
+        ).unref();
 
-        agent.on('online', () => {
+        // FORCED agent as any
+        (agent as any).on('online', () => {
             delog({
                 text: `deserve core client online ${id}`,
                 level: 'trace',
@@ -49,7 +79,7 @@ class Client extends EventEmitter {
             clearTimeout(this.graceTimeout);
         });
 
-        agent.on('offline', () => {
+        (agent as any).on('offline', () => {
             delog({
                 text: `deserve core client offline ${id}`,
                 level: 'trace',
@@ -59,15 +89,17 @@ class Client extends EventEmitter {
             clearTimeout(this.graceTimeout);
 
             // client is given a grace period in which they can re-connect before they are _removed_
-            this.graceTimeout = setTimeout(() => {
-                this.close();
-                this.emit('offline');
-            }, 1000).unref();
+            this.graceTimeout = setTimeout(
+                () => {
+                    this.close();
+                    this.emit('offline');
+                },
+                GRACE_TIMEOUT,
+            ).unref();
         });
 
-        // TODO(roman): an agent error removes the client, the user needs to re-connect?
-        // how does a user realize they need to re-connect vs some random client being assigned same port?
-        agent.once('error', (error: any) => {
+        // An agent error removes the client, the deserve node needs to re-connect.
+        (agent as any).once('error', (error: any) => {
             delog({
                 text: 'deserve core error',
                 level: 'error',
@@ -105,16 +137,21 @@ class Client extends EventEmitter {
             headers,
         };
 
-        const clientReq = http.request(opt, (clientRes) => {
-            // write response code and headers
-            response.writeHead(
-                clientRes.statusCode || 500,
-                clientRes.headers,
-            );
+        const clientReq = http.request(
+            opt,
+            (
+                clientResponse,
+            ) => {
+                // write response code and headers
+                response.writeHead(
+                    clientResponse.statusCode || 500,
+                    clientResponse.headers,
+                );
 
-            // using pump is deliberate - see the pump docs for why
-            pump(clientRes, response);
-        });
+                // using pump is deliberate - see the pump docs for why
+                pump(clientResponse, response);
+            },
+        );
 
         // this can happen when underlying agent produces an error
         // in our case we 504 gateway error this?
