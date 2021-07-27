@@ -71,6 +71,11 @@ class TunnelAgent extends Agent {
 
 
     private _onClose() {
+        delog({
+            text: `deserve core TunnelAgent _onClose`,
+            level: 'trace',
+        });
+
         this.closed = true;
 
         // Flush any waiting connections.
