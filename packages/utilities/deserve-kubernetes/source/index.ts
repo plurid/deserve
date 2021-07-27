@@ -1,8 +1,8 @@
 // #region imports
     // #region libraries
     import express from 'express';
-
     import cors from 'cors';
+    import proxy from 'http-proxy';
 
     import delog from '@plurid/delog';
     // #endregion libraries
@@ -11,6 +11,7 @@
     // #region internal
     import {
         PORT,
+        TUNNEL_PORT,
 
         HOST_PATTERN,
         CORE_PATTERN,
@@ -93,15 +94,21 @@ const main = async () => {
         response,
     ) => {
         try {
-            const coreRequest = await coresList.get(request);
-            if (!coreRequest) {
+            const coreAddress = await coresList.get(request);
+            if (!coreAddress) {
                 response
                     .status(404)
                     .end();
                 return;
             }
 
-            response.pipe(coreRequest);
+            proxy.web(
+                request,
+                response,
+                {
+                    target: coreAddress,
+                },
+            );
         } catch (error) {
             delog({
                 text: `deserve kubernetes error`,

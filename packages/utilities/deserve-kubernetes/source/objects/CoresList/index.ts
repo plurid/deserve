@@ -1,7 +1,5 @@
 // #region imports
     // #region libraries
-    import http from 'http';
-
     import {
         Request,
     } from 'express';
@@ -111,17 +109,17 @@ class CoresList {
             return;
         }
 
-        const address = await serviceQuery(identonym);
-        if (!address) {
+        const ipAddress = await serviceQuery(identonym);
+        if (!ipAddress) {
             delog({
-                text: `deserve kubernetes no address for identonym '${identonym}'`,
+                text: `deserve kubernetes no IP address for identonym '${identonym}'`,
                 level: 'warn',
             });
 
             return;
         }
 
-        const serviceAddress = 'http://' + address;
+        const serviceAddress = 'http://' + ipAddress + ':' + TUNNEL_PORT;
 
         this.addresses[host] = serviceAddress;
         this.lastQueried[host] = Date.now();
@@ -160,15 +158,7 @@ class CoresList {
                 return;
             }
 
-            const options = {
-                host: serviceAddress,
-                port: TUNNEL_PORT,
-                path: request.url,
-                method: request.method,
-                headers: request.headers,
-            };
-
-            return http.request(options);
+            return serviceAddress;
         } catch (error) {
             delog({
                 text: `deserve kubernetes CoresList.get error`,
