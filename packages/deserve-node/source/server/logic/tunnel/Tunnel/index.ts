@@ -179,7 +179,8 @@ class Tunnel extends EventEmitter {
                 )
                 .then((response) => {
                     const body = response.data;
-                    console.log('got tunnel information', response.data);
+                    // console.log('got tunnel information', response.data);
+
                     if (response.status !== 200) {
                         const errorMessage = (body && body.message) || 'localtunnel server returned an error, please try again';
                         const error = new Error(errorMessage);
