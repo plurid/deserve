@@ -31,135 +31,195 @@
 
 
 // #region module
+export interface TunnelBody {
+    id: string;
+    port: number;
+    maxConnections: number;
+
+    ip?: string;
+    url?: string;
+    cachedURL?: string;
+}
+
+export interface TunnelOptions {
+    host: string;
+    id: string;
+    port: number;
+    token: string;
+
+    localHost?: string;
+    localHttps?: boolean;
+    localCert?: string;
+    localKey?: string;
+    localCA?: string;
+    allowInvalidCert?: boolean;
+}
+
+export interface TunnelInfo {
+    name: string;
+    maxConnections: number;
+    remoteHost: string;
+    remotePort: number;
+    localPort: number;
+
+    remoteIP?: string;
+    url?: string;
+    cachedURL?: string;
+
+    localHost?: string;
+    localHttps?: boolean;
+    localCert?: string;
+    localKey?: string;
+    localCA?: string;
+    allowInvalidCert?: boolean;
+}
+
+
 class Tunnel extends EventEmitter {
-    private opts: any;
+    private options: TunnelOptions;
     private closed: any;
     private tunnelCluster: any;
     private clientId: any;
     private url: any;
-    private cachedUrl: any;
+    private cachedURL: any;
 
 
     constructor(
-        opts: any = {},
+        options: TunnelOptions,
     ) {
-        super(opts);
-        this.opts = opts;
+        super();
+        this.options = options;
         this.closed = false;
 
-        if (!this.opts.host) {
-            this.opts.host = DEFAULT_TUNNEL_HOST;
+        if (!this.options.host) {
+            this.options.host = DEFAULT_TUNNEL_HOST;
         }
     }
 
 
     private _getInfo(
-        body: any,
+        body: TunnelBody,
     ) {
         const {
             id,
-            ip,
             port,
-            url,
-            cached_url,
             maxConnections,
+
+            ip: remoteIP,
+            url,
+            cachedURL,
         } = body;
 
         const {
             host,
-            port: local_port,
-            local_host,
-            local_https,
-            local_cert,
-            local_key,
-            local_ca,
-            allow_invalid_cert,
-        } = this.opts;
+            port: localPort,
 
-        return {
+            localHost,
+            localHttps,
+            localCert,
+            localKey,
+            localCA,
+            allowInvalidCert,
+        } = this.options;
+
+        const info: TunnelInfo = {
             name: id,
+            maxConnections: maxConnections || 1,
+            remoteHost: new URL(host).hostname,
+            remotePort: port,
+            localPort,
+
+            remoteIP,
             url,
-            cached_url,
-            max_conn: maxConnections || 1,
-            remote_host: new URL(host).hostname,
-            remote_ip: ip,
-            remote_port: port,
-            local_port,
-            local_host,
-            local_https,
-            local_cert,
-            local_key,
-            local_ca,
-            allow_invalid_cert,
+            cachedURL,
+
+            localHost,
+            localHttps,
+            localCert,
+            localKey,
+            localCA,
+            allowInvalidCert,
         };
+
+        return info;
     }
 
     // initialize connection
     // callback with connection info
     private _init(
-        cb: any,
+        callback: any,
     ) {
-        const opt = this.opts;
-        const getInfo = this._getInfo.bind(this);
+        const {
+            host,
+            token,
+        } = this.options;
+
+        // const getInfo = this._getInfo.bind(this);
 
         const params: any = {
             responseType: 'json',
         };
 
-        const baseUri = `${opt.host}/register`;
+        const baseUri = `${host}/register`;
 
         // no subdomain at first, maybe use requested domain
-        const assignedDomain = opt.subdomain;
-        // where to quest
+        // const assignedDomain = opt.subdomain;
+        const assignedDomain = '';
+        // // where to quest
         const uri = baseUri + (assignedDomain || '?new');
 
-        (function getUrl() {
+        const getURL = async () => {
             axios
                 .post(
                     uri,
                     {
-                        token: opt.token,
+                        token,
                     },
                     params,
                 )
-                .then((res: any) => {
-                    const body = res.data;
-                    // console.log('got tunnel information', res.data);
-                    if (res.status !== 200) {
-                        const err = new Error(
-                            (body && body.message) || 'localtunnel server returned an error, please try again'
-                        );
-                        return cb(err);
+                .then((response) => {
+                    const body = response.data;
+                    console.log('got tunnel information', response.data);
+                    if (response.status !== 200) {
+                        const errorMessage = (body && body.message) || 'localtunnel server returned an error, please try again';
+                        const error = new Error(errorMessage);
+                        return callback(error);
                     }
-                    cb(null, getInfo(body));
+
+                    callback(null, this._getInfo(body));
                 })
-                .catch((error: any) => {
+                .catch((error) => {
                     delog({
                         text: `tunnel server offline ${error.message}`,
                         level: 'error',
                         error,
                     });
 
-                    return setTimeout(getUrl, 1000);
+                    return setTimeout(getURL, 1_000);
                 });
-        })();
+        }
+
+        getURL();
     }
 
     private _establish(
-        info: any,
+        info: TunnelInfo,
     ) {
+        const {
+            maxConnections,
+        } = info;
         // console.log('_establish info', info);
 
-        // increase max event listeners so that localtunnel consumers don't get
-        // warning messages as soon as they setup even one listener. See #71
-        this.setMaxListeners(info.max_conn + (EventEmitter.defaultMaxListeners || 10));
+        // Increase max event listeners so that localtunnel consumers don't get
+        // warning messages as soon as they setup even one listener.
+        this.setMaxListeners(maxConnections + (EventEmitter.defaultMaxListeners || 10));
 
         this.tunnelCluster = new TunnelCluster(info);
 
-        // only emit the url the first time
-        this.tunnelCluster.once('open', () => {
-            this.emit('url', info.url);
-        });
+        // // only emit the url the first time
+        // this.tunnelCluster.once('open', () => {
+        //     this.emit('url', info.url);
+        // });
 
         // re-emit socket error
         this.tunnelCluster.on('error', (error: any) => {
@@ -169,7 +229,7 @@ class Tunnel extends EventEmitter {
                 error,
             });
 
-            tunnelsManager.remove(this.opts.id);
+            tunnelsManager.remove(this.options.id);
             // this.emit('error', error);
         });
 
@@ -217,34 +277,34 @@ class Tunnel extends EventEmitter {
             this.emit('request', request);
         });
 
-        // establish as many tunnels as allowed
-        for (let count = 0; count < info.max_conn; ++count) {
+        // Establish as many tunnels as allowed.
+        for (let count = 0; count < maxConnections; ++count) {
             this.tunnelCluster.open();
         }
     }
 
 
     public open(
-        cb: any,
+        callback: any,
     ) {
         this._init((
-            err: any,
-            info: any,
+            error: any,
+            info: TunnelInfo,
         ) => {
-            if (err) {
-                return cb(err);
+            if (error) {
+                return callback(error);
             }
 
             this.clientId = info.name;
-            this.url = info.url;
+            // this.url = info.url;
 
-            // `cached_url` is only returned by proxy servers that support resource caching.
-            if (info.cached_url) {
-                this.cachedUrl = info.cached_url;
-            }
+            // // `cachedURL` is only returned by proxy servers that support resource caching.
+            // if (info.cachedURL) {
+            //     this.cachedURL = info.cachedURL;
+            // }
 
             this._establish(info);
-            cb();
+            callback();
         });
     }
 

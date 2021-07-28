@@ -19,39 +19,93 @@
 
 
 // #region module
+export interface TunnelClusterOptionsConstructor {
+    remoteIP?: string;
+    remoteHost: string;
+    remotePort: number;
+    localHost?: string;
+    localPort: number;
+    localCert?: string;
+    localKey?: string;
+    localCA?: string;
+    localHttps?: boolean;
+    allowInvalidCert?: boolean;
+}
+
+export interface TunnelClusterOptions {
+    remoteHostOrIp: string;
+    remotePort: number;
+    localHost: string;
+    localPort: number;
+    localHttps: boolean;
+    localProtocol: string;
+    localCert: string;
+    localKey: string;
+    localCA: string;
+    allowInvalidCert: boolean;
+}
+
 /**
  * Manages groups of tunnels.
  *
  */
 class TunnelCluster extends EventEmitter {
-    private opts: any;
+    private options: TunnelClusterOptions;
 
 
     constructor(
-        opts: any = {},
+        options: TunnelClusterOptionsConstructor,
     ) {
-        super(opts);
-        this.opts = opts;
+        super();
+
+        // Prefer IP if returned by the server
+        const remoteHostOrIp = options.remoteIP || options.remoteHost;
+        const remotePort = options.remotePort;
+        const localHost = options.localHost || 'localhost';
+        const localPort = options.localPort;
+        const localHttps = !!options.localHttps;
+        const localProtocol = localHttps ? 'https' : 'http';
+        const allowInvalidCert = !!options.allowInvalidCert;
+        const localCert = options.localCert || '';
+        const localKey = options.localKey || '';
+        const localCA = options.localCA || '';
+
+        this.options = {
+            remoteHostOrIp,
+            remotePort,
+            localHost,
+            localPort,
+            localHttps,
+            localProtocol,
+            localCert,
+            localKey,
+            localCA,
+            allowInvalidCert,
+        };
     }
 
 
     public open() {
-        const opt = this.opts;
+        const {
+            remoteHostOrIp,
+            remotePort,
+            localHost,
+            localPort,
+            localHttps,
+            localProtocol,
+            localCert,
+            localKey,
+            localCA,
+            allowInvalidCert,
+        } = this.options;
 
-        // Prefer IP if returned by the server
-        const remoteHostOrIp = opt.remote_ip || opt.remote_host;
-        const remotePort = opt.remote_port;
-        const localHost = opt.local_host || 'localhost';
-        const localPort = opt.local_port;
-        const localProtocol = opt.local_https ? 'https' : 'http';
-        const allowInvalidCert = opt.allow_invalid_cert;
 
         delog({
             text: `establishing tunnel ${localProtocol}://${localHost}:${localPort} <> ${remoteHostOrIp}:${remotePort}`,
             level: 'trace',
         });
 
-        // connection to localtunnel server
+        // connection to deserve core tunnel
         const remote = net.connect({
             host: remoteHostOrIp,
             port: remotePort,
@@ -59,7 +113,7 @@ class TunnelCluster extends EventEmitter {
 
         remote.setKeepAlive(true);
 
-        remote.on('error', (error: any) => {
+        remote.on('error', (error: NodeJS.ErrnoException) => {
             delog({
                 text: `remote connection error ${error.message}`,
                 level: 'error',
@@ -80,7 +134,7 @@ class TunnelCluster extends EventEmitter {
             remote.end();
         });
 
-        const connLocal = () => {
+        const connectLocal = () => {
             if (remote.destroyed) {
                 delog({
                     text: 'remote destroyed',
@@ -103,18 +157,23 @@ class TunnelCluster extends EventEmitter {
                 });
             }
 
-            const getLocalCertOpts = () =>
-                allowInvalidCert
-                    ? { rejectUnauthorized: false }
-                    : {
-                        cert: fs.readFileSync(opt.local_cert),
-                        key: fs.readFileSync(opt.local_key),
-                        ca: opt.local_ca ? [fs.readFileSync(opt.local_ca)] : undefined,
+            const getLocalCertOptions = () => {
+                if (allowInvalidCert) {
+                    return {
+                        rejectUnauthorized: false,
                     };
+                } else {
+                    return {
+                        cert: fs.readFileSync(localCert),
+                        key: fs.readFileSync(localKey),
+                        ca: localCA ? [fs.readFileSync(localCA)] : undefined,
+                    };
+                }
+            }
 
             // connection to local http server
-            const local = opt.local_https
-                ? tls.connect({ host: localHost, port: localPort, ...getLocalCertOpts() })
+            const local = localHttps
+                ? tls.connect({ host: localHost, port: localPort, ...getLocalCertOptions() })
                 : net.connect({ host: localHost, port: localPort });
 
             const remoteClose = () => {
@@ -146,7 +205,7 @@ class TunnelCluster extends EventEmitter {
                 }
 
                 // retrying connection to local server
-                setTimeout(connLocal, 1000);
+                setTimeout(connectLocal, 1_000);
             });
 
             local.once('connect', () => {
@@ -160,9 +219,15 @@ class TunnelCluster extends EventEmitter {
 
                 // if user requested specific local host
                 // then we use host header transform to replace the host header
-                if (opt.local_host) {
-                    // console.log('transform Host header to %s', opt.local_host);
-                    stream = remote.pipe(new HeaderHostTransformer({ host: opt.local_host }));
+                if (localHost) {
+                    // console.log('transform Host header to %s', localHost);
+                    stream = remote.pipe(
+                        new HeaderHostTransformer(
+                            {
+                                host: localHost,
+                            },
+                        ),
+                    );
                 }
 
                 stream.pipe(local).pipe(remote);
@@ -195,7 +260,7 @@ class TunnelCluster extends EventEmitter {
         remote.once('connect', () => {
             this.emit('open', remote);
 
-            connLocal();
+            connectLocal();
         });
     }
 }

@@ -1,5 +1,5 @@
 // #region module
-const PORT = process.env.PORT || 3366;
+const PORT = parseInt(process.env.PORT || '') || 3366;
 
 const HEALTH_CHECK_ENDPOINT = '/service-check/health';
 
