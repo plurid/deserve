@@ -60,7 +60,10 @@ class LoadBalancer extends EventEmitter {
     private activeTargets: LoadBalancerTarget[] = [];
     private activeTargetsLookup: Record<string, number> = {};
 
-    public MIDDLEWARE_CONNECTION;
+    private queue: net.Socket[] = [];
+    private _queueInterval: NodeJS.Timer | null = null;
+
+    public MIDDLEWARE_CONNECTION = 'connection';
 
 
     constructor(
@@ -77,8 +80,6 @@ class LoadBalancer extends EventEmitter {
                 this.emit('error', error);
             }
         });
-
-        this.MIDDLEWARE_CONNECTION = 'connection';
 
         this._middleware[this.MIDDLEWARE_CONNECTION] = [];
 
@@ -117,6 +118,9 @@ class LoadBalancer extends EventEmitter {
         if (this._cleanupInterval) {
             clearInterval(this._cleanupInterval);
         }
+        if (this._queueInterval) {
+            clearInterval(this._queueInterval);
+        }
 
         this._server.close(callback);
     }
@@ -154,6 +158,11 @@ class LoadBalancer extends EventEmitter {
         this._cleanupInterval = setInterval(
             this._cleanupSessions.bind(this),
             this.sessionExpiryInterval,
+        );
+
+        this._queueInterval = setInterval(
+            this._handleQueue.bind(this),
+            1_000,
         );
     }
 
@@ -206,6 +215,28 @@ class LoadBalancer extends EventEmitter {
         return !!this.activeTargetsLookup[host + ':' + port];
     }
 
+    private _handleQueue() {
+        const queue: net.Socket[] = [];
+
+        for (const socket of this.queue) {
+            const remoteAddress = socket.remoteAddress;
+            if (!remoteAddress) {
+                continue;
+            }
+
+            if (this.activeTargetsLookup[remoteAddress]) {
+                this._handleConnection(
+                    socket,
+                );
+                continue;
+            }
+
+            queue.push(socket);
+        }
+
+        this.queue = queue;
+    }
+
     private _hash(
         str: string,
         maxValue: number,
@@ -233,8 +264,22 @@ class LoadBalancer extends EventEmitter {
         return Math.floor(Math.random() * maxValue);
     }
 
-    private _checkTarget() {
+    private _checkTarget(
+        sourceSocket: net.Socket,
+    ) {
+        const remoteAddress = sourceSocket.remoteAddress;
+        if (!remoteAddress) {
+            return;
+        }
 
+        if (!process.send) {
+            return;
+        }
+
+        process.send({
+            type: 'coreCheck',
+            data: remoteAddress,
+        });
     }
 
     private _chooseTarget(
@@ -366,6 +411,8 @@ class LoadBalancer extends EventEmitter {
 
         const target = this._chooseTarget(sourceSocket);
         if (!target) {
+            this._checkTarget(sourceSocket);
+            this.queue.push(sourceSocket);
             return;
         }
 
