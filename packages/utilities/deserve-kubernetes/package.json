@@ -35,8 +35,8 @@
     "scripts": {
         "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",
-        "start": "node distribution/index.js",
-        "start.local": "deon environment ./environment/.env.local.deon -- node distribution/index.js",
+        "start": "node scripts/start.js",
+        "start.local": "deon environment ./environment/.env.local.deon -- node scripts/start.js",
         "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
         "build.production": "rollup -c ./scripts/rollup.config.js --environment ENV_MODE:production",
         "build.removeTests": "rimraf `find ./distribution/ -type d -name __tests__`",
