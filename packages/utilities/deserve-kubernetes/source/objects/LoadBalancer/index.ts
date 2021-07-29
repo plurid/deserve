@@ -21,6 +21,7 @@
     import {
         LoadBalancerMiddleware,
         LoadBalancerTarget,
+        LoadBalancerActiveSession,
     } from '~data/interfaces';
     // #endregion external
 // #endregion imports
@@ -37,11 +38,11 @@
  */
 class LoadBalancer extends EventEmitter {
     private _errorDomain;
-    private _middleware: Record<string, any[]> = {};
+    private _middleware: Record<string, LoadBalancerMiddleware[]> = {};
     private _server;
-    private _activeSessions: any;
+    private _activeSessions: Record<string, LoadBalancerActiveSession>;
     private _sessionExpirer;
-    private _cleanupInterval: any;
+    private _cleanupInterval: NodeJS.Timer | null = null;
 
     public MIDDLEWARE_CONNECTION;
     public sourcePort;
@@ -110,6 +111,10 @@ class LoadBalancer extends EventEmitter {
     public close(
         callback: () => void,
     ) {
+        if (this._cleanupInterval) {
+            clearInterval(this._cleanupInterval);
+        }
+
         this._server.close(callback);
     }
 
@@ -273,13 +278,13 @@ class LoadBalancer extends EventEmitter {
                 targetSocket.removeListener('connect', connectionSucceeded);
 
                 process.nextTick(() => {
-                    var latestActiveSession = this._activeSessions[remoteAddress];
-                    var nextTargetUri;
+                    const latestActiveSession = this._activeSessions[remoteAddress];
+                    let nextTargetUri;
 
                     // If there is still an active session for the current sourceSocket,
                     // try to connect to a different target
                     if (latestActiveSession) {
-                        var lastChosenTargetUri = latestActiveSession.targetUri;
+                        const lastChosenTargetUri = latestActiveSession.targetUri;
 
                         // We need to account for asynchronous cases whereby another connection from the
                         // same session (same IP address) may have already chosen a new target for the
@@ -332,7 +337,6 @@ class LoadBalancer extends EventEmitter {
         sourceSocket: net.Socket,
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
-
         if (!remoteAddress) {
             return;
         }
@@ -341,15 +345,20 @@ class LoadBalancer extends EventEmitter {
             this._errorDomain.emit('error', error);
         });
 
+        const target = this._chooseTarget(sourceSocket);
+        if (!target) {
+            return;
+        }
+
         if (this._activeSessions[remoteAddress]) {
             this._activeSessions[remoteAddress].clientCount++;
             if (!this.stickiness) {
-                this._activeSessions[remoteAddress].targetUri = this._chooseTarget(sourceSocket);
+                this._activeSessions[remoteAddress].targetUri = target;
             }
         } else {
             this._activeSessions[remoteAddress] = {
-                targetUri: this._chooseTarget(sourceSocket),
-                clientCount: 1
+                targetUri: target,
+                clientCount: 1,
             };
         }
 

@@ -26,4 +26,9 @@ export interface LoadBalancerTarget {
     host: string;
     port: number;
 }
+
+export interface LoadBalancerActiveSession {
+    targetUri: LoadBalancerTarget;
+    clientCount: number;
+}
 // #endregion module
