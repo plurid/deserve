@@ -7,8 +7,8 @@
 
 
 // #region module
-export const TCP_PORT = parseInt(process.env.DESERVE_TCP_PORT || '') || 3388;
-export const HTTP_PORT = parseInt(process.env.DESERVE_HTTP_PORT || '') || 3389;
+export const TCP_PORT = parseInt(process.env.DESERVE_TCP_PORT || '') || 53179;
+export const HTTP_PORT = parseInt(process.env.DESERVE_HTTP_PORT || '') || 3388;
 export const TUNNEL_PORT = parseInt(process.env.DESERVE_CORE_TUNNEL_PORT || '') || 53179;
 
 
