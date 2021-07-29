@@ -24,11 +24,6 @@
 // #region module
 const Worker = () => {
     if (!cluster.isWorker) {
-        delog({
-            text: 'cluster not worker',
-            level: 'trace',
-        });
-
         return;
     }
 

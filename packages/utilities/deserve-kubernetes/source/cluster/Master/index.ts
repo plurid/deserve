@@ -35,13 +35,8 @@
 
 
 // #region module
-const Primary = () => {
-    if (!cluster.isPrimary) {
-        delog({
-            text: 'cluster not primary',
-            level: 'trace',
-        });
-
+const Master = () => {
+    if (!cluster.isMaster) {
         return;
     }
 
@@ -136,7 +131,6 @@ const Primary = () => {
     });
 
 
-
     const server = express();
 
     server.post(CACHE_RESET_PATH, (
@@ -178,5 +172,5 @@ const Primary = () => {
 
 
 // #region exports
-export default Primary;
+export default Master;
 // #endregion exports

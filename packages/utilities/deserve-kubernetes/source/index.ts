@@ -1,6 +1,6 @@
 // #region imports
     // #region internal
-    import Primary from './cluster/Primary';
+    import Master from './cluster/Master';
     import Worker from './cluster/Worker';
     // #endregion internal
 // #endregion imports
@@ -9,7 +9,7 @@
 
 // #region module
 const main = () => {
-    Primary();
+    Master();
     Worker();
 }
 
