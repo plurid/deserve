@@ -1,12 +1,20 @@
-import ttypescript from 'ttypescript';
-import typescript from 'rollup-plugin-typescript2';
-import { terser } from 'rollup-plugin-terser';
+// #region imports
+    // #region libraries
+    import ttypescript from 'ttypescript';
+    import typescript from 'rollup-plugin-typescript2';
+    import { terser } from 'rollup-plugin-terser';
+    // #endregion libraries
 
-import pkg from '../package.json';
+
+    // #region external
+    import pkg from '../package.json';
+    // #endregion external
+// #endregion imports
 
 
 
-export default {
+// #region module
+const build = {
     input: 'source/index.ts',
     output: [
         {
@@ -27,13 +35,15 @@ export default {
         'path',
         'net',
         'events',
+        'domain',
 
         '@kubernetes/client-node',
         '@plurid/delog',
         '@plurid/plurid-functions',
-        'cors',
+        'async',
+        'expirymanager',
         'express',
-        'pump',
+        'minimist',
     ],
     plugins: [
         typescript({
@@ -51,3 +61,10 @@ export default {
         }),
     ],
 };
+// #endregion module
+
+
+
+// #region exports
+export default build;
+// #endregion exports
