@@ -37,6 +37,11 @@
 // #region module
 const Primary = () => {
     if (!cluster.isPrimary) {
+        delog({
+            text: 'cluster not primary',
+            level: 'trace',
+        });
+
         return;
     }
 
