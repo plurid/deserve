@@ -192,9 +192,9 @@ class LoadBalancer extends EventEmitter {
                 port: port,
             };
 
-            this.activeTargets = this.activeTargets.filter((currentTarget: any) => {
-                return currentTarget.host != host || currentTarget.port != port;
-            });
+            this.activeTargets = this.activeTargets.filter(
+                (currentTarget) => currentTarget.host !== host || currentTarget.port !== port,
+            );
 
             delete this.activeTargetsLookup[hostAndPort];
 
@@ -220,11 +220,12 @@ class LoadBalancer extends EventEmitter {
 
         for (const socket of this.queue) {
             const remoteAddress = socket.remoteAddress;
-            if (!remoteAddress) {
+            const remotePort = socket.remotePort;
+            if (!remoteAddress || !remotePort) {
                 continue;
             }
 
-            if (this.activeTargetsLookup[remoteAddress]) {
+            if (this.activeTargetsLookup[remoteAddress + ':' + remotePort]) {
                 this._handleConnection(
                     socket,
                 );

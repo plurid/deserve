@@ -20,6 +20,12 @@ export type WorkerMessage =
         type: 'destroy';
     };
 
+export type PrimaryMessage =
+    | {
+        type: 'coreCheck';
+        data: string;
+    };
+
 
 export type LoadBalancerMiddleware = (
     socket: net.Socket,
