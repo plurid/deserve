@@ -42,7 +42,7 @@ class LoadBalancer extends EventEmitter {
     private _errorDomain;
     private _middleware: Record<string, LoadBalancerMiddleware[]> = {};
     private _server;
-    private _activeSessions: Record<string, LoadBalancerActiveSession>;
+    private _activeSessions: Record<string, LoadBalancerActiveSession | undefined>;
     private _sessionExpirer;
     private _cleanupInterval: NodeJS.Timer | null = null;
 
@@ -58,7 +58,7 @@ class LoadBalancer extends EventEmitter {
 
     private targets: LoadBalancerTarget[] = [];
     private activeTargets: LoadBalancerTarget[] = [];
-    private activeTargetsLookup: Record<string, number> = {};
+    private activeTargetsLookup: Record<string, number | undefined> = {};
 
     private queue: net.Socket[] = [];
     private _queueInterval: NodeJS.Timer | null = null;
@@ -296,6 +296,9 @@ class LoadBalancer extends EventEmitter {
 
         const primaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.targets.length);
         const primaryTarget = this.targets[primaryTargetIndex];
+        if (!primaryTarget) {
+            return;
+        }
         if (this.activeTargetsLookup[primaryTarget.host + ':' + primaryTarget.port]) {
             return primaryTarget;
         }
@@ -316,6 +319,9 @@ class LoadBalancer extends EventEmitter {
         }
 
         const activeSession = this._activeSessions[remoteAddress];
+        if (!activeSession) {
+            return;
+        }
 
         if (newTargetUri !== undefined) {
             activeSession.targetUri = newTargetUri;
@@ -418,9 +424,9 @@ class LoadBalancer extends EventEmitter {
         }
 
         if (this._activeSessions[remoteAddress]) {
-            this._activeSessions[remoteAddress].clientCount++;
+            (this._activeSessions[remoteAddress] as LoadBalancerActiveSession).clientCount++;
             if (!this.stickiness) {
-                this._activeSessions[remoteAddress].targetUri = target;
+                (this._activeSessions[remoteAddress] as LoadBalancerActiveSession).targetUri = target;
             }
         } else {
             this._activeSessions[remoteAddress] = {
