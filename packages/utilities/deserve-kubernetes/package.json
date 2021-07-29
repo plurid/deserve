@@ -35,8 +35,8 @@
     "scripts": {
         "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",
-        "start": "node scripts/start.js",
-        "start.local": "deon environment ./environment/.env.local.deon -- node scripts/start.js",
+        "start": "node distribution/index.js",
+        "start.local": "deon environment ./environment/.env.local.deon -- node distribution/index.js",
         "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
         "build.production": "rollup -c ./scripts/rollup.config.js --environment ENV_MODE:production",
         "build.removeTests": "rimraf `find ./distribution/ -type d -name __tests__`",
@@ -50,7 +50,6 @@
         "async": "^3.2.0",
         "expirymanager": "^0.9.4",
         "express": "^4.17.1",
-        "forever": "^4.0.1",
         "minimist": "^1.2.5"
     },
     "devDependencies": {
