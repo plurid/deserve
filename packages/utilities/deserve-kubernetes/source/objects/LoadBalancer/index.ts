@@ -23,6 +23,13 @@
 
 
 // #region module
+/**
+ * The `LoadBalancer` creates a `TCP server` which listens on the `TCP_PORT`
+ * and routes the requests to the adequate `Deserve Core`s within the `Kubernetes` cluster.
+ *
+ * Adapted from `https://github.com/SocketCluster/loadbalancer`
+ *
+ */
 class LoadBalancer extends EventEmitter {
     private _errorDomain;
     private _middleware: Record<string, any[]> = {};
