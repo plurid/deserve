@@ -46,20 +46,21 @@ class LoadBalancer extends EventEmitter {
     private _sessionExpirer;
     private _cleanupInterval: NodeJS.Timer | null = null;
 
-    public MIDDLEWARE_CONNECTION;
-    public sourcePort;
-    public balancerControllerPath;
-    public downgradeToUser;
-    public targetDeactivationDuration;
-    public sessionExpiry;
-    public sessionExpiryInterval;
-    public maxBufferSize;
-    public stickiness;
-    public balancerController: LoadBalancerController<LoadBalancer> | undefined;
+    private sourcePort;
+    private balancerControllerPath;
+    private downgradeToUser;
+    private targetDeactivationDuration;
+    private sessionExpiry;
+    private sessionExpiryInterval;
+    private maxBufferSize;
+    private stickiness;
+    private balancerController: LoadBalancerController<LoadBalancer> | undefined;
 
-    public targets: LoadBalancerTarget[] = [];
-    public activeTargets: LoadBalancerTarget[] = [];
-    public activeTargetsLookup: Record<string, number> = {};
+    private targets: LoadBalancerTarget[] = [];
+    private activeTargets: LoadBalancerTarget[] = [];
+    private activeTargetsLookup: Record<string, number> = {};
+
+    public MIDDLEWARE_CONNECTION;
 
 
     constructor(
@@ -118,6 +119,12 @@ class LoadBalancer extends EventEmitter {
         }
 
         this._server.close(callback);
+    }
+
+    public updateTargets(
+        targets: LoadBalancerTarget[],
+    ) {
+        this._setTargets(targets);
     }
 
 

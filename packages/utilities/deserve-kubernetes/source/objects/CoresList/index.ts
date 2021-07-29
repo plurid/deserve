@@ -178,8 +178,33 @@ class CoresList {
 
     public getData() {
         return {
-            targets: this.addresses,
+            targets: Object.values(this.addresses),
         };
+    }
+
+    /**
+     * If the address exists
+     *   it returns `exists`,
+     * if the address does not exist,
+     *   it queries and if it finds the address it returns 'found',
+     *   else it returns 'not-found'.
+     *
+     * @param address
+     * @returns
+     */
+    public async check(
+        address: string,
+    ) {
+        if (this.addresses[address]) {
+            return 'exists';
+        }
+
+        const found = await this.getAddress(address);
+        if (found) {
+            return 'found';
+        }
+
+        return 'not-found';
     }
 
 

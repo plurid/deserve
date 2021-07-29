@@ -13,6 +13,10 @@ export type WorkerMessage =
         data: any;
     }
     | {
+        type: 'updateTargets';
+        data: LoadBalancerTarget[];
+    }
+    | {
         type: 'destroy';
     };
 

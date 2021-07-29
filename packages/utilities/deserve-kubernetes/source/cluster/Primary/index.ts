@@ -83,6 +83,18 @@ const Primary = () => {
         });
     };
 
+    const updateTargets = () => {
+        for (const worker of workers) {
+            const message: WorkerMessage = {
+                type: 'updateTargets',
+                data: [
+                    ...coresList.getData().targets,
+                ],
+            };
+            worker.send(message);
+        }
+    }
+
 
     for (let i = 0; i < options.workerCount; i++) {
         launchWorker(i);
@@ -100,9 +112,13 @@ const Primary = () => {
         }
     });
 
-    process.on('message', (message: any) => {
+    process.on('message', async (message: any) => {
         switch (message.type) {
             case 'coreCheck':
+                const check = await coresList.check(message.data);
+                if (check === 'found') {
+                    updateTargets();
+                }
                 break;
         }
     });

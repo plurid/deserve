@@ -47,12 +47,22 @@ const Worker = () => {
                     });
 
                     break;
-                case 'destroy':
-                    if (balancer) {
-                        balancer.close(() => {
-                            process.exit();
-                        });
+                case 'updateTargets':
+                    if (!balancer) {
+                        break;
                     }
+
+                    balancer.updateTargets(message.data);
+
+                    break;
+                case 'destroy':
+                    if (!balancer) {
+                        break;
+                    }
+
+                    balancer.close(() => {
+                        process.exit();
+                    });
 
                     // If the balancer takes too long to close.
                     setTimeout(
