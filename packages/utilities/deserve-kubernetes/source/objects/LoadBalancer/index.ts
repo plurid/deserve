@@ -444,6 +444,10 @@ class LoadBalancer extends EventEmitter {
         delog({
             text: `deserve kubernetes TCP server LoadBalancer _handleConnection for ${remoteAddress}`,
             level: 'trace',
+            extradata: JSON.stringify({
+                address: sourceSocket.address(),
+                localAddress: sourceSocket.localAddress,
+            }),
         });
         if (!remoteAddress) {
             delog({
