@@ -2,7 +2,7 @@ const net = require('net');
 
 
 
-const host = 'localhost';
+const host = '0.0.0.0';
 const port = '53179';
 
 const remote = net.connect({
@@ -13,7 +13,8 @@ remote.setKeepAlive(true);
 
 
 remote.on('connect', () => {
-    console.log('connect');
+    console.log('connect', remote.remoteAddress, remote.address(), remote.localAddress);
+
     remote.write(`GET / HTTP/1.0\nHost: localhost:53179\n\n`);
 });
 
