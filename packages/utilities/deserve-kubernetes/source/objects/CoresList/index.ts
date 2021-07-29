@@ -170,6 +170,12 @@ class CoresList {
         }
     }
 
+    public getData() {
+        return {
+            addresses: this.addresses,
+        };
+    }
+
 
     public async cacheReset () {
         this.addresses = {};
