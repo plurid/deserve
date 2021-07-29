@@ -1,3 +1,10 @@
 // #region exports
-export {}
+export type WorkerMessage =
+    | {
+        type: 'initialize';
+        data: any;
+    }
+    | {
+        type: 'destroy';
+    };
 // #endregion exports

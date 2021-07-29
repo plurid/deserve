@@ -1,6 +1,5 @@
 // #region imports
     // #region libraries
-    import os from 'os';
     import cluster, {
         Worker,
     } from 'cluster';
@@ -18,7 +17,13 @@
 
         CACHE_RESET_PATH,
         CACHE_RESET_TOKEN,
+
+        WORKER_COUNT,
     } from '~data/constants';
+
+    import {
+        WorkerMessage,
+    } from '~data/interfaces';
 
     import CoresList from '~objects/CoresList';
 
@@ -42,7 +47,7 @@ const Primary = () => {
 
 
     const options = {
-        workerCount: os.cpus().length,
+        workerCount: WORKER_COUNT,
     };
 
 
@@ -56,10 +61,11 @@ const Primary = () => {
     ) => {
         const worker = cluster.fork();
 
-        worker.send({
+        const message: WorkerMessage = {
             type: 'initialize',
             data: coresList.getData(),
-        });
+        };
+        worker.send(message);
 
         workers[i] = worker;
 
@@ -84,9 +90,10 @@ const Primary = () => {
         alive = false;
 
         for (const worker of workers) {
-            worker.send({
+            const message: WorkerMessage = {
                 type: 'destroy',
-            });
+            };
+            worker.send(message);
         }
     });
 
