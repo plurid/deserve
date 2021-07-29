@@ -31,6 +31,8 @@ const build = {
         },
     ],
     external: [
+        'cluster',
+        'os',
         'http',
         'path',
         'net',
