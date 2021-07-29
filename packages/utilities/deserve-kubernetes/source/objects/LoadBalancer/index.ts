@@ -226,6 +226,10 @@ class LoadBalancer extends EventEmitter {
         return Math.floor(Math.random() * maxValue);
     }
 
+    private _checkTarget() {
+
+    }
+
     private _chooseTarget(
         sourceSocket: net.Socket,
     ) {
@@ -323,12 +327,15 @@ class LoadBalancer extends EventEmitter {
 
     private _verifyConnection(
         sourceSocket: net.Socket,
-        callback: any,
+        callback: (
+            error: Error | undefined,
+            sourceSocket: net.Socket,
+        ) => void,
     ) {
         async.applyEachSeries(
             this._middleware[this.MIDDLEWARE_CONNECTION],
             sourceSocket,
-            (error: any) => {
+            (error: Error | undefined) => {
                 if (error) {
                     this.emit('notice', error);
                 }
@@ -392,7 +399,7 @@ class LoadBalancer extends EventEmitter {
             }
         });
 
-        this._verifyConnection(sourceSocket, (error: any) => {
+        this._verifyConnection(sourceSocket, (error: Error | undefined) => {
             if (error) {
                 this._rejectConnection(
                     sourceSocket,
@@ -406,7 +413,7 @@ class LoadBalancer extends EventEmitter {
 
     private _rejectConnection(
         sourceSocket: net.Socket,
-        error?: any,
+        error?: Error | undefined,
     ) {
         sourceSocket.end();
     }
@@ -420,12 +427,13 @@ class LoadBalancer extends EventEmitter {
         }
 
         let sourceBuffersLength = 0;
-        let sourceBuffers: any[] = [];
+        let sourceBuffers: string[] = [];
 
         const bufferSourceData = (
-            data: any,
+            data: string,
         ) => {
             sourceBuffersLength += data.length;
+
             if (sourceBuffersLength > this.maxBufferSize) {
                 const errorMessage = `sourceBuffers for remoteAddress ${remoteAddress} exceeded maxBufferSize of ${this.maxBufferSize} bytes`;
                 this._errorDomain.emit('error', new Error(errorMessage));
