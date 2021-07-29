@@ -63,7 +63,10 @@ const Primary = () => {
 
         const message: WorkerMessage = {
             type: 'initialize',
-            data: coresList.getData(),
+            data: {
+                stickiness: true,
+                ...coresList.getData(),
+            },
         };
         worker.send(message);
 
@@ -94,6 +97,13 @@ const Primary = () => {
                 type: 'destroy',
             };
             worker.send(message);
+        }
+    });
+
+    process.on('message', (message: any) => {
+        switch (message.type) {
+            case 'coreCheck':
+                break;
         }
     });
 

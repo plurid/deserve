@@ -86,7 +86,10 @@ const serviceQuery = async (
 
 
 class CoresList {
-    private addresses: Record<string, string> = {};
+    private addresses: Record<string, {
+        host: string,
+        port: number,
+    }> = {};
     private lastQueried: Record<string, number> = {};
 
 
@@ -119,7 +122,10 @@ class CoresList {
             return;
         }
 
-        const serviceAddress = 'http://' + ipAddress + ':' + TUNNEL_PORT;
+        const serviceAddress = {
+            host: ipAddress,
+            port: TUNNEL_PORT,
+        };
 
         this.addresses[host] = serviceAddress;
         this.lastQueried[host] = Date.now();
@@ -172,7 +178,7 @@ class CoresList {
 
     public getData() {
         return {
-            addresses: this.addresses,
+            targets: this.addresses,
         };
     }
 

@@ -17,6 +17,11 @@
     import {
         TCP_PORT,
     } from '~data/constants';
+
+    import {
+        LoadBalancerMiddleware,
+        LoadBalancerTarget,
+    } from '~data/interfaces';
     // #endregion external
 // #endregion imports
 
@@ -49,9 +54,9 @@ class LoadBalancer extends EventEmitter {
     public stickiness;
     public balancerController: any;
 
-    public targets: any;
-    public activeTargets: any;
-    public activeTargetsLookup: any;
+    public targets: LoadBalancerTarget[] = [];
+    public activeTargets: LoadBalancerTarget[] = [];
+    public activeTargetsLookup: Record<string, number> = {};
 
 
     constructor(
@@ -83,7 +88,7 @@ class LoadBalancer extends EventEmitter {
         this.maxBufferSize = options.maxBufferSize || 8192;
         this.stickiness = !!options.stickiness;
 
-        this.setTargets(options.targets);
+        this._setTargets(options.targets);
 
         this._server = net.createServer(this._handleConnection.bind(this));
         this._errorDomain.add(this._server);
@@ -97,10 +102,17 @@ class LoadBalancer extends EventEmitter {
 
     public addMiddleware(
         type: string,
-        middleware: any,
+        middleware: LoadBalancerMiddleware,
     ) {
         this._middleware[type].push(middleware);
-    };
+    }
+
+    public close(
+        callback: () => void,
+    ) {
+        this._server.close(callback);
+    }
+
 
     private _start() {
         if (this.balancerControllerPath) {
@@ -127,16 +139,10 @@ class LoadBalancer extends EventEmitter {
             this._cleanupSessions.bind(this),
             this.sessionExpiryInterval,
         );
-    };
+    }
 
-    public close(
-        callback: () => void,
-    ) {
-        this._server.close(callback);
-    };
-
-    public setTargets(
-        targets: any,
+    private _setTargets(
+        targets: LoadBalancerTarget[],
     ) {
         this.targets = targets;
         this.activeTargets = targets;
@@ -147,11 +153,11 @@ class LoadBalancer extends EventEmitter {
             target = targets[i];
             this.activeTargetsLookup[target.host + ':' + target.port] = 1;
         }
-    };
+    }
 
-    public deactivateTarget(
-        host: any,
-        port: any,
+    private _deactivateTarget(
+        host: string,
+        port: number,
     ) {
         const hostAndPort = host + ':' + port;
 
@@ -175,18 +181,18 @@ class LoadBalancer extends EventEmitter {
                 }
             }, this.targetDeactivationDuration);
         }
-    };
+    }
 
-    public isTargetActive(
-        host: any,
-        port: any,
+    private _isTargetActive(
+        host: string,
+        port: number,
     ) {
         return !!this.activeTargetsLookup[host + ':' + port];
-    };
+    }
 
-    public _hash(
-        str: any,
-        maxValue: any,
+    private _hash(
+        str: string,
+        maxValue: number,
     ) {
         let ch;
         let hash = 0;
@@ -202,18 +208,22 @@ class LoadBalancer extends EventEmitter {
         }
 
         return Math.abs(hash) % maxValue;
-    };
+    }
 
     private _random(
-        str: any,
-        maxValue: any,
+        _: string,
+        maxValue: number,
     ) {
         return Math.floor(Math.random() * maxValue);
-    };
+    }
 
     private _chooseTarget(
-        sourceSocket: any,
+        sourceSocket: net.Socket,
     ) {
+        if (!sourceSocket.remoteAddress) {
+            return;
+        }
+
         const selectorFunction = this.stickiness
             ? this._hash
             : this._random;
@@ -227,14 +237,18 @@ class LoadBalancer extends EventEmitter {
         // If the primary target isn't active, we need to choose a secondary one
         const secondaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.activeTargets.length);
         return this.activeTargets[secondaryTargetIndex];
-    };
+    }
 
     private _connectToTarget(
-        sourceSocket: any,
+        sourceSocket: net.Socket,
         callback: any,
         newTargetUri?: any,
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
+        if (!remoteAddress) {
+            return;
+        }
+
         const activeSession = this._activeSessions[remoteAddress];
 
         if (newTargetUri !== undefined) {
@@ -254,7 +268,7 @@ class LoadBalancer extends EventEmitter {
             error: NodeJS.ErrnoException,
         ) => {
             if (error.code == 'ECONNREFUSED') {
-                this.deactivateTarget(currentTargetUri.host, currentTargetUri.port);
+                this._deactivateTarget(currentTargetUri.host, currentTargetUri.port);
                 targetSocket.removeListener('error', connectionFailed);
                 targetSocket.removeListener('connect', connectionSucceeded);
 
@@ -295,10 +309,10 @@ class LoadBalancer extends EventEmitter {
 
         targetSocket.on('error', connectionFailed);
         targetSocket.on('connect', connectionSucceeded);
-    };
+    }
 
     private _verifyConnection(
-        sourceSocket: any,
+        sourceSocket: net.Socket,
         callback: any,
     ) {
         async.applyEachSeries(
@@ -312,15 +326,19 @@ class LoadBalancer extends EventEmitter {
                 callback(error, sourceSocket);
             }
         )
-    };
+    }
 
     private _handleConnection(
-        sourceSocket: any,
+        sourceSocket: net.Socket,
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
 
-        sourceSocket.on('error', (err: any) => {
-            this._errorDomain.emit('error', err);
+        if (!remoteAddress) {
+            return;
+        }
+
+        sourceSocket.on('error', (error) => {
+            this._errorDomain.emit('error', error);
         });
 
         if (this._activeSessions[remoteAddress]) {
@@ -348,7 +366,7 @@ class LoadBalancer extends EventEmitter {
                 // establish a connection to any target
                 if (freshTargetUri) {
                     if (freshActiveSession.clientCount < 1) {
-                        if (this.isTargetActive(freshTargetUri.host, freshTargetUri.port)) {
+                        if (this._isTargetActive(freshTargetUri.host, freshTargetUri.port)) {
                             this._sessionExpirer.expire([remoteAddress], Math.round(this.sessionExpiry / 1_000));
                         } else {
                             delete this._activeSessions[remoteAddress];
@@ -360,29 +378,33 @@ class LoadBalancer extends EventEmitter {
             }
         });
 
-        this._verifyConnection(sourceSocket, (err: any) => {
-            if (err) {
+        this._verifyConnection(sourceSocket, (error: any) => {
+            if (error) {
                 this._rejectConnection(
                     sourceSocket,
-                    err,
+                    error,
                 );
             } else {
                 this._acceptConnection(sourceSocket);
             }
         });
-    };
+    }
 
     private _rejectConnection(
-        sourceSocket: any,
+        sourceSocket: net.Socket,
         error?: any,
     ) {
         sourceSocket.end();
-    };
+    }
 
     private _acceptConnection(
-        sourceSocket: any,
+        sourceSocket: net.Socket,
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
+        if (!remoteAddress) {
+            return;
+        }
+
         let sourceBuffersLength = 0;
         let sourceBuffers: any[] = [];
 
@@ -403,24 +425,24 @@ class LoadBalancer extends EventEmitter {
         this._connectToTarget(
             sourceSocket,
             (
-                err: any,
-                targetSocket: any,
+                error: any,
+                targetSocket: net.Socket,
                 targetUri: any,
             ) => {
-                if (err) {
+                if (error) {
                     sourceSocket.end();
-                    this._errorDomain.emit('error', err);
+                    this._errorDomain.emit('error', error);
                 } else {
                     sourceSocket.removeListener('data', bufferSourceData);
 
-                    targetSocket.on('error', (err: any) => {
-                        this.deactivateTarget(targetUri.host, targetUri.port);
+                    targetSocket.on('error', (error) => {
+                        this._deactivateTarget(targetUri.host, targetUri.port);
                         sourceSocket.unpipe(targetSocket);
                         targetSocket.unpipe(sourceSocket);
-                        this._errorDomain.emit('error', err);
+                        this._errorDomain.emit('error', error);
                     });
 
-                    sourceSocket.on('error', (err: any) => {
+                    sourceSocket.on('error', (error) => {
                         sourceSocket.unpipe(targetSocket);
                         targetSocket.unpipe(sourceSocket);
                     });
@@ -442,7 +464,7 @@ class LoadBalancer extends EventEmitter {
                 }
             },
         );
-    };
+    }
 
     private _cleanupSessions() {
         const expiredKeys = this._sessionExpirer.extractExpiredKeys();
@@ -452,7 +474,7 @@ class LoadBalancer extends EventEmitter {
             key = expiredKeys[i];
             delete this._activeSessions[key];
         }
-    };
+    }
 }
 // #endregion module
 
