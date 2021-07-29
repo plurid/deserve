@@ -20,7 +20,7 @@ export type WorkerMessage =
         type: 'destroy';
     };
 
-export type PrimaryMessage =
+export type MasterMessage =
     | {
         type: 'coreCheck';
         data: string;

@@ -23,7 +23,7 @@
 
     import {
         WorkerMessage,
-        PrimaryMessage,
+        MasterMessage,
     } from '~data/interfaces';
 
     import CoresList from '~objects/CoresList';
@@ -113,7 +113,7 @@ const Master = () => {
         }
     });
 
-    process.on('message', async (message: PrimaryMessage) => {
+    process.on('message', async (message: MasterMessage) => {
         switch (message.type) {
             case 'coreCheck':
                 const check = await coresList.check(message.data);
