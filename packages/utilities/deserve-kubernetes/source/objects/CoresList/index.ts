@@ -8,6 +8,8 @@
 
     // #region external
     import {
+        CORE_PATTERN,
+
         REQUERY_TIME,
         TUNNEL_PORT,
 
@@ -33,27 +35,64 @@ class CoresList {
     private lastQueried: Record<string, number> = {};
 
 
-    private async getFromIPAddress(
-        address: string,
-    ) {
+    private async getPods() {
         const podQuery = await k8sApi.listNamespacedPod(
             CORES_NAMESPACE,
         );
+        const pods = [
+            ...podQuery
+                .body
+                .items
+                .filter(pod => pod.metadata?.name?.startsWith(CORE_PATTERN)),
+        ];
+        return pods;
+    }
 
-        const pod = podQuery.body.items.find(pod => pod.status?.podIP === address);
+    private async getFromIPAddress(
+        address: string,
+    ) {
+        delog({
+            text: `deserve kubernetes TCP server CoresList getFromIPAddress ${address}`,
+            level: 'trace',
+        });
+
+        const pods = await this.getPods();
+        const pod = pods.find(pod => pod.status?.podIP === address);
         if (!pod) {
+            delog({
+                text: `deserve kubernetes TCP server CoresList getFromIPAddress pod not found for ${address}`,
+                level: 'warn',
+            });
+
             return false;
         }
 
         this.addresses[address] = {
             host: address,
             port: TUNNEL_PORT,
-        }
+        };
         this.lastQueried[address] = Date.now();
 
         return true;
     }
 
+
+    public async loadAddresses() {
+        const pods = await this.getPods();
+
+        for (const pod of pods) {
+            const podIP = pod.status?.podIP;
+            if (!podIP) {
+                continue;
+            }
+
+            this.addresses[podIP] = {
+                host: podIP,
+                port: TUNNEL_PORT,
+            };
+            this.lastQueried[podIP] = Date.now();
+        }
+    }
 
     public getData() {
         return {
@@ -74,6 +113,11 @@ class CoresList {
     public async check(
         address: string,
     ) {
+        delog({
+            text: `deserve kubernetes TCP server CoresList check address ${address}`,
+            level: 'trace',
+        });
+
         if (this.addresses[address]) {
             return 'exists';
         }

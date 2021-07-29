@@ -35,7 +35,7 @@
 
 
 // #region module
-const Master = () => {
+const Master = async () => {
     if (!cluster.isMaster) {
         return;
     }
@@ -53,6 +53,8 @@ const Master = () => {
 
 
     const coresList = new CoresList();
+    await coresList.loadAddresses();
+
     const workers: Worker[] = [];
     let alive = true;
     let terminatedCount = 0;

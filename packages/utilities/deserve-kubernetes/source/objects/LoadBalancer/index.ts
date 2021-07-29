@@ -10,6 +10,8 @@
     import {
         ExpiryManager,
     } from 'expirymanager';
+
+    import delog from '@plurid/delog';
     // #endregion libraries
 
 
@@ -128,6 +130,11 @@ class LoadBalancer extends EventEmitter {
     public updateTargets(
         targets: LoadBalancerTarget[],
     ) {
+        delog({
+            text: `deserve kubernetes TCP server LoadBalancer updateTargets`,
+            level: 'trace',
+        });
+
         this._setTargets(targets);
     }
 
@@ -178,6 +185,16 @@ class LoadBalancer extends EventEmitter {
             target = targets[i];
             this.activeTargetsLookup[target.host + ':' + target.port] = 1;
         }
+
+        delog({
+            text: `deserve kubernetes TCP server LoadBalancer _setTargets`,
+            level: 'trace',
+            extradata: JSON.stringify({
+                targets: this.targets,
+                activeTargets: this.activeTargets,
+                activeTargetsLookup: this.activeTargetsLookup,
+            }),
+        });
     }
 
     private _deactivateTarget(
@@ -270,10 +287,18 @@ class LoadBalancer extends EventEmitter {
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
         if (!remoteAddress) {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _checkTarget no address ${remoteAddress}`,
+                level: 'warn',
+            });
             return;
         }
 
         if (!process.send) {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _checkTarget no process.send ${remoteAddress}`,
+                level: 'warn',
+            });
             return;
         }
 
@@ -315,11 +340,19 @@ class LoadBalancer extends EventEmitter {
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
         if (!remoteAddress) {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _connectToTarget no address`,
+                level: 'warn',
+            });
             return;
         }
 
         const activeSession = this._activeSessions[remoteAddress];
         if (!activeSession) {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _connectToTarget no activeSession on address ${remoteAddress}`,
+                level: 'warn',
+            });
             return;
         }
 
@@ -408,7 +441,15 @@ class LoadBalancer extends EventEmitter {
         sourceSocket: net.Socket,
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
+        delog({
+            text: `deserve kubernetes TCP server LoadBalancer _handleConnection for ${remoteAddress}`,
+            level: 'trace',
+        });
         if (!remoteAddress) {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _handleConnection no address`,
+                level: 'warn',
+            });
             return;
         }
 
@@ -484,6 +525,10 @@ class LoadBalancer extends EventEmitter {
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
         if (!remoteAddress) {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _acceptConnection no address`,
+                level: 'warn',
+            });
             return;
         }
 
