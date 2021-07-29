@@ -22,6 +22,8 @@
         LoadBalancerMiddleware,
         LoadBalancerTarget,
         LoadBalancerActiveSession,
+        LoadBalancerConnectToTargetCallback,
+        LoadBalancerController,
     } from '~data/interfaces';
     // #endregion external
 // #endregion imports
@@ -53,7 +55,7 @@ class LoadBalancer extends EventEmitter {
     public sessionExpiryInterval;
     public maxBufferSize;
     public stickiness;
-    public balancerController: any;
+    public balancerController: LoadBalancerController<LoadBalancer> | undefined;
 
     public targets: LoadBalancerTarget[] = [];
     public activeTargets: LoadBalancerTarget[] = [];
@@ -123,7 +125,9 @@ class LoadBalancer extends EventEmitter {
         if (this.balancerControllerPath) {
             this._errorDomain.run(() => {
                 this.balancerController = require(this.balancerControllerPath);
-                this.balancerController.run(this);
+                if (this.balancerController) {
+                    this.balancerController.run(this);
+                }
             });
         }
 
@@ -246,8 +250,8 @@ class LoadBalancer extends EventEmitter {
 
     private _connectToTarget(
         sourceSocket: net.Socket,
-        callback: any,
-        newTargetUri?: any,
+        callback: LoadBalancerConnectToTargetCallback,
+        newTargetUri?: LoadBalancerTarget,
     ) {
         const remoteAddress = sourceSocket.remoteAddress;
         if (!remoteAddress) {
@@ -279,7 +283,7 @@ class LoadBalancer extends EventEmitter {
 
                 process.nextTick(() => {
                     const latestActiveSession = this._activeSessions[remoteAddress];
-                    let nextTargetUri;
+                    let nextTargetUri: LoadBalancerTarget | undefined;
 
                     // If there is still an active session for the current sourceSocket,
                     // try to connect to a different target
@@ -289,20 +293,21 @@ class LoadBalancer extends EventEmitter {
                         // We need to account for asynchronous cases whereby another connection from the
                         // same session (same IP address) may have already chosen a new target for the
                         // session - We need both of these connections to settle on the same target
-                        if (lastChosenTargetUri.host == currentTargetUri.host &&
-                            lastChosenTargetUri.port == currentTargetUri.port) {
-
+                        if (
+                            lastChosenTargetUri.host === currentTargetUri.host
+                            && lastChosenTargetUri.port === currentTargetUri.port
+                        ) {
                             nextTargetUri = this._chooseTarget(sourceSocket);
                         } else {
                             nextTargetUri = lastChosenTargetUri;
                         }
 
-                        this._connectToTarget(sourceSocket, callback, nextTargetUri || null);
+                        this._connectToTarget(sourceSocket, callback, nextTargetUri);
                     }
                 });
             } else {
                 const errorMessage = error.stack || error.message;
-                callback(`Target connection failed due to error: ${errorMessage}`);
+                callback(new Error(`Target connection failed due to error: ${errorMessage}`));
             }
         }
 
@@ -434,14 +439,21 @@ class LoadBalancer extends EventEmitter {
         this._connectToTarget(
             sourceSocket,
             (
-                error: any,
-                targetSocket: net.Socket,
-                targetUri: any,
+                error,
+                targetSocket,
+                targetUri,
             ) => {
                 if (error) {
                     sourceSocket.end();
                     this._errorDomain.emit('error', error);
                 } else {
+                    if (
+                        !targetSocket
+                        || !targetUri
+                    ) {
+                        return;
+                    }
+
                     sourceSocket.removeListener('data', bufferSourceData);
 
                     targetSocket.on('error', (error) => {

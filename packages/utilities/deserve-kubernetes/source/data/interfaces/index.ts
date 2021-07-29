@@ -31,4 +31,14 @@ export interface LoadBalancerActiveSession {
     targetUri: LoadBalancerTarget;
     clientCount: number;
 }
+
+export type LoadBalancerConnectToTargetCallback = (
+    error?: Error | null,
+    targetSocket?: net.Socket,
+    targetUri?: LoadBalancerTarget,
+) => void;
+
+export type LoadBalancerController<T> = {
+    run: (balancer: T) => void,
+}
 // #endregion module
