@@ -427,10 +427,10 @@ class LoadBalancer extends EventEmitter {
         }
 
         let sourceBuffersLength = 0;
-        let sourceBuffers: string[] = [];
+        let sourceBuffers: Buffer[] = [];
 
         const bufferSourceData = (
-            data: string,
+            data: Buffer,
         ) => {
             sourceBuffersLength += data.length;
 
