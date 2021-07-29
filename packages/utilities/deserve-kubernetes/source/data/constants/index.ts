@@ -1,5 +1,6 @@
 // #region module
-const PORT = parseInt(process.env.PORT || '') || 3388;
+const TCP_PORT = parseInt(process.env.TCP_PORT || '') || 3388;
+const HTTP_PORT = parseInt(process.env.HTTP_PORT || '') || 3389;
 const TUNNEL_PORT = parseInt(process.env.DESERVE_CORE_TUNNEL_PORT || '') || 53179;
 
 const SIX_HOURS = 1_000 * 60 * 60 * 6;
@@ -20,7 +21,8 @@ const CACHE_RESET_TOKEN = process.env.DESERVE_CACHE_RESET_TOKEN || DEFAULT_CACHE
 
 // #region exports
 export {
-    PORT,
+    TCP_PORT,
+    HTTP_PORT,
     TUNNEL_PORT,
 
     REQUERY_TIME,

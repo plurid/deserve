@@ -11,6 +11,13 @@
         ExpiryManager,
     } from 'expirymanager';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        TCP_PORT,
+    } from '~data/constants';
+    // #endregion external
 // #endregion imports
 
 
@@ -59,7 +66,7 @@ class LoadBalancer extends EventEmitter {
 
         this._middleware[this.MIDDLEWARE_CONNECTION] = [];
 
-        this.sourcePort = options.sourcePort;
+        this.sourcePort = TCP_PORT;
 
         this.balancerControllerPath = options.balancerControllerPath;
         this.downgradeToUser = options.downgradeToUser;
