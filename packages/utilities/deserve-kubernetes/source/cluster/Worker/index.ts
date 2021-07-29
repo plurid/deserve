@@ -5,7 +5,7 @@
 
 
     // #region external
-    import LoadBalancer from '~objects/TCPRouter/LoadBalancer';
+    import LoadBalancer from '~objects/LoadBalancer';
     // #endregion external
 // #endregion imports
 
@@ -17,10 +17,11 @@ export const BALANCER_CLOSE_TIMEOUT = 10_000;
 
 export type WorkerMessage =
     | {
-        type: 'destroy';
-    } | {
         type: 'initialize';
         data: any;
+    }
+    | {
+        type: 'destroy';
     };
 
 

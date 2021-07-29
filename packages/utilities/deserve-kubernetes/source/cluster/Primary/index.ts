@@ -20,10 +20,13 @@ const Primary = () => {
         return;
     }
 
+    cluster.schedulingPolicy = cluster.SCHED_NONE;
+
 
     const options = {
         workerCount: os.cpus().length,
     };
+
 
     const coresList = new CoresList();
     const workers: Worker[] = [];
@@ -36,7 +39,7 @@ const Primary = () => {
         const worker = cluster.fork();
 
         worker.send({
-            type: 'init',
+            type: 'initialize',
             data: coresList.getData(),
         });
 

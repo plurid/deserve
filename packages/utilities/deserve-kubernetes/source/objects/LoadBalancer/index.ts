@@ -1,8 +1,10 @@
 // #region imports
     // #region libraries
     import net from 'net';
-    import domain from 'domain';
     import EventEmitter from 'events';
+    import {
+        create as createDomain,
+    } from 'domain';
 
     import async from 'async';
     import {
@@ -16,7 +18,7 @@
 // #region module
 class LoadBalancer extends EventEmitter {
     private _errorDomain;
-    private _middleware: any;
+    private _middleware: Record<string, any[]> = {};
     private _server;
     private _activeSessions: any;
     private _sessionExpirer;
@@ -43,25 +45,27 @@ class LoadBalancer extends EventEmitter {
     ) {
         super();
 
-        this._errorDomain = domain.create();
-        this._errorDomain.on('error', (err) => {
-            if (!err.message || (err.message != 'read ECONNRESET' && err.message != 'socket hang up')) {
-                this.emit('error', err);
+        this._errorDomain = createDomain();
+        this._errorDomain.on('error', (error) => {
+            if (
+                !error.message
+                || (error.message !== 'read ECONNRESET' && error.message !== 'socket hang up')
+            ) {
+                this.emit('error', error);
             }
         });
 
         this.MIDDLEWARE_CONNECTION = 'connection';
 
-        this._middleware = {};
         this._middleware[this.MIDDLEWARE_CONNECTION] = [];
 
         this.sourcePort = options.sourcePort;
 
         this.balancerControllerPath = options.balancerControllerPath;
         this.downgradeToUser = options.downgradeToUser;
-        this.targetDeactivationDuration = options.targetDeactivationDuration || 60000;
-        this.sessionExpiry = options.sessionExpiry || 30000;
-        this.sessionExpiryInterval = options.sessionExpiryInterval || 1000;
+        this.targetDeactivationDuration = options.targetDeactivationDuration || 60_000;
+        this.sessionExpiry = options.sessionExpiry || 30_000;
+        this.sessionExpiryInterval = options.sessionExpiryInterval || 1_000;
         this.maxBufferSize = options.maxBufferSize || 8192;
         this.stickiness = !!options.stickiness;
 
@@ -78,7 +82,7 @@ class LoadBalancer extends EventEmitter {
 
 
     public addMiddleware(
-        type: any,
+        type: string,
         middleware: any,
     ) {
         this._middleware[type].push(middleware);
@@ -88,7 +92,7 @@ class LoadBalancer extends EventEmitter {
         if (this.balancerControllerPath) {
             this._errorDomain.run(() => {
                 this.balancerController = require(this.balancerControllerPath);
-                this.balancerController.run(self);
+                this.balancerController.run(this);
             });
         }
 
@@ -98,17 +102,21 @@ class LoadBalancer extends EventEmitter {
             try {
                 process.setuid(this.downgradeToUser);
             } catch (err) {
-                this._errorDomain.emit('error', new Error('Could not downgrade to user "' + this.downgradeToUser +
-                '" - Either this user does not exist or the current process does not have the permission' +
-                ' to switch to it.'));
+                this._errorDomain.emit('error', new Error(
+                    `Could not downgrade to user "${this.downgradeToUser}" - `
+                    + 'Either this user does not exist or the current process does not have the permission to switch to it.',
+                ));
             }
         }
 
-        this._cleanupInterval = setInterval(this._cleanupSessions.bind(this), this.sessionExpiryInterval);
+        this._cleanupInterval = setInterval(
+            this._cleanupSessions.bind(this),
+            this.sessionExpiryInterval,
+        );
     };
 
     public close(
-        callback: any,
+        callback: () => void,
     ) {
         this._server.close(callback);
     };
@@ -120,8 +128,8 @@ class LoadBalancer extends EventEmitter {
         this.activeTargets = targets;
         this.activeTargetsLookup = {};
 
-        var target;
-        for (var i = 0; i < targets.length; i++) {
+        let target;
+        for (let i = 0; i < targets.length; i++) {
             target = targets[i];
             this.activeTargetsLookup[target.host + ':' + target.port] = 1;
         }
@@ -192,21 +200,18 @@ class LoadBalancer extends EventEmitter {
     private _chooseTarget(
         sourceSocket: any,
     ) {
-        var selectorFunction;
-        if (this.stickiness) {
-            selectorFunction = this._hash;
-        } else {
-            selectorFunction = this._random;
-        }
+        const selectorFunction = this.stickiness
+            ? this._hash
+            : this._random;
 
-        var primaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.targets.length);
-        var primaryTarget = this.targets[primaryTargetIndex];
+        const primaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.targets.length);
+        const primaryTarget = this.targets[primaryTargetIndex];
         if (this.activeTargetsLookup[primaryTarget.host + ':' + primaryTarget.port]) {
             return primaryTarget;
         }
 
         // If the primary target isn't active, we need to choose a secondary one
-        var secondaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.activeTargets.length);
+        const secondaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.activeTargets.length);
         return this.activeTargets[secondaryTargetIndex];
     };
 
@@ -215,8 +220,8 @@ class LoadBalancer extends EventEmitter {
         callback: any,
         newTargetUri?: any,
     ) {
-        var remoteAddress = sourceSocket.remoteAddress;
-        var activeSession = this._activeSessions[remoteAddress];
+        const remoteAddress = sourceSocket.remoteAddress;
+        const activeSession = this._activeSessions[remoteAddress];
 
         if (newTargetUri !== undefined) {
             activeSession.targetUri = newTargetUri;
@@ -228,11 +233,13 @@ class LoadBalancer extends EventEmitter {
             return;
         }
 
-        var currentTargetUri = activeSession.targetUri;
-        var targetSocket = net.createConnection(currentTargetUri.port, currentTargetUri.host);
+        const currentTargetUri = activeSession.targetUri;
+        const targetSocket = net.createConnection(currentTargetUri.port, currentTargetUri.host);
 
-        const connectionFailed = (err: any) => {
-            if (err.code == 'ECONNREFUSED') {
+        const connectionFailed = (
+            error: NodeJS.ErrnoException,
+        ) => {
+            if (error.code == 'ECONNREFUSED') {
                 this.deactivateTarget(currentTargetUri.host, currentTargetUri.port);
                 targetSocket.removeListener('error', connectionFailed);
                 targetSocket.removeListener('connect', connectionSucceeded);
@@ -261,8 +268,8 @@ class LoadBalancer extends EventEmitter {
                     }
                 });
             } else {
-                var errorMessage = err.stack || err.message;
-                callback('Target connection failed due to error: ' + errorMessage);
+                const errorMessage = error.stack || error.message;
+                callback(`Target connection failed due to error: ${errorMessage}`);
             }
         }
 
@@ -283,11 +290,12 @@ class LoadBalancer extends EventEmitter {
         async.applyEachSeries(
             this._middleware[this.MIDDLEWARE_CONNECTION],
             sourceSocket,
-            (err: any) => {
-                if (err) {
-                    this.emit('notice', err);
+            (error: any) => {
+                if (error) {
+                    this.emit('notice', error);
                 }
-                callback(err, sourceSocket);
+
+                callback(error, sourceSocket);
             }
         )
     };
@@ -295,7 +303,7 @@ class LoadBalancer extends EventEmitter {
     private _handleConnection(
         sourceSocket: any,
     ) {
-        var remoteAddress = sourceSocket.remoteAddress;
+        const remoteAddress = sourceSocket.remoteAddress;
 
         sourceSocket.on('error', (err: any) => {
             this._errorDomain.emit('error', err);
@@ -316,18 +324,18 @@ class LoadBalancer extends EventEmitter {
         this._sessionExpirer.unexpire([remoteAddress]);
 
         sourceSocket.once('close', () => {
-            var freshActiveSession = this._activeSessions[remoteAddress];
+            const freshActiveSession = this._activeSessions[remoteAddress];
 
             if (freshActiveSession) {
                 freshActiveSession.clientCount--;
-                var freshTargetUri = freshActiveSession.targetUri;
+                const freshTargetUri = freshActiveSession.targetUri;
 
                 // If freshTargetUri is null, then it means that the LoadBalancer could not
                 // establish a connection to any target
                 if (freshTargetUri) {
                     if (freshActiveSession.clientCount < 1) {
                         if (this.isTargetActive(freshTargetUri.host, freshTargetUri.port)) {
-                            this._sessionExpirer.expire([remoteAddress], Math.round(this.sessionExpiry / 1000));
+                            this._sessionExpirer.expire([remoteAddress], Math.round(this.sessionExpiry / 1_000));
                         } else {
                             delete this._activeSessions[remoteAddress];
                         }
@@ -360,18 +368,16 @@ class LoadBalancer extends EventEmitter {
     private _acceptConnection(
         sourceSocket: any,
     ) {
-        var remoteAddress = sourceSocket.remoteAddress;
-        var sourceBuffersLength = 0;
-        var sourceBuffers: any[] = [];
+        const remoteAddress = sourceSocket.remoteAddress;
+        let sourceBuffersLength = 0;
+        let sourceBuffers: any[] = [];
 
-        var bufferSourceData = (
+        const bufferSourceData = (
             data: any,
         ) => {
             sourceBuffersLength += data.length;
             if (sourceBuffersLength > this.maxBufferSize) {
-                var errorMessage = 'sourceBuffers for remoteAddress ' + remoteAddress +
-                    ' exceeded maxBufferSize of ' + this.maxBufferSize + ' bytes';
-
+                const errorMessage = `sourceBuffers for remoteAddress ${remoteAddress} exceeded maxBufferSize of ${this.maxBufferSize} bytes`;
                 this._errorDomain.emit('error', new Error(errorMessage));
             } else {
                 sourceBuffers.push(data);
@@ -425,10 +431,10 @@ class LoadBalancer extends EventEmitter {
     };
 
     private _cleanupSessions() {
-        var expiredKeys = this._sessionExpirer.extractExpiredKeys();
-        var key;
+        const expiredKeys = this._sessionExpirer.extractExpiredKeys();
+        let key;
 
-        for (var i = 0; i < expiredKeys.length; i++) {
+        for (let i = 0; i < expiredKeys.length; i++) {
             key = expiredKeys[i];
             delete this._activeSessions[key];
         }
