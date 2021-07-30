@@ -6,25 +6,69 @@ const server = net.createServer();
 
 
 server.listen(
-    53179,
+    53180,
     '0.0.0.0',
     () => {
         console.log('TCP server started', server.address());
     },
 );
 
-server.on('connection', (socket) => {
-    console.log('connection from', socket.remoteAddress, socket.address());
+// server.on('connection', (socket) => {
+//     console.log('connection from', socket.remoteAddress, socket.address());
 
-    socket.on('data', (data) => {
+//     socket.on('data', (data) => {
+//         console.log(data.toString());
+//     });
+
+//     socket.write(
+//         'GET / HTTP/1.1\r\n' +
+//         '\r\n',
+//     );
+
+//     // socket.write('Connected succesfully');
+//     socket.end();
+// });
+
+server.on('connection', (sourceSocket) => {
+    console.log('connection from', sourceSocket.remoteAddress, sourceSocket.address());
+
+
+    let sourceBuffersLength = 0;
+    let sourceBuffers = [];
+
+    const bufferSourceData = (
+        data,
+    ) => {
         console.log(data.toString());
-    });
 
-    socket.write(
-        'HTTP/1.0 200 OK\r\n' +
-        '\r\n',
-    );
+        sourceBuffersLength += data.length;
+        sourceBuffers.push(data);
+    };
 
-    socket.write('Connected succesfully');
-    socket.end();
+    sourceSocket.on('data', bufferSourceData);
+
+
+    setTimeout(() => {
+        const targetSocket = net.connect({
+            host: '10.244.1.239',
+            port: 53179,
+        });
+
+        for (var i = 0; i < sourceBuffers.length; i++) {
+            targetSocket.write(sourceBuffers[i]);
+        }
+        sourceBuffers = [];
+        sourceBuffersLength = 0;
+
+
+        sourceSocket.once('close', () => {
+            targetSocket.end();
+        });
+        targetSocket.once('close', () => {
+            sourceSocket.end();
+        });
+
+        sourceSocket.pipe(targetSocket);
+        targetSocket.pipe(sourceSocket);
+    }, 1000);
 });
