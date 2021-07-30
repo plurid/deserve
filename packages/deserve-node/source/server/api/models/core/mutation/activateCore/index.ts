@@ -138,7 +138,6 @@ const activateCore = async (
             level: 'error',
             error,
         });
-        console.log(error);
 
         return {
             status: false,
