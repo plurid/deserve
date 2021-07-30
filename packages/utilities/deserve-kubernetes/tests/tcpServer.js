@@ -16,6 +16,10 @@ server.listen(
 server.on('connection', (socket) => {
     console.log('connection from', socket.remoteAddress, socket.address());
 
+    socket.on('data', (data) => {
+        console.log(data.toString());
+    });
+
     socket.write(
         'HTTP/1.0 200 OK\r\n' +
         '\r\n',
