@@ -13,6 +13,7 @@ server.listen(
     },
 );
 
+
 // server.on('connection', (socket) => {
 //     console.log('connection from', socket.remoteAddress, socket.address());
 
@@ -29,6 +30,7 @@ server.listen(
 //     socket.end();
 // });
 
+
 server.on('connection', (sourceSocket) => {
     console.log('connection from', sourceSocket.remoteAddress, sourceSocket.address());
 
@@ -39,7 +41,7 @@ server.on('connection', (sourceSocket) => {
     const bufferSourceData = (
         data,
     ) => {
-        console.log(data.toString());
+        console.log('source', data.toString().slice(0, 100));
 
         sourceBuffersLength += data.length;
         sourceBuffers.push(data);
@@ -52,6 +54,10 @@ server.on('connection', (sourceSocket) => {
         const targetSocket = net.connect({
             host: '10.244.1.239',
             port: 53179,
+        });
+
+        targetSocket.on('data', (data) => {
+            console.log('target', data.toString().slice(0, 100));
         });
 
         for (var i = 0; i < sourceBuffers.length; i++) {
