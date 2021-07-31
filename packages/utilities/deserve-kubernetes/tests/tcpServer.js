@@ -31,7 +31,7 @@ server.listen(
 // });
 
 
-let host = '';
+let hosts = [];
 
 const tunnelRE = /^Deserve Tunnel: (.*)/;
 
@@ -46,23 +46,29 @@ server.on('connection', (sourceSocket) => {
     const bufferSourceData = (
         data,
     ) => {
-        if (!host) {
-            const match = data.toString().match(tunnelRE);
-            if (match) {
-                host = match[1];
-            }
-        }
-        console.log('source', data.toString().slice(0, 100));
+        let cleanData = data;
+        console.log('source', cleanData.toString().slice(0, 100));
 
-        sourceBuffersLength += data.length;
-        sourceBuffers.push(data);
+        const match = cleanData.toString().match(tunnelRE);
+        console.log('match', match);
+        if (match) {
+            const host = match[1];
+            hosts.push(host);
+
+            cleanData = Buffer.from(
+                data.toString().replace(`Deserve Tunnel: ${host}`, ''),
+            );
+        }
+
+        sourceBuffersLength += cleanData.length;
+        sourceBuffers.push(cleanData);
     };
 
     sourceSocket.on('data', bufferSourceData);
 
 
     setTimeout(() => {
-        console.log('host', host);
+        console.log('hosts', hosts);
 
         const targetSocket = net.connect({
             host: '10.244.1.239',
