@@ -50,7 +50,6 @@ export interface TunnelClusterOptions {
  *
  */
 class TunnelCluster extends EventEmitter {
-    private hostSent: boolean = false;
     private options: TunnelClusterOptions;
 
 
@@ -90,10 +89,7 @@ class TunnelCluster extends EventEmitter {
         remote: net.Socket,
         remoteHostOrIp: string,
     ) {
-        if (!this.hostSent) {
-            remote.write(`Deserve Tunnel: ${remoteHostOrIp}`);
-            this.hostSent = true;
-        }
+        remote.write(`Deserve Tunnel: ${remoteHostOrIp}`);
     }
 
 
@@ -151,15 +147,11 @@ class TunnelCluster extends EventEmitter {
         });
 
 
-        remote.on('data', (data) => {
-            console.log('remote', data.toString().slice(0, 100));
-        });
-
         const connectLocal = () => {
             if (remote.destroyed) {
                 delog({
                     text: 'remote destroyed',
-                    level: 'info',
+                    level: 'trace',
                 });
                 this.emit('dead');
                 return;
