@@ -31,6 +31,11 @@ server.listen(
 // });
 
 
+let host = '';
+
+const tunnelRE = /^Deserve Tunnel: (.*)/;
+
+
 server.on('connection', (sourceSocket) => {
     console.log('connection from', sourceSocket.remoteAddress, sourceSocket.address());
 
@@ -41,6 +46,12 @@ server.on('connection', (sourceSocket) => {
     const bufferSourceData = (
         data,
     ) => {
+        if (!host) {
+            const match = data.toString().match(tunnelRE);
+            if (match) {
+                host = match[1];
+            }
+        }
         console.log('source', data.toString().slice(0, 100));
 
         sourceBuffersLength += data.length;
@@ -51,6 +62,8 @@ server.on('connection', (sourceSocket) => {
 
 
     setTimeout(() => {
+        console.log('host', host);
+
         const targetSocket = net.connect({
             host: '10.244.1.239',
             port: 53179,
