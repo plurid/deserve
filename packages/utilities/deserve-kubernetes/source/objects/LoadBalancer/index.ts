@@ -283,20 +283,11 @@ class LoadBalancer extends EventEmitter {
     }
 
     private _checkTarget(
-        sourceSocket: net.Socket,
+        host: string,
     ) {
-        const remoteAddress = sourceSocket.remoteAddress;
-        if (!remoteAddress) {
-            delog({
-                text: `deserve kubernetes TCP server LoadBalancer _checkTarget no address ${remoteAddress}`,
-                level: 'warn',
-            });
-            return;
-        }
-
         if (!process.send) {
             delog({
-                text: `deserve kubernetes TCP server LoadBalancer _checkTarget no process.send ${remoteAddress}`,
+                text: `deserve kubernetes TCP server LoadBalancer _checkTarget no process.send ${host}`,
                 level: 'warn',
             });
             return;
@@ -304,33 +295,31 @@ class LoadBalancer extends EventEmitter {
 
         process.send({
             type: 'coreCheck',
-            data: remoteAddress,
+            data: host,
         });
     }
 
     private _chooseTarget(
-        sourceSocket: net.Socket,
+        host: string,
     ) {
-        if (!sourceSocket.remoteAddress) {
-            return;
-        }
+        return this.targets[host];
 
-        const selectorFunction = this.stickiness
-            ? this._hash
-            : this._random;
+        // const selectorFunction = this.stickiness
+        //     ? this._hash
+        //     : this._random;
 
-        const primaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.targets.length);
-        const primaryTarget = this.targets[primaryTargetIndex];
-        if (!primaryTarget) {
-            return;
-        }
-        if (this.activeTargetsLookup[primaryTarget.host + ':' + primaryTarget.port]) {
-            return primaryTarget;
-        }
+        // const primaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.targets.length);
+        // const primaryTarget = this.targets[primaryTargetIndex];
+        // if (!primaryTarget) {
+        //     return;
+        // }
+        // if (this.activeTargetsLookup[primaryTarget.host + ':' + primaryTarget.port]) {
+        //     return primaryTarget;
+        // }
 
-        // If the primary target isn't active, we need to choose a secondary one
-        const secondaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.activeTargets.length);
-        return this.activeTargets[secondaryTargetIndex];
+        // // If the primary target isn't active, we need to choose a secondary one
+        // const secondaryTargetIndex = selectorFunction.call(this, sourceSocket.remoteAddress, this.activeTargets.length);
+        // return this.activeTargets[secondaryTargetIndex];
     }
 
     private _connectToTarget(
@@ -386,19 +375,19 @@ class LoadBalancer extends EventEmitter {
                     if (latestActiveSession) {
                         const lastChosenTargetUri = latestActiveSession.targetUri;
 
-                        // We need to account for asynchronous cases whereby another connection from the
-                        // same session (same IP address) may have already chosen a new target for the
-                        // session - We need both of these connections to settle on the same target
-                        if (
-                            lastChosenTargetUri.host === currentTargetUri.host
-                            && lastChosenTargetUri.port === currentTargetUri.port
-                        ) {
-                            nextTargetUri = this._chooseTarget(sourceSocket);
-                        } else {
-                            nextTargetUri = lastChosenTargetUri;
-                        }
+                        // // We need to account for asynchronous cases whereby another connection from the
+                        // // same session (same IP address) may have already chosen a new target for the
+                        // // session - We need both of these connections to settle on the same target
+                        // if (
+                        //     lastChosenTargetUri.host === currentTargetUri.host
+                        //     && lastChosenTargetUri.port === currentTargetUri.port
+                        // ) {
+                        //     nextTargetUri = this._chooseTarget(sourceSocket);
+                        // } else {
+                        //     nextTargetUri = lastChosenTargetUri;
+                        // }
 
-                        this._connectToTarget(sourceSocket, callback, nextTargetUri);
+                        // this._connectToTarget(sourceSocket, callback, nextTargetUri);
                     }
                 });
             } else {
@@ -457,13 +446,41 @@ class LoadBalancer extends EventEmitter {
             return;
         }
 
+
+        const tunnelRE = /^Deserve Tunnel: (.*)/;
+
+        let sourceBuffersLength = 0;
+        let sourceBuffers = [];
+        let host = '';
+
+        const bufferSourceData = (
+            data: Buffer,
+        ) => {
+            let cleanData = data;
+
+            const match = cleanData.toString().match(tunnelRE);
+            if (match) {
+                host = match[1];
+
+                cleanData = Buffer.from(
+                    data.toString().replace(`Deserve Tunnel: ${host}`, ''),
+                );
+            }
+
+            sourceBuffersLength += cleanData.length;
+            sourceBuffers.push(cleanData);
+        };
+
+        sourceSocket.on('data', bufferSourceData);
+
+
         sourceSocket.on('error', (error) => {
             this._errorDomain.emit('error', error);
         });
 
-        const target = this._chooseTarget(sourceSocket);
+        const target = this._chooseTarget(host);
         if (!target) {
-            this._checkTarget(sourceSocket);
+            this._checkTarget(host);
             this.queue.push(sourceSocket);
             return;
         }
