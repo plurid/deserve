@@ -253,8 +253,16 @@ class LoadBalancer extends EventEmitter {
                 handling,
             } = data;
 
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _handleQueue handling ${host}`,
+                level: 'trace',
+            });
 
-            if (!handling) {
+            if (handling) {
+                delog({
+                    text: `deserve kubernetes TCP server LoadBalancer _handleQueue already handling ${host}`,
+                    level: 'trace',
+                });
                 // Socket is being resolved.
                 continue;
             }
