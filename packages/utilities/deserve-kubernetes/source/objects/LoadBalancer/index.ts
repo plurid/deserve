@@ -701,47 +701,43 @@ class LoadBalancer extends EventEmitter {
         // Make the connection to target.
         const targetSocket = net.createConnection(target.port, target.host);
 
-        const connectionSucceeded = () => {
-            targetSocket.on('error', (error) => {
-                delog({
-                    text: `deserve kubernetes TCP server LoadBalancer _resolveConnection for host ${host} with target ${target.host}, targetSocket error`,
-                    level: 'error',
-                    error,
-                });
-
-                sourceSocket.unpipe(targetSocket);
-                targetSocket.unpipe(sourceSocket);
-                this._errorDomain.emit('error', error);
+        targetSocket.on('error', (error) => {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _resolveConnection for host ${host} with target ${target.host}, targetSocket error`,
+                level: 'error',
+                error,
             });
 
-            sourceSocket.on('error', (error) => {
-                delog({
-                    text: `deserve kubernetes TCP server LoadBalancer _resolveConnection for host ${host} with target ${target.host}, sourceSocket error`,
-                    level: 'error',
-                    error,
-                });
+            sourceSocket.unpipe(targetSocket);
+            targetSocket.unpipe(sourceSocket);
+            this._errorDomain.emit('error', error);
+        });
 
-                sourceSocket.unpipe(targetSocket);
-                targetSocket.unpipe(sourceSocket);
-            });
-            sourceSocket.once('close', () => {
-                targetSocket.end();
-            });
-            targetSocket.once('close', () => {
-                sourceSocket.end();
+        sourceSocket.on('error', (error) => {
+            delog({
+                text: `deserve kubernetes TCP server LoadBalancer _resolveConnection for host ${host} with target ${target.host}, sourceSocket error`,
+                level: 'error',
+                error,
             });
 
-            for (var i = 0; i < buffers.length; i++) {
-                targetSocket.write(buffers[i]);
-            }
+            sourceSocket.unpipe(targetSocket);
+            targetSocket.unpipe(sourceSocket);
+        });
+        sourceSocket.once('close', () => {
+            targetSocket.end();
+        });
+        targetSocket.once('close', () => {
+            sourceSocket.end();
+        });
 
-            sourceSocket.pipe(targetSocket);
-            targetSocket.pipe(sourceSocket);
-
-            delete this.sockets[id];
+        for (var i = 0; i < buffers.length; i++) {
+            targetSocket.write(buffers[i]);
         }
 
-        targetSocket.on('connect', connectionSucceeded);
+        sourceSocket.pipe(targetSocket);
+        targetSocket.pipe(sourceSocket);
+
+        delete this.sockets[id];
     }
 
     private _cleanupSessions() {
