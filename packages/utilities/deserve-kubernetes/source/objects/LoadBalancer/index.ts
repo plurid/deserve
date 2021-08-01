@@ -668,7 +668,8 @@ class LoadBalancer extends EventEmitter {
 
         const {
             host,
-            socket,
+            socket: sourceSocket,
+            buffers,
         } = socketData;
 
         const target = this.targets[host];
@@ -676,9 +677,22 @@ class LoadBalancer extends EventEmitter {
             return;
         }
 
-        // make the connection to target
 
-        delete this.sockets[id];
+        // Make the connection to target.
+        const targetSocket = net.createConnection(target.port, target.host);
+
+        const connectionSucceeded = () => {
+            for (var i = 0; i < buffers.length; i++) {
+                targetSocket.write(buffers[i]);
+            }
+
+            sourceSocket.pipe(targetSocket);
+            targetSocket.pipe(sourceSocket);
+
+            delete this.sockets[id];
+        }
+
+        targetSocket.on('connect', connectionSucceeded);
     }
 
     private _cleanupSessions() {
