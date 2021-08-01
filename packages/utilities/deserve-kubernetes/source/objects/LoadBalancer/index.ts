@@ -702,6 +702,35 @@ class LoadBalancer extends EventEmitter {
         const targetSocket = net.createConnection(target.port, target.host);
 
         const connectionSucceeded = () => {
+            targetSocket.on('error', (error) => {
+                delog({
+                    text: `deserve kubernetes TCP server LoadBalancer _resolveConnection for host ${host} with target ${target.host}, targetSocket error`,
+                    level: 'error',
+                    error,
+                });
+
+                sourceSocket.unpipe(targetSocket);
+                targetSocket.unpipe(sourceSocket);
+                this._errorDomain.emit('error', error);
+            });
+
+            sourceSocket.on('error', (error) => {
+                delog({
+                    text: `deserve kubernetes TCP server LoadBalancer _resolveConnection for host ${host} with target ${target.host}, sourceSocket error`,
+                    level: 'error',
+                    error,
+                });
+
+                sourceSocket.unpipe(targetSocket);
+                targetSocket.unpipe(sourceSocket);
+            });
+            sourceSocket.once('close', () => {
+                targetSocket.end();
+            });
+            targetSocket.once('close', () => {
+                sourceSocket.end();
+            });
+
             for (var i = 0; i < buffers.length; i++) {
                 targetSocket.write(buffers[i]);
             }
