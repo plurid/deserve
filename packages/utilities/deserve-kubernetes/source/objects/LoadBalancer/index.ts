@@ -728,6 +728,7 @@ class LoadBalancer extends EventEmitter {
         });
         targetSocket.once('close', () => {
             sourceSocket.end();
+            delete this.sockets[id];
         });
 
         for (var i = 0; i < buffers.length; i++) {
@@ -736,8 +737,6 @@ class LoadBalancer extends EventEmitter {
 
         sourceSocket.pipe(targetSocket);
         targetSocket.pipe(sourceSocket);
-
-        delete this.sockets[id];
     }
 
     private _cleanupSessions() {
