@@ -279,7 +279,7 @@ class LoadBalancer extends EventEmitter {
                 continue;
             }
 
-            (this.sockets as any).handling = true;
+            (this.sockets[id] as any).handling = true;
             this._resolveConnection(
                 id,
             );
