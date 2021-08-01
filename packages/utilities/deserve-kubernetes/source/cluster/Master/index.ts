@@ -88,9 +88,9 @@ const Master = async () => {
 
     const updateTargets = () => {
         for (const worker of workers) {
-            const data = [
+            const data = {
                 ...coresList.getData().targets,
-            ];
+            };
 
             const message: WorkerMessage = {
                 type: 'updateTargets',
