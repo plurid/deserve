@@ -8,6 +8,8 @@
 
     // #region external
     import {
+        APP_SELECTOR,
+        HOST_PATTERN,
         CORE_PATTERN,
 
         REQUERY_TIME,
@@ -27,15 +29,96 @@ kc.loadFromDefault();
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 
 
+/**
+ * Obtains `identonym` from `host`.
+ *
+ * e.g. from the `host` `'one.data.domain.example'` obtains the `identonym` `'one'`,
+ * given that the `HOST_PATTERN` is `'.data.domain.example'`
+ *
+ * @param host
+ * @returns
+ */
+const identonymFromHost = (
+    host: string,
+) => {
+    return host.replace(HOST_PATTERN, '');
+}
+
+
+/**
+ * Obtains `host` from the pod's `app` selector.
+ *
+ * e.g., from the `selector` `'domain-example-data-core-one'` obtains the `host` `'one.data.domain.example'`,
+ * given that the `CORE_PATTERN` is `'domain-example-data-core-'`
+ * and the `HOST_PATTERN` is `'.data.domain.example'`.
+ *
+ * @param selector
+ * @returns
+ */
+const hostFromAppSelector = (
+    selector: string | undefined,
+) => {
+    if (!selector) {
+        return;
+    }
+
+    const identonym = selector.replace(CORE_PATTERN, '');
+    const host = identonym + HOST_PATTERN;
+    return host;
+}
+
+
+const serviceQuery = async (
+    identonym: string,
+) => {
+    const serviceName = CORE_PATTERN.replace('#IDENTONYM', identonym);
+
+    const serviceQuery = await k8sApi.readNamespacedService(
+        serviceName,
+        CORES_NAMESPACE,
+    );
+
+    const selectors = serviceQuery.body.spec?.selector;
+    if (!selectors) {
+        return;
+    }
+    const selector = selectors[APP_SELECTOR];
+    if (!selector) {
+        return;
+    }
+
+    const podQuery = await k8sApi.listNamespacedPod(
+        CORES_NAMESPACE,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        `${APP_SELECTOR}=${selector}`,
+    );
+    const pod = podQuery.body.items.shift();
+    if (!pod) {
+        return;
+    }
+
+    return pod.status?.podIP;
+}
+
+
+export interface CoreAddress {
+    host: string;
+    port: number;
+}
+
+
+
 class CoresList {
-    private addresses: Record<string, {
-        host: string,
-        port: number,
-    }> = {};
-    private lastQueried: Record<string, number> = {};
+    private addresses: Record<string, CoreAddress | undefined> = {};
+    private lastQueried: Record<string, number | undefined> = {};
 
 
     private async getPods() {
+        const coreStartName = CORE_PATTERN.replace('#IDENTONYM', '');
+
         const podQuery = await k8sApi.listNamespacedPod(
             CORES_NAMESPACE,
         );
@@ -43,37 +126,50 @@ class CoresList {
             ...podQuery
                 .body
                 .items
-                .filter(pod => pod.metadata?.name?.startsWith(CORE_PATTERN)),
+                .filter(pod => pod.metadata?.name?.startsWith(coreStartName)),
         ];
         return pods;
     }
 
-    private async getFromIPAddress(
-        address: string,
-    ) {
-        delog({
-            text: `deserve kubernetes TCP server CoresList getFromIPAddress ${address}`,
-            level: 'trace',
-        });
 
-        const pods = await this.getPods();
-        const pod = pods.find(pod => pod.status?.podIP === address);
-        if (!pod) {
+    private async queryAddress(
+        host: string,
+    ) {
+        if (this.addresses[host] && this.lastQueried[host] ) {
+            if ((this.lastQueried[host] as any) > Date.now() - REQUERY_TIME) {
+                return this.addresses[host];
+            }
+        }
+
+        const identonym = identonymFromHost(host);
+        if (!identonym) {
             delog({
-                text: `deserve kubernetes TCP server CoresList getFromIPAddress pod not found for ${address}`,
+                text: `deserve kubernetes no identonym from host '${host}'`,
                 level: 'warn',
             });
 
-            return false;
+            return;
         }
 
-        this.addresses[address] = {
-            host: address,
+        const ipAddress = await serviceQuery(identonym);
+        if (!ipAddress) {
+            delog({
+                text: `deserve kubernetes no IP address for identonym '${identonym}'`,
+                level: 'warn',
+            });
+
+            return;
+        }
+
+        const serviceAddress = {
+            host: ipAddress,
             port: TUNNEL_PORT,
         };
-        this.lastQueried[address] = Date.now();
 
-        return true;
+        this.addresses[host] = serviceAddress;
+        this.lastQueried[host] = Date.now();
+
+        return serviceAddress;
     }
 
 
@@ -81,16 +177,23 @@ class CoresList {
         const pods = await this.getPods();
 
         for (const pod of pods) {
+            const host = pod.metadata?.labels
+                ? hostFromAppSelector(pod.metadata?.labels[APP_SELECTOR])
+                : '';
+            if (!host) {
+                continue;
+            }
+
             const podIP = pod.status?.podIP;
             if (!podIP) {
                 continue;
             }
 
-            this.addresses[podIP] = {
+            this.addresses[host] = {
                 host: podIP,
                 port: TUNNEL_PORT,
             };
-            this.lastQueried[podIP] = Date.now();
+            this.lastQueried[host] = Date.now();
         }
     }
 
@@ -100,36 +203,41 @@ class CoresList {
         };
     }
 
+    public getAddress(
+        host: string,
+    ) {
+        return this.addresses[host];
+    }
+
     /**
-     * If the `address` exists
+     * If the `host` exists
      *   it returns `'exists'`,
-     * if the `address` does not exist,
-     *   it queries and if it finds the address it returns `'found'`,
+     * if the `host` does not exist,
+     *   it queries and if it finds the host it returns `'found'`,
      *   else it returns `'not-found'`.
      *
-     * @param address
+     * @param host
      * @returns
      */
     public async check(
-        address: string,
+        host: string,
     ) {
         delog({
-            text: `deserve kubernetes TCP server CoresList check address ${address}`,
+            text: `deserve kubernetes TCP server CoresList check address ${host}`,
             level: 'trace',
         });
 
-        if (this.addresses[address]) {
+        if (this.addresses[host]) {
             return 'exists';
         }
 
-        const found = await this.getFromIPAddress(address);
+        const found = await this.queryAddress(host);
         if (found) {
             return 'found';
         }
 
         return 'not-found';
     }
-
 
     public async cacheReset () {
         this.addresses = {};

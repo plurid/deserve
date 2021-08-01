@@ -12,12 +12,18 @@
     } from 'expirymanager';
 
     import delog from '@plurid/delog';
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
     // #region external
     import {
         TCP_PORT,
+
+        deserveTunnelRE,
     } from '~data/constants';
 
     import {
@@ -64,6 +70,13 @@ class LoadBalancer extends EventEmitter {
 
     private queue: net.Socket[] = [];
     private _queueInterval: NodeJS.Timer | null = null;
+
+    private sockets: Record<string, {
+        socket: net.Socket;
+        host: string;
+        buffersLength: number;
+        buffers: Buffer[];
+    } | undefined> = {};
 
     public MIDDLEWARE_CONNECTION = 'connection';
 
@@ -429,6 +442,8 @@ class LoadBalancer extends EventEmitter {
     private _handleConnection(
         sourceSocket: net.Socket,
     ) {
+        const socketID = uuid.generate();
+
         const remoteAddress = sourceSocket.remoteAddress;
         delog({
             text: `deserve kubernetes TCP server LoadBalancer _handleConnection for ${remoteAddress}`,
@@ -447,91 +462,98 @@ class LoadBalancer extends EventEmitter {
         }
 
 
-        const tunnelRE = /^Deserve Tunnel: (.*)/;
+        this.sockets[socketID] = {
+            socket: sourceSocket,
+            host: '',
+            buffersLength: 0,
+            buffers: [],
+        };
 
-        let sourceBuffersLength = 0;
-        let sourceBuffers = [];
-        let host = '';
 
         const bufferSourceData = (
             data: Buffer,
         ) => {
             let cleanData = data;
 
-            const match = cleanData.toString().match(tunnelRE);
+            const match = cleanData.toString().match(deserveTunnelRE);
             if (match) {
-                host = match[1];
+                const host = match[1];
+                (this.sockets[socketID] as any).host = host;
+
+                this._checkTarget(host);
 
                 cleanData = Buffer.from(
                     data.toString().replace(`Deserve Tunnel: ${host}`, ''),
                 );
             }
 
-            sourceBuffersLength += cleanData.length;
-            sourceBuffers.push(cleanData);
+            (this.sockets[socketID] as any).buffersLength += cleanData.length;
+            (this.sockets[socketID] as any).buffers.push(cleanData);
         };
 
-        sourceSocket.on('data', bufferSourceData);
 
+        sourceSocket.on('data', bufferSourceData);
 
         sourceSocket.on('error', (error) => {
             this._errorDomain.emit('error', error);
         });
 
-        const target = this._chooseTarget(host);
-        if (!target) {
-            this._checkTarget(host);
-            this.queue.push(sourceSocket);
-            return;
-        }
 
-        if (this._activeSessions[remoteAddress]) {
-            (this._activeSessions[remoteAddress] as LoadBalancerActiveSession).clientCount++;
-            if (!this.stickiness) {
-                (this._activeSessions[remoteAddress] as LoadBalancerActiveSession).targetUri = target;
-            }
-        } else {
-            this._activeSessions[remoteAddress] = {
-                targetUri: target,
-                clientCount: 1,
-            };
-        }
 
-        this._sessionExpirer.unexpire([remoteAddress]);
+        // const target = this._chooseTarget(host);
+        // if (!target) {
+        //     this._checkTarget(host);
+        //     this.queue.push(sourceSocket);
+        //     return;
+        // }
 
-        sourceSocket.once('close', () => {
-            const freshActiveSession = this._activeSessions[remoteAddress];
+        // if (this._activeSessions[remoteAddress]) {
+        //     (this._activeSessions[remoteAddress] as LoadBalancerActiveSession).clientCount++;
+        //     if (!this.stickiness) {
+        //         (this._activeSessions[remoteAddress] as LoadBalancerActiveSession).targetUri = target;
+        //     }
+        // } else {
+        //     this._activeSessions[remoteAddress] = {
+        //         targetUri: target,
+        //         clientCount: 1,
+        //     };
+        // }
 
-            if (freshActiveSession) {
-                freshActiveSession.clientCount--;
-                const freshTargetUri = freshActiveSession.targetUri;
+        // this._sessionExpirer.unexpire([remoteAddress]);
 
-                // If freshTargetUri is null, then it means that the LoadBalancer could not
-                // establish a connection to any target
-                if (freshTargetUri) {
-                    if (freshActiveSession.clientCount < 1) {
-                        if (this._isTargetActive(freshTargetUri.host, freshTargetUri.port)) {
-                            this._sessionExpirer.expire([remoteAddress], Math.round(this.sessionExpiry / 1_000));
-                        } else {
-                            delete this._activeSessions[remoteAddress];
-                        }
-                    }
-                } else {
-                    delete this._activeSessions[remoteAddress];
-                }
-            }
-        });
+        // sourceSocket.once('close', () => {
+        //     const freshActiveSession = this._activeSessions[remoteAddress];
 
-        this._verifyConnection(sourceSocket, (error: Error | undefined) => {
-            if (error) {
-                this._rejectConnection(
-                    sourceSocket,
-                    error,
-                );
-            } else {
-                this._acceptConnection(sourceSocket);
-            }
-        });
+        //     if (freshActiveSession) {
+        //         freshActiveSession.clientCount--;
+        //         const freshTargetUri = freshActiveSession.targetUri;
+
+        //         // If freshTargetUri is null, then it means that the LoadBalancer could not
+        //         // establish a connection to any target
+        //         if (freshTargetUri) {
+        //             if (freshActiveSession.clientCount < 1) {
+        //                 if (this._isTargetActive(freshTargetUri.host, freshTargetUri.port)) {
+        //                     this._sessionExpirer.expire([remoteAddress], Math.round(this.sessionExpiry / 1_000));
+        //                 } else {
+        //                     delete this._activeSessions[remoteAddress];
+        //                 }
+        //             }
+        //         } else {
+        //             delete this._activeSessions[remoteAddress];
+        //         }
+        //     }
+        // });
+
+        // this._verifyConnection(sourceSocket, (error: Error | undefined) => {
+        //     if (error) {
+        //         this._rejectConnection(
+        //             sourceSocket,
+        //             error,
+        //         );
+        //     } else {
+        //         this._acceptConnection(sourceSocket);
+        //     }
+        // });
     }
 
     private _rejectConnection(

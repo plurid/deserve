@@ -31,4 +31,8 @@ export const CORES_NAMESPACE = process.env.DESERVE_CORES_NAMESPACE || 'default';
 export const CACHE_RESET_PATH = process.env.DESERVE_CACHE_RESET_PATH || '/__deserve-cache-reset__';
 export const DEFAULT_CACHE_RESET_TOKEN = 'cache-reset-token';
 export const CACHE_RESET_TOKEN = process.env.DESERVE_CACHE_RESET_TOKEN || DEFAULT_CACHE_RESET_TOKEN;
+
+
+
+export const deserveTunnelRE = /^Deserve Tunnel: (.*)/;
 // #endregion module
