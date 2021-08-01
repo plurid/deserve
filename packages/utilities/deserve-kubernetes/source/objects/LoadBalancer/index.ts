@@ -29,9 +29,12 @@
     import {
         LoadBalancerMiddleware,
         LoadBalancerTarget,
+        LoadBalancerTargets,
         LoadBalancerActiveSession,
         LoadBalancerConnectToTargetCallback,
         LoadBalancerController,
+
+        SocketData,
     } from '~data/interfaces';
     // #endregion external
 // #endregion imports
@@ -64,18 +67,11 @@ class LoadBalancer extends EventEmitter {
     private stickiness;
     private balancerController: LoadBalancerController<LoadBalancer> | undefined;
 
-    private targets: LoadBalancerTarget[] = [];
-    private activeTargets: LoadBalancerTarget[] = [];
-    private activeTargetsLookup: Record<string, number | undefined> = {};
+    private targets: LoadBalancerTargets = {};
+    // private activeTargets: LoadBalancerTarget[] = [];
+    // private activeTargetsLookup: Record<string, number | undefined> = {};
 
-    private sockets: Record<string, {
-        socket: net.Socket;
-        host: string;
-        buffersLength: number;
-        buffers: Buffer[];
-        queuedAt: number;
-        handling?: boolean;
-    } | undefined> = {};
+    private sockets: Record<string, SocketData | undefined> = {};
     private _queueInterval: NodeJS.Timer | null = null;
 
     public MIDDLEWARE_CONNECTION = 'connection';
@@ -141,7 +137,7 @@ class LoadBalancer extends EventEmitter {
     }
 
     public updateTargets(
-        targets: LoadBalancerTarget[],
+        targets: LoadBalancerTargets,
     ) {
         delog({
             text: `deserve kubernetes TCP server LoadBalancer updateTargets`,
@@ -187,25 +183,25 @@ class LoadBalancer extends EventEmitter {
     }
 
     private _setTargets(
-        targets: LoadBalancerTarget[],
+        targets: LoadBalancerTargets,
     ) {
         this.targets = targets;
-        this.activeTargets = targets;
-        this.activeTargetsLookup = {};
+        // this.activeTargets = targets;
+        // this.activeTargetsLookup = {};
 
-        let target;
-        for (let i = 0; i < targets.length; i++) {
-            target = targets[i];
-            this.activeTargetsLookup[target.host + ':' + target.port] = 1;
-        }
+        // let target;
+        // for (let i = 0; i < targets.length; i++) {
+        //     target = targets[i];
+        //     this.activeTargetsLookup[target.host + ':' + target.port] = 1;
+        // }
 
         delog({
             text: `deserve kubernetes TCP server LoadBalancer _setTargets`,
             level: 'trace',
             extradata: JSON.stringify({
                 targets: this.targets,
-                activeTargets: this.activeTargets,
-                activeTargetsLookup: this.activeTargetsLookup,
+                // activeTargets: this.activeTargets,
+                // activeTargetsLookup: this.activeTargetsLookup,
             }),
         });
     }
@@ -214,35 +210,36 @@ class LoadBalancer extends EventEmitter {
         host: string,
         port: number,
     ) {
-        const hostAndPort = host + ':' + port;
+        // const hostAndPort = host + ':' + port;
 
-        if (this.activeTargetsLookup[hostAndPort]) {
-            const target = {
-                host: host,
-                port: port,
-            };
+        // if (this.activeTargetsLookup[hostAndPort]) {
+        //     const target = {
+        //         host: host,
+        //         port: port,
+        //     };
 
-            this.activeTargets = this.activeTargets.filter(
-                (currentTarget) => currentTarget.host !== host || currentTarget.port !== port,
-            );
+        //     this.activeTargets = this.activeTargets.filter(
+        //         (currentTarget) => currentTarget.host !== host || currentTarget.port !== port,
+        //     );
 
-            delete this.activeTargetsLookup[hostAndPort];
+        //     delete this.activeTargetsLookup[hostAndPort];
 
-            // Reactivate after a while
-            setTimeout(() => {
-                if (!this.activeTargetsLookup[hostAndPort]) {
-                    this.activeTargets.push(target);
-                    this.activeTargetsLookup[hostAndPort] = 1;
-                }
-            }, this.targetDeactivationDuration);
-        }
+        //     // Reactivate after a while
+        //     setTimeout(() => {
+        //         if (!this.activeTargetsLookup[hostAndPort]) {
+        //             this.activeTargets.push(target);
+        //             this.activeTargetsLookup[hostAndPort] = 1;
+        //         }
+        //     }, this.targetDeactivationDuration);
+        // }
     }
 
     private _isTargetActive(
         host: string,
         port: number,
     ) {
-        return !!this.activeTargetsLookup[host + ':' + port];
+        return false;
+        // return !!this.activeTargetsLookup[host + ':' + port];
     }
 
     private _handleQueue() {

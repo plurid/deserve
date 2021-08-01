@@ -14,7 +14,7 @@ export type WorkerMessage =
     }
     | {
         type: 'updateTargets';
-        data: LoadBalancerTarget[];
+        data: LoadBalancerTargets;
     }
     | {
         type: 'destroy';
@@ -37,6 +37,9 @@ export interface LoadBalancerTarget {
     port: number;
 }
 
+export type LoadBalancerTargets = Record<string, LoadBalancerTarget | undefined>;
+
+
 export interface LoadBalancerActiveSession {
     targetUri: LoadBalancerTarget;
     clientCount: number;
@@ -52,6 +55,15 @@ export type LoadBalancerController<T> = {
     run: (balancer: T) => void,
 }
 
+
+export interface SocketData {
+    socket: net.Socket;
+    host: string;
+    buffersLength: number;
+    buffers: Buffer[];
+    queuedAt: number;
+    handling?: boolean;
+}
 
 
 

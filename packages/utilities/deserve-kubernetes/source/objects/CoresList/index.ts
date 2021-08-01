@@ -118,11 +118,8 @@ class CoresList {
     }
 
     public getData() {
-        const targets = Object.values(this.addresses)
-            .filter(address => !!address);
-
         return {
-            targets: targets as CoreAddress[],
+            targets: this.addresses,
         };
     }
 
