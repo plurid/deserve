@@ -51,4 +51,12 @@ export type LoadBalancerConnectToTargetCallback = (
 export type LoadBalancerController<T> = {
     run: (balancer: T) => void,
 }
+
+
+
+
+export interface CoreAddress {
+    host: string;
+    port: number;
+}
 // #endregion module

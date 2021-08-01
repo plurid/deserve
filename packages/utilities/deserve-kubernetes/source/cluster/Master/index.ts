@@ -88,11 +88,13 @@ const Master = async () => {
 
     const updateTargets = () => {
         for (const worker of workers) {
+            const data = [
+                ...coresList.getData().targets,
+            ];
+
             const message: WorkerMessage = {
                 type: 'updateTargets',
-                data: [
-                    ...coresList.getData().targets,
-                ],
+                data,
             };
             worker.send(message);
         }
