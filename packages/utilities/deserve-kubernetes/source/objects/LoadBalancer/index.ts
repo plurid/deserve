@@ -319,6 +319,11 @@ class LoadBalancer extends EventEmitter {
             return;
         }
 
+        delog({
+            text: `deserve kubernetes TCP server LoadBalancer _checkTarget for ${host}`,
+            level: 'trace',
+        });
+
         process.send({
             type: 'coreCheck',
             data: host,
@@ -661,6 +666,11 @@ class LoadBalancer extends EventEmitter {
     private _resolveConnection(
         id: string,
     ) {
+        delog({
+            text: `deserve kubernetes TCP server LoadBalancer _resolveConnection with id ${id}`,
+            level: 'trace',
+        });
+
         const socketData = this.sockets[id];
         if (!socketData) {
             return;
@@ -676,6 +686,11 @@ class LoadBalancer extends EventEmitter {
         if (!target) {
             return;
         }
+
+        delog({
+            text: `deserve kubernetes TCP server LoadBalancer _resolveConnection for host ${host} with target ${target.host}`,
+            level: 'trace',
+        });
 
 
         // Make the connection to target.
