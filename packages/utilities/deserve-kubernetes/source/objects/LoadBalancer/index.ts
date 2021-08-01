@@ -68,15 +68,15 @@ class LoadBalancer extends EventEmitter {
     private activeTargets: LoadBalancerTarget[] = [];
     private activeTargetsLookup: Record<string, number | undefined> = {};
 
-    private queue: net.Socket[] = [];
-    private _queueInterval: NodeJS.Timer | null = null;
-
     private sockets: Record<string, {
         socket: net.Socket;
         host: string;
         buffersLength: number;
         buffers: Buffer[];
+        queuedAt: number;
+        handling?: boolean;
     } | undefined> = {};
+    private _queueInterval: NodeJS.Timer | null = null;
 
     public MIDDLEWARE_CONNECTION = 'connection';
 
@@ -246,26 +246,39 @@ class LoadBalancer extends EventEmitter {
     }
 
     private _handleQueue() {
-        const queue: net.Socket[] = [];
-
-        for (const socket of this.queue) {
-            const remoteAddress = socket.remoteAddress;
-            const remotePort = socket.remotePort;
-            if (!remoteAddress || !remotePort) {
+        for (const [id, data] of Object.entries(this.sockets)) {
+            if (!data) {
                 continue;
             }
 
-            if (this.activeTargetsLookup[remoteAddress + ':' + remotePort]) {
-                this._handleConnection(
-                    socket,
-                );
+            const {
+                host,
+                handling,
+            } = data;
+
+
+            if (!handling) {
+                // Socket is being resolved.
                 continue;
             }
 
-            queue.push(socket);
+            if (!data.host) {
+                // check queued time and delete socket if past x seconds
+
+                continue;
+            }
+
+            const target = this.targets[host];
+            if (!target) {
+                // Target has not yet been resolved.
+                continue;
+            }
+
+            (this.sockets as any).handling = true;
+            this._resolveConnection(
+                id,
+            );
         }
-
-        this.queue = queue;
     }
 
     private _hash(
@@ -467,6 +480,7 @@ class LoadBalancer extends EventEmitter {
             host: '',
             buffersLength: 0,
             buffers: [],
+            queuedAt: Date.now(),
         };
 
 
@@ -642,6 +656,29 @@ class LoadBalancer extends EventEmitter {
                 }
             },
         );
+    }
+
+    private _resolveConnection(
+        id: string,
+    ) {
+        const socketData = this.sockets[id];
+        if (!socketData) {
+            return;
+        }
+
+        const {
+            host,
+            socket,
+        } = socketData;
+
+        const target = this.targets[host];
+        if (!target) {
+            return;
+        }
+
+        // make the connection to target
+
+        delete this.sockets[id];
     }
 
     private _cleanupSessions() {
