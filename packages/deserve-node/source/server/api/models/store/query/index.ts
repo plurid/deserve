@@ -9,6 +9,8 @@
     import requestKeys from './requestKeys';
 
     import queryKeys from './queryKeys';
+
+    import getFunctions from './getFunctions';
     // #endregion internal
 // #endregion imports
 
@@ -25,5 +27,7 @@ export default {
     requestKeys,
 
     queryKeys,
+
+    getFunctions,
 };
 // #endregion exports

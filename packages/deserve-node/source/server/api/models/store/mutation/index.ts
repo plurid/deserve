@@ -6,6 +6,12 @@
 
     import deleteBlob from './deleteBlob';
     import deleteKey from './deleteKey';
+
+    import storeFunction from './storeFunction';
+    import updateFunction from './updateFunction';
+    import deleteFunction from './deleteFunction';
+
+    import runFunction from './runFunction';
     // #endregion internal
 // #endregion imports
 
@@ -19,5 +25,11 @@ export default {
 
     deleteBlob,
     deleteKey,
+
+    storeFunction,
+    updateFunction,
+    deleteFunction,
+
+    runFunction,
 };
 // #endregion exports

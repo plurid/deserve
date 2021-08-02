@@ -18,6 +18,8 @@ export const queries = gql`
         requestKeys(input: InputRequestKeys!): ResponseRequestedKeys!
 
         queryKeys(input: InputQueryKeys!): ResponseQueriedKeys!
+
+        getFunctions(input: InputGetFunctions!): ResponseGetFunctions!
     }
 `;
 
@@ -30,6 +32,12 @@ export const mutations = gql`
 
         deleteBlob(input: InputDeleteBlob!): Response!
         deleteKey(input: InputDeleteKey!): Response!
+
+        storeFunction(input: InputStoreFunction!): Response!
+        updateFunction(input: InputUpdateFunction!): Response!
+        deleteFunction(input: InputDeleteFunction!): Response!
+
+        runFunction(input: InputRunFunction!): ResponseRunFunction!
     }
 `;
 
@@ -103,6 +111,29 @@ export const types = gql`
     type StoredKey {
         id: String!
     }
+
+
+
+    type ResponseGetFunctions {
+        status: Boolean!
+        error: Error
+        data: [ResponseFunction!]
+    }
+
+    type ResponseFunction {
+        id: ID!
+        name: String!
+        text: String!
+        database: String!
+        storage: String!
+        externals: [String!]!
+    }
+
+    type ResponseRunFunction {
+        status: Boolean!
+        error: Error
+        data: String
+    }
 `;
 
 
@@ -159,6 +190,40 @@ export const inputs = gql`
     input InputDeleteKey {
         coreID: String
         id: ID!
+    }
+
+
+
+    input InputGetFunctions {
+        coreID: String
+    }
+
+
+    input InputStoreFunction {
+        name: String!
+        text: String!
+        database: String
+        storage: String
+        externals: [String!]
+    }
+
+    input InputUpdateFunction {
+        id: ID!
+        name: String
+        text: String
+        database: String
+        storage: String
+        externals: [String!]
+    }
+
+    input InputDeleteFunction {
+        id: ID!
+    }
+
+
+    input InputRunFunction {
+        # JSON array of arguments to be passed to the deserve function
+        arguments: String
     }
 `;
 // #endregion module

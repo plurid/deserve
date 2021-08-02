@@ -10,6 +10,12 @@
 
         InputDeleteBlob,
         InputDeleteKey,
+
+        InputStoreFunction,
+        InputUpdateFunction,
+        InputDeleteFunction,
+
+        InputRunFunction,
     } from '~server/data/interfaces';
 
     import {
@@ -55,6 +61,41 @@ export default {
         { input }: InputOf<InputDeleteKey>,
         context: Context,
     ) => Store.Mutation.deleteKey(
+        input,
+        context,
+    ),
+
+
+    storeFunction: (
+        _: any,
+        { input }: InputOf<InputStoreFunction>,
+        context: Context,
+    ) => Store.Mutation.storeFunction(
+        input,
+        context,
+    ),
+    updateFunction: (
+        _: any,
+        { input }: InputOf<InputUpdateFunction>,
+        context: Context,
+    ) => Store.Mutation.updateFunction(
+        input,
+        context,
+    ),
+    deleteFunction: (
+        _: any,
+        { input }: InputOf<InputDeleteFunction>,
+        context: Context,
+    ) => Store.Mutation.deleteFunction(
+        input,
+        context,
+    ),
+
+    runFunction: (
+        _: any,
+        { input }: InputOf<InputRunFunction>,
+        context: Context,
+    ) => Store.Mutation.runFunction(
         input,
         context,
     ),

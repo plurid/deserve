@@ -65,6 +65,11 @@ export interface InputQueryKeys {
 }
 
 
+export interface InputGetFunctions {
+    coreID?: string;
+}
+
+
 export interface InputStoreKey {
     data: string;
 }
@@ -85,5 +90,33 @@ export interface InputDeleteBlob {
 export interface InputDeleteKey {
     coreID?: string;
     id: string;
+}
+
+
+
+export interface InputStoreFunction {
+    name: string;
+    text: string;
+    database?: string;
+    storage?: string;
+    externals?: string[];
+}
+
+export interface InputUpdateFunction {
+    id: string;
+    name?: string;
+    text?: string;
+    database?: string;
+    storage?: string;
+    externals?: string[];
+}
+
+export interface InputDeleteFunction {
+    id: string;
+}
+
+
+export interface InputRunFunction {
+    arguments?: string;
 }
 // #endregion module

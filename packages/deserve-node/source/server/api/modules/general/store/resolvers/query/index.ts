@@ -13,6 +13,8 @@
         InputRequestKeys,
 
         InputQueryKeys,
+
+        InputGetFunctions,
     } from '~server/data/interfaces';
 
     import {
@@ -71,6 +73,16 @@ export default {
         { input }: InputOf<InputQueryKeys>,
         context: Context,
     ) => Store.Query.queryKeys(
+        input,
+        context,
+    ),
+
+
+    getFunctions: (
+        _: any,
+        { input }: InputOf<InputGetFunctions>,
+        context: Context,
+    ) => Store.Query.getFunctions(
         input,
         context,
     ),
