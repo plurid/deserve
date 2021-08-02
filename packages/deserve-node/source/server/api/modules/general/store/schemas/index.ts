@@ -222,6 +222,7 @@ export const inputs = gql`
 
 
     input InputRunFunction {
+        id: ID!
         # JSON array of arguments to be passed to the deserve function
         arguments: String
     }

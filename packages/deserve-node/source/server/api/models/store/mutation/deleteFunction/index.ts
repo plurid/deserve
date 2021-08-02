@@ -21,9 +21,12 @@ const deleteFunction = async (
     context: Context,
 ): Promise<any> => {
     try {
+        const {
+            id,
+        } = input;
+
         return {
             status: true,
-            data: [],
         };
     } catch (error) {
         delog({

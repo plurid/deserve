@@ -21,9 +21,16 @@ const storeFunction = async (
     context: Context,
 ): Promise<any> => {
     try {
+        const {
+            name: functionName,
+            text: functionText,
+            database: functionDatabase,
+            storage: functionStorage,
+            externals: functionExternals,
+        } = input;
+
         return {
             status: true,
-            data: [],
         };
     } catch (error) {
         delog({

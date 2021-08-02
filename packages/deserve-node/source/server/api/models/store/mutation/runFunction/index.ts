@@ -21,9 +21,23 @@ const runFunction = async (
     context: Context,
 ): Promise<any> => {
     try {
+        const {
+            id,
+            arguments: functionArguments,
+        } = input;
+
+        // check for permission
+
+        // query for function data
+
+        // assemble function context
+
+        // execute function
+        const functionResult = '';
+
         return {
             status: true,
-            data: [],
+            data: functionResult,
         };
     } catch (error) {
         delog({

@@ -21,6 +21,10 @@ const getFunctions = async (
     context: Context,
 ): Promise<any> => {
     try {
+        const {
+            coreID,
+        } = input;
+
         return {
             status: true,
             data: [],

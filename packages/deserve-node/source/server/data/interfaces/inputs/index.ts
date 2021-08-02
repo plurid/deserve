@@ -117,6 +117,7 @@ export interface InputDeleteFunction {
 
 
 export interface InputRunFunction {
+    id: string;
     arguments?: string;
 }
 // #endregion module
