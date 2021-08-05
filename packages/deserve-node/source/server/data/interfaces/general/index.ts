@@ -67,6 +67,7 @@ export interface DatabaseCollections {
     owners: mongodb.Collection;
     cores: mongodb.Collection;
     keys: mongodb.Collection;
+    functions: mongodb.Collection;
     blobs: mongodb.Collection;
 }
 
