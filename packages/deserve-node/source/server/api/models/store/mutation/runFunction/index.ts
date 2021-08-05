@@ -10,30 +10,86 @@
 
         InputRunFunction,
     } from '~server/data/interfaces';
+
+    import database from '~server/services/database';
+
+    import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
+export const parseArguments = (
+    functionArguments: string | undefined,
+) => {
+    try {
+        if (!functionArguments) {
+            return;
+        }
+
+        return JSON.parse(functionArguments);
+    } catch (error) {
+        return;
+    }
+}
+
+
+export const executeFunction = (
+    functionData: any,
+    functionArguments: string | undefined,
+) => {
+    const parsedArguments = parseArguments(functionArguments);
+
+    // based on data and arguments run the appropriate docker imagene
+
+    return '';
+}
+
+
 const runFunction = async (
     input: InputRunFunction,
     context: Context,
 ): Promise<any> => {
     try {
         const {
-            id,
+            request,
+            owner,
+            collections,
+        } = context;
+
+        const {
+            id: functionID,
             arguments: functionArguments,
         } = input;
 
-        // check for permission
+        const core = await getCoreFromRequest(request);
 
-        // query for function data
+        const ownerID = owner?.id || core.ownerID;
+        if (!ownerID) {
+            return {
+                status: false,
+            };
+        }
 
-        // assemble function context
 
-        // execute function
-        const functionResult = '';
+        const functionData: any = await database.getById(
+            collections.functions,
+            functionID,
+        );
+        if (!functionData) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const functionResult = await executeFunction(
+            functionData,
+            functionArguments,
+        );
 
         return {
             status: true,

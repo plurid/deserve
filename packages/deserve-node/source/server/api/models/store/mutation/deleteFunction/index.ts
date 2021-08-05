@@ -10,6 +10,12 @@
 
         InputDeleteFunction,
     } from '~server/data/interfaces';
+
+    import database from '~server/services/database';
+
+    import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
     // #endregion external
 // #endregion imports
 
@@ -22,8 +28,36 @@ const deleteFunction = async (
 ): Promise<any> => {
     try {
         const {
+            request,
+            owner,
+            collections,
+        } = context;
+
+        const {
             id,
         } = input;
+
+        const core = await getCoreFromRequest(request);
+
+        const ownerID = owner?.id || core.ownerID;
+        if (!ownerID) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const deleted = await database.deleteDocument(
+            collections.functions,
+            id,
+        );
+
+        if (!deleted) {
+            return {
+                status: false,
+            };
+        }
+
 
         return {
             status: true,

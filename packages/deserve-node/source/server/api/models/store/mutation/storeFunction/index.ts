@@ -70,9 +70,9 @@ const storeFunction = async (
                 storage: functionStorage,
                 externals: functionExternals,
                 sha: functionSHA,
+                storedAt,
             },
         );
-
 
         if (!stored) {
             return {
