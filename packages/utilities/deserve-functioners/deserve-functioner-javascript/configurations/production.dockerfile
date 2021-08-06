@@ -1,6 +1,8 @@
 # Stage 0
 FROM node:16-alpine
 
+ARG DESERVE_DATABASE_ENDPOINT
+ARG DESERVE_STORAGE_ENDPOINT
 ARG DESERVE_DATABASE_TOKEN
 ARG DESERVE_EVENT_TOKEN
 ARG DESERVE_STORAGE_TOKEN
@@ -16,6 +18,4 @@ COPY . .
 
 RUN yarn install --production --network-timeout 1000000
 
-RUN yarn prepare
-
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "prepare" ]
