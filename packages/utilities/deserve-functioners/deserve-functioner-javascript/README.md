@@ -5,15 +5,15 @@ The `functioner`'s code is the basis upon which owner/service functions are exec
 
 The `deserve node` provides to the `functioner` access to
 
-    + database,
-    + storage,
-    + events
++ database,
++ storage,
++ events
 
 through the environment variables
 
-    + `DESERVE_DATABASE_TOKEN`,
-    + `DESERVE_STORAGE_TOKEN`,
-    + `DESERVE_EVENT_TOKEN`,
++ `DESERVE_DATABASE_TOKEN`,
++ `DESERVE_STORAGE_TOKEN`,
++ `DESERVE_EVENT_TOKEN`,
 
 respectively. These tokens grant limited, temporary access.
 
