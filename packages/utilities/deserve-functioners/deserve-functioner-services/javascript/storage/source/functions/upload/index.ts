@@ -1,12 +1,18 @@
 // #region imports
+    // #region libraries
+    import request from 'request';
+    // #endregion libraries
+
+
     // #region external
     import {
         StorageUpload,
     } from '~data/interface';
 
-    import client from '~services/graphql/client';
     import {
-    } from '~services/graphql/mutate';
+        STORAGE_ENDPOINT,
+        STORAGE_TOKEN,
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 
@@ -16,7 +22,37 @@
 const upload: StorageUpload = async (
     stream,
 ) => {
-    return false;
+    try {
+        if (!STORAGE_ENDPOINT) {
+            return false;
+        }
+
+
+        const requested = request.post(
+            STORAGE_ENDPOINT,
+            {
+                headers: {
+                    'Authorization': `Bearer ${STORAGE_TOKEN}`,
+                },
+            },
+        );
+        stream.pipe(requested);
+
+
+        const result: boolean = await new Promise((resolve, _) => {
+            stream.on('error', () => {
+                resolve(false);
+            });
+
+            stream.on('end', () => {
+                resolve(true);
+            });
+        });
+
+        return result;
+    } catch (error) {
+        return false;
+    }
 }
 // #endregion module
 

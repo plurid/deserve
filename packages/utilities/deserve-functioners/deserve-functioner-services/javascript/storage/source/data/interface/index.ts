@@ -1,6 +1,6 @@
 // #region imports
     // #region libraries
-    import stream from 'stream';
+    import fs from 'fs';
     // #endregion libraries
 // #endregion imports
 
@@ -9,10 +9,10 @@
 // #region module
 export type StorageGet = (
     id?: string,
-) => stream.Readable | undefined;
+) => Promise<ReadableStream<Uint8Array> | null>;
 
 export type StorageUpload = (
-    stream: stream.Readable,
+    stream: fs.ReadStream,
 ) => Promise<boolean>;
 
 export type StorageRemove = (

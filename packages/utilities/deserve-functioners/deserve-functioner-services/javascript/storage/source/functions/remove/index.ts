@@ -17,7 +17,22 @@
 const remove: StorageRemove = async (
     id,
 ) => {
-    return false;
+    try {
+        const mutation = await client.mutate({
+            mutation: MUTATION_STORAGE_REMOVE,
+            variables: {
+                input: {
+                    id,
+                },
+            },
+        });
+
+        const response = mutation.data.functionerStorageRemove;
+
+        return response.status;
+    } catch (error) {
+        return false;
+    }
 }
 // #endregion module
 
