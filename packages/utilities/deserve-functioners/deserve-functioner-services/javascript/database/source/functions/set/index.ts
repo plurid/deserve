@@ -19,8 +19,8 @@ const set: DatabaseSet = async (
     data,
 ) => {
     try {
-        const query = await client.query({
-            query: MUTATION_SET,
+        const mutation = await client.mutate({
+            mutation: MUTATION_SET,
             variables: {
                 input: {
                     id,
@@ -29,7 +29,7 @@ const set: DatabaseSet = async (
             },
         });
 
-        const response = query.data.functionerDatabaseSet;
+        const response = mutation.data.functionerDatabaseSet;
 
         return response.status;
     } catch (error) {

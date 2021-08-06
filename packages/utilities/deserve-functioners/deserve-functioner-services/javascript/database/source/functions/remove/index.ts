@@ -18,8 +18,8 @@ const remove: DatabaseRemove = async (
     id,
 ) => {
     try {
-        const query = await client.query({
-            query: MUTATION_REMOVE,
+        const mutation = await client.mutate({
+            mutation: MUTATION_REMOVE,
             variables: {
                 input: {
                     id,
@@ -27,7 +27,7 @@ const remove: DatabaseRemove = async (
             },
         });
 
-        const response = query.data.functionerDatabaseRemove;
+        const response = mutation.data.functionerDatabaseRemove;
 
         return response.status;
     } catch (error) {
