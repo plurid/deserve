@@ -33,6 +33,8 @@
         "@apollo/client": "^3.4.5",
         "@plurid/deserve-functioner-database": "0.0.0-0",
         "@plurid/deserve-functioner-event": "0.0.0-0",
-        "@plurid/deserve-functioner-storage": "0.0.0-0"
+        "@plurid/deserve-functioner-storage": "0.0.0-0",
+        "cross-fetch": "^3.1.4",
+        "request": "^2.88.2"
     }
 }
