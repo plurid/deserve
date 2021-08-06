@@ -2,7 +2,11 @@ const {
     promises: fs,
 } = require('fs');
 
-const database = require('../services/database').database;
+const {
+    execSync,
+} = require('child_process');
+
+const database = require('@plurid/deserve-functioner-database').default;
 
 
 
@@ -61,6 +65,31 @@ const editTemplate = async (
 }
 
 
+const writeExternals = async (
+    functionData,
+) => {
+    if (!functionData.externals) {
+        return;
+    }
+
+    const dependencies = [];
+
+    for (const [name, version] of Object.entries(externals)) {
+        const dependency = `${name}@${version}`;
+        dependencies.push(dependency);
+    }
+
+    const externalInstall = 'yarn install ' + dependencies.join(' ');
+
+    execSync(
+        externalInstall,
+        {
+            cwd: '../',
+        },
+    );
+}
+
+
 
 const main = () => {
     const functionData = await readFunctionData();
@@ -68,6 +97,8 @@ const main = () => {
     await writeFunctions(functionData);
 
     await editTemplate();
+
+    await writeExternals(functionData);
 }
 
 main();

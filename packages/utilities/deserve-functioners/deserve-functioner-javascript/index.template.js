@@ -1,6 +1,6 @@
-const database = require('./services/database').database;
-const storage = require('./services/storage').storage;
-const event = require('./services/event').event;
+const database = require('@plurid/deserve-functioner-database').default;
+const storage = require('@plurid/deserve-functioner-storage').default;
+const event = require('@plurid/deserve-functioner-event').default;
 
 const services = {
     database,
