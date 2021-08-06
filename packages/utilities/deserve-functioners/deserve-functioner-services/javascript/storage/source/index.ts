@@ -1,22 +1,13 @@
-const storageToken = process.env.DESERVE_STORAGE_TOKEN;
-
-
-
-// #region module
-/**
- * General methods for storage access.
- */
-const storage = {
-    get: () => {
-        if (!storageToken) {
-            return;
-        }
-    },
-};
-// #endregion module
+// #region imports
+    // #region internal
+    import storage from './functions';
+    // #endregion internal
+// #endregion imports
 
 
 
 // #region exports
+export * from './data/interface';
+
 export default storage;
 // #endregion exports

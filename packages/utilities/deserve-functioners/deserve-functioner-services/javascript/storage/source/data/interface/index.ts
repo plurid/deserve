@@ -9,7 +9,7 @@
 // #region module
 export type StorageGet = (
     id?: string,
-) => stream.Readable;
+) => stream.Readable | undefined;
 
 export type StorageUpload = (
     stream: stream.Readable,
