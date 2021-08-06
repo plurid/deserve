@@ -1,7 +1,10 @@
 // #region module
+export type EventEmit = (
+    data: any,
+) => Promise<boolean>;
+
+
 export interface Event {
-    emit: (
-        data: any,
-    ) => Promise<boolean>;
+    emit: EventEmit;
 }
 // #endregion module
