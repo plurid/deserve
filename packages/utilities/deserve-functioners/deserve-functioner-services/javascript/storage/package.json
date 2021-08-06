@@ -44,7 +44,8 @@
         "prepublishOnly": "yarn build"
     },
     "peerDependencies": {
-        "@apollo/client": ">=3.4"
+        "@apollo/client": ">=3.4",
+        "cross-fetch": ">=3.1"
     },
     "devDependencies": {
         "@apollo/client": "^3.4.5",
@@ -55,6 +56,7 @@
         "@typescript-eslint/eslint-plugin": "^4.28.4",
         "@typescript-eslint/parser": "^4.28.4",
         "@zerollup/ts-transform-paths": "^1.7.18",
+        "cross-fetch": "^3.1.4",
         "eslint": "^7.31.0",
         "jest": "^27.0.6",
         "rimraf": "^3.0.2",
