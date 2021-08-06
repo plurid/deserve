@@ -21,6 +21,10 @@
     import {
         getCoreFromRequest,
     } from '~server/logic/core';
+
+    import {
+        prepareFunctioner,
+    } from '~server/logic/functioner';
     // #endregion external
 // #endregion imports
 
@@ -60,18 +64,21 @@ const storeFunction = async (
         const storedAt = Date.now();
         const functionSHA = await sha.compute(ownerID + storedAt + functionText);
 
+        const functionData = {
+            functionID,
+            name: functionName,
+            text: functionText,
+            database: functionDatabase,
+            storage: functionStorage,
+            externals: functionExternals,
+            sha: functionSHA,
+            storedAt,
+        };
+
         const stored = await database.updateDocument(
             collections.functions,
             functionID,
-            {
-                name: functionName,
-                text: functionText,
-                database: functionDatabase,
-                storage: functionStorage,
-                externals: functionExternals,
-                sha: functionSHA,
-                storedAt,
-            },
+            functionData,
         );
 
         if (!stored) {
@@ -79,6 +86,10 @@ const storeFunction = async (
                 status: false,
             };
         }
+
+        prepareFunctioner(
+            functionData,
+        );
 
 
         return {
