@@ -34,8 +34,8 @@ export const QUERY_QUERY = gql`
 
 
 export const QUERY_GET_FUNCTION_ARGUMENTS = gql`
-    query FunctionerDatabaseGetFunctionArguments($input: InputFunctionerDatabaseGetFunctionArguments!) {
-        functionerDatabaseGetFunctionArguments(input: $input) {
+    query FunctionerDatabaseGetFunctionArguments {
+        functionerDatabaseGetFunctionArguments {
             status
             data {
                 value
@@ -46,8 +46,8 @@ export const QUERY_GET_FUNCTION_ARGUMENTS = gql`
 
 
 export const QUERY_GET_FUNCTION_DATA = gql`
-    query FunctionerDatabaseGetFunctionData($input: InputFunctionerDatabaseGetFunctionData!) {
-        functionerDatabaseGetFunctionData(input: $input) {
+    query FunctionerDatabaseGetFunctionData {
+        functionerDatabaseGetFunctionData {
             status
             data {
                 name
