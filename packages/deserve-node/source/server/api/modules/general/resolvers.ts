@@ -8,6 +8,7 @@
     import core from './core/resolvers';
     import owner from './owner/resolvers';
     import store from './store/resolvers';
+    import functioner from './functioner/resolvers';
     // #endregion internal
 // #endregion imports
 
@@ -31,6 +32,7 @@ const resolvers = generateResolvers(
     core,
     owner,
     store,
+    functioner,
 );
 // #endregion module
 
