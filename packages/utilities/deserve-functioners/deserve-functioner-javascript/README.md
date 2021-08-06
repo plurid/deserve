@@ -3,7 +3,19 @@
 
 The `functioner`'s code is the basis upon which owner/service functions are executed by a `deserve node`.
 
-The `deserve node` provides to the `functioner` access to the database, to storage, to events through the environment variables `DESERVE_DATABASE_TOKEN`, `DESERVE_STORAGE_TOKEN`, and `DESERVE_EVENT_TOKEN`, respectively. These tokens grant limited, temporary access.
+The `deserve node` provides to the `functioner` access to
+
+    + database,
+    + storage,
+    + events
+
+through the environment variables
+
+    + `DESERVE_DATABASE_TOKEN`,
+    + `DESERVE_STORAGE_TOKEN`,
+    + `DESERVE_EVENT_TOKEN`,
+
+respectively. These tokens grant limited, temporary access.
 
 Before calling the `functioner` with arbitrary arguments, the `functioner` must be prepared by running it with at least an adequate `DESERVE_DATABASE_TOKEN` to be able to request `functionData` using the `database.getFunctionData` method. The container will use the `functionData` to write the `function.js` file from the function `text` and to generate the `index.js` file from the `index.template.js`.
 
