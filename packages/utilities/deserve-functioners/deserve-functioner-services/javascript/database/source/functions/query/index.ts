@@ -3,6 +3,8 @@
     import {
         DatabaseQuery,
     } from '~data/interface';
+
+    import client from '~services/graphql/client';
     // #endregion external
 // #endregion imports
 
