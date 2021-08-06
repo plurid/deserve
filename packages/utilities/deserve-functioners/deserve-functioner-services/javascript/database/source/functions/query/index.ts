@@ -5,6 +5,9 @@
     } from '~data/interface';
 
     import client from '~services/graphql/client';
+    import {
+        QUERY_QUERY,
+    } from '~services/graphql/query';
     // #endregion external
 // #endregion imports
 

@@ -19,6 +19,18 @@ export const QUERY_GET = gql`
 `;
 
 
+export const QUERY_QUERY = gql`
+    query FunctionerDatabaseQuery($input: InputFunctionerDatabaseQuery!) {
+        functionerDatabaseQuery(input: $input) {
+            status
+            data {
+                value
+            }
+        }
+    }
+`;
+
+
 export const QUERY_GET_FUNCTION_ARGUMENTS = gql`
     query FunctionerDatabaseGetFunctionArguments($input: InputFunctionerDatabaseGetFunctionArguments!) {
         functionerDatabaseGetFunctionArguments(input: $input) {

@@ -5,6 +5,9 @@
     } from '~data/interface';
 
     import client from '~services/graphql/client';
+    import {
+        MUTATION_SET,
+    } from '~services/graphql/mutate';
     // #endregion external
 // #endregion imports
 

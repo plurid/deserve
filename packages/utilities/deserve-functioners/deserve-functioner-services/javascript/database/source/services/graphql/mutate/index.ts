@@ -7,9 +7,18 @@
 
 
 // #region module
-export const QUERY_SET = gql`
+export const MUTATION_SET = gql`
     query FunctionerDatabaseSet($input: InputFunctionerDatabaseSet!) {
         functionerDatabaseSet(input: $input) {
+            status
+        }
+    }
+`;
+
+
+export const MUTATION_REMOVE = gql`
+    query FunctionerDatabaseRemove($input: InputFunctionerDatabaseRemove!) {
+        functionerDatabaseRemove(input: $input) {
             status
         }
     }
