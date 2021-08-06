@@ -11,12 +11,9 @@
             "~data/*": [
                 "./source/data/*"
             ],
-            "~objects/*": [
-                "./source/objects/*"
-            ],
-            "~utilities/*": [
-                "./source/utilities/*"
-            ],
+            "~services/*": [
+                "./source/services/*"
+            ]
         },
 
         "outDir": "distribution",
