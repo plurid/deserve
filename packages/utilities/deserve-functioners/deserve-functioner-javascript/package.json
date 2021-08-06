@@ -1,0 +1,36 @@
+{
+    "name": "@plurid/deserve-functioner-javascript",
+    "version": "0.0.0-0",
+    "description": "Deserve Functioner for JavaScript",
+    "keywords": [
+        "deserve",
+        "functioner"
+    ],
+    "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
+    "license": "SEE LICENSE IN LICENSE",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/plurid/deserve"
+    },
+    "bugs": {
+        "email": "source@plurid.com",
+        "url": "https://github.com/plurid/deserve/issues"
+    },
+    "homepage": "https://github.com/plurid/deserve/blob/master/packages/utilities/deserve-functioners/deserve-functioners-javascript/README.md",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "engines": {
+        "node": ">=12",
+        "npm": ">=6"
+    },
+    "scripts": {
+        "prepare": "node scripts/prepare.js",
+        "start": "node index.js"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
+}
