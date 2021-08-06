@@ -31,21 +31,6 @@ const build = {
         },
     ],
     external: [
-        'cluster',
-        'os',
-        'http',
-        'path',
-        'net',
-        'events',
-        'domain',
-
-        '@kubernetes/client-node',
-        '@plurid/delog',
-        '@plurid/plurid-functions',
-        'async',
-        'expirymanager',
-        'express',
-        'minimist',
     ],
     plugins: [
         typescript({
