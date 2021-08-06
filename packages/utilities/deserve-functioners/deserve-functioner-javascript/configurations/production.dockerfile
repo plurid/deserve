@@ -16,4 +16,6 @@ COPY . .
 
 RUN yarn install --production --network-timeout 1000000
 
-CMD [ "yarn", "prepare" ]
+RUN yarn prepare
+
+CMD [ "yarn", "start" ]
