@@ -6,6 +6,7 @@ export const DESERVE_CORES = 'cores';
 export const DESERVE_KEYS = 'keys';
 export const DESERVE_FUNCTIONS = 'functions';
 export const DESERVE_BLOBS = 'blobs';
+export const DESERVE_TOKENS = 'tokens';
 
 
 export const DESERVE_MONGO_CONNECTION_STRING = process.env.DESERVE_NODE_MONGO_CONNECTION_STRING || 'mongodb://127.0.0.1:57057/';

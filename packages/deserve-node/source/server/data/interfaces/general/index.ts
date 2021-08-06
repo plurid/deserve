@@ -69,6 +69,7 @@ export interface DatabaseCollections {
     keys: mongodb.Collection;
     functions: mongodb.Collection;
     blobs: mongodb.Collection;
+    tokens: mongodb.Collection;
 }
 
 
