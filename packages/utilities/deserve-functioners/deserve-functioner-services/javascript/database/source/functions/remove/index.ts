@@ -17,7 +17,22 @@
 const remove: DatabaseRemove = async (
     id,
 ) => {
-    return false;
+    try {
+        const query = await client.query({
+            query: MUTATION_REMOVE,
+            variables: {
+                input: {
+                    id,
+                },
+            },
+        });
+
+        const response = query.data.functionerDatabaseRemove;
+
+        return response.status;
+    } catch (error) {
+        return false;
+    }
 }
 // #endregion module
 

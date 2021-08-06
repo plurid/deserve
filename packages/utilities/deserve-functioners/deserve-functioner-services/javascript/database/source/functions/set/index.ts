@@ -14,8 +14,27 @@
 
 
 // #region module
-const set: DatabaseSet = async () => {
-    return false;
+const set: DatabaseSet = async (
+    id,
+    data,
+) => {
+    try {
+        const query = await client.query({
+            query: MUTATION_SET,
+            variables: {
+                input: {
+                    id,
+                    data,
+                },
+            },
+        });
+
+        const response = query.data.functionerDatabaseSet;
+
+        return response.status;
+    } catch (error) {
+        return false;
+    }
 }
 // #endregion module
 

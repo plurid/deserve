@@ -11,7 +11,21 @@
 
 // #region module
 const getFunctionArguments = async () => {
+    try {
+        const query = await client.query({
+            query: QUERY_GET_FUNCTION_ARGUMENTS,
+        });
 
+        const response = query.data.functionerDatabaseGetFunctionData;
+
+        if (!response.status) {
+            return;
+        }
+
+        return response.data;
+    } catch (error) {
+        return;
+    }
 }
 // #endregion module
 

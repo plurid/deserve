@@ -17,7 +17,26 @@
 const get: DatabaseGet = async (
     id,
 ) => {
+    try {
+        const query = await client.query({
+            query: QUERY_GET,
+            variables: {
+                input: {
+                    id,
+                },
+            },
+        });
 
+        const response = query.data.functionerDatabaseGet;
+
+        if (!response.status) {
+            return;
+        }
+
+        return response.data;
+    } catch (error) {
+        return;
+    }
 }
 // #endregion module
 

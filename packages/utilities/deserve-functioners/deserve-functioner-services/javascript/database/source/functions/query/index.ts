@@ -18,7 +18,27 @@ const query: DatabaseQuery = async (
     filter,
     pagination,
 ) => {
-    return [];
+    try {
+        const query = await client.query({
+            query: QUERY_QUERY,
+            variables: {
+                input: {
+                    filter,
+                    pagination,
+                },
+            },
+        });
+
+        const response = query.data.functionerDatabaseQuery;
+
+        if (!response.status) {
+            return;
+        }
+
+        return response.data;
+    } catch (error) {
+        return;
+    }
 }
 // #endregion module
 
