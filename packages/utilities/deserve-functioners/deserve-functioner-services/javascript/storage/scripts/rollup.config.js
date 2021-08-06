@@ -33,6 +33,7 @@ const build = {
     external: [
         '@apollo/client/core',
         'cross-fetch',
+        'request',
     ],
     plugins: [
         typescript({
