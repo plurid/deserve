@@ -17,7 +17,22 @@
 const emit: EventEmit = async (
     data,
 ) => {
-    return false;
+    try {
+        const mutation = await client.mutate({
+            mutation: MUTATION_EVENT_EMIT,
+            variables: {
+                input: {
+                    data,
+                },
+            },
+        });
+
+        const response = mutation.data.functionerEventEmit;
+
+        return response.status;
+    } catch (error) {
+        return false;
+    }
 }
 // #endregion module
 
