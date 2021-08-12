@@ -49,7 +49,7 @@ echo "/dev/sda1               /data           ext4    defaults        1 2" | sud
 
 # Mongo Setup
 
-sudo docker pull mongo
+sudo docker pull mongo:bionic
 
 sudo mkdir -p /data/deserve_node_database
 
