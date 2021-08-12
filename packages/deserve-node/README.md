@@ -99,12 +99,12 @@ DESERVE_NODE_MINIO_SECRET_KEY=`openssl rand -hex 32`
 
 ```
 docker run \
+    -v deserve_node_storage:/data \
     -p 33735:9000 \
     -p 33736:9001 \
     --name deserve_node_minio \
     -e MINIO_ROOT_USER=$DESERVE_NODE_MINIO_ACCESS_KEY \
     -e MINIO_ROOT_PASSWORD=$DESERVE_NODE_MINIO_SECRET_KEY \
-    -v ~/data/deserve_node_storage:/data \
     -d \
     minio/minio server /data --console-address ":33736"
 ```
