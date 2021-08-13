@@ -117,7 +117,7 @@ printf "\n\nSafely store the\nMINIO_ROOT_USER $DESERVE_NODE_MINIO_ACCESS_KEY\nan
 ### Deserve Node
 
 ```
-docker pull deserve-node
+docker pull plurid/deserve-node
 ```
 
 ```
@@ -128,7 +128,7 @@ docker run \
     -e DESERVE_NODE_MINIO_ACCESS_KEY=$DESERVE_NODE_MINIO_ACCESS_KEY \
     -e DESERVE_NODE_MINIO_SECRET_KEY=$DESERVE_NODE_MINIO_SECRET_KEY \
     -d \
-    deserve-node
+    plurid/deserve-node
 ```
 
 
