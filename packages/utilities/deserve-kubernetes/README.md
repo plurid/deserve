@@ -24,8 +24,9 @@
 
 The `deserve kubernetes` is part of the [`deserve`](https://github.com/plurid/deserve) software.
 
-
 `deserve kubernetes` provides routing to `deserve core`s.
+
+`deserve` is a manner of owning the data you generate while using an internet service.
 
 
 

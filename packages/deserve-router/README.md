@@ -24,6 +24,8 @@
 
 The `deserve router` is part of the [`deserve`](https://github.com/plurid/deserve) software.
 
+`deserve` is a manner of owning the data you generate while using an internet service.
+
 
 
 ### Contents
