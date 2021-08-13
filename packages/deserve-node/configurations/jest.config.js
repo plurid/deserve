@@ -4,7 +4,7 @@ module.exports = {
         '.(ts|tsx)': 'ts-jest'
     },
     testEnvironment: 'node',
-    testRegex: '(/__specs__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
+    testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
     testPathIgnorePatterns: [
         'data',
     ],
