@@ -1,5 +1,8 @@
 FROM node:16-alpine AS builder
 
+RUN apk add --update python make g++\
+    && rm -rf /var/cache/apk/*
+
 WORKDIR /app
 
 COPY configurations ./configurations
@@ -18,6 +21,9 @@ RUN yarn build.production
 
 
 FROM node:16-alpine
+
+RUN apk add --update python make g++\
+    && rm -rf /var/cache/apk/*
 
 ENV PORT=33733
 ENV HOST="0.0.0.0"
