@@ -34,6 +34,7 @@
 
 + [The Why](#the-why)
 + [The What](#the-what)
++ [Usage](#usage)
 + [Packages](#packages)
 + [Codeophon](#codeophon)
 
