@@ -17,21 +17,16 @@
 
 
 <h3 align="center">
-    Own Your Data
+    Own Your Data · Control The Code
 </h3>
 
 
 <br />
 
 
-`deserve` is a manner of owning the data you generate while using an internet service.
+`deserve` is a software architecture and libre server for owning the data you generate and controlling the code run when using an internet service.
 
-More specifically, `deserve` is a conception of <i>generator-owned data inter-transfer</i>† and an implementation of such a data server, owned by one or <i>few</i>† entities, to be queried by network services for data. The data can be structured raw data (numbers, strings, boolean values), binary files, or even code, which enhance or customize the service based on the specification of the data owner.
-
-
-† <i>generator-owned data</i> means that the entity which generated a piece of data is ultimately the entity which controls, owns that data; <i>data inter-transfer</i> means that the data is ultimately meant to be used, shared in a network of entities and services;
-
-‡ the <i>few</i> should always be entities that know and meet each other on a near-daily basis; a `deserve` server loses its meaning when 'shared' by thousands or more of mutually unknown, unrelated entities; as a general heuristic, it is better to have thousands of `deserve`s with few entities each than few servers with thousands of entities each.
+[`deserver`](https://plurid.com/deserver) is a hardware device running a `deserve node`.
 
 
 
@@ -61,6 +56,13 @@ This grounding of a `why` must happen at this depth, if not even deeper, since d
 
 
 ## The What
+
+`deserve` is a conception of <i>generator-owned data inter-transfer</i>† and an implementation of such a data server, owned by one or <i>few</i>† entities, to be queried by network services for data. The data can be structured raw data (numbers, strings, boolean values), binary files, or even code, which enhance or customize the service based on the specification of the data owner.
+
+† <i>generator-owned data</i> means that the entity which generated a piece of data is ultimately the entity which controls, owns that data; <i>data inter-transfer</i> means that the data is ultimately meant to be used, shared in a network of entities and services;
+
+‡ the <i>few</i> should always be entities that know and meet each other on a near-daily basis; a `deserve` server loses its meaning when 'shared' by thousands or more of mutually unknown, unrelated entities; as a general heuristic, it is better to have thousands of `deserve`s with few entities each than few servers with thousands of entities each.
+
 
 The topology of a `deserve` environment is comprised of the `owner` and the network `service`.
 
