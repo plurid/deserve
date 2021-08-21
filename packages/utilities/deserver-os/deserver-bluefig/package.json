@@ -25,6 +25,13 @@
         "node": ">=12",
         "npm": ">=6"
     },
+    "bin": {
+        "deserver-bluefig": "binder/deserver-bluefig"
+    },
+    "files": [
+        "distribution",
+        "binder"
+    ],
     "scripts": {
         "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",

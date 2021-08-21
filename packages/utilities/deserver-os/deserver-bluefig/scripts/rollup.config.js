@@ -33,6 +33,18 @@ const common = {
 };
 
 
+const cli = {
+    input: 'source/cli.ts',
+    output: [
+        {
+            file: './distribution/cli.js',
+            format: 'cjs',
+        },
+    ],
+    ...common,
+};
+
+
 const hooks = {
     input: 'source/hooks.ts',
     output: [
@@ -61,6 +73,7 @@ const views = {
 
 // #region exports
 export default [
+    cli,
     hooks,
     views,
 ];
