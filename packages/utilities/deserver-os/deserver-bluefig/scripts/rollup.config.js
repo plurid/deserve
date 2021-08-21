@@ -33,40 +33,23 @@ const common = {
 };
 
 
-const cli = {
-    input: 'source/cli.ts',
+const factory = (
+    name,
+) => ({
+    input: `source/${name}.ts`,
     output: [
         {
-            file: './distribution/cli.js',
+            file: `distribution/${name}.js`,
             format: 'cjs',
         },
     ],
     ...common,
-};
+});
 
 
-const hooks = {
-    input: 'source/hooks.ts',
-    output: [
-        {
-            file: './distribution/hooks.js',
-            format: 'cjs',
-        },
-    ],
-    ...common,
-};
-
-
-const views = {
-    input: 'source/views.ts',
-    output: [
-        {
-            file: './distribution/views.js',
-            format: 'cjs',
-        },
-    ],
-    ...common,
-};
+const cli = factory('cli');
+const hooks = factory('hooks');
+const views = factory('views');
 // #endregion module
 
 
