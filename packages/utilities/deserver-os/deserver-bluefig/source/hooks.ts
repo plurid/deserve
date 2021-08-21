@@ -1,7 +1,7 @@
 // #region module
 const hooks = {
-    beforeRead: async (
-        view,
+    beforeRead: (
+        view: string,
     ) => {
         // check if root key set
 
@@ -10,8 +10,8 @@ const hooks = {
         console.log('beforeRead hook called', view);
         return true;
     },
-    beforeWrite: async (
-        view,
+    beforeWrite: (
+        view: string,
     ) => {
         console.log('beforeWrite hook called', view);
         return true;

@@ -1,10 +1,14 @@
 // #region imports
     // #region libraries
-    const os = require('os');
-    const path = require('path');
-    const {
-        promises: fs,
-    } = require('fs');
+    import os from 'os';
+    import path from 'path';
+    import {
+        promises as fs,
+    } from 'fs';
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 // #endregion imports
 
@@ -36,6 +40,8 @@ const views = {
         actions: {
             settings: async () => {
                 // view /settings
+                const a = uuid.generate();
+                console.log(a);
             },
         },
     },
@@ -61,7 +67,7 @@ const views = {
                     'rootKey',
                 ],
                 execution: async (
-                    rootKey,
+                    rootKey: string,
                 ) => {
                     // check if rootKey is correct
                 },
@@ -96,8 +102,8 @@ const views = {
                     'adminKeyRetyped',
                 ],
                 execution: async (
-                    adminKey,
-                    adminKeyRetyped,
+                    adminKey: string,
+                    adminKeyRetyped: string,
                 ) => {
                     // set adminKey
                 },
@@ -137,9 +143,9 @@ const views = {
                     'newAdminKeyRetyped',
                 ],
                 execution: async (
-                    currentAdminKey,
-                    newAdminKey,
-                    newAdminKeyRetyped,
+                    currentAdminKey: string,
+                    newAdminKey: string,
+                    newAdminKeyRetyped: string,
                 ) => {
                     // check currentAdminKey
                     // set newAdminKey
@@ -178,8 +184,8 @@ const views = {
                     'wifiKey',
                 ],
                 execution: async (
-                    selectedWifi,
-                    wifiKey,
+                    selectedWifi: number,
+                    wifiKey: string,
                 ) => {
                     // connect to selectedWifi based on wifiKey
                 },
@@ -214,8 +220,8 @@ const views = {
                     'key',
                 ],
                 execution: async (
-                    identonym,
-                    key,
+                    identonym: string,
+                    key: string,
                 ) => {
                     // generate owner with identonym and key
                 },
@@ -250,7 +256,7 @@ const views = {
                     'activeRegistration',
                 ],
                 execution: async (
-                    activeRegistration,
+                    activeRegistration: boolean,
                 ) => {
                     // toggle
                 },
@@ -285,7 +291,7 @@ const views = {
                     'rootKey'
                 ],
                 execution: async (
-                    rootKey,
+                    rootKey: string,
                 ) => {
                     // check root key
                     // disable bluefig
