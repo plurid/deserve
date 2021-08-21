@@ -1,4 +1,28 @@
+// #region imports
+    // #region libraries
+    const os = require('os');
+    const path = require('path');
+    const {
+        promises: fs,
+    } = require('fs');
+    // #endregion libraries
+// #endregion imports
+
+
+
 // #region module
+const bluefigRootPath = path.join(
+    os.homedir(),
+    '.bluefig',
+);
+
+const deserveRootPath = path.join(
+    os.homedir(),
+    '.deserve',
+);
+
+
+
 const views = {
     '/': {
         title: 'deserver',
