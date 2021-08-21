@@ -130,8 +130,11 @@ const views = {
         elements: [
             {
                 type: 'input-select',
-                options: [],
+                options: async () => {
+                    // get available wi-fis list
+                },
                 store: 'selectedWifi',
+                exclusive: true,
             },
             {
                 type: 'input-text',
