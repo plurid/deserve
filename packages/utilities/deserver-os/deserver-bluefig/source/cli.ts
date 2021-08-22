@@ -2,9 +2,10 @@
     // #region libraries
     import os from 'os';
     import path from 'path';
-    import fsSync, {
-        promises as fs,
-    } from 'fs';
+    import fs from 'fs';
+    import {
+        execSync,
+    } from 'child_process';
     // #endregion libraries
 // #endregion imports
 
@@ -23,15 +24,15 @@ const deploy = async () => {
         os.homedir(),
         './.bluefig',
     );
-    const bluefigExists = fsSync.existsSync(
+    const bluefigExists = fs.existsSync(
         bluefigDirectory,
     );
     if (!bluefigExists) {
-        fs.mkdir(bluefigDirectory);
+        fs.mkdirSync(bluefigDirectory);
     }
 
     for (const file of files) {
-        await fs.copyFile(
+        await fs.promises.copyFile(
             path.join(
                 __dirname,
                 '../distribution/' + file,
@@ -48,6 +49,12 @@ const deploy = async () => {
 const update = async () => {
     console.log('\n\tUpdating deserver bluefig configuration.\n');
 
+    const command = 'npm update -g @plurid/deserver-bluefig';
+    execSync(
+        command,
+    );
+
+    deploy();
 }
 
 
