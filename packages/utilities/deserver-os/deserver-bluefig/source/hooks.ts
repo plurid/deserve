@@ -1,5 +1,17 @@
 // #region module
 const hooks = {
+    checkToken: (
+        token: string | undefined,
+        type: string,
+    ) => {
+        if (!token) {
+            return false;
+        }
+
+        // read bluefig token and check
+
+        return true;
+    },
     beforeRead: (
         view: string,
     ) => {
