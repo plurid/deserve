@@ -11,18 +11,9 @@
             "~data/*": [
                 "./source/data/*"
             ],
-            "~logic/*": [
-                "./source/logic/*"
-            ],
-            "~objects/*": [
-                "./source/objects/*"
-            ],
-            "~services/*": [
-                "./source/services/*"
-            ],
-            "~utilities/*": [
-                "./source/utilities/*"
-            ],
+            "~functions/*": [
+                "./source/functions/*"
+            ]
         },
 
         "outDir": "distribution",
