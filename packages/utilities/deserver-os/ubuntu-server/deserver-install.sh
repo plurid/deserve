@@ -17,6 +17,12 @@ sudo adduser identonym
 
 
 
+# Bluetooth setup
+
+sudo apt install bluez
+
+
+
 # Docker Install
 
 sudo apt-get update
