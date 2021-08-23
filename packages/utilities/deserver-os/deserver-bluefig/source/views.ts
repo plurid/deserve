@@ -32,6 +32,13 @@ const views = {
         title: 'deserver',
         elements: [
             {
+                type: 'list',
+                elements: async () => {
+                    // compute dynamic elements
+                    return [];
+                },
+            },
+            {
                 type: 'button',
                 title: 'Settings',
                 action: 'settings',
@@ -39,9 +46,7 @@ const views = {
         ],
         actions: {
             settings: async () => {
-                // view /settings
-                const a = uuid.generate();
-                console.log(a);
+                return views['/settings'];
             },
         },
     },
@@ -70,6 +75,8 @@ const views = {
                     rootKey: string,
                 ) => {
                     // check if rootKey is correct
+
+                    return views['/'];
                 },
             },
         },
