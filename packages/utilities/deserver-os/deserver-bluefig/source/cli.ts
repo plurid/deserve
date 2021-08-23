@@ -59,23 +59,27 @@ const update = async () => {
 
 
 const cli = () => {
-    const arg = process.argv[2];
-    if (!arg) {
-        console.log(`\n\tIncorrect usage. Allowed commands: 'deploy', 'update'.\n`);
-        return;
-    }
+    try {
+        const arg = process.argv[2];
+        if (!arg) {
+            console.log(`\n\tIncorrect usage. Allowed commands: 'deploy', 'update'.\n`);
+            return;
+        }
 
-    const command = arg.trim().toLowerCase();
+        const command = arg.trim().toLowerCase();
 
-    switch (command) {
-        case 'deploy':
-            deploy();
-            break;
-        case 'update':
-            update();
-            break;
-        default:
-            console.log(`\n\tCommand '${command}' is unknown. Allowed commands: deploy, update.\n`);
+        switch (command) {
+            case 'deploy':
+                deploy();
+                break;
+            case 'update':
+                update();
+                break;
+            default:
+                console.log(`\n\tCommand '${command}' is unknown. Allowed commands: deploy, update.\n`);
+        }
+    } catch (error) {
+        console.log('Something went wrong', error);
     }
 }
 // #endregion module
