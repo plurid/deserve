@@ -1,5 +1,6 @@
 // #region imports
     // #region libraries
+    import os from 'os';
     import path from 'path';
     // #endregion libraries
 // #endregion imports
@@ -27,4 +28,12 @@ export const COOKIE_DOMAIN = process.env.DESERVE_NODE_COOKIE_DOMAIN || 'localhos
 
 
 export const DEFAULT_TUNNEL_HOST = process.env.DESERVE_NODE_DEFAULT_TUNNEL_HOST || 'https://deserve.plurid.cloud';
+
+
+
+export const defaultConfigurationPath = path.join(
+    os.homedir(),
+    '.deserve/data.deon',
+);
+export const CONFIGURATION_PATH = process.env.DESERVE_NODE_CONFIGURATION_PATH || defaultConfigurationPath;
 // #endregion module
