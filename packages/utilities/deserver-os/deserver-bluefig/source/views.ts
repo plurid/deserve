@@ -267,7 +267,33 @@ const views = {
                     identonym: string,
                     key: string,
                 ) => {
-                    // generate owner with identonym and key
+                    const deserveData = await readDeonFile(
+                        deserveDataFile,
+                    );
+
+                    const hashedKey = hashKey(key);
+                    const owners = [
+                        ...deserveData?.owners,
+                        {
+                            identonym,
+                            hashedKey,
+                        },
+                    ];
+
+                    const newDeserveData = {
+                        ...deserveData,
+                        owners,
+                    };
+
+                    const written = await writeDeonFile(
+                        deserveDataFile,
+                        newDeserveData,
+                    );
+                    if (!written) {
+                        return views['/owner-registration'];
+                    }
+
+                    return views['/'];
                 },
             },
         },
