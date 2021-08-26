@@ -1,7 +1,14 @@
 // #region imports
+    // #region libraries
+    import {
+        promises as fs,
+    } from 'fs';
+    // #endregion libraries
+
+
     // #region external
     import {
-        bluefigDataFile,
+        bluefigInactiveFile,
         deserverDataFile,
         deserveDataFile,
     } from './data/constants';
@@ -10,6 +17,7 @@
         readDeonFile,
         writeDeonFile,
 
+        validateKey,
         hashKey,
 
         getWifiList,
@@ -304,10 +312,16 @@ const views = {
         title: 'settings',
         elements: [
             {
-                type: 'input-select',
-                options: [],
+                type: 'input-switch',
                 store: 'activeRegistration',
                 action: 'toggleRegistration',
+                initial: async () => {
+                    const deserveData = await readDeonFile(
+                        deserveDataFile,
+                    );
+
+                    return deserveData?.registration ?? false;
+                }
             },
             {
                 type: 'button',
@@ -328,14 +342,28 @@ const views = {
                 execution: async (
                     activeRegistration: boolean,
                 ) => {
-                    // toggle
+                    const deserveData = await readDeonFile(
+                        deserveDataFile,
+                    );
+
+                    const newDeserveData = {
+                        ...deserveData,
+                        registration: activeRegistration,
+                    };
+
+                    await writeDeonFile(
+                        deserveDataFile,
+                        newDeserveData,
+                    );
+
+                    return views['/settings'];
                 },
             },
             disableBluefig: async () => {
-                // disableBluefig
+                return views['/disable-bluefig'];
             },
             cancel: async () => {
-                // view /
+                return views['/'];
             },
         },
     },
@@ -363,8 +391,29 @@ const views = {
                 execution: async (
                     rootKey: string,
                 ) => {
-                    // check root key
-                    // disable bluefig
+                    if (!rootKey) {
+                        return views['/disable-bluefig'];
+                    }
+
+                    const deserverData = await readDeonFile(
+                        deserverDataFile,
+                    );
+
+                    const valid = await validateKey(
+                        rootKey,
+                        deserverData?.rootKeyHash || '',
+                    );
+                    if (!valid) {
+                        return views['/'];
+                    }
+
+
+                    await fs.writeFile(
+                        bluefigInactiveFile,
+                        'yes',
+                    );
+
+                    return views['/'];
                 },
             },
         },

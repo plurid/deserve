@@ -13,6 +13,11 @@ export const bluefigRootPath = path.join(
     '.bluefig',
 );
 
+export const bluefigInactiveFile = path.join(
+    bluefigRootPath,
+    'inactive',
+);
+
 export const bluefigDataFile = path.join(
     bluefigRootPath,
     'data.deon',
