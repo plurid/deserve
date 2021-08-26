@@ -13,10 +13,18 @@
 
 // #region module
 const common = {
-    external: [],
+    external: [
+        '@plurid/delog',
+        '@plurid/deon',
+        '@plurid/plurid-functions',
+        'bcrypt',
+        'node-wifi',
+    ],
     plugins: [
         commonjs(),
-        nodeResolve(),
+        nodeResolve({
+            preferBuiltins: true,
+        }),
         json(),
         typescript({
             typescript: ttypescript,
