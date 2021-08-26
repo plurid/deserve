@@ -2,6 +2,7 @@
     // #region libraries
     import commonjs from '@rollup/plugin-commonjs';
     import { nodeResolve } from '@rollup/plugin-node-resolve';
+    import json from '@rollup/plugin-json';
     import ttypescript from 'ttypescript';
     import typescript from 'rollup-plugin-typescript2';
     import { terser } from 'rollup-plugin-terser';
@@ -16,6 +17,7 @@ const common = {
     plugins: [
         commonjs(),
         nodeResolve(),
+        json(),
         typescript({
             typescript: ttypescript,
             rollupCommonJSResolveHack: true,

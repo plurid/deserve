@@ -48,6 +48,7 @@
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^20.0.0",
+        "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^13.0.4",
         "@types/bcrypt": "^5.0.0",
         "@types/node": "^16.7.1",
