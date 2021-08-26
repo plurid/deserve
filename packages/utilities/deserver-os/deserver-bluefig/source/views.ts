@@ -11,6 +11,9 @@
         writeDeonFile,
 
         hashKey,
+
+        getWifiList,
+        connectToWifi,
     } from './utilities';
     // #endregion external
 // #endregion imports
@@ -180,7 +183,17 @@ const views = {
             {
                 type: 'input-select',
                 options: async () => {
-                    // get available wi-fis list
+                    const wifiList = await getWifiList();
+                    if (!wifiList) {
+                        return [];
+                    }
+
+                    const optionsList: string[] = [];
+                    wifiList.forEach(wifi => {
+                        optionsList.push(wifi.name);
+                    });
+
+                    return optionsList;
                 },
                 store: 'selectedWifi',
                 exclusive: true,
@@ -203,10 +216,22 @@ const views = {
                     'wifiKey',
                 ],
                 execution: async (
-                    selectedWifi: number,
+                    selectedWifi: [number, string],
                     wifiKey: string,
                 ) => {
-                    // connect to selectedWifi based on wifiKey
+                    const [
+                        _, ssid,
+                    ] = selectedWifi;
+
+                    const connected = await connectToWifi(
+                        ssid,
+                        wifiKey,
+                    );
+                    if (!connected) {
+                        return views['/wifi-selection'];
+                    }
+
+                    return views['/'];
                 },
             },
         },
