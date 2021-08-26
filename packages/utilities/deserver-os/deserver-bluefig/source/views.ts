@@ -1,32 +1,15 @@
 // #region imports
-    // #region libraries
-    import os from 'os';
-    import path from 'path';
+    // #region external
     import {
-        promises as fs,
-    } from 'fs';
-
-    import {
-        uuid,
-    } from '@plurid/plurid-functions';
-    // #endregion libraries
+        bluefigRootPath,
+        deserveRootPath,
+    } from './data/constants';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const bluefigRootPath = path.join(
-    os.homedir(),
-    '.bluefig',
-);
-
-const deserveRootPath = path.join(
-    os.homedir(),
-    '.deserve',
-);
-
-
-
 const views = {
     '/': {
         title: 'deserver',
