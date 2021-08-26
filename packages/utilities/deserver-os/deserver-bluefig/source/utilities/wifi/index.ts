@@ -100,4 +100,34 @@ export const connectToWifi = async (
         return false;
     }
 }
+
+
+export const getCurrentWifi = async () => {
+    try {
+        const connections = await new Promise<any[]>(
+            (resolve, reject) => {
+                wifi.init({
+                    iface: null,
+                });
+
+                wifi.getCurrentConnections(
+                    (
+                        error: any,
+                        currentConnections: any[],
+                    ) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(currentConnections);
+                        }
+                    },
+                );
+            },
+        );
+
+        return connections[0];
+    } catch (error) {
+        return;
+    }
+}
 // #endregion module

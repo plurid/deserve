@@ -9,19 +9,27 @@
     // #region external
     import {
         bluefigInactiveFile,
-        deserverDataFile,
         deserveDataFile,
     } from './data/constants';
+
+    import {
+        registeOwner,
+    } from '~functions/deserve';
+
+    import {
+        checkRootKey,
+        storeRootKey,
+        checkAdminKey,
+        storeAdminKey,
+    } from '~functions/keys';
 
     import {
         readDeonFile,
         writeDeonFile,
 
-        hashKey,
-        checkRootKey,
-
         getWifiList,
         connectToWifi,
+        getCurrentWifi,
     } from './utilities';
     // #endregion external
 // #endregion imports
@@ -34,11 +42,14 @@ const views = {
         title: 'deserver',
         elements: [
             {
-                type: 'list',
-                elements: async () => {
-                    // compute dynamic elements
-                    return [];
-                },
+                type: 'button',
+                title: 'Register Owner',
+                action: 'registerOwner',
+            },
+            {
+                type: 'button',
+                title: 'Setup Wi-Fi',
+                action: 'setupWifi',
             },
             {
                 type: 'button',
@@ -47,12 +58,69 @@ const views = {
             },
         ],
         actions: {
+            registerOwner: async () => {
+                return views['/owner-registration'];
+            },
+            setupWifi: async () => {
+                return views['/wifi-selection'];
+            },
             settings: async () => {
                 return views['/settings'];
             },
         },
     },
 
+
+    '/root-registration': {
+        title: 'root registration',
+        elements: [
+            {
+                type: 'input-text',
+                title: 'root key',
+                store: 'rootKey',
+            },
+            {
+                type: 'input-text',
+                title: 'root key retyped',
+                store: 'rootKeyRetyped',
+            },
+            {
+                type: 'button',
+                title: 'Enter',
+                action: 'enter',
+            },
+        ],
+        actions: {
+            'enter': {
+                arguments: [
+                    'rootKey',
+                    'rootKeyRetyped',
+                ],
+                execution: async (
+                    rootKey: string,
+                    rootKeyRetyped: string,
+                ) => {
+                    if (
+                        !rootKey
+                        || !rootKeyRetyped
+                    ) {
+                        return views['/root-registration'];
+                    }
+
+                    if (rootKey !== rootKeyRetyped) {
+                        return views['/root-registration'];
+                    }
+
+                    const stored = await storeRootKey(rootKey);
+                    if (!stored) {
+                        return views['/root-registration'];
+                    }
+
+                    return views['/admin-registration'];
+                },
+            },
+        },
+    },
 
     '/root-login': {
         title: 'root login',
@@ -76,13 +144,81 @@ const views = {
                 execution: async (
                     rootKey: string,
                 ) => {
-                    // check if rootKey is correct
+                    const validKey = await checkRootKey(rootKey);
+                    if (!validKey) {
+                        return views['/root-login'];
+                    }
 
                     return views['/'];
                 },
             },
         },
     },
+
+    '/root-key-reset': {
+        title: 'root key reset',
+        elements: [
+            {
+                type: 'input-text',
+                title: 'current root key',
+                store: 'currentRootKey',
+            },
+            {
+                type: 'input-text',
+                title: 'new root key',
+                store: 'newRootKey',
+            },
+            {
+                type: 'input-text',
+                title: 'new root key retyped',
+                store: 'newRootKeyRetyped',
+            },
+            {
+                type: 'button',
+                title: 'Enter',
+                action: 'enter',
+            },
+        ],
+        actions: {
+            'enter': {
+                arguments: [
+                    'currentRootKey',
+                    'newRootKey',
+                    'newRootKeyRetyped',
+                ],
+                execution: async (
+                    currentRootKey: string,
+                    newRootKey: string,
+                    newRootKeyRetyped: string,
+                ) => {
+                    if (
+                        !currentRootKey
+                        || !newRootKey
+                        || !newRootKeyRetyped
+                    ) {
+                        return views['/root-key-reset'];
+                    }
+
+                    if (newRootKey !== newRootKeyRetyped) {
+                        return views['/root-key-reset'];
+                    }
+
+                    const validKey = await checkRootKey(currentRootKey);
+                    if (!validKey) {
+                        return views['/root-key-reset'];
+                    }
+
+                    const stored = await storeRootKey(newRootKey);
+                    if (!stored) {
+                        return views['/root-key-reset'];
+                    }
+
+                    return views['/'];
+                },
+            },
+        },
+    },
+
 
 
     '/admin-registration': {
@@ -114,26 +250,18 @@ const views = {
                     adminKey: string,
                     adminKeyRetyped: string,
                 ) => {
+                    if (!adminKey || !adminKeyRetyped) {
+                        return views['/admin-registration'];
+                    }
+
                     if (adminKey !== adminKeyRetyped) {
                         return views['/admin-registration'];
                     }
 
-                    const deserverData = await readDeonFile(
-                        deserverDataFile,
-                    );
-                    const adminKeyHash = await hashKey(adminKey);
-                    if (!adminKeyHash) {
+                    const stored = await storeAdminKey(adminKey);
+                    if (!stored) {
                         return views['/admin-registration'];
                     }
-                    const deserverNewData = {
-                        ...deserverData,
-                        adminKeyHash,
-                    };
-
-                    await writeDeonFile(
-                        deserverDataFile,
-                        deserverNewData,
-                    );
 
                     return views['/wifi-selection'];
                 },
@@ -141,7 +269,7 @@ const views = {
         },
     },
 
-    '/admin-reset': {
+    '/admin-key-reset': {
         title: 'admin key reset',
         elements: [
             {
@@ -177,8 +305,29 @@ const views = {
                     newAdminKey: string,
                     newAdminKeyRetyped: string,
                 ) => {
-                    // check currentAdminKey
-                    // set newAdminKey
+                    if (
+                        !currentAdminKey
+                        || !newAdminKey
+                        || !newAdminKeyRetyped
+                    ) {
+                        return views['/admin-key-reset'];
+                    }
+
+                    if (newAdminKey !== newAdminKeyRetyped) {
+                        return views['/admin-key-reset'];
+                    }
+
+                    const validKey = await checkAdminKey(currentAdminKey);
+                    if (!validKey) {
+                        return views['/admin-key-reset'];
+                    }
+
+                    const stored = await storeAdminKey(newAdminKey);
+                    if (!stored) {
+                        return views['/admin-key-reset'];
+                    }
+
+                    return views['/'];
                 },
             },
         },
@@ -202,6 +351,14 @@ const views = {
                     });
 
                     return optionsList;
+                },
+                initial: async () => {
+                    const currentWifi = await getCurrentWifi();
+                    if (!currentWifi) {
+                        return;
+                    }
+
+                    return currentWifi.ssid;
                 },
                 store: 'selectedWifi',
                 exclusive: true,
@@ -275,29 +432,15 @@ const views = {
                     identonym: string,
                     key: string,
                 ) => {
-                    const deserveData = await readDeonFile(
-                        deserveDataFile,
+                    if (!identonym || !key) {
+                        return views['/owner-registration'];
+                    }
+
+                    const stored = await registeOwner(
+                        identonym,
+                        key,
                     );
-
-                    const hashedKey = hashKey(key);
-                    const owners = [
-                        ...deserveData?.owners,
-                        {
-                            identonym,
-                            hashedKey,
-                        },
-                    ];
-
-                    const newDeserveData = {
-                        ...deserveData,
-                        owners,
-                    };
-
-                    const written = await writeDeonFile(
-                        deserveDataFile,
-                        newDeserveData,
-                    );
-                    if (!written) {
+                    if (!stored) {
                         return views['/owner-registration'];
                     }
 
@@ -313,6 +456,7 @@ const views = {
         elements: [
             {
                 type: 'input-switch',
+                title: 'Active Registration',
                 store: 'activeRegistration',
                 action: 'toggleRegistration',
                 initial: async () => {
@@ -327,6 +471,16 @@ const views = {
                 type: 'button',
                 title: 'Disable Bluefig',
                 action: 'disableBluefig',
+            },
+            {
+                type: 'button',
+                title: 'Root Key Reset',
+                action: 'rootKeyReset',
+            },
+            {
+                type: 'button',
+                title: 'Admin Key Reset',
+                action: 'adminKeyReset',
             },
             {
                 type: 'button',
@@ -361,6 +515,12 @@ const views = {
             },
             disableBluefig: async () => {
                 return views['/disable-bluefig'];
+            },
+            rootKeyReset: async () => {
+                return views['/root-key-reset'];
+            },
+            adminKeyReset: async () => {
+                return views['/admin-key-reset'];
             },
             cancel: async () => {
                 return views['/'];
