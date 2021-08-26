@@ -1,9 +1,17 @@
 // #region imports
     // #region external
     import {
-        bluefigRootPath,
-        deserveRootPath,
+        bluefigDataFile,
+        deserverDataFile,
+        deserveDataFile,
     } from './data/constants';
+
+    import {
+        readDeonFile,
+        writeDeonFile,
+
+        hashKey,
+    } from './utilities';
     // #endregion external
 // #endregion imports
 
@@ -95,7 +103,28 @@ const views = {
                     adminKey: string,
                     adminKeyRetyped: string,
                 ) => {
-                    // set adminKey
+                    if (adminKey !== adminKeyRetyped) {
+                        return views['/admin-registration'];
+                    }
+
+                    const deserverData = await readDeonFile(
+                        deserverDataFile,
+                    );
+                    const adminKeyHash = await hashKey(adminKey);
+                    if (!adminKeyHash) {
+                        return views['/admin-registration'];
+                    }
+                    const deserverNewData = {
+                        ...deserverData,
+                        adminKeyHash,
+                    };
+
+                    await writeDeonFile(
+                        deserverDataFile,
+                        deserverNewData,
+                    );
+
+                    return views['/wifi-selection'];
                 },
             },
         },
