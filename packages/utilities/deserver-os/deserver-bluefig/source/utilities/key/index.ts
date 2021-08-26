@@ -2,17 +2,52 @@
     // #region libraries
     import bcrypt from 'bcrypt';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        deserverDataFile,
+    } from '~data/constants';
+
+    import {
+        readDeonFile,
+        writeDeonFile,
+    } from '~utilities/deon';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
+export const checkRootKey = async (
+    rootKey: string,
+) => {
+    if (!rootKey) {
+        return false
+    }
+
+    const deserverData = await readDeonFile(
+        deserverDataFile,
+    );
+
+    const valid = await validateKey(
+        rootKey,
+        deserverData?.rootKeyHash || '',
+    );
+    if (!valid) {
+        return false;
+    }
+
+    return true;
+}
+
+
 /**
  * Returns a hashed string for the `keyText`.
  *
  * @param keyText
  */
-const hashKey = async (
+export const hashKey = async (
     keyText: string,
 ): Promise<string | undefined> => {
     try {
@@ -35,7 +70,7 @@ const hashKey = async (
  * @param keyText
  * @param hash
  */
-const validateKey = async (
+export const validateKey = async (
     keyText: string,
     hash: string,
 ) => {
@@ -45,12 +80,3 @@ const validateKey = async (
     );
 }
 // #endregion module
-
-
-
-// #region exports
-export {
-    hashKey,
-    validateKey,
-};
-// #endregion exports

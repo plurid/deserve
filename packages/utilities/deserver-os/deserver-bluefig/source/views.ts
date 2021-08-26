@@ -17,8 +17,8 @@
         readDeonFile,
         writeDeonFile,
 
-        validateKey,
         hashKey,
+        checkRootKey,
 
         getWifiList,
         connectToWifi,
@@ -391,17 +391,8 @@ const views = {
                 execution: async (
                     rootKey: string,
                 ) => {
-                    if (!rootKey) {
-                        return views['/disable-bluefig'];
-                    }
-
-                    const deserverData = await readDeonFile(
-                        deserverDataFile,
-                    );
-
-                    const valid = await validateKey(
+                    const valid = await checkRootKey(
                         rootKey,
-                        deserverData?.rootKeyHash || '',
                     );
                     if (!valid) {
                         return views['/'];
