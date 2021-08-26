@@ -42,11 +42,13 @@
     "dependencies": {
         "@plurid/delog": "^0.0.0-5",
         "@plurid/deon": "^0.0.0-4",
-        "@plurid/plurid-functions": "^0.0.0-5"
+        "@plurid/plurid-functions": "^0.0.0-5",
+        "bcrypt": "^5.0.1"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^20.0.0",
         "@rollup/plugin-node-resolve": "^13.0.4",
+        "@types/bcrypt": "^5.0.0",
         "@types/node": "^16.7.1",
         "@typescript-eslint/eslint-plugin": "^4.29.2",
         "@typescript-eslint/parser": "^4.29.2",
