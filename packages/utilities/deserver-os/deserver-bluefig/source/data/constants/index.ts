@@ -18,10 +18,6 @@ export const bluefigInactiveFile = path.join(
     'inactive',
 );
 
-export const bluefigDataFile = path.join(
-    bluefigRootPath,
-    'data.deon',
-);
 
 
 export const deserverRootPath = path.join(
@@ -33,6 +29,7 @@ export const deserverDataFile = path.join(
     deserverRootPath,
     'data.deon',
 );
+
 
 
 export const deserveRootPath = path.join(

@@ -16,7 +16,7 @@
 
 
 // #region module
-export const registeOwner = async (
+export const registerOwner = async (
     identonym: string,
     key: string,
 ) => {

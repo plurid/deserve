@@ -13,7 +13,7 @@
     } from './data/constants';
 
     import {
-        registeOwner,
+        registerOwner,
     } from '~functions/deserve';
 
     import {
@@ -69,6 +69,7 @@ const views = {
             },
         },
     },
+
 
 
     '/root-registration': {
@@ -144,6 +145,10 @@ const views = {
                 execution: async (
                     rootKey: string,
                 ) => {
+                    if (!rootKey) {
+                        return views['/root-login'];
+                    }
+
                     const validKey = await checkRootKey(rootKey);
                     if (!validKey) {
                         return views['/root-login'];
@@ -334,6 +339,7 @@ const views = {
     },
 
 
+
     '/wifi-selection': {
         title: 'select wi-fi',
         elements: [
@@ -403,6 +409,7 @@ const views = {
     },
 
 
+
     '/owner-registration': {
         title: 'owner registration',
         elements: [
@@ -436,7 +443,7 @@ const views = {
                         return views['/owner-registration'];
                     }
 
-                    const stored = await registeOwner(
+                    const stored = await registerOwner(
                         identonym,
                         key,
                     );
@@ -449,6 +456,7 @@ const views = {
             },
         },
     },
+
 
 
     '/settings': {
@@ -527,7 +535,6 @@ const views = {
             },
         },
     },
-
 
     '/disable-bluefig': {
         title: 'disable bluefig',
