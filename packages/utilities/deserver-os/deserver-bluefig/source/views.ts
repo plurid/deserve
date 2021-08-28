@@ -3,6 +3,10 @@
     import {
         promises as fs,
     } from 'fs';
+
+    import {
+        execSync,
+    } from 'child_process';
     // #endregion libraries
 
 
@@ -477,8 +481,11 @@ const views = {
             },
             {
                 type: 'button',
-                title: 'Disable Bluefig',
-                action: 'disableBluefig',
+                title: 'Setup Storage',
+                action: 'setupStorage',
+            },
+            {
+                type: 'divider',
             },
             {
                 type: 'button',
@@ -489,6 +496,22 @@ const views = {
                 type: 'button',
                 title: 'Admin Key Reset',
                 action: 'adminKeyReset',
+            },
+            {
+                type: 'divider',
+            },
+            {
+                type: 'button',
+                title: 'Restart Deserve',
+                action: 'restartDeserve',
+            },
+            {
+                type: 'button',
+                title: 'Disable Bluefig',
+                action: 'disableBluefig',
+            },
+            {
+                type: 'divider',
             },
             {
                 type: 'button',
@@ -521,16 +544,25 @@ const views = {
                     return views['/settings'];
                 },
             },
-            disableBluefig: async () => {
-                return views['/disable-bluefig'];
+            'setupStorage': async () => {
+                // return views['/setup-storage];
             },
-            rootKeyReset: async () => {
+            'rootKeyReset': async () => {
                 return views['/root-key-reset'];
             },
-            adminKeyReset: async () => {
+            'adminKeyReset': async () => {
                 return views['/admin-key-reset'];
             },
-            cancel: async () => {
+            'restartDeserve': async () => {
+                const command = `docker restart deserve_node`;
+                execSync(command);
+
+                return views['/'];
+            },
+            'disableBluefig': async () => {
+                return views['/disable-bluefig'];
+            },
+            'cancel': async () => {
                 return views['/'];
             },
         },
