@@ -14,7 +14,7 @@
 // #region module
 const VERSION = `0.0.0-0`;
 
-const allowedCommands = `Allowed commands:
+const availableCommands = `Available commands:
 
     deploy      - copy the views and hooks to '~/.bluefig';
     update      - update deserver bluefig;
@@ -78,7 +78,7 @@ const version = () => {
 const help = (
     command: string,
 ) => {
-    console.log(`\n\tCommand '${command}' is unknown. ${allowedCommands}\n`);
+    console.log(`\n\tCommand '${command}' is unknown. ${availableCommands}\n`);
 }
 
 
@@ -87,7 +87,7 @@ const cli = () => {
     try {
         const arg = process.argv[2];
         if (!arg) {
-            console.log(`\n\tIncorrect usage. ${allowedCommands}\n`);
+            console.log(`\n\tIncorrect usage. ${availableCommands}\n`);
             return;
         }
 
