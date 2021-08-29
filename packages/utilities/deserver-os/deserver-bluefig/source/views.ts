@@ -102,9 +102,16 @@ const views = {
                     'rootKeyRetyped',
                 ],
                 execution: async (
-                    rootKey: string,
-                    rootKeyRetyped: string,
+                    payload: {
+                        rootKey: string;
+                        rootKeyRetyped: string;
+                    },
                 ) => {
+                    const {
+                        rootKey,
+                        rootKeyRetyped,
+                    } = payload;
+
                     if (
                         !rootKey
                         || !rootKeyRetyped
@@ -147,8 +154,14 @@ const views = {
                     'rootKey',
                 ],
                 execution: async (
-                    rootKey: string,
+                    payload: {
+                        rootKey: string;
+                    },
                 ) => {
+                    const {
+                        rootKey,
+                    } = payload;
+
                     if (!rootKey) {
                         return views['/root-login'];
                     }
@@ -196,10 +209,18 @@ const views = {
                     'newRootKeyRetyped',
                 ],
                 execution: async (
-                    currentRootKey: string,
-                    newRootKey: string,
-                    newRootKeyRetyped: string,
+                    payload: {
+                        currentRootKey: string;
+                        newRootKey: string;
+                        newRootKeyRetyped: string;
+                    },
                 ) => {
+                    const {
+                        currentRootKey,
+                        newRootKey,
+                        newRootKeyRetyped,
+                    } = payload;
+
                     if (
                         !currentRootKey
                         || !newRootKey
@@ -256,9 +277,16 @@ const views = {
                     'adminKeyRetyped',
                 ],
                 execution: async (
-                    adminKey: string,
-                    adminKeyRetyped: string,
+                    payload: {
+                        adminKey: string;
+                        adminKeyRetyped: string;
+                    },
                 ) => {
+                    const {
+                        adminKey,
+                        adminKeyRetyped,
+                    } = payload;
+
                     if (!adminKey || !adminKeyRetyped) {
                         return views['/admin-registration'];
                     }
@@ -310,10 +338,18 @@ const views = {
                     'newAdminKeyRetyped',
                 ],
                 execution: async (
-                    currentAdminKey: string,
-                    newAdminKey: string,
-                    newAdminKeyRetyped: string,
+                    payload: {
+                        currentAdminKey: string;
+                        newAdminKey: string;
+                        newAdminKeyRetyped: string;
+                    },
                 ) => {
+                    const {
+                        currentAdminKey,
+                        newAdminKey,
+                        newAdminKeyRetyped,
+                    } = payload;
+
                     if (
                         !currentAdminKey
                         || !newAdminKey
@@ -391,9 +427,16 @@ const views = {
                     'wifiKey',
                 ],
                 execution: async (
-                    selectedWifi: [number, string],
-                    wifiKey: string,
+                    payload: {
+                        selectedWifi: [number, string];
+                        wifiKey: string;
+                    },
                 ) => {
+                    const {
+                        selectedWifi,
+                        wifiKey,
+                    } = payload;
+
                     const [
                         _, ssid,
                     ] = selectedWifi;
@@ -419,6 +462,11 @@ const views = {
         elements: [
             {
                 type: 'input-text',
+                title: 'admin key',
+                store: 'adminKey',
+            },
+            {
+                type: 'input-text',
                 title: 'identonym',
                 store: 'identonym',
             },
@@ -436,14 +484,33 @@ const views = {
         actions: {
             'generate': {
                 arguments: [
+                    'adminKey',
                     'identonym',
                     'key',
                 ],
                 execution: async (
-                    identonym: string,
-                    key: string,
+                    payload: {
+                        adminKey: string,
+                        identonym: string,
+                        key: string,
+                    },
                 ) => {
-                    if (!identonym || !key) {
+                    const {
+                        adminKey,
+                        identonym,
+                        key,
+                    } = payload;
+
+                    if (
+                        !adminKey
+                        || !identonym
+                        || !key
+                    ) {
+                        return views['/owner-registration'];
+                    }
+
+                    const validKey = await checkAdminKey(adminKey);
+                    if (!validKey) {
                         return views['/owner-registration'];
                     }
 
@@ -525,8 +592,14 @@ const views = {
                     'activeRegistration',
                 ],
                 execution: async (
-                    activeRegistration: boolean,
+                    payload: {
+                        activeRegistration: boolean,
+                    },
                 ) => {
+                    const {
+                        activeRegistration,
+                    } = payload;
+
                     const deserveData = await readDeonFile(
                         deserveDataFile,
                     );
@@ -545,7 +618,7 @@ const views = {
                 },
             },
             'setupStorage': async () => {
-                // return views['/setup-storage];
+                return views['/setup-storage'];
             },
             'rootKeyReset': async () => {
                 return views['/root-key-reset'];
@@ -568,6 +641,85 @@ const views = {
         },
     },
 
+
+    '/setup-storage': {
+        title: 'setup storage',
+        elements: [
+            {
+                type: 'text',
+                value: 'This operation obliterates everything. Use accordingly.',
+            },
+            {
+                type: 'input-text',
+                title: 'root key',
+                store: 'rootKey',
+            },
+            {
+                type: 'input-slider',
+                title: 'GB of Structured Data (recommended 5%)',
+                store: 'structuredData',
+                maximum: async () => {
+                    // get storage
+                    return 50;
+                },
+                minimum: async () => {
+                    // get storage
+                    return 1;
+                },
+            },
+            {
+                type: 'input-slider',
+                title: 'GB of Binary Objects (recommended 95%)',
+                store: 'binaryObjects',
+                maximum: async () => {
+                    // get storage
+                    return 950;
+                },
+                minimum: async () => {
+                    // get storage
+                    return 1;
+                },
+            },
+            {
+                type: 'button',
+                title: 'Save Storage',
+                action: 'saveStorage',
+            }
+        ],
+        actions: {
+            'saveStorage': {
+                arguments: [
+                    'rootKey',
+                    'structuredData',
+                    'binaryObjects',
+                ],
+                execution: async (
+                    payload: {
+                        rootKey: string;
+                        structuredData: number;
+                        binaryObjects: number;
+                    },
+                ) => {
+                    const {
+                        rootKey,
+                        structuredData,
+                        binaryObjects,
+                    } = payload;
+
+                    const validKey = await checkRootKey(rootKey);
+                    if (!validKey) {
+                        return views['/setup-storage'];
+                    }
+
+                    // format storage
+
+                    return views['/'];
+                }
+            },
+        },
+    },
+
+
     '/disable-bluefig': {
         title: 'disable bluefig',
         elements: [
@@ -588,8 +740,14 @@ const views = {
                     'rootKey'
                 ],
                 execution: async (
-                    rootKey: string,
+                    payload: {
+                        rootKey: string;
+                    },
                 ) => {
+                    const {
+                        rootKey,
+                    } = payload;
+
                     const valid = await checkRootKey(
                         rootKey,
                     );
