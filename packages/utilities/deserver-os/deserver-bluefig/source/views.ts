@@ -691,7 +691,7 @@ const views = {
         elements: [
             {
                 type: 'text',
-                value: 'This operation obliterates everything. Use accordingly.',
+                value: 'This operation obliterates everything on the storage disk. Use accordingly.',
             },
             {
                 type: 'input-text',
