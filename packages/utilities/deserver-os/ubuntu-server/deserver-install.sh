@@ -23,6 +23,25 @@ sudo apt install bluez
 
 
 
+# Bluefig setup
+
+npm install -g \
+    pm2@latest \
+    @plurid/bluefig-server \
+    @plurid/deserver-bluefig
+
+deserver-bluefig deploy
+
+BLUEFIG_SERVER_FILE=bluefig-server file
+
+pm2 start $BLUEFIG_SERVER_FILE --name bluefig_server
+
+pm2 startup
+
+pm2 save
+
+
+
 # Docker Install
 
 sudo apt-get update
