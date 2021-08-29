@@ -201,6 +201,9 @@ const views = {
                 action: 'resetRootKey',
             },
             {
+                type: 'divider',
+            },
+            {
                 type: 'button',
                 title: 'Cancel',
                 action: 'cancel',
@@ -338,6 +341,9 @@ const views = {
                 action: 'resetAdminKey',
             },
             {
+                type: 'divider',
+            },
+            {
                 type: 'button',
                 title: 'Cancel',
                 action: 'cancel',
@@ -436,6 +442,9 @@ const views = {
                 action: 'accessWifi',
             },
             {
+                type: 'divider',
+            },
+            {
                 type: 'button',
                 title: 'Cancel',
                 action: 'cancel',
@@ -503,6 +512,9 @@ const views = {
                 type: 'button',
                 title: 'Register Owner',
                 action: 'registerOwner',
+            },
+            {
+                type: 'divider',
             },
             {
                 type: 'button',
@@ -718,6 +730,9 @@ const views = {
                 action: 'saveStorage',
             },
             {
+                type: 'divider',
+            },
+            {
                 type: 'button',
                 title: 'Cancel',
                 action: 'cancel',
@@ -771,6 +786,9 @@ const views = {
                 type: 'button',
                 title: 'Disable Bluefig',
                 action: 'disableBluefig',
+            },
+            {
+                type: 'divider',
             },
             {
                 type: 'button',
