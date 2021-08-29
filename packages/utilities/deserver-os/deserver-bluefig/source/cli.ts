@@ -58,6 +58,21 @@ const update = async () => {
 }
 
 
+const version = () => {
+    const VERSION = `0.0.0-0`;
+
+    console.log(`\n\tdeserver bluefig version ${VERSION}\n`);
+}
+
+
+const help = (
+    command: string,
+) => {
+    console.log(`\n\tCommand '${command}' is unknown. Allowed commands: deploy, update, version, help.\n`);
+}
+
+
+
 const cli = () => {
     try {
         const arg = process.argv[2];
@@ -75,8 +90,14 @@ const cli = () => {
             case 'update':
                 update();
                 break;
+            case 'version':
+                version();
+                break;
+            case 'help':
+                help(command);
+                break;
             default:
-                console.log(`\n\tCommand '${command}' is unknown. Allowed commands: deploy, update.\n`);
+                help(command);
         }
     } catch (error) {
         console.log('Something went wrong', error);
