@@ -255,7 +255,7 @@ const views = {
                 },
             },
             'cancel': async () => {
-                return views['/'];
+                return views['/settings'];
             },
         },
     },
@@ -395,7 +395,7 @@ const views = {
                 },
             },
             'cancel': async () => {
-                return views['/'];
+                return views['/settings'];
             },
         },
     },
@@ -700,7 +700,7 @@ const views = {
             },
             {
                 type: 'input-slider',
-                title: 'GB of Structured Data (recommended 5%)',
+                title: 'Gigabytes of Structured Data',
                 store: 'structuredData',
                 maximum: async () => {
                     // get storage
@@ -713,7 +713,7 @@ const views = {
             },
             {
                 type: 'input-slider',
-                title: 'GB of Binary Objects (recommended 95%)',
+                title: 'Gigabytes of Binary Objects',
                 store: 'binaryObjects',
                 maximum: async () => {
                     // get storage
