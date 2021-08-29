@@ -12,12 +12,16 @@
 
 
 // #region module
+const VERSION = `0.0.0-0`;
+
 const allowedCommands = `Allowed commands:
-    deploy
-    update
-    version
-    help
+
+    deploy      - copy the views and hooks to '~/.bluefig';
+    update      - update deserver bluefig;
+    version     - print version;
+    help        - print help.
 `;
+
 
 
 const deploy = async () => {
@@ -67,8 +71,6 @@ const update = async () => {
 
 
 const version = () => {
-    const VERSION = `0.0.0-0`;
-
     console.log(`\n\tdeserver bluefig version ${VERSION}\n`);
 }
 
