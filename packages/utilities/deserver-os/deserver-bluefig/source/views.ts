@@ -62,13 +62,13 @@ const views = {
             },
         ],
         actions: {
-            registerOwner: async () => {
+            'registerOwner': async () => {
                 return views['/owner-registration'];
             },
-            setupWifi: async () => {
+            'setupWifi': async () => {
                 return views['/wifi-selection'];
             },
-            settings: async () => {
+            'settings': async () => {
                 return views['/settings'];
             },
         },
@@ -197,12 +197,17 @@ const views = {
             },
             {
                 type: 'button',
-                title: 'Enter',
-                action: 'enter',
+                title: 'Reset Root Key',
+                action: 'resetRootKey',
+            },
+            {
+                type: 'button',
+                title: 'Cancel',
+                action: 'cancel',
             },
         ],
         actions: {
-            'enter': {
+            'resetRootKey': {
                 arguments: [
                     'currentRootKey',
                     'newRootKey',
@@ -245,6 +250,9 @@ const views = {
 
                     return views['/'];
                 },
+            },
+            'cancel': async () => {
+                return views['/'];
             },
         },
     },
@@ -326,12 +334,17 @@ const views = {
             },
             {
                 type: 'button',
-                title: 'Enter',
-                action: 'enter',
+                title: 'Reset Admin Key',
+                action: 'resetAdminKey',
+            },
+            {
+                type: 'button',
+                title: 'Cancel',
+                action: 'cancel',
             },
         ],
         actions: {
-            'enter': {
+            'resetAdminKey': {
                 arguments: [
                     'currentAdminKey',
                     'newAdminKey',
@@ -375,6 +388,9 @@ const views = {
                     return views['/'];
                 },
             },
+            'cancel': async () => {
+                return views['/'];
+            },
         },
     },
 
@@ -416,12 +432,17 @@ const views = {
             },
             {
                 type: 'button',
-                title: 'Enter',
-                action: 'enter',
+                title: 'Access Wi-Fi',
+                action: 'accessWifi',
+            },
+            {
+                type: 'button',
+                title: 'Cancel',
+                action: 'cancel',
             },
         ],
         actions: {
-            'enter': {
+            'accessWifi': {
                 arguments: [
                     'selectedWifi',
                     'wifiKey',
@@ -452,6 +473,9 @@ const views = {
                     return views['/'];
                 },
             },
+            'cancel': async () => {
+                return views['/'];
+            },
         },
     },
 
@@ -477,12 +501,17 @@ const views = {
             },
             {
                 type: 'button',
-                title: 'Generate',
-                action: 'generate',
+                title: 'Register Owner',
+                action: 'registerOwner',
+            },
+            {
+                type: 'button',
+                title: 'Cancel',
+                action: 'cancel',
             },
         ],
         actions: {
-            'generate': {
+            'registerOwner': {
                 arguments: [
                     'adminKey',
                     'identonym',
@@ -524,6 +553,9 @@ const views = {
 
                     return views['/'];
                 },
+            },
+            'cancel': async () => {
+                return views['/'];
             },
         },
     },
@@ -684,7 +716,12 @@ const views = {
                 type: 'button',
                 title: 'Save Storage',
                 action: 'saveStorage',
-            }
+            },
+            {
+                type: 'button',
+                title: 'Cancel',
+                action: 'cancel',
+            },
         ],
         actions: {
             'saveStorage': {
@@ -716,9 +753,11 @@ const views = {
                     return views['/'];
                 }
             },
+            'cancel': async () => {
+                return views['/settings'];
+            },
         },
     },
-
 
     '/disable-bluefig': {
         title: 'disable bluefig',
@@ -732,6 +771,11 @@ const views = {
                 type: 'button',
                 title: 'Disable Bluefig',
                 action: 'disableBluefig',
+            },
+            {
+                type: 'button',
+                title: 'Cancel',
+                action: 'cancel',
             },
         ],
         actions: {
@@ -763,6 +807,9 @@ const views = {
 
                     return views['/'];
                 },
+            },
+            'cancel': async () => {
+                return views['/settings'];
             },
         },
     },
