@@ -2,30 +2,22 @@
 const hooks = {
     checkToken: (
         token: string | undefined,
-        type: string,
+        notify: any,
     ) => {
+        console.log('checkToken hook called', token);
+
         if (!token) {
             return false;
         }
 
-        // read bluefig token and check
-
         return true;
     },
-    beforeRead: (
-        view: string,
+    beforeAction: (
+        payload: any,
+        notify: any,
     ) => {
-        // check if root key set
+        console.log('beforeAction hook called', payload);
 
-        // check if admin key set
-
-        console.log('beforeRead hook called', view);
-        return true;
-    },
-    beforeWrite: (
-        view: string,
-    ) => {
-        console.log('beforeWrite hook called', view);
         return true;
     },
 };
