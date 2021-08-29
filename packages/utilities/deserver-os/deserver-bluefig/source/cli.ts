@@ -12,6 +12,14 @@
 
 
 // #region module
+const allowedCommands = `Allowed commands:
+    deploy
+    update
+    version
+    help
+`;
+
+
 const deploy = async () => {
     console.log('\n\tDeploying deserver bluefig configuration.\n');
 
@@ -68,7 +76,7 @@ const version = () => {
 const help = (
     command: string,
 ) => {
-    console.log(`\n\tCommand '${command}' is unknown. Allowed commands: deploy, update, version, help.\n`);
+    console.log(`\n\tCommand '${command}' is unknown. ${allowedCommands}\n`);
 }
 
 
@@ -77,7 +85,7 @@ const cli = () => {
     try {
         const arg = process.argv[2];
         if (!arg) {
-            console.log(`\n\tIncorrect usage. Allowed commands: 'deploy', 'update'.\n`);
+            console.log(`\n\tIncorrect usage. ${allowedCommands}\n`);
             return;
         }
 
