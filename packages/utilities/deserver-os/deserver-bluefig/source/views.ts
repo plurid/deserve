@@ -437,6 +437,11 @@ const views = {
         title: 'select wi-fi',
         elements: [
             {
+                type: 'button',
+                title: 'Refresh Networks',
+                action: 'refreshNetworks',
+            },
+            {
                 type: 'input-select',
                 options: async () => {
                     const wifiList = await getWifiList();
@@ -482,6 +487,9 @@ const views = {
             },
         ],
         actions: {
+            'refreshNetworks': async () => {
+                return views['/wifi-selection'];
+            },
             'accessWifi': {
                 arguments: [
                     'selectedWifi',
