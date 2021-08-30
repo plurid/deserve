@@ -9,7 +9,6 @@ const hooks = {
     checkToken: (
         payload: {
             token: string | undefined,
-            view: string | undefined,
         },
     ) => {
         const {
