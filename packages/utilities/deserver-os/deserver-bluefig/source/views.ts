@@ -98,11 +98,13 @@ const views = {
                 type: 'input-text',
                 title: 'root key',
                 store: 'rootKey',
+                secure: true,
             },
             {
                 type: 'input-text',
                 title: 'root key retyped',
                 store: 'rootKeyRetyped',
+                secure: true,
             },
             {
                 type: 'button',
@@ -167,16 +169,19 @@ const views = {
                 type: 'input-text',
                 title: 'current root key',
                 store: 'currentRootKey',
+                secure: true,
             },
             {
                 type: 'input-text',
                 title: 'new root key',
                 store: 'newRootKey',
+                secure: true,
             },
             {
                 type: 'input-text',
                 title: 'new root key retyped',
                 store: 'newRootKeyRetyped',
+                secure: true,
             },
             {
                 type: 'button',
@@ -258,11 +263,13 @@ const views = {
                 type: 'input-text',
                 title: 'admin key',
                 store: 'adminKey',
+                secure: true,
             },
             {
                 type: 'input-text',
                 title: 'admin key retyped',
                 store: 'adminKeyRetyped',
+                secure: true,
             },
             {
                 type: 'button',
@@ -322,6 +329,7 @@ const views = {
                 type: 'input-text',
                 title: 'admin key',
                 store: 'adminKey',
+                secure: true,
             },
             {
                 type: 'button',
@@ -375,16 +383,19 @@ const views = {
                 type: 'input-text',
                 title: 'current admin key',
                 store: 'currentAdminKey',
+                secure: true,
             },
             {
                 type: 'input-text',
                 title: 'new admin key',
                 store: 'newAdminKey',
+                secure: true,
             },
             {
                 type: 'input-text',
                 title: 'new admin key retyped',
                 store: 'newAdminKeyRetyped',
+                secure: true,
             },
             {
                 type: 'button',
@@ -564,6 +575,7 @@ const views = {
                 type: 'input-text',
                 title: 'admin key',
                 store: 'adminKey',
+                secure: true,
             },
             {
                 type: 'input-text',
@@ -574,6 +586,13 @@ const views = {
                 type: 'input-text',
                 title: 'key',
                 store: 'key',
+                secure: true,
+            },
+            {
+                type: 'input-text',
+                title: 'key retyped',
+                store: 'keyRetyped',
+                secure: true,
             },
             {
                 type: 'button',
@@ -595,12 +614,14 @@ const views = {
                     'adminKey',
                     'identonym',
                     'key',
+                    'keyRetyped',
                 ],
                 execution: async (
                     payload: {
                         adminKey: string,
                         identonym: string,
                         key: string,
+                        keyRetyped: string,
                     },
                     notify: BluefigNotification,
                 ) => {
@@ -608,14 +629,21 @@ const views = {
                         adminKey,
                         identonym,
                         key,
+                        keyRetyped,
                     } = payload;
 
                     if (
                         !adminKey
                         || !identonym
                         || !key
+                        || !keyRetyped
                     ) {
                         notify('all inputs required');
+                        return views['/owner-registration'];
+                    }
+
+                    if (key !== keyRetyped) {
+                        notify('key doesn\'t match');
                         return views['/owner-registration'];
                     }
 
@@ -769,6 +797,7 @@ const views = {
                 type: 'input-text',
                 title: 'root key',
                 store: 'rootKey',
+                secure: true,
             },
             {
                 type: 'input-slider',
@@ -856,6 +885,7 @@ const views = {
                 type: 'input-text',
                 title: 'root key',
                 store: 'rootKey',
+                secure: true,
             },
             {
                 type: 'button',
