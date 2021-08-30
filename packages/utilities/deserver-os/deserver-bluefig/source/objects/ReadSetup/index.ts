@@ -25,6 +25,7 @@
 class ReadSetup {
     private setup = false;
 
+
     constructor() {
         this.read();
         this.listener();
