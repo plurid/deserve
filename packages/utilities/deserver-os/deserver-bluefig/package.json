@@ -44,6 +44,7 @@
         "@plurid/deon": "^0.0.0-4",
         "@plurid/plurid-functions": "^0.0.0-5",
         "bcrypt": "^5.0.1",
+        "chokidar": "^3.5.2",
         "node-wifi": "^2.0.15"
     },
     "devDependencies": {
