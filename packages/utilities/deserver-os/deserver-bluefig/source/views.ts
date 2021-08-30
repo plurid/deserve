@@ -41,6 +41,11 @@
 
 
 // #region module
+export type BluefigNotification = (
+    notification: string,
+) => void;
+
+
 const views = {
     '/': {
         title: 'deserver',
@@ -106,6 +111,7 @@ const views = {
                         rootKey: string;
                         rootKeyRetyped: string;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         rootKey,
@@ -116,15 +122,18 @@ const views = {
                         !rootKey
                         || !rootKeyRetyped
                     ) {
+                        notify('all inputs required');
                         return views['/root-registration'];
                     }
 
                     if (rootKey !== rootKeyRetyped) {
+                        notify('root key doesn\'t match');
                         return views['/root-registration'];
                     }
 
                     const stored = await storeRootKey(rootKey);
                     if (!stored) {
+                        notify('could not register');
                         return views['/root-registration'];
                     }
 
@@ -157,17 +166,20 @@ const views = {
                     payload: {
                         rootKey: string;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         rootKey,
                     } = payload;
 
                     if (!rootKey) {
+                        notify('root key required');
                         return views['/root-login'];
                     }
 
                     const validKey = await checkRootKey(rootKey);
                     if (!validKey) {
+                        notify('invalid root key');
                         return views['/root-login'];
                     }
 
@@ -222,6 +234,7 @@ const views = {
                         newRootKey: string;
                         newRootKeyRetyped: string;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         currentRootKey,
@@ -234,23 +247,28 @@ const views = {
                         || !newRootKey
                         || !newRootKeyRetyped
                     ) {
+                        notify('all inputs required');
                         return views['/root-key-reset'];
                     }
 
                     if (newRootKey !== newRootKeyRetyped) {
+                        notify('root key doesn\'t match');
                         return views['/root-key-reset'];
                     }
 
                     const validKey = await checkRootKey(currentRootKey);
                     if (!validKey) {
+                        notify('invalid root key');
                         return views['/root-key-reset'];
                     }
 
                     const stored = await storeRootKey(newRootKey);
                     if (!stored) {
+                        notify('could not reset');
                         return views['/root-key-reset'];
                     }
 
+                    notify('root key reset');
                     return views['/'];
                 },
             },
@@ -292,22 +310,29 @@ const views = {
                         adminKey: string;
                         adminKeyRetyped: string;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         adminKey,
                         adminKeyRetyped,
                     } = payload;
 
-                    if (!adminKey || !adminKeyRetyped) {
+                    if (
+                        !adminKey
+                        || !adminKeyRetyped
+                    ) {
+                        notify('all inputs required');
                         return views['/admin-registration'];
                     }
 
                     if (adminKey !== adminKeyRetyped) {
+                        notify('admin key doesn\'t match');
                         return views['/admin-registration'];
                     }
 
                     const stored = await storeAdminKey(adminKey);
                     if (!stored) {
+                        notify('could not register');
                         return views['/admin-registration'];
                     }
 
@@ -362,6 +387,7 @@ const views = {
                         newAdminKey: string;
                         newAdminKeyRetyped: string;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         currentAdminKey,
@@ -374,23 +400,28 @@ const views = {
                         || !newAdminKey
                         || !newAdminKeyRetyped
                     ) {
+                        notify('all inputs required');
                         return views['/admin-key-reset'];
                     }
 
                     if (newAdminKey !== newAdminKeyRetyped) {
+                        notify('admin key doesn\'t match');
                         return views['/admin-key-reset'];
                     }
 
                     const validKey = await checkAdminKey(currentAdminKey);
                     if (!validKey) {
+                        notify('invalid admin key');
                         return views['/admin-key-reset'];
                     }
 
                     const stored = await storeAdminKey(newAdminKey);
                     if (!stored) {
+                        notify('could not reset');
                         return views['/admin-key-reset'];
                     }
 
+                    notify('admin key reset');
                     return views['/'];
                 },
             },
@@ -461,6 +492,7 @@ const views = {
                         selectedWifi: [number, string];
                         wifiKey: string;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         selectedWifi,
@@ -476,6 +508,7 @@ const views = {
                         wifiKey,
                     );
                     if (!connected) {
+                        notify(`could not connect to ${ssid}`);
                         return views['/wifi-selection'];
                     }
 
@@ -535,6 +568,7 @@ const views = {
                         identonym: string,
                         key: string,
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         adminKey,
@@ -547,11 +581,13 @@ const views = {
                         || !identonym
                         || !key
                     ) {
+                        notify('all inputs required');
                         return views['/owner-registration'];
                     }
 
                     const validKey = await checkAdminKey(adminKey);
                     if (!validKey) {
+                        notify('invalid admin key');
                         return views['/owner-registration'];
                     }
 
@@ -560,9 +596,11 @@ const views = {
                         key,
                     );
                     if (!stored) {
+                        notify('could not register');
                         return views['/owner-registration'];
                     }
 
+                    notify(`registered owner ${identonym}`);
                     return views['/'];
                 },
             },
@@ -751,6 +789,7 @@ const views = {
                         structuredData: number;
                         binaryObjects: number;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         rootKey,
@@ -760,11 +799,13 @@ const views = {
 
                     const validKey = await checkRootKey(rootKey);
                     if (!validKey) {
+                        notify('invalid root key');
                         return views['/setup-storage'];
                     }
 
                     // format storage
 
+                    notify('storage saved');
                     return views['/'];
                 }
             },
@@ -805,6 +846,7 @@ const views = {
                     payload: {
                         rootKey: string;
                     },
+                    notify: BluefigNotification,
                 ) => {
                     const {
                         rootKey,
@@ -814,6 +856,7 @@ const views = {
                         rootKey,
                     );
                     if (!valid) {
+                        notify('invalid root key');
                         return views['/'];
                     }
 
