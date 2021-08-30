@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import chokidar from 'chokidar';
+    // #endregion libraries
+
+
     // #region external
     import {
         DeserverData,
@@ -27,8 +32,11 @@ class ReadSetup {
 
 
     private async listener() {
-        // listen for changes to deserverDataFile
-        // this.read() at changes
+        chokidar
+            .watch(deserverDataFile)
+            .on('all', () => {
+                this.read();
+            });
     }
 
     private async read() {
