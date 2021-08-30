@@ -61,6 +61,7 @@ const factory = (
 const cli = factory('cli');
 const hooks = factory('hooks');
 const views = factory('views');
+const services = factory('services');
 // #endregion module
 
 
@@ -70,5 +71,6 @@ export default [
     cli,
     hooks,
     views,
+    services,
 ];
 // #endregion exports
