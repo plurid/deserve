@@ -30,6 +30,7 @@ const deploy = async () => {
     const files = [
         'hooks.js',
         'views.js',
+        'services.js',
     ];
 
     const bluefigDirectory = path.join(
