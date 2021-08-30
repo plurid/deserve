@@ -1,6 +1,10 @@
 // #region imports
     // #region external
     import {
+        DeserverData,
+    } from '~data/interfaces';
+
+    import {
         deserverDataFile,
     } from '~data/constants';
 
@@ -21,10 +25,10 @@ export const checkRootKey = async (
     rootKey: string,
 ) => {
     if (!rootKey) {
-        return false
+        return false;
     }
 
-    const deserverData = await readDeonFile(
+    const deserverData = await readDeonFile<DeserverData>(
         deserverDataFile,
     );
 
@@ -43,7 +47,7 @@ export const checkRootKey = async (
 export const storeRootKey = async (
     rootKey: string,
 ) => {
-    const deserverData = await readDeonFile(
+    const deserverData = await readDeonFile<DeserverData>(
         deserverDataFile,
     );
 
@@ -70,10 +74,10 @@ export const checkAdminKey = async (
     adminKey: string,
 ) => {
     if (!adminKey) {
-        return false
+        return false;
     }
 
-    const deserverData = await readDeonFile(
+    const deserverData = await readDeonFile<DeserverData>(
         deserverDataFile,
     );
 
@@ -92,7 +96,7 @@ export const checkAdminKey = async (
 export const storeAdminKey = async (
     adminKey: string,
 ) => {
-    const deserverData = await readDeonFile(
+    const deserverData = await readDeonFile<DeserverData>(
         deserverDataFile,
     );
 

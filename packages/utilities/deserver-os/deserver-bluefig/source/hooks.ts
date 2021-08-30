@@ -1,25 +1,44 @@
+// #region imports
+    // #region internal
+    import {
+        accessToken,
+        readSetup,
+    } from './services';
+    // #endregion internal
+// #endregion imports
+
+
+
 // #region module
 const hooks = {
     checkToken: (
         token: string | undefined,
-        notify: any,
     ) => {
-        console.log('checkToken hook called', token);
+        // console.log('checkToken hook called', token);
+
+        const setup = readSetup.get();
+        if (!setup) {
+            return '/root-registration';
+        }
 
         if (!token) {
-            return false;
+            return '/admin-login';
+        }
+
+        const validToken = accessToken.verify(token);
+        if (!validToken) {
+            return '/admin-login';
         }
 
         return true;
     },
-    beforeAction: (
-        payload: any,
-        notify: any,
-    ) => {
-        console.log('beforeAction hook called', payload);
+    // beforeAction: (
+    //     payload: any,
+    // ) => {
+    //     console.log('beforeAction hook called', payload);
 
-        return true;
-    },
+    //     return true;
+    // },
 };
 // #endregion module
 

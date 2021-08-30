@@ -1,6 +1,10 @@
 // #region imports
     // #region external
     import {
+        DeserveData,
+    } from '~data/interfaces';
+
+    import {
         deserveDataFile,
     } from '~data/constants';
 
@@ -20,20 +24,26 @@ export const registerOwner = async (
     identonym: string,
     key: string,
 ) => {
-    const deserveData = await readDeonFile(
+    const deserveData = await readDeonFile<DeserveData>(
         deserveDataFile,
     );
 
-    const hashedKey = hashKey(key);
+    const currentOwners = deserveData?.owners || [];
+
+    const hashedKey = await hashKey(key);
+    if (!hashedKey) {
+        return false;
+    }
+
     const owners = [
-        ...deserveData?.owners,
+        ...currentOwners,
         {
             identonym,
             hashedKey,
         },
     ];
 
-    const newDeserveData = {
+    const newDeserveData: DeserveData = {
         ...deserveData,
         owners,
     };

@@ -28,6 +28,10 @@
     } from '~functions/keys';
 
     import {
+        accessToken,
+    } from './services/index';
+
+    import {
         readDeonFile,
         writeDeonFile,
 
@@ -43,6 +47,11 @@
 // #region module
 export type BluefigNotification = (
     notification: string,
+) => void;
+
+export type BluefigEvent = (
+    type: string,
+    payload?: any,
 ) => void;
 
 
@@ -112,6 +121,7 @@ const views = {
                         rootKeyRetyped: string;
                     },
                     notify: BluefigNotification,
+                    event: BluefigEvent,
                 ) => {
                     const {
                         rootKey,
@@ -137,53 +147,13 @@ const views = {
                         return views['/root-registration'];
                     }
 
+                    const token = accessToken.generate();
+                    event(
+                        'set-token',
+                        token,
+                    );
+
                     return views['/admin-registration'];
-                },
-            },
-        },
-    },
-
-    '/root-login': {
-        title: 'root login',
-        elements: [
-            {
-                type: 'input-text',
-                title: 'root key',
-                store: 'rootKey',
-            },
-            {
-                type: 'button',
-                title: 'Enter',
-                action: 'enter',
-            },
-        ],
-        actions: {
-            'enter': {
-                arguments: [
-                    'rootKey',
-                ],
-                execution: async (
-                    payload: {
-                        rootKey: string;
-                    },
-                    notify: BluefigNotification,
-                ) => {
-                    const {
-                        rootKey,
-                    } = payload;
-
-                    if (!rootKey) {
-                        notify('root key required');
-                        return views['/root-login'];
-                    }
-
-                    const validKey = await checkRootKey(rootKey);
-                    if (!validKey) {
-                        notify('invalid root key');
-                        return views['/root-login'];
-                    }
-
-                    return views['/'];
                 },
             },
         },
@@ -337,6 +307,59 @@ const views = {
                     }
 
                     return views['/wifi-selection'];
+                },
+            },
+        },
+    },
+
+    '/admin-login': {
+        title: 'admin login',
+        elements: [
+            {
+                type: 'input-text',
+                title: 'admin key',
+                store: 'adminKey',
+            },
+            {
+                type: 'button',
+                title: 'Enter',
+                action: 'enter',
+            },
+        ],
+        actions: {
+            'enter': {
+                arguments: [
+                    'adminKey',
+                ],
+                execution: async (
+                    payload: {
+                        adminKey: string;
+                    },
+                    notify: BluefigNotification,
+                    event: BluefigEvent,
+                ) => {
+                    const {
+                        adminKey,
+                    } = payload;
+
+                    if (!adminKey) {
+                        notify('admin key required');
+                        return views['/admin-login'];
+                    }
+
+                    const validKey = await checkAdminKey(adminKey);
+                    if (!validKey) {
+                        notify('invalid admin key');
+                        return views['/admin-login'];
+                    }
+
+                    const token = accessToken.generate();
+                    event(
+                        'set-token',
+                        token,
+                    );
+
+                    return views['/'];
                 },
             },
         },
