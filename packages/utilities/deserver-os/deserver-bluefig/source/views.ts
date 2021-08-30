@@ -28,10 +28,6 @@
     } from '~functions/keys';
 
     import {
-        accessToken,
-    } from './services/index';
-
-    import {
         readDeonFile,
         writeDeonFile,
 
@@ -53,6 +49,10 @@ export type BluefigEvent = (
     type: string,
     payload?: any,
 ) => void;
+
+const {
+    accessToken,
+} = require('./services');
 
 
 const views = {

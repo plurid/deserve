@@ -1,15 +1,10 @@
-// #region imports
-    // #region internal
-    import {
-        accessToken,
-        readSetup,
-    } from './services';
-    // #endregion internal
-// #endregion imports
-
-
-
 // #region module
+const {
+    accessToken,
+    readSetup,
+} = require('./services');
+
+
 const hooks = {
     checkToken: (
         token: string | undefined,
