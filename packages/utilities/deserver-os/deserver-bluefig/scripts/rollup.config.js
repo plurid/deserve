@@ -18,6 +18,7 @@ const common = {
         '@plurid/deon',
         '@plurid/plurid-functions',
         'bcrypt',
+        'chokidar',
         'node-wifi',
     ],
     plugins: [
