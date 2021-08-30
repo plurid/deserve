@@ -7,12 +7,20 @@ const {
 
 const hooks = {
     checkToken: (
-        token: string | undefined,
+        payload: {
+            token: string | undefined,
+            view: string | undefined,
+        },
     ) => {
-        // console.log('checkToken hook called', token);
+        const {
+            token,
+        } = payload;
 
         const setup = readSetup.get();
-        if (!setup) {
+        if (
+            !setup
+            && !token
+        ) {
             return '/root-registration';
         }
 

@@ -52,6 +52,7 @@ export type BluefigEvent = (
 
 const {
     accessToken,
+    readSetup,
 } = require('./services');
 
 
@@ -305,6 +306,8 @@ const views = {
                         notify('could not register');
                         return views['/admin-registration'];
                     }
+
+                    await readSetup.read();
 
                     return views['/wifi-selection'];
                 },

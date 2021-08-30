@@ -25,6 +25,8 @@
 class ReadSetup {
     private setup = false;
 
+    public settingUp = false;
+
 
     constructor() {
         this.read();
@@ -35,12 +37,13 @@ class ReadSetup {
     private async listener() {
         chokidar
             .watch(deserverDataFile)
-            .on('all', () => {
+            .on('all', (event, path) => {
                 this.read();
             });
     }
 
-    private async read() {
+
+    public async read() {
         const data = await readDeonFile<DeserverData>(
             deserverDataFile,
         );
@@ -48,6 +51,7 @@ class ReadSetup {
         if (
             !data
             || !data.rootKeyHash
+            || !data.adminKeyHash
         ) {
             this.setup = false;
             return
