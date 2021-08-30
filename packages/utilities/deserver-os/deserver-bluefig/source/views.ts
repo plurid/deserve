@@ -827,8 +827,8 @@ const views = {
             },
             {
                 type: 'button',
-                title: 'Save Storage',
-                action: 'saveStorage',
+                title: 'Setup Storage',
+                action: 'setupStorage',
             },
             {
                 type: 'divider',
@@ -840,7 +840,7 @@ const views = {
             },
         ],
         actions: {
-            'saveStorage': {
+            'setupStorage': {
                 arguments: [
                     'rootKey',
                     'structuredData',
@@ -868,7 +868,7 @@ const views = {
 
                     // format storage
 
-                    notify('storage saved');
+                    notify('storage set up');
                     return views['/'];
                 }
             },
