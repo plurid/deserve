@@ -687,7 +687,7 @@ const views = {
                         deserveDataFile,
                     );
 
-                    return deserveData?.registration ?? false;
+                    return deserveData?.registration === 'true';
                 }
             },
             {
@@ -750,7 +750,7 @@ const views = {
 
                     const newDeserveData = {
                         ...deserveData,
-                        registration: activeRegistration,
+                        registration: activeRegistration ? 'true' : 'false',
                     };
 
                     await writeDeonFile(
