@@ -22,28 +22,56 @@
 
 
 
-The `/distribution` `hooks.js` and `views.js` files are to be copied into the `/.bluefig` folder on the deserver machine.
+The `./distribution` `hooks.js`, `views.js`, and `services.js` files are to be copied into the `~/.bluefig` folder on the deserver machine.
 
 The `@plurid/bluefig-server` is then started as a forever process.
 
 
+
+## CLI
+
+```
+deserver-bluefig <command>
+
+Available commands:
+
+deploy      - copy the views and hooks to '~/.bluefig';
+update      - update deserver bluefig;
+version     - print version;
+help        - print help.
+```
+
+
+
+## Folders
+
 Configurations folders
 
 ```
-.deserve
-    admin.deon # root-only access, binded in the deserve node docker
+~/.deserver/data.deon
+
+{
+    rootKeyHash string
+    adminKeyHash string
+}
+```
+
+```
+~/.deserve/data.deon
+
+{
+    admin {
+        mongoUser       string encrypted with rootKey
+        mongoPassword   string encrypted with rootKey
+        minioUser       string encrypted with rootKey
+        minioPassword   string encrypted with rootKey
+    }
+    owners [
         {
-            rootKey         // hash
-            mongoUser       // encrypted with rootKey
-            mongoPassword   // encrypted with rootKey
-            minioUser       // encrypted with rootKey
-            minioPassword   // encrypted with rootKey
+            identonym string
+            key string
         }
-    owners.deon # root-only access, binded in the deserve node docker
-        [
-            {
-                identonym
-                key         // hash
-            }
-        ]
+    ]
+    registration boolean
+}
 ```
