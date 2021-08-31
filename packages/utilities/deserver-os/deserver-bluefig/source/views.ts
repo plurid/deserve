@@ -771,8 +771,8 @@ const views = {
                 return views['/admin-key-reset'];
             },
             'restartDeserve': async () => {
-                const command = `docker restart deserve_node`;
-                execSync(command);
+                const restartCommand = `docker restart deserve_node deserve_node_minio deserve_node_mongodb`;
+                execSync(restartCommand);
 
                 return views['/'];
             },
