@@ -7,6 +7,13 @@
     import {
         execSync,
     } from 'child_process';
+
+    import {
+        BluefigEvent,
+        BluefigNotification,
+
+        ViewsServer,
+    } from '@plurid/bluefig-server';
     // #endregion libraries
 
 
@@ -41,15 +48,6 @@
 
 
 // #region module
-export type BluefigNotification = (
-    notification: string,
-) => void;
-
-export type BluefigEvent = (
-    type: string,
-    payload?: any,
-) => void;
-
 const {
     accessToken,
     readSetup,

@@ -1,3 +1,13 @@
+// #region imports
+    // #region libraries
+    import {
+        Hooks,
+    } from '@plurid/bluefig-server';
+    // #endregion libraries
+// #endregion imports
+
+
+
 // #region module
 const {
     accessToken,
@@ -5,11 +15,9 @@ const {
 } = require('./services');
 
 
-const hooks = {
-    checkToken: (
-        payload: {
-            token: string | undefined,
-        },
+const hooks: Hooks = {
+    checkToken: async (
+        payload,
     ) => {
         const {
             token,
@@ -34,7 +42,7 @@ const hooks = {
 
         return true;
     },
-    // beforeAction: (
+    // beforeAction: async (
     //     payload: any,
     // ) => {
     //     console.log('beforeAction hook called', payload);
