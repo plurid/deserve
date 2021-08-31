@@ -42,7 +42,7 @@ npm install -g \
 
 deserver-bluefig deploy
 
-BLUEFIG_SERVER_FILE=bluefig-server file
+BLUEFIG_SERVER_FILE=`bluefig file`
 
 pm2 start $BLUEFIG_SERVER_FILE --name bluefig_server
 
