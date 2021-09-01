@@ -26,24 +26,6 @@
   optionalDependencies:
     usb "^1.6.3"
 
-"@apollo/client@^3.3.21":
-  version "3.4.8"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.4.8.tgz#66d06dc1784d07d46731b3bda546046f8c280b74"
-  integrity sha512-/cNqTSwc2Dw8q6FDDjdd30+yvhP7rI0Fvl3Hbro0lTtFuhzkevfNyQaI2jAiOrjU6Jc0RbanxULaNrX7UmvjSQ==
-  dependencies:
-    "@graphql-typed-document-node/core" "^3.0.0"
-    "@wry/context" "^0.6.0"
-    "@wry/equality" "^0.5.0"
-    "@wry/trie" "^0.3.0"
-    graphql-tag "^2.12.3"
-    hoist-non-react-statics "^3.3.2"
-    optimism "^0.16.1"
-    prop-types "^15.7.2"
-    symbol-observable "^4.0.0"
-    ts-invariant "^0.9.0"
-    tslib "^2.3.0"
-    zen-observable-ts "^1.1.0"
-
 "@apollo/client@^3.4.10":
   version "3.4.10"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.4.10.tgz#cee9ed75b1bb7f391c55d79300ecf87096e59792"
@@ -172,28 +154,15 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@plurid/bluefig-server@^0.0.0-0":
-  version "0.0.0-0"
-  resolved "https://registry.yarnpkg.com/@plurid/bluefig-server/-/bluefig-server-0.0.0-0.tgz#fcd4c9607cb745cbce89e69c1e550523e911a96a"
-  integrity sha512-PRiEaaArDy58v8ONuwUEREgqRnocpFLPGYE4IeTWpew1LMhd0CX1TBDtHEbBHFpyNLH5nblZVhYvQJRShboztg==
+"@plurid/bluefig-server@^0.0.0-1":
+  version "0.0.0-1"
+  resolved "https://registry.yarnpkg.com/@plurid/bluefig-server/-/bluefig-server-0.0.0-1.tgz#2360c702b4aa4cbff746a829f3920b6c8f2f506e"
+  integrity sha512-t3Xm48ChEOPryBcEC0I4uHnc2xB97GTS46YiA4g4yPZpeeB74Gfv523vrsdqz10Zdm/agEXaekI6t1wCNrqkLQ==
   dependencies:
     "@abandonware/bleno" "^0.5.1-4"
     "@plurid/delog" "^0.0.0-6"
     "@plurid/plurid-functions" "^0.0.0-5"
     mime-types "^2.1.32"
-
-"@plurid/delog@^0.0.0-5":
-  version "0.0.0-5"
-  resolved "https://registry.yarnpkg.com/@plurid/delog/-/delog-0.0.0-5.tgz#991adab6a9b1b988ec0d3b9a808e67da879ac346"
-  integrity sha512-6WORARj8XSRhsnSR/Hq31nXGy5BHRDfaNzBrPI08bUAJqUX9n4DvJx+2cdEhIrI1Jdc6iYJo6gGk3EAW6bMlWw==
-  dependencies:
-    "@apollo/client" "^3.3.21"
-    "@plurid/plurid-functions" "0.0.0-5"
-    cross-fetch "^3.1.4"
-    graphql "^15.5.1"
-    graphql-tag "^2.12.5"
-    microtime "^3.0.0"
-    subscriptions-transport-ws "^0.9.19"
 
 "@plurid/delog@^0.0.0-6":
   version "0.0.0-6"
@@ -319,10 +288,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.7.1.tgz#c6b9198178da504dfca1fd0be9b2e1002f1586f0"
   integrity sha512-ncRdc45SoYJ2H4eWU9ReDfp3vtFqDYhjOsKlFFUDEn8V1Bgr2RjYal8YT5byfadWIRluhPFU6JiDOl0H6Sl87A==
 
-"@types/node@^16.7.9":
-  version "16.7.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.7.9.tgz#3bf27710839e62a470ddf6bd8dd321f1737ce5b4"
-  integrity sha512-KktxVzS4FPDFVHUUOWyZMvRo//8vqOLITtLMhFSW9IdLsYT/sPyXj3wXtaTcR7A7olCe7R2Xy7R+q5pg2bU46g==
+"@types/node@^16.7.10":
+  version "16.7.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.7.10.tgz#7aa732cc47341c12a16b7d562f519c2383b6d4fc"
+  integrity sha512-S63Dlv4zIPb8x6MMTgDq5WWRJQe56iBEY0O3SOFA9JrRienkOVDXSXBjjJw6HTNQYSE2JI6GMCR6LVbIMHJVvA==
 
 "@types/resolve@1.17.1":
   version "1.17.1"
@@ -1381,11 +1350,6 @@ graphql-tag@^2.12.3, graphql-tag@^2.12.5:
   integrity sha512-5xNhP4063d16Pz3HBtKprutsPrmHZi5IdUGOWRxA2B6VF7BIRGOHZ5WQvDmJXZuPcBg7rYwaFxvQYjqkSdR3TQ==
   dependencies:
     tslib "^2.1.0"
-
-graphql@^15.5.1:
-  version "15.5.1"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.5.1.tgz#f2f84415d8985e7b84731e7f3536f8bb9d383aad"
-  integrity sha512-FeTRX67T3LoE3LWAxxOlW2K3Bz+rMYAC18rRguK4wgXaTZMiJwSUwDmPFo3UadAKbzirKIg5Qy+sNJXbpPRnQw==
 
 graphql@^15.5.2:
   version "15.5.2"
