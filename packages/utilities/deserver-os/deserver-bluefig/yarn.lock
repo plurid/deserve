@@ -154,10 +154,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@plurid/bluefig-server@^0.0.0-1":
-  version "0.0.0-1"
-  resolved "https://registry.yarnpkg.com/@plurid/bluefig-server/-/bluefig-server-0.0.0-1.tgz#2360c702b4aa4cbff746a829f3920b6c8f2f506e"
-  integrity sha512-t3Xm48ChEOPryBcEC0I4uHnc2xB97GTS46YiA4g4yPZpeeB74Gfv523vrsdqz10Zdm/agEXaekI6t1wCNrqkLQ==
+"@plurid/bluefig-server@^0.0.0-2":
+  version "0.0.0-2"
+  resolved "https://registry.yarnpkg.com/@plurid/bluefig-server/-/bluefig-server-0.0.0-2.tgz#fba7f12223eae738444ff03516085addbcac0127"
+  integrity sha512-AFzO0uvTWsd8rySneoJMjVyNzLsazx3DFBZar6fE6ou03mYipbPG5cH3FFxNp2pzeDzfLsWz5S83C4UU9FNUIA==
   dependencies:
     "@abandonware/bleno" "^0.5.1-4"
     "@plurid/delog" "^0.0.0-6"
