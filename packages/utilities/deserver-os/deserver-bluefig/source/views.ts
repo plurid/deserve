@@ -54,7 +54,7 @@ const {
 } = require('./services');
 
 
-const views = {
+const views: ViewsServer = {
     '/': {
         title: 'deserver',
         elements: [
@@ -500,7 +500,6 @@ const views = {
                     return currentWifi.ssid;
                 },
                 store: 'selectedWifi',
-                exclusive: true,
             },
             {
                 type: 'input-text',
