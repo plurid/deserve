@@ -12,14 +12,22 @@ sudo adduser identonym
 # default password: deserving
 
 
+sudo apt-get install gcc-arm*
+
+sudo apt-get install build-essential
+
 
 # https://unix.stackexchange.com/a/399531 - if dpkg is locked
 
 
 
 # Bluetooth setup
+# https://raspberrypi.stackexchange.com/a/114588
+# https://blog.skyrise.tech/bluetooth-raspberry-pi-bleno-part-1-ibeacon
 
-sudo apt install bluez
+sudo apt-get install pi-bluetooth
+
+sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev
 
 
 
@@ -35,16 +43,14 @@ nvm install 14.17.6
 
 # Bluefig setup
 
-npm install -g \
-    pm2@latest \
+yarn global add pm2@latest \
     @plurid/bluefig-server \
     @plurid/deserver-bluefig
 
+# .bashrc
+export PATH="$(yarn global bin --offline):$PATH"
+
 deserver-bluefig deploy
-
-BLUEFIG_SERVER_FILE=`bluefig file`
-
-pm2 start $BLUEFIG_SERVER_FILE --name bluefig_server
 
 pm2 startup
 
