@@ -1,4 +1,15 @@
 // #region imports
+    // #region libraries
+    import fetch from 'cross-fetch';
+
+    import {
+        ApolloClient,
+        createHttpLink,
+        InMemoryCache,
+    } from '@apollo/client';
+    // #endregion libraries
+
+
     // #region external
     import {
         DeserveClientOptions,
@@ -23,9 +34,18 @@ const GraphqlClient = (
         return;
     }
 
-    const clientRoute = identonym + host;
-    // generate client from clientRoute and token
-    const client = {};
+    const clientURI = identonym + host;
+    const client = new ApolloClient({
+        link: createHttpLink({
+            uri: clientURI,
+            credentials: 'include',
+            fetch,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        }),
+        cache: new InMemoryCache(),
+    });
 
     return client;
 }
