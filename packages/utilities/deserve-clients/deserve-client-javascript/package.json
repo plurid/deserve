@@ -1,0 +1,63 @@
+{
+    "name": "@plurid/deserve-client",
+    "version": "0.0.0-0",
+    "description": "Client for Deserve",
+    "keywords": [
+        "deserve",
+        "client"
+    ],
+    "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
+    "license": "SEE LICENSE IN LICENSE",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/plurid/deserve"
+    },
+    "bugs": {
+        "email": "source@plurid.com",
+        "url": "https://github.com/plurid/deserve/issues"
+    },
+    "homepage": "https://github.com/plurid/deserve/tree/master/packages/utilities/deserve-clients/deserve-client-javascript",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "engines": {
+        "node": ">=12",
+        "npm": ">=6"
+    },
+    "main": "distribution/index.js",
+    "module": "distribution/index.es.js",
+    "typings": "distribution/index.d.ts",
+    "files": [
+        "distribution"
+    ],
+    "scripts": {
+        "clean": "rimraf ./distribution",
+        "lint": "eslint ./source --ext .ts,.tsx",
+        "start": "node distribution/index.js",
+        "start.local": "deon environment ./environment/.env.local.deon -- node distribution/index.js",
+        "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
+        "build.production": "rollup -c ./scripts/rollup.config.js --environment ENV_MODE:production",
+        "build.removeTests": "rimraf `find ./distribution/ -type d -name __tests__`",
+        "build": "yarn clean && yarn build.production && yarn build.removeTests",
+        "prepublishOnly": "yarn build"
+    },
+    "devDependencies": {
+        "@types/jest": "^27.0.1",
+        "@types/node": "^16.7.10",
+        "@typescript-eslint/eslint-plugin": "^4.30.0",
+        "@typescript-eslint/parser": "^4.30.0",
+        "@zerollup/ts-transform-paths": "^1.7.18",
+        "eslint": "^7.32.0",
+        "jest": "^27.1.0",
+        "rimraf": "^3.0.2",
+        "rollup": "^2.56.3",
+        "rollup-plugin-terser": "^7.0.2",
+        "rollup-plugin-typescript2": "^0.30.0",
+        "ts-jest": "^27.0.5",
+        "ts-node": "^10.2.1",
+        "ttypescript": "^1.5.12",
+        "typescript": "^4.4.2",
+        "typescript-transform-paths": "^3.3.1"
+    }
+}
