@@ -73,6 +73,11 @@ const views: ViewsServer = {
                 title: 'Settings',
                 action: 'settings',
             },
+            {
+                type: 'button',
+                title: 'Power',
+                action: 'power',
+            },
         ],
         actions: {
             'registerOwner': async () => {
@@ -83,6 +88,9 @@ const views: ViewsServer = {
             },
             'settings': async () => {
                 return views['/settings'];
+            },
+            'power': async () => {
+                return views['/power'];
             },
         },
     },
@@ -932,6 +940,50 @@ const views: ViewsServer = {
             },
             'cancel': async () => {
                 return views['/settings'];
+            },
+        },
+    },
+
+
+
+    '/power': {
+        title: 'power',
+        elements: [
+            {
+                type: 'button',
+                title: 'Restart',
+                action: 'restart',
+            },
+            {
+                type: 'button',
+                title: 'Stasis',
+                action: 'stasis',
+            },
+            {
+                type: 'button',
+                title: 'Cancel',
+                action: 'cancel',
+            },
+        ],
+        actions: {
+            'restart': async () => {
+                const command = 'sudo reboot';
+                execSync(
+                    command,
+                );
+
+                return views['/'];
+            },
+            'stasis': async () => {
+                const command = 'sudo poweroff';
+                execSync(
+                    command,
+                );
+
+                return views['/'];
+            },
+            'cancel': async () => {
+                return views['/'];
             },
         },
     },
