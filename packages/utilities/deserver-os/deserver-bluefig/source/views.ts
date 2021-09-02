@@ -65,8 +65,8 @@ const views: ViewsServer = {
             },
             {
                 type: 'button',
-                title: 'Setup Wi-Fi',
-                action: 'setupWifi',
+                title: 'Network',
+                action: 'network',
             },
             {
                 type: 'button',
@@ -83,8 +83,8 @@ const views: ViewsServer = {
             'registerOwner': async () => {
                 return views['/owner-registration'];
             },
-            'setupWifi': async () => {
-                return views['/wifi-selection'];
+            'network': async () => {
+                return views['/network-selection'];
             },
             'settings': async () => {
                 return views['/settings'];
@@ -322,7 +322,7 @@ const views: ViewsServer = {
 
                     await readSetup.read();
 
-                    return views['/wifi-selection'];
+                    return views['/network-selection'];
                 },
             },
         },
@@ -476,8 +476,8 @@ const views: ViewsServer = {
 
 
 
-    '/wifi-selection': {
-        title: 'select wi-fi',
+    '/network-selection': {
+        title: 'select network',
         elements: [
             {
                 type: 'button',
@@ -507,17 +507,17 @@ const views: ViewsServer = {
 
                     return currentWifi.ssid;
                 },
-                store: 'selectedWifi',
+                store: 'selectedNetwork',
             },
             {
                 type: 'input-text',
-                title: 'wi-fi key',
-                store: 'wifiKey',
+                title: 'network key',
+                store: 'networkKey',
             },
             {
                 type: 'button',
-                title: 'Access Wi-Fi',
-                action: 'accessWifi',
+                title: 'Access Network',
+                action: 'accessNetwork',
             },
             {
                 type: 'divider',
@@ -530,36 +530,36 @@ const views: ViewsServer = {
         ],
         actions: {
             'refreshNetworks': async () => {
-                return views['/wifi-selection'];
+                return views['/network-selection'];
             },
-            'accessWifi': {
+            'accessNetwork': {
                 arguments: [
-                    'selectedWifi',
-                    'wifiKey',
+                    'selectedNetwork',
+                    'networkKey',
                 ],
                 execution: async (
                     payload: {
-                        selectedWifi: [number, string];
-                        wifiKey: string;
+                        selectedNetwork: [number, string];
+                        networkKey: string;
                     },
                     notify: BluefigNotification,
                 ) => {
                     const {
-                        selectedWifi,
-                        wifiKey,
+                        selectedNetwork,
+                        networkKey,
                     } = payload;
 
                     const [
                         _, ssid,
-                    ] = selectedWifi;
+                    ] = selectedNetwork;
 
                     const connected = await connectToWifi(
                         ssid,
-                        wifiKey,
+                        networkKey,
                     );
                     if (!connected) {
                         notify(`could not connect to ${ssid}`);
-                        return views['/wifi-selection'];
+                        return views['/network-selection'];
                     }
 
                     return views['/'];
