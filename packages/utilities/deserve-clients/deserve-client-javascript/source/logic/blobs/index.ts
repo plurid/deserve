@@ -3,6 +3,7 @@
     import get from './get';
     import store from './store';
     import keysDelete from './delete';
+    import query from './query';
     // #endregion internal
 // #endregion imports
 
@@ -13,5 +14,6 @@ export default {
     get,
     store,
     delete: keysDelete,
+    query,
 };
 // #endregion exports

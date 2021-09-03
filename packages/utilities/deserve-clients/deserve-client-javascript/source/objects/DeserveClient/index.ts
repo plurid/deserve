@@ -33,6 +33,7 @@ const DeserveClient = (
             get: logic.blobs.get(graphqlClient),
             store: logic.blobs.store(graphqlClient),
             delete: logic.blobs.delete(graphqlClient),
+            query: logic.blobs.query(graphqlClient),
         },
 
         keys: {
@@ -40,6 +41,7 @@ const DeserveClient = (
             store: logic.keys.store(graphqlClient),
             update: logic.keys.update(graphqlClient),
             delete: logic.keys.delete(graphqlClient),
+            query: logic.keys.query(graphqlClient),
         },
     };
 };

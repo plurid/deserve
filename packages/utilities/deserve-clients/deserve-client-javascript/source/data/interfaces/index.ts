@@ -25,6 +25,12 @@ export type BlobsDelete = (
     id: string,
 ) => Promise<boolean>;
 
+export type BlobsQuery = (
+    filter: string,
+    count?: number,
+    start?: string,
+) => Promise<any>;
+
 
 
 export type KeysGet =<T = any>(
@@ -45,6 +51,12 @@ export type KeysDelete =(
     id: string,
 ) => Promise<boolean>;
 
+export type KeysQuery =(
+    filter: string,
+    count?: number,
+    start?: string,
+) => Promise<any>;
+
 
 
 export interface IDeserveClient {
@@ -52,12 +64,14 @@ export interface IDeserveClient {
         get: BlobsGet,
         store: BlobsStore,
         delete: BlobsDelete,
+        query: BlobsQuery,
     };
     keys: {
         get: KeysGet,
         store: KeysStore,
         update: KeysUpdate,
         delete: KeysDelete,
+        query: KeysQuery,
     };
 }
 
