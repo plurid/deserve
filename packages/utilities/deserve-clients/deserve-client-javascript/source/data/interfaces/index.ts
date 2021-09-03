@@ -1,14 +1,63 @@
+// #region imports
+    // #region libraries
+    import {
+        ApolloClient,
+        NormalizedCacheObject,
+    } from '@apollo/client';
+    // #endregion libraries
+// #endregion imports
+
+
+
 // #region exports
+export type GraphqlClient = ApolloClient<NormalizedCacheObject>;
+
+
+export type BlobsGet = (
+    id: string | string[],
+) => Promise<ReadableStream | undefined>;
+
+export type BlobsStore = (
+    stream: ReadableStream,
+) => Promise<any>;
+
+export type BlobsDelete = (
+    id: string,
+) => Promise<boolean>;
+
+
+
+export type KeysGet =<T = any>(
+    id: string | string[],
+) => Promise<T | undefined>;
+
+export type KeysStore = <T = any>(
+    data: T,
+) => Promise<any>;
+
+export type KeysUpdate = <T = any>(
+    id: string,
+    data: T,
+    field?: string,
+) => Promise<boolean>;
+
+export type KeysDelete =(
+    id: string,
+) => Promise<boolean>;
+
+
+
 export interface IDeserveClient {
     blobs: {
-        get: (
-            id: string,
-        ) => Promise<ReadableStream | undefined>;
+        get: BlobsGet,
+        store: BlobsStore,
+        delete: BlobsDelete,
     };
     keys: {
-        get: <T = any>(
-            id: string,
-        ) => Promise<T | undefined>;
+        get: KeysGet,
+        store: KeysStore,
+        update: KeysUpdate,
+        delete: KeysDelete,
     };
 }
 

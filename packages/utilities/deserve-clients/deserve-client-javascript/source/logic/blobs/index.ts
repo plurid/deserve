@@ -1,7 +1,8 @@
 // #region imports
     // #region internal
-    import blobs from './blobs';
-    import keys from './keys';
+    import get from './get';
+    import store from './store';
+    import keysDelete from './delete';
     // #endregion internal
 // #endregion imports
 
@@ -9,7 +10,8 @@
 
 // #region exports
 export default {
-    blobs,
-    keys,
+    get,
+    store,
+    delete: keysDelete,
 };
 // #endregion exports

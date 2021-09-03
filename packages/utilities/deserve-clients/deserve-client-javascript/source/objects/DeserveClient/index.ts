@@ -6,6 +6,8 @@
     } from '~data/interfaces';
 
     import GraphqlClient from '~objects/GraphqlClient';
+
+    import logic from '~logic/index';
     // #endregion external
 // #endregion imports
 
@@ -16,27 +18,28 @@ const DeserveClient = (
     identonym: string,
     token: string,
     options?: DeserveClientOptions,
-): IDeserveClient => {
+): IDeserveClient | undefined => {
     // generate a reusable graphqlClient
     // which will make calls to identonym.data.example.com
     // where '.data.example' is defined through options (host) or environment variable
     const graphqlClient = GraphqlClient(identonym, token, options);
+    if (!graphqlClient) {
+        return;
+    }
+
 
     return {
         blobs: {
-            get: async (
-                id,
-            ) => {
-                return undefined;
-            },
+            get: logic.blobs.get(graphqlClient),
+            store: logic.blobs.store(graphqlClient),
+            delete: logic.blobs.delete(graphqlClient),
         },
 
         keys: {
-            get: async (
-                id,
-            ) => {
-                return undefined;
-            },
+            get: logic.keys.get(graphqlClient),
+            store: logic.keys.store(graphqlClient),
+            update: logic.keys.update(graphqlClient),
+            delete: logic.keys.delete(graphqlClient),
         },
     };
 };
