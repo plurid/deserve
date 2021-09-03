@@ -5,6 +5,10 @@
 
         KeysQuery,
     } from '~data/interfaces';
+
+    import {
+        QUERY_QUERY_KEYS,
+    } from '~services/graphql';
     // #endregion external
 // #endregion imports
 
@@ -18,7 +22,23 @@ const query = (
     count,
     start,
 ) => {
-    return undefined;
+    try {
+        const request = await graphqlClient.query({
+            query: QUERY_QUERY_KEYS,
+            variables: {
+                input: {
+                    filter,
+                    count,
+                    start,
+                },
+            },
+        });
+        const response = request.data.queryKeys;
+
+        return response;
+    } catch (error) {
+        return;
+    }
 }
 // #endregion module
 
