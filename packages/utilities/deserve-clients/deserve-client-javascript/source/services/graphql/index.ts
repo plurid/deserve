@@ -69,4 +69,40 @@ export const QUERY_REQUEST_KEYS = gql`
         }
     }
 `;
+
+
+export const MUTATION_DELETE_BLOB = gql`
+    mutation DeleteBlob($input: InputDeleteBlob!) {
+        deleteBlob(input: $input) {
+            status
+        }
+    }
+`;
+
+
+export const MUTATION_DELETE_KEY = gql`
+    mutation DeleteKey($input: InputDeleteKey!) {
+        deleteKey(input: $input) {
+            status
+        }
+    }
+`;
+
+
+export const MUTATION_STORE_KEY = gql`
+    mutation StoreKey($input: InputStoreKey!) {
+        storeKey(input: $input) {
+            status
+        }
+    }
+`;
+
+
+export const MUTATION_UPDATE_KEY = gql`
+    mutation UpdateKey($input: InputUpdateKey!) {
+        updateKey(input: $input) {
+            status
+        }
+    }
+`;
 // #endregion module

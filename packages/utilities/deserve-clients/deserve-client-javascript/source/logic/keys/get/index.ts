@@ -30,7 +30,7 @@ const get = (
 
         const input = singular
             ? { id }
-            : { ids: id};
+            : { ids: id };
 
         const request = await graphqlClient.query({
             query,

@@ -5,6 +5,10 @@
 
         KeysDelete,
     } from '~data/interfaces';
+
+    import {
+        MUTATION_DELETE_KEY,
+    } from '~services/graphql';
     // #endregion external
 // #endregion imports
 
@@ -16,7 +20,21 @@ const keysDelete = (
 ): KeysDelete => async (
     id,
 ) => {
-    return true;
+    try {
+        const request = await graphqlClient.mutate({
+            mutation: MUTATION_DELETE_KEY,
+            variables: {
+                input: {
+                    id,
+                },
+            },
+        });
+        const response = request.data.deleteKey;
+
+        return response.status;
+    } catch (error) {
+        return false;
+    }
 }
 // #endregion module
 
