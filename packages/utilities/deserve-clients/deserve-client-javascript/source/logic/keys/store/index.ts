@@ -35,9 +35,11 @@ const store = (
         });
         const response = request.data.storeKey;
 
-        return response.status;
+        return response;
     } catch (error) {
-        return false;
+        return {
+            status: false,
+        };
     }
 }
 // #endregion module

@@ -39,9 +39,11 @@ const update = (
         });
         const response = request.data.updateKey;
 
-        return response.status;
+        return response;
     } catch (error) {
-        return false;
+        return {
+            status: false,
+        };
     }
 }
 // #endregion module

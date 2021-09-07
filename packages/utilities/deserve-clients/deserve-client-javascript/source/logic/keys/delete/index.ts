@@ -31,9 +31,11 @@ const keysDelete = (
         });
         const response = request.data.deleteKey;
 
-        return response.status;
+        return response;
     } catch (error) {
-        return false;
+        return {
+            status: false,
+        };
     }
 }
 // #endregion module

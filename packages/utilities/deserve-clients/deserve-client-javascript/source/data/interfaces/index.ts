@@ -13,49 +13,64 @@
 export type GraphqlClient = ApolloClient<NormalizedCacheObject>;
 
 
+export type ClientResponse<D = any> =
+    | ClientErrorResponse<any>
+    | ClientSuccessResponse<D>;
+
+export interface ClientErrorResponse<E = any> {
+    status: false;
+    error: E;
+}
+
+export interface ClientSuccessResponse<D = any> {
+    status: true;
+    data: D;
+}
+
+
 export type BlobsGet = (
     id: string | string[],
-) => Promise<ReadableStream | undefined>;
+) => Promise<ClientResponse<ReadableStream | undefined>>;
 
 export type BlobsStore = (
     stream: ReadableStream,
-) => Promise<any>;
+) => Promise<ClientResponse<any>>;
 
 export type BlobsDelete = (
     id: string,
-) => Promise<boolean>;
+) => Promise<ClientResponse<boolean>>;
 
 export type BlobsQuery = (
     filter: string,
     count?: number,
     start?: string,
-) => Promise<any>;
+) => Promise<ClientResponse<any>>;
 
 
 
-export type KeysGet =<T = any>(
+export type KeysGet = <T = any>(
     id: string | string[],
-) => Promise<T | undefined>;
+) => Promise<ClientResponse<T | undefined>>;
 
 export type KeysStore = <T = any>(
     data: T,
-) => Promise<any>;
+) => Promise<ClientResponse<boolean>>;
 
 export type KeysUpdate = <T = any>(
     id: string,
     data: T,
     field?: string,
-) => Promise<boolean>;
+) => Promise<ClientResponse<boolean>>;
 
 export type KeysDelete =(
     id: string,
-) => Promise<boolean>;
+) => Promise<ClientResponse<boolean>>;
 
-export type KeysQuery =(
+export type KeysQuery = <T = any>(
     filter: string,
     count?: number,
     start?: string,
-) => Promise<any>;
+) => Promise<ClientResponse<T[] | undefined>>;
 
 
 
