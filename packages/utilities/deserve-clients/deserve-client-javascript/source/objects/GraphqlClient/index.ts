@@ -24,6 +24,17 @@
 
 
 // #region module
+/**
+ * Generates a reusable graphql client
+ * to make requests to `<identonym><domain>`
+ * where `<domain>` is defined through `options` (`host`)
+ * or by the `DESERVE_CLIENT_HOST` environment variable.
+ *
+ * @param identonym
+ * @param token
+ * @param options
+ * @returns
+ */
 const GraphqlClient = (
     identonym: string,
     token: string,
