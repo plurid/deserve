@@ -2,6 +2,7 @@
     // #region internal
     import blobs from './blobs';
     import keys from './keys';
+    import functions from './functions';
     // #endregion internal
 // #endregion imports
 
@@ -11,5 +12,6 @@
 export default {
     blobs,
     keys,
+    functions,
 };
 // #endregion exports

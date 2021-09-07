@@ -45,14 +45,14 @@ const DeserveClient = (
             query: logic.keys.query(graphqlClient),
         },
 
-        // functions: {
-        //     get: logic.functions.get(graphqlClient),
-        //     store: logic.functions.store(graphqlClient),
-        //     update: logic.functions.update(graphqlClient),
-        //     delete: logic.functions.delete(graphqlClient),
-        //     query: logic.functions.query(graphqlClient),
-        //     run: logic.functions.query(graphqlClient),
-        // },
+        functions: {
+            get: logic.functions.get(graphqlClient),
+            store: logic.functions.store(graphqlClient),
+            update: logic.functions.update(graphqlClient),
+            delete: logic.functions.delete(graphqlClient),
+            query: logic.functions.query(graphqlClient),
+            run: logic.functions.query(graphqlClient),
+        },
     };
 };
 // #endregion module

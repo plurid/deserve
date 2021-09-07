@@ -74,6 +74,37 @@ export type KeysQuery = <T = any>(
 
 
 
+export type FunctionsGet = <T = any>(
+    id: string | string[],
+) => Promise<ClientResponse<T | undefined>>;
+
+export type FunctionsStore = <T = any>(
+    data: T,
+) => Promise<ClientResponse<boolean>>;
+
+export type FunctionsUpdate = <T = any>(
+    id: string,
+    data: T,
+    field?: string,
+) => Promise<ClientResponse<boolean>>;
+
+export type FunctionsDelete =(
+    id: string,
+) => Promise<ClientResponse<boolean>>;
+
+export type FunctionsQuery = <T = any>(
+    filter: string,
+    count?: number,
+    start?: string,
+) => Promise<ClientResponse<T[] | undefined>>;
+
+export type FunctionsRun = <T = any>(
+    id: string,
+    args?: string,
+) => Promise<ClientResponse<T[] | undefined>>;
+
+
+
 export interface IDeserveClient {
     blobs: {
         get: BlobsGet,
@@ -87,6 +118,14 @@ export interface IDeserveClient {
         update: KeysUpdate,
         delete: KeysDelete,
         query: KeysQuery,
+    };
+    functions: {
+        get: FunctionsGet,
+        store: FunctionsStore,
+        update: FunctionsUpdate,
+        delete: FunctionsDelete,
+        query: FunctionsQuery,
+        run: FunctionsQuery,
     };
 }
 
