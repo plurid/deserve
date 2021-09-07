@@ -16,7 +16,16 @@ const store = (
 ): BlobsStore => async (
     id,
 ) => {
-    return {};
+    try {
+
+        return {
+            status: false,
+        };
+    } catch (error) {
+        return {
+            status: false,
+        };
+    }
 }
 // #endregion module
 

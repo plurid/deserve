@@ -37,7 +37,9 @@ const query = (
 
         return response;
     } catch (error) {
-        return;
+        return {
+            status: false,
+        };
     }
 }
 // #endregion module

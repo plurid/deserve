@@ -31,9 +31,11 @@ const blobsDelete = (
         });
         const response = request.data.deleteBlob;
 
-        return response.status;
+        return response;
     } catch (error) {
-        return false;
+        return {
+            status: false,
+        };
     }
 }
 // #endregion module

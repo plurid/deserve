@@ -16,7 +16,16 @@ const get = (
 ): BlobsGet => async (
     id,
 ) => {
-    return undefined;
+    try {
+
+        return {
+            status: false,
+        };
+    } catch (error) {
+        return {
+            status: false,
+        };
+    }
 }
 // #endregion module
 

@@ -19,7 +19,7 @@ export type ClientResponse<D = any> =
 
 export interface ClientErrorResponse<E = any> {
     status: false;
-    error: E;
+    error?: E;
 }
 
 export interface ClientSuccessResponse<D = any> {
