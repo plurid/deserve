@@ -74,7 +74,7 @@ const registerCore = async (
 
         if (!routerResponse.status) {
             delog({
-                text: 'registerCore could not registerNodeToRouter',
+                text: 'registerCore could not registerNodeToRouter · failed request',
                 level: 'warn',
             });
 
@@ -87,8 +87,23 @@ const registerCore = async (
             data: {
                 core,
                 token,
+                sendHost,
             },
         } = routerResponse;
+
+        if (
+            typeof core !== 'string'
+            || typeof token !== 'string'
+        ) {
+            delog({
+                text: 'registerCore could not registerNodeToRouter · invalid data',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
 
         const parsedLink = new URL(core);
         const link = parsedLink.protocol + '//' + parsedLink.host;
@@ -99,6 +114,7 @@ const registerCore = async (
             id,
             core,
             token,
+            sendHost,
         );
 
         client.open(() => {});

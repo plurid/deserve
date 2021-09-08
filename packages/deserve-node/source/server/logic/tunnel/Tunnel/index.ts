@@ -46,6 +46,7 @@ export interface TunnelOptions {
     id: string;
     port: number;
     token: string;
+    sendHost: boolean | undefined;
 
     localHost?: string;
     localHttps?: boolean;
@@ -72,6 +73,8 @@ export interface TunnelInfo {
     localKey?: string;
     localCA?: string;
     allowInvalidCert?: boolean;
+
+    sendHost?: boolean;
 }
 
 
@@ -120,6 +123,8 @@ class Tunnel extends EventEmitter {
             localKey,
             localCA,
             allowInvalidCert,
+
+            sendHost,
         } = this.options;
 
         const info: TunnelInfo = {
@@ -139,6 +144,8 @@ class Tunnel extends EventEmitter {
             localKey,
             localCA,
             allowInvalidCert,
+
+            sendHost,
         };
 
         return info;

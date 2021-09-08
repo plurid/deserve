@@ -51,6 +51,7 @@ const registerNodeToCore = async (
     id: string,
     url: string,
     token: string,
+    sendHost: boolean | undefined,
 ) => {
     const parsedURL = new URL(url);
 
@@ -61,6 +62,7 @@ const registerNodeToCore = async (
         port: PORT,
         host,
         token,
+        sendHost,
     });
 
     return {

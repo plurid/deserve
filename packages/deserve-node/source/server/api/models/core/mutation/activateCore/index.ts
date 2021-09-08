@@ -91,7 +91,7 @@ const activateCore = async (
 
         if (!routerResponse.status) {
             delog({
-                text: 'activateCore could not registerNodeToRouter',
+                text: 'activateCore could not registerNodeToRouter · failed request',
                 level: 'warn',
             });
 
@@ -104,8 +104,23 @@ const activateCore = async (
             data: {
                 core,
                 token,
+                sendHost,
             },
         } = routerResponse;
+
+        if (
+            typeof core !== 'string'
+            || typeof token !== 'string'
+        ) {
+            delog({
+                text: 'activateCore could not registerNodeToRouter · invalid data',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
 
         const {
             client,
@@ -113,6 +128,7 @@ const activateCore = async (
             id,
             core,
             token,
+            sendHost,
         );
 
         client.open(() => {});

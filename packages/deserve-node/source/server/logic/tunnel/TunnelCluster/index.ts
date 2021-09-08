@@ -12,10 +12,6 @@
 
 
     // #region external
-    import {
-        SEND_HOST,
-    } from '~server/data/constants';
-
     import HeaderHostTransformer from '../HeaderHostTransformer';
     // #endregion external
 // #endregion imports
@@ -34,6 +30,7 @@ export interface TunnelClusterOptionsConstructor {
     localCA?: string;
     localHttps?: boolean;
     allowInvalidCert?: boolean;
+    sendHost?: boolean;
 }
 
 export interface TunnelClusterOptions {
@@ -47,6 +44,7 @@ export interface TunnelClusterOptions {
     localKey: string;
     localCA: string;
     allowInvalidCert: boolean;
+    sendHost: boolean;
 }
 
 /**
@@ -73,6 +71,7 @@ class TunnelCluster extends EventEmitter {
         const localCert = options.localCert || '';
         const localKey = options.localKey || '';
         const localCA = options.localCA || '';
+        const sendHost = options.sendHost ?? false;
 
         this.options = {
             remoteHostOrIp,
@@ -85,6 +84,7 @@ class TunnelCluster extends EventEmitter {
             localKey,
             localCA,
             allowInvalidCert,
+            sendHost,
         };
     }
 
@@ -125,7 +125,7 @@ class TunnelCluster extends EventEmitter {
 
         remote.setKeepAlive(true);
 
-        if (SEND_HOST) {
+        if (this.options.sendHost) {
             this.sendHost(
                 remote,
                 remoteHostOrIp,
