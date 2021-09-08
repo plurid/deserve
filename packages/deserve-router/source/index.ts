@@ -40,14 +40,14 @@ const main = (
     if (!logic.handleGetPath) {
         delog({
             text: 'deserve router handleGetPath not defined',
-            level: 'warn',
+            level: 'trace',
         });
     }
 
 
     // Middlewares.
     server.use(
-        jsonParser() as any,
+        jsonParser(),
         (request, _, next) => {
             (request as DeserveRequest).deserveLogic = logic;
             next();
