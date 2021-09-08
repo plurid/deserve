@@ -12,6 +12,10 @@
 
 
     // #region external
+    import {
+        SEND_HOST,
+    } from '~server/data/constants';
+
     import HeaderHostTransformer from '../HeaderHostTransformer';
     // #endregion external
 // #endregion imports
@@ -120,10 +124,13 @@ class TunnelCluster extends EventEmitter {
         });
 
         remote.setKeepAlive(true);
-        this.sendHost(
-            remote,
-            remoteHostOrIp,
-        );
+
+        if (SEND_HOST) {
+            this.sendHost(
+                remote,
+                remoteHostOrIp,
+            );
+        }
 
         remote.on('error', (error: NodeJS.ErrnoException) => {
             delog({
