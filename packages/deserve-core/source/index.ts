@@ -49,10 +49,9 @@ const main = (
 
 
     server.use(
-        // FORCED as any
-        cors(corsOptions) as any,
-        jsonParser() as any,
-        cookieParser() as any,
+        cors(corsOptions),
+        jsonParser(),
+        cookieParser(),
 
         // Attach logic
         (
