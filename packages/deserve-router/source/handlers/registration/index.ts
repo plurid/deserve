@@ -12,6 +12,7 @@
     // #region external
     import {
         DeserveRequest,
+        RegistrationRequest,
         InputIdentonymKey,
 
         RegistrationResponse,
@@ -30,7 +31,7 @@ const handleRegister = async (
     request: Request,
     response: Response,
 ) => {
-    const data = request.body;
+    const data: RegistrationRequest | undefined = request.body;
     const logic = (request as DeserveRequest).deserveLogic;
 
     const unsuccessfulResponse: RegistrationResponse = {
@@ -42,16 +43,35 @@ const handleRegister = async (
         'application/json',
     );
 
-    try {
-        const {
-            identonym,
-            key,
-        } = data;
 
+    if (
+        !data
+        || typeof data.identonym !== 'string'
+        || typeof data.key !== 'string'
+    ) {
+        delog({
+            text: 'deserve router invalid registration data',
+            level: 'warn',
+        });
+
+        response
+            .status(400)
+            .json(unsuccessfulResponse);
+        return;
+    }
+
+    const {
+        identonym,
+        key,
+    } = data;
+
+
+    try {
         const input: InputIdentonymKey = {
             identonym,
             key,
         };
+
 
         const logicResponse = await logic.verifyIdentonymKey(
             input,
@@ -66,7 +86,6 @@ const handleRegister = async (
             response
                 .status(404)
                 .json(unsuccessfulResponse);
-
             return;
         }
 
@@ -82,9 +101,9 @@ const handleRegister = async (
             response
                 .status(400)
                 .json(unsuccessfulResponse);
-
             return;
         }
+
 
         const {
             core,
@@ -101,16 +120,15 @@ const handleRegister = async (
         };
 
         delog({
-            text: 'deserve router registered successfully',
-            level: 'trace',
+            text: `deserve router registered successfully core '${core}'`,
+            level: 'info',
         });
 
         response.json(responseData);
-
         return;
     } catch (error) {
         delog({
-            text: 'deserve router register error',
+            text: `deserve router register error identonym '${identonym}'`,
             level: 'error',
             error,
         });
@@ -118,7 +136,6 @@ const handleRegister = async (
         response
             .status(500)
             .json(unsuccessfulResponse);
-
         return;
     }
 }

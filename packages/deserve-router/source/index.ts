@@ -61,7 +61,7 @@ const main = (
         handleRegistration,
     );
 
-    server.get(
+    server.all(
         '*',
         handlePaths,
     );

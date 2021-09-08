@@ -29,15 +29,29 @@ const handlePaths = async (
     request: Request,
     response: Response,
 ) => {
+    const {
+        method,
+        path,
+        originalUrl,
+    } = request;
+
+    delog({
+        text: `deserve router path request ${method} ${originalUrl}`,
+        level: 'info',
+    });
+
+
     try {
+        if (
+            path === '/favicon.ico'
+            && FAVICON_PATH
+        ) {
+            response.sendFile(FAVICON_PATH);
+            return;
+        }
+
         const logic = (request as DeserveRequest).deserveLogic;
-
         if (!logic.handleGetPath) {
-            if (request.path === '/favicon.ico') {
-                response.sendFile(FAVICON_PATH);
-                return;
-            }
-
             response.send(notFoundPage);
             return;
         }
@@ -48,14 +62,15 @@ const handlePaths = async (
         );
     } catch (error) {
         delog({
-            text: 'deserve router path error',
+            text: `deserve router path error ${method} ${originalUrl}`,
             level: 'error',
             error,
         });
+    }
 
-        if (!response.headersSent) {
-            response.end();
-        }
+
+    if (!response.headersSent) {
+        response.end();
     }
 }
 // #endregion module

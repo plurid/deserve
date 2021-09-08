@@ -7,11 +7,11 @@
 
 
 // #region module
-const PORT = process.env.PORT || 3344;
+const PORT = parseInt(process.env.PORT || '') || 3344;
 
 const REGISTRATION_PATH = process.env.DESERVE_ROUTER_REGISTRATION_PATH || '/register';
 
-const FAVICON_PATH = process.env.DESERVE_ROUTER_FAVICON_PATH || path.join(
+const FAVICON_PATH = process.env.DESERVE_ROUTER_FAVICON_PATH ?? path.join(
     __dirname,
     './assets/favicon.ico',
 );

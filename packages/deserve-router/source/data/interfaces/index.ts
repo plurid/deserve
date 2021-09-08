@@ -33,6 +33,12 @@ export interface Response<T> {
 }
 
 
+export interface RegistrationRequest {
+    identonym: string;
+    key: string;
+}
+
+
 export type RegistrationResponse = Response<
     CoreTokenData & {
         sendHost?: boolean;
