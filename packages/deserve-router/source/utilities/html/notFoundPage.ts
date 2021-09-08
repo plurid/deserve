@@ -14,6 +14,7 @@ const notFoundPage = `
                 background: #242b33;
                 color: #ddd;
                 user-select: none;
+                font-family: 'Ubuntu', -apple-system, system-ui, Roboto, sans-serif;
             }
 
             a {
@@ -31,7 +32,6 @@ const notFoundPage = `
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                font-family: 'Ubuntu', -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto;
             }
         </style>
     </head>
@@ -40,7 +40,7 @@ const notFoundPage = `
             own your data with <a href="https://plurid.com/deserve">deserve</a>
         </div>
     </body>
-`;
+`.replace(/\s+/g, ' ');
 // #endregion module
 
 
