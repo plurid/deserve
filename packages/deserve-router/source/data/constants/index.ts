@@ -15,6 +15,8 @@ const FAVICON_PATH = process.env.DESERVE_ROUTER_FAVICON_PATH || path.join(
     __dirname,
     './assets/favicon.ico',
 );
+
+const SEND_HOST = process.env.DESERVE_ROUTER_SEND_HOST === 'true';
 // #endregion module
 
 
@@ -26,5 +28,7 @@ export {
     REGISTRATION_PATH,
 
     FAVICON_PATH,
+
+    SEND_HOST,
 };
 // #endregion exports

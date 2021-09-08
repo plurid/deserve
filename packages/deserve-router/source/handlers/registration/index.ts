@@ -14,6 +14,10 @@
         DeserveRequest,
         InputIdentonymKey,
     } from '~data/interfaces';
+
+    import {
+        SEND_HOST,
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 
@@ -84,6 +88,7 @@ const handleRegister = async (
             status: true,
             data: {
                 ...logicResponse.data,
+                sendHost: SEND_HOST,
             },
         };
 
