@@ -68,7 +68,7 @@ const main = (
 
 
     // Listen.
-    server.listen(PORT, () => {
+    const httpServer = server.listen(PORT, () => {
         delog({
             text: `deserve router server started · http://localhost:${PORT}`,
             level: 'info',
@@ -76,7 +76,10 @@ const main = (
     });
 
 
-    return server;
+    return {
+        expressServer: server,
+        httpServer,
+    };
 }
 // #endregion module
 
@@ -85,9 +88,9 @@ const main = (
 // #region exports
 export * from './data/interfaces';
 
-export default main;
-
 export {
     server,
 };
+
+export default main;
 // #endregion exports
