@@ -7,6 +7,11 @@
     import {
         ApolloServer,
     } from 'apollo-server-express';
+
+    import {
+        ApolloServerPluginLandingPageDisabled,
+        ApolloServerPluginLandingPageGraphQLPlayground,
+    } from 'apollo-server-core';
     // #endregion libraries
 
 
@@ -35,6 +40,8 @@
 
     import {
         tradeTokenForOwner,
+
+        environment,
     } from '~server/utilities';
     // #endregion external
 // #endregion imports
@@ -47,11 +54,10 @@ const setupGraphQLServer = async (
 ) => {
     const collections = await loadCollections();
     if (!collections) {
-        console.log('Database not loaded');
+        console.log('deserve node :: database not loaded');
         return;
     }
 
-    // TODO no playground if production
     const playground = {
         // settings: {
         //     'request.credentials': 'include',
@@ -63,7 +69,6 @@ const setupGraphQLServer = async (
     const graphQLServer = new ApolloServer({
         typeDefs: schemas,
         resolvers,
-        playground,
         context: async ({
             req,
             res,
@@ -89,7 +94,15 @@ const setupGraphQLServer = async (
 
             return context;
         },
+        plugins: [
+            environment.production
+                ? ApolloServerPluginLandingPageDisabled()
+                : ApolloServerPluginLandingPageGraphQLPlayground({
+                    ...playground,
+                }),
+        ],
     });
+    await graphQLServer.start();
 
     graphQLServer.applyMiddleware({
         app: instance,
