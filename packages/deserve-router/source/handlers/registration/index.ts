@@ -13,6 +13,8 @@
     import {
         DeserveRequest,
         InputIdentonymKey,
+
+        RegistrationResponse,
     } from '~data/interfaces';
 
     import {
@@ -31,7 +33,7 @@ const handleRegister = async (
     const data = request.body;
     const logic = (request as DeserveRequest).deserveLogic;
 
-    const unsuccessfulResponse = {
+    const unsuccessfulResponse: RegistrationResponse = {
         status: false,
     };
 
@@ -84,10 +86,16 @@ const handleRegister = async (
             return;
         }
 
-        const responseData = {
+        const {
+            core,
+            token,
+        } = logicResponse.data;
+
+        const responseData: RegistrationResponse = {
             status: true,
             data: {
-                ...logicResponse.data,
+                core,
+                token,
                 sendHost: SEND_HOST,
             },
         };

@@ -33,6 +33,13 @@ export interface Response<T> {
 }
 
 
+export type RegistrationResponse = Response<
+    CoreTokenData & {
+        sendHost?: boolean;
+    }
+>;
+
+
 export type VerifyIdentonymKey = (
     input: InputIdentonymKey
 ) => Promise<Response<CoreTokenData>>;
