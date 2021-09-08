@@ -46,6 +46,7 @@ export interface TunnelOptions {
     id: string;
     port: number;
     token: string;
+    registrationPath: string;
     sendHost: boolean | undefined;
 
     localHost?: string;
@@ -159,6 +160,7 @@ class Tunnel extends EventEmitter {
         const {
             host,
             token,
+            registrationPath,
         } = this.options;
 
         // const getInfo = this._getInfo.bind(this);
@@ -167,7 +169,7 @@ class Tunnel extends EventEmitter {
             responseType: 'json',
         };
 
-        const baseUri = `${host}/register`;
+        const baseUri = host + registrationPath;
 
         // no subdomain at first, maybe use requested domain
         // const assignedDomain = opt.subdomain;

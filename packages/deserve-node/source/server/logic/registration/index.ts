@@ -56,12 +56,14 @@ const registerNodeToCore = async (
     const parsedURL = new URL(url);
 
     const host = parsedURL.protocol + '//' + parsedURL.host;
+    const registrationPath = parsedURL.pathname ?? '/register';
 
     const client = new Tunnel({
         id,
         port: PORT,
         host,
         token,
+        registrationPath,
         sendHost,
     });
 
