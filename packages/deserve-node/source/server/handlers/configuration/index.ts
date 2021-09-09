@@ -111,6 +111,32 @@ const setupRegistration = async (
 }
 
 
+const handleConfigurationFile = async () => {
+    const deon = new Deon();
+    const data = await deon.parseFile<ConfigurationFile>(CONFIGURATION_PATH);
+    if (!data) {
+        delog({
+            text: 'configuration path data could not be parsed',
+            level: 'warn',
+        });
+        return;
+    }
+
+    const {
+        owners,
+        registration,
+    } = data;
+
+    if (Array.isArray(owners)) {
+        await setupOwners(owners);
+    }
+
+    if (typeof registration === 'boolean') {
+        await setupRegistration(registration);
+    }
+}
+
+
 const setupConfiguration = async () => {
     try {
         if (!fs.existsSync(CONFIGURATION_PATH)) {
@@ -121,29 +147,7 @@ const setupConfiguration = async () => {
             return;
         }
 
-        const deon = new Deon();
-        const data = await deon.parseFile<ConfigurationFile>(CONFIGURATION_PATH);
-        if (!data) {
-            delog({
-                text: 'configuration path data could not be parsed',
-                level: 'warn',
-            });
-            return;
-        }
-
-
-        const {
-            owners,
-            registration,
-        } = data;
-
-        if (Array.isArray(owners)) {
-            await setupOwners(owners);
-        }
-
-        if (typeof registration === 'boolean') {
-            await setupRegistration(registration);
-        }
+        await handleConfigurationFile();
     } catch (error) {
         delog({
             text: 'could not setup configuration',
