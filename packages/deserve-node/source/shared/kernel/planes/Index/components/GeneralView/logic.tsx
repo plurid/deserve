@@ -55,8 +55,8 @@ export const generalSelectors = [
 ];
 
 export const generalSelectorsIcons = {
-    cores: PluridIconSpace,
-    data: PluridIconApps,
+    cores: PluridIconApps,
+    data: PluridIconSpace,
     functions: PluridIconBrainCircuits,
     records: PluridIconInfo,
     settings: PluridIconSettings,
