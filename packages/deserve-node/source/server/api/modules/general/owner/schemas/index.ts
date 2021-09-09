@@ -10,6 +10,7 @@
 export const queries = gql`
     extend type Query {
         getCurrentOwner: ResponseOwner!
+        getGlobalData: ResponseGlobalData!
     }
 `;
 
@@ -33,6 +34,17 @@ export const types = gql`
     type Owner {
         id: ID!
         identonym: String!
+    }
+
+
+    type ResponseGlobalData {
+        status: Boolean!
+        error: Error
+        data: GlobalData
+    }
+
+    type GlobalData {
+        registration: Boolean!
     }
 `;
 

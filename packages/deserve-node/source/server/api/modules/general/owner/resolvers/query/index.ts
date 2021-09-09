@@ -21,6 +21,13 @@ const Query = {
     ) => Owner.Query.getCurrentOwner(
         context,
     ),
+    getGlobalData: (
+        _: any,
+        __: any,
+        context: Context,
+    ) => Owner.Query.getGlobalData(
+        context,
+    ),
 };
 // #endregion module
 
