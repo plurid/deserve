@@ -160,6 +160,10 @@ const Core: React.FC<CoreProperties> = (
                 records obliteration policy
             </div>
 
+            <div>
+                keys update history
+            </div>
+
             <StyledPluridPureButton
                 text="Obliterate Core"
                 atClick={handleCoreObliterate}
