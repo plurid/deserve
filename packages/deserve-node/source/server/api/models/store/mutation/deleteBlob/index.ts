@@ -94,6 +94,18 @@ const deleteBlob = async (
             };
         }
 
+        if (blobData.deleted) {
+            delog({
+                text: 'deleteBlob already deleted',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+
 
         // obliteration logic to be run after obliteration policy expires
         // const blobLocation = ownerID + '/' + blobData.blobSHA;
@@ -120,6 +132,7 @@ const deleteBlob = async (
             id,
             {
                 deleted: true,
+                deletedAt: Date.now(),
             },
         );
         if (!markedDeleted) {

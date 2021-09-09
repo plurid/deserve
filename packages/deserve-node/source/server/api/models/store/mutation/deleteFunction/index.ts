@@ -47,12 +47,44 @@ const deleteFunction = async (
         }
 
 
-        const deleted = await database.deleteDocument(
+        const functionData = await database.getById<any>(
             collections.functions,
             id,
         );
 
-        if (!deleted) {
+        if (!functionData) {
+            return {
+                status: false,
+            };
+        }
+
+        if (functionData.ownerID !== ownerID) {
+            delog({
+                text: 'deleteFunction unauthorized',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+        if (functionData.deleted) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const markedDeleted = await database.updateDocument(
+            collections.functions,
+            id,
+            {
+                deleted: true,
+                deletedAt: Date.now(),
+            },
+        );
+        if (!markedDeleted) {
             return {
                 status: false,
             };

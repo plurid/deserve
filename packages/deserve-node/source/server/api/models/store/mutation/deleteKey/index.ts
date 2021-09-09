@@ -90,12 +90,24 @@ const deleteKey = async (
             };
         }
 
+        if (keyData.deleted) {
+            delog({
+                text: 'deleteKey already deleted',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
 
         const markedDeleted = await database.updateDocument(
             collections.keys,
             id,
             {
                 deleted: true,
+                deletedAt: Date.now(),
             },
         );
         if (!markedDeleted) {
