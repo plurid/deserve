@@ -17,10 +17,6 @@
         Blob,
     } from '~server/data/interfaces';
 
-    import {
-        getCoreFromRequest,
-    } from '~server/logic/core';
-
     import storage, {
         DESERVE_BLOBS,
     } from '~server/services/storage';
@@ -85,7 +81,7 @@ const upload = async (
         }
 
 
-        const core = await getCoreFromRequest(request);
+        const core = (request.file as any).core;
         if (!core) {
             delog({
                 text: 'upload no core',

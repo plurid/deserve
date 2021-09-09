@@ -120,6 +120,7 @@ const setupBlobs = (
                                 path: localpath,
                                 size: outStream.bytesWritten,
                                 sha,
+                                core,
                             } as any,
                         );
                     });
