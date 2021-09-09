@@ -161,7 +161,11 @@ const Core: React.FC<CoreProperties> = (
             </div>
 
             <div>
-                keys update history
+                keys update history // 1000
+            </div>
+
+            <div>
+                keys update rate // 100 per hour
             </div>
 
             <StyledPluridPureButton
