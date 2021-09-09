@@ -56,6 +56,21 @@ const updateKey = async (
             field,
         } = input;
 
+        const keyData = await database.getById<any>(
+            collections.keys,
+            id,
+        );
+        if (!keyData) {
+            delog({
+                text: 'updateKey not found',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
         if (field) {
             await database.updateField(
                 collections.keys,
@@ -72,11 +87,26 @@ const updateKey = async (
             );
         }
 
+        const updatedAt = Date.now();
+
         const updated = await database.updateField(
             collections.keys,
             id,
             'updatedAt',
-            Date.now(),
+            updatedAt,
+        );
+
+        await database.updateField(
+            collections.keys,
+            id,
+            'history',
+            [
+                ...keyData.history,
+                {
+                    value: keyData.value,
+                    updatedAt,
+                },
+            ],
         );
 
         if (!updated) {
