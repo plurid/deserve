@@ -2,6 +2,8 @@
     // #region imports
     import fs from 'fs';
 
+    import chokidar from 'chokidar';
+
     import Deon from '@plurid/deon';
 
     import delog from '@plurid/delog';
@@ -112,6 +114,14 @@ const setupRegistration = async (
 
 
 const handleConfigurationFile = async () => {
+    if (!fs.existsSync(CONFIGURATION_PATH)) {
+        delog({
+            text: 'configuration path does not exist',
+            level: 'warn',
+        });
+        return;
+    }
+
     const deon = new Deon();
     const data = await deon.parseFile<ConfigurationFile>(CONFIGURATION_PATH);
     if (!data) {
@@ -139,13 +149,12 @@ const handleConfigurationFile = async () => {
 
 const setupConfiguration = async () => {
     try {
-        if (!fs.existsSync(CONFIGURATION_PATH)) {
-            delog({
-                text: 'configuration path does not exist',
-                level: 'warn',
+        chokidar
+            .watch(
+                CONFIGURATION_PATH,
+            ).on('all', () => {
+                handleConfigurationFile();
             });
-            return;
-        }
 
         await handleConfigurationFile();
     } catch (error) {
