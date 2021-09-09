@@ -43,6 +43,10 @@
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
     import actions from '~kernel-services/state/actions';
+
+    import {
+        urlWithoutProtocol,
+    } from '~kernel-services/utilities';
     // #endregion external
 
 
@@ -373,7 +377,7 @@ const CoreDataView: React.FC<CoreDataViewProperties> = (
             theme={stateGeneralTheme}
         >
             <StyledName>
-                {activeCore.link}
+                {urlWithoutProtocol(activeCore.link)}
             </StyledName>
 
             <StyledDataSelect>
