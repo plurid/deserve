@@ -4,7 +4,9 @@
 
     import chokidar from 'chokidar';
 
-    import Deon from '@plurid/deon';
+    import Deon, {
+        typer,
+    } from '@plurid/deon';
 
     import delog from '@plurid/delog';
 
@@ -123,7 +125,9 @@ const handleConfigurationFile = async () => {
     }
 
     const deon = new Deon();
-    const data = await deon.parseFile<ConfigurationFile>(CONFIGURATION_PATH);
+    const data = await deon.parseFile<any>(
+        CONFIGURATION_PATH,
+    );
     if (!data) {
         delog({
             text: 'configuration path data could not be parsed',
@@ -135,7 +139,7 @@ const handleConfigurationFile = async () => {
     const {
         owners,
         registration,
-    } = data;
+    } = typer<ConfigurationFile>(data);
 
     if (Array.isArray(owners)) {
         await setupOwners(owners);
