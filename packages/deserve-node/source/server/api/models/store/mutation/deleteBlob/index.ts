@@ -95,33 +95,36 @@ const deleteBlob = async (
         }
 
 
-        const blobLocation = ownerID + '/' + blobData.blobSHA;
+        // obliteration logic to be run after obliteration policy expires
+        // const blobLocation = ownerID + '/' + blobData.blobSHA;
 
-        const obliterated = await storage.object.obliterate(
-            DESERVE_BLOBS,
-            blobLocation,
-        );
+        // const obliterated = await storage.object.obliterate(
+        //     DESERVE_BLOBS,
+        //     blobLocation,
+        // );
 
-        if (!obliterated) {
-            delog({
-                text: 'deleteBlob not obliterated',
-                level: 'warn',
-            });
+        // if (!obliterated) {
+        //     delog({
+        //         text: 'deleteBlob not obliterated',
+        //         level: 'warn',
+        //     });
 
-            return {
-                status: false,
-            };
-        }
+        //     return {
+        //         status: false,
+        //     };
+        // }
 
 
-        const deleted = await database.deleteDocument(
+        const markedDeleted = await database.updateDocument(
             collections.blobs,
             id,
+            {
+                deleted: true,
+            },
         );
-
-        if (!deleted) {
+        if (!markedDeleted) {
             delog({
-                text: 'deleteBlob not deleted',
+                text: 'deleteBlob not marked deleted',
                 level: 'warn',
             });
 

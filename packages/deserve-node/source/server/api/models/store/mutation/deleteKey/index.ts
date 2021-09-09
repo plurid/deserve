@@ -91,14 +91,16 @@ const deleteKey = async (
         }
 
 
-        const deleted = await database.deleteDocument(
+        const markedDeleted = await database.updateDocument(
             collections.keys,
             id,
+            {
+                deleted: true,
+            },
         );
-
-        if (!deleted) {
+        if (!markedDeleted) {
             delog({
-                text: 'deleteKey not deleted',
+                text: 'deleteKey not marked deleted',
                 level: 'warn',
             });
 
