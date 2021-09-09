@@ -29,10 +29,10 @@ const download = async (
     response: express.Response,
 ) => {
     try {
-        const blobSHA = request.query.blob;
-        if (typeof blobSHA !== 'string') {
+        const blobID = request.query.blob;
+        if (typeof blobID !== 'string') {
             delog({
-                text: 'download no blob sha',
+                text: 'download no blob id',
                 level: 'warn',
             });
 
@@ -52,9 +52,6 @@ const download = async (
             return;
         }
 
-        const {
-            ownerID,
-        } = core;
 
         const deserveBlobsCollection = await getDeserveBlobsCollection();
         if (!deserveBlobsCollection) {
@@ -67,8 +64,6 @@ const download = async (
             return;
         }
 
-
-        const blobID = ownerID + '/' + blobSHA;
 
         const blobData: any = await database.getById(
             deserveBlobsCollection,
@@ -85,9 +80,16 @@ const download = async (
         }
 
 
+        const {
+            ownerID,
+            blobSHA,
+        } = blobData;
+
+        const blobLocation = ownerID + '/' + blobSHA;
+
         const outStream = await storage.object.readAsStream(
             DESERVE_BLOBS,
-            blobID,
+            blobLocation,
         );
         if (!outStream) {
             delog({
