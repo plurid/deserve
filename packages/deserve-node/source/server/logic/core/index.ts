@@ -23,14 +23,14 @@ export const getCoreFromRequest = async (
     owner?: ClientOwner | undefined,
     coreID?: string | undefined,
 ) => {
+    const deserveCoresCollection = await getDeserveCoresCollection();
+    if (!deserveCoresCollection) {
+        // console.log('No database');
+
+        return;
+    }
+
     if (owner && coreID) {
-        const deserveCoresCollection = await getDeserveCoresCollection();
-        if (!deserveCoresCollection) {
-            // console.log('No database');
-
-            return;
-        }
-
         const cores: any[] = await database.getAllWhere(
             deserveCoresCollection,
             {
@@ -51,17 +51,8 @@ export const getCoreFromRequest = async (
 
     const origin = request.header('Host');
     const token = request.header('Deserve-Token');
-    // console.log(origin, token);
     if (!origin || !token) {
         // console.log('No origin or token');
-
-        return;
-    }
-
-
-    const deserveCoresCollection = await getDeserveCoresCollection();
-    if (!deserveCoresCollection) {
-        // console.log('No database');
 
         return;
     }
