@@ -26,6 +26,10 @@
         Store,
     } from '~server/api/models';
 
+    import {
+        getCoreFromRequest,
+    } from '~server/logic/core';
+
     import storage, {
         DESERVE_BLOBS,
     } from '~server/services/storage';
@@ -79,7 +83,19 @@ const setupBlobs = (
     const multerInstance = multer(
         {
             storage: {
-                _handleFile: (_, file, callback) => {
+                _handleFile: async (request, file, callback) => {
+                    const core = await getCoreFromRequest(request);
+                    if (!core) {
+                        callback(
+                            {
+                                status: 401,
+                                message: 'Unauthorized',
+                            },
+                        );
+                        return;
+                    }
+
+
                     const shaStream = createSHAStream();
                     let sha = '';
                     shaStream.on('digest', (result: string) => {
@@ -124,14 +140,14 @@ const setupBlobs = (
 
     instance.post(
         '/upload',
-        cors(corsOptions) as any,
-        multerInstance.single('blob') as any,
+        cors(corsOptions),
+        multerInstance.single('blob'),
         Store.blobs.upload,
     );
 
     instance.get(
         '/download',
-        cors(corsOptions) as any,
+        cors(corsOptions),
         Store.blobs.download,
     );
 }
