@@ -10,6 +10,10 @@
 
     // #region external
     import {
+        DESERVE_GLOBAL_DOCUMENT_ID,
+    } from '~server/data/constants';
+
+    import {
         Context,
         InputRegisterOwner,
         Owner,
@@ -43,6 +47,23 @@ const registerOwner = async (
             identonym,
             key,
         } = input;
+
+
+        const globalData = await database.getById<any>(
+            collections.global,
+            DESERVE_GLOBAL_DOCUMENT_ID,
+        );
+        const allowedRegistration = globalData && globalData.registration;
+        if (!allowedRegistration) {
+            delog({
+                text: 'registerOwner registration not allowed',
+                level: 'warn',
+            });
+
+            return {
+                status: false,
+            };
+        }
 
 
         const ownerQuery: any = await database.getBy(
