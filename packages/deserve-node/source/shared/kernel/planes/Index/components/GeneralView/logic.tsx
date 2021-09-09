@@ -50,8 +50,8 @@ export const generalSelectors = [
     'cores',
     'data',
     'functions',
-    // 'records',
-    // 'settings',
+    'records',
+    'settings',
 ];
 
 export const generalSelectorsIcons = {
