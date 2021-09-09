@@ -28,6 +28,13 @@
 
 [`deserver`](https://plurid.com/deserver) is a hardware device running a `deserve node`.
 
+`deserve` grants control over the `data` and the `functions` of an internet service with respect to a particular user.
+
+The `data` can be
++ direct data - structured or binary (`keys` or `blobs`)
++ metadata - logs (`records`)
+
+The `functions` are a `fork` of any functionality the service wishes to expose.
 
 
 ### Contents
