@@ -5,6 +5,7 @@
 
 
     // #region internal
+    import setupConfiguration from './configuration';
     import setupMiddleware from './middleware';
     import setupGraphQL from './graphql';
     import setupBlobs from './blobs';
@@ -14,9 +15,11 @@
 
 
 // #region module
-const setupHandlers = (
+const setupHandlers = async (
     server: PluridServer,
 ) => {
+    await setupConfiguration();
+
     const instance = server.instance();
 
     setupMiddleware(

@@ -10,6 +10,9 @@ export const DESERVE_BLOBS = 'blobs';
 export const DESERVE_TOKENS = 'tokens';
 
 
+export const DESERVE_GLOBAL_DOCUMENT_ID = 'global';
+
+
 export const DESERVE_MONGO_CONNECTION_STRING = process.env.DESERVE_NODE_MONGO_CONNECTION_STRING || 'mongodb://127.0.0.1:57057/';
 
 export const DESERVE_MONGO_USERNAME = process.env.DESERVE_NODE_MONGO_USERNAME || '';
