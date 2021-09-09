@@ -1,13 +1,16 @@
+## Upload
+
 ```
 curl \
     -H 'Deserve-Token: <token>' \
     -H 'Host: <host>' \
     -F 'file=@<file-path>' \
     <deserve.domain>/upload
-
+```
 
 example:
 
+```
 curl -v \
     -F 'blob=@./image.png' \
     -H 'Deserve-Token: 123' \
@@ -17,16 +20,19 @@ curl -v \
 
 
 
+## Download
+
 ```
 curl \
     -H 'Deserve-Token: <token>' \
     -H 'Host: <host>' \
     --output <filename> \
     <deserve.domain>/download?blob=blobID
-
+```
 
 example:
 
+```
 curl \
     -H 'Deserve-Token: 123' \
     -H 'Host: localhost:3355' \
