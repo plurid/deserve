@@ -32,6 +32,23 @@ const GET_CURRENT_OWNER = gql`
 `;
 
 
+const GET_GLOBAL_DATA = gql`
+    query GetGlobalData {
+        getGlobalData {
+            status
+            error {
+                path
+                type
+                message
+            }
+            data {
+                registration
+            }
+        }
+    }
+`;
+
+
 const QUERY_BLOBS = gql`
     query QueryBlobs($input: InputQueryBlobs!) {
         queryBlobs(input: $input) {
@@ -69,6 +86,7 @@ const QUERY_KEYS = gql`
 // #region exports
 export {
     GET_CURRENT_OWNER,
+    GET_GLOBAL_DATA,
     QUERY_BLOBS,
     QUERY_KEYS,
 };

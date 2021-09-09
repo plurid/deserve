@@ -10,11 +10,13 @@
 
 // #region module
 const getNotFoundFace = (state: AppState) => state.general.notFoundFace;
+const getRegistration = (state: AppState) => state.general.registration;
 
 
 
 const selectors = {
     getNotFoundFace,
+    getRegistration,
 };
 // #endregion module
 

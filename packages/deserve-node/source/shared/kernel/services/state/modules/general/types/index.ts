@@ -12,6 +12,7 @@ export interface SetGeneralFieldAction<T = any> {
 
 export interface State {
     notFoundFace: string;
+    registration: boolean;
 }
 
 

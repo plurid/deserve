@@ -13,6 +13,7 @@
     import client from '~kernel-services/graphql/client';
     import {
         GET_CURRENT_OWNER,
+        GET_GLOBAL_DATA,
     } from '~kernel-services/graphql/query';
 
     import actions from '~kernel-services/state/actions';
@@ -70,6 +71,36 @@ const getCurrentOwner = async (
 
     return;
 }
+
+
+const getGlobalData = async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+) => {
+    const dispatchSetGeneralField: typeof actions.general.setGeneralField = (
+        payload,
+    ) => dispatch(
+        actions.general.setGeneralField(payload),
+    );
+
+    const query = await client.query({
+        query: GET_GLOBAL_DATA,
+        fetchPolicy: 'no-cache',
+    });
+
+    const response = query.data.getGlobalData;
+    if (!response.status) {
+        return;
+    }
+
+    const {
+        data,
+    } = response;
+
+    dispatchSetGeneralField({
+        field: 'registration',
+        value: data.registration,
+    });
+}
 // #endregion module
 
 
@@ -77,5 +108,6 @@ const getCurrentOwner = async (
 // #region exports
 export {
     getCurrentOwner,
+    getGlobalData,
 };
 // #endregion exports

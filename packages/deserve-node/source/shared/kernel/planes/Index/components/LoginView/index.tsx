@@ -54,6 +54,7 @@ export interface LoginViewOwnProperties {
 }
 
 export interface LoginViewStateProperties {
+    stateGeneralRegistration: boolean;
 }
 
 export interface LoginViewDispatchProperties {
@@ -71,6 +72,10 @@ const LoginView: React.FC<LoginViewProperties> = (
 ) => {
     // #region properties
     const {
+        // #region state
+        stateGeneralRegistration,
+        // #endregion state
+
         // #region dispatch
         dispatch,
         dispatchSetViewType,
@@ -199,16 +204,18 @@ const LoginView: React.FC<LoginViewProperties> = (
                 />
             </StyledLoginButton>
 
-            <PluridLinkButton
-                text="register"
-                atClick={() => {
-                    dispatchSetViewType({
-                        type: 'indexView',
-                        value: 'register',
-                    });
-                }}
-                level={1}
-            />
+            {stateGeneralRegistration && (
+                <PluridLinkButton
+                    text="register"
+                    atClick={() => {
+                        dispatchSetViewType({
+                            type: 'indexView',
+                            value: 'register',
+                        });
+                    }}
+                    level={1}
+                />
+            )}
         </StyledLoginView>
     );
     // #endregion render
@@ -218,6 +225,7 @@ const LoginView: React.FC<LoginViewProperties> = (
 const mapStateToProperties = (
     state: AppState,
 ): LoginViewStateProperties => ({
+    stateGeneralRegistration: selectors.general.getRegistration(state),
 });
 
 

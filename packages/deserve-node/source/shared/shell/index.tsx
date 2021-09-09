@@ -16,12 +16,13 @@
 
     // #region external
     import {
+        getGlobalData,
         getCurrentOwner,
     } from '~kernel-services/logic/queries';
 
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
-    import selectors from '~kernel-services/state/selectors';
+    // import selectors from '~kernel-services/state/selectors';
     import actions from '~kernel-services/state/actions';
     // #endregion external
 
@@ -68,14 +69,6 @@ const Shell: React.FC<ShellProperties> = (
             // #endregion methods
         // #endregion required
 
-        // #region optional
-            // #region values
-            // #endregion values
-
-            // #region methods
-            // #endregion methods
-        // #endregion optional
-
         // #region dispatch
         dispatch,
         dispatchSetViewLoading,
@@ -89,6 +82,11 @@ const Shell: React.FC<ShellProperties> = (
     useEffect(() => {
         try {
             const loadOwner = async () => {
+                await getGlobalData(
+                    dispatch,
+                );
+
+
                 const ownerSet = await getCurrentOwner(
                     dispatch,
                 );

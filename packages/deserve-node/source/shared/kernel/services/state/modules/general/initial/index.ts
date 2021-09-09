@@ -13,6 +13,7 @@
 // #region module
 const initialState: Types.State = {
     notFoundFace: getRandomFace(),
+    registration: false,
 };
 // #endregion module
 
