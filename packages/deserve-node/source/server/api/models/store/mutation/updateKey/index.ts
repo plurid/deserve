@@ -71,6 +71,14 @@ const updateKey = async (
             };
         }
 
+        const updatedAt = Date.now();
+        let previousHistory: any[] = keyData.history || [];
+
+        if (previousHistory.length > 0) {
+            // history logic
+        }
+
+
         if (field) {
             await database.updateField(
                 collections.keys,
@@ -87,8 +95,6 @@ const updateKey = async (
             );
         }
 
-        const updatedAt = Date.now();
-
         const updated = await database.updateField(
             collections.keys,
             id,
@@ -101,7 +107,7 @@ const updateKey = async (
             id,
             'history',
             [
-                ...keyData.history,
+                ...previousHistory,
                 {
                     value: keyData.value,
                     updatedAt,
