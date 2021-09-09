@@ -133,7 +133,7 @@ const Core: React.FC<CoreProperties> = (
             theme={stateGeneralTheme}
         >
             <div>
-                Core {link}
+                core {link}
             </div>
 
             <div>
@@ -142,6 +142,22 @@ const Core: React.FC<CoreProperties> = (
 
             <div>
                 add origin
+            </div>
+
+            <div>
+                data storage size
+            </div>
+
+            <div>
+                records storage size
+            </div>
+
+            <div>
+                data obliteration policy
+            </div>
+
+            <div>
+                records obliteration policy
             </div>
 
             <StyledPluridPureButton
