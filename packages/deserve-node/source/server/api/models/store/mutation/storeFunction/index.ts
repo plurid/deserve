@@ -64,7 +64,7 @@ const storeFunction = async (
         const storedAt = Date.now();
         const functionSHA = await sha.compute(ownerID + storedAt + functionText);
 
-        const functionData = {
+        const databaseFunctionData = {
             name: functionName,
             text: functionText,
             database: functionDatabase,
@@ -77,7 +77,7 @@ const storeFunction = async (
         const stored = await database.updateDocument(
             collections.functions,
             functionID,
-            functionData,
+            databaseFunctionData,
         );
 
         if (!stored) {
@@ -85,6 +85,12 @@ const storeFunction = async (
                 status: false,
             };
         }
+
+
+        const functionData = {
+            id: functionID,
+            ...databaseFunctionData,
+        };
 
         prepareFunctioner(
             functionData,
@@ -94,7 +100,6 @@ const storeFunction = async (
         return {
             status: true,
             data: {
-                id: functionID,
                 ...functionData,
             },
         };

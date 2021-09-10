@@ -114,7 +114,7 @@ export interface StoredFunction {
     text: string;
     database?: string;
     storage?: string;
-    externals?: string;
+    externals?: string[];
     sha: string;
     storedAt: number;
 }

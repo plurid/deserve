@@ -7,12 +7,18 @@
 
 
     // #region external
+    import {
+        StoredFunction,
+    } from '~server/data/interfaces';
+
     import database from '~server/services/database';
 
     import {
         getDeserveFunctionersCollection,
         getDeserveTokensCollection,
     } from '~server/logic/database/collections';
+
+    import docker from '~server/logic/docker';
     // #endregion external
 // #endregion imports
 
@@ -80,15 +86,27 @@ export const writeFunctioner = async (
 
 
 export const prepareFunctioner = async (
-    functionData: any,
+    functionData: StoredFunction,
 ) => {
     const functioner = await writeFunctioner(
         functionData,
     );
 
-    // run the docker functioner imagene
+    // create imagene based on functionData and functioner
+    const imageneName = `functioner-${functionData.name}-${uuid.generate()}`;
 
-    // create imagene based on function
+    // docker.buildImage(
+    //     {
+    //         context: '',
+    //         src: [],
+    //     },
+    //     {
+    //         t: imageneName,
+    //     },
+    //     (err, response) => {
+    //         //...
+    //     },
+    // );
 }
 
 
