@@ -9,6 +9,8 @@
         Context,
 
         InputRunFunction,
+
+        StoredFunction,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -37,15 +39,19 @@ export const parseArguments = (
 }
 
 
-export const executeFunction = (
-    functionData: any,
+export const executeFunction = async (
+    functionData: StoredFunction,
     functionArguments: string | undefined,
 ) => {
-    const parsedArguments = parseArguments(functionArguments);
+    try {
+        const parsedArguments = parseArguments(functionArguments);
 
-    // based on data and arguments run the appropriate docker imagene
+        // based on data and arguments run the appropriate docker imagene
 
-    return '';
+        return true;
+    } catch (error) {
+        return;
+    }
 }
 
 
@@ -75,7 +81,7 @@ const runFunction = async (
         }
 
 
-        const functionData: any = await database.getById(
+        const functionData = await database.getById<StoredFunction>(
             collections.functions,
             functionID,
         );
@@ -90,6 +96,12 @@ const runFunction = async (
             functionData,
             functionArguments,
         );
+
+        if (!functionResult) {
+            return {
+                status: false,
+            };
+        }
 
         return {
             status: true,

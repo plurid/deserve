@@ -106,4 +106,16 @@ export interface Key {
 export interface StoredKey {
     id: string;
 }
+
+
+export interface StoredFunction {
+    id: string;
+    name: string;
+    text: string;
+    database?: string;
+    storage?: string;
+    externals?: string;
+    sha: string;
+    storedAt: number;
+}
 // #endregion module
