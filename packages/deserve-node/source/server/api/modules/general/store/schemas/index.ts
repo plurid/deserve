@@ -33,8 +33,8 @@ export const mutations = gql`
         deleteBlob(input: InputDeleteBlob!): Response!
         deleteKey(input: InputDeleteKey!): Response!
 
-        storeFunction(input: InputStoreFunction!): Response!
-        updateFunction(input: InputUpdateFunction!): Response!
+        storeFunction(input: InputStoreFunction!): ResponseStoredFunction!
+        updateFunction(input: InputUpdateFunction!): ResponseUpdatedFunction!
         deleteFunction(input: InputDeleteFunction!): Response!
 
         runFunction(input: InputRunFunction!): ResponseRunFunction!
@@ -88,6 +88,19 @@ export const types = gql`
     }
 
 
+    type ResponseStoredFunction {
+        status: Boolean!
+        error: Error
+        data: StoredFunction
+    }
+
+    type ResponseUpdatedFunction {
+        status: Boolean!
+        error: Error
+        data: StoredFunction
+    }
+
+
 
     type Blob {
         id: ID!
@@ -109,6 +122,10 @@ export const types = gql`
     }
 
     type StoredKey {
+        id: String!
+    }
+
+    type StoredFunction {
         id: String!
     }
 

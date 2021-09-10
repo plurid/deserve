@@ -94,6 +94,9 @@ const storeFunction = async (
 
         return {
             status: true,
+            data: {
+                id: functionID,
+            },
         };
     } catch (error) {
         delog({
