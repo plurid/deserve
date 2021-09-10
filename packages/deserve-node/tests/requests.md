@@ -47,7 +47,6 @@ curl \
 
 
 
-
 ## Keys
 
 ### Store
@@ -115,5 +114,31 @@ curl \
     -H 'Host: localhost:3355' \
     -H 'Content-Type: application/json' \
     --data-binary '{"query":"mutation DeleteKey($input: InputDeleteKey!) { deleteKey(input: $input) {    status }}","variables":{"input":{"id":"406ee9451f6a164f4aefc1c236a2a53f/b794dd52c78c2f73db907365fc8c8b7dcec230dd7880ae3594e8325c709d265c0e3c9346a8c78a2f840d9b0b77ba01cf"}}}' \
+    http://localhost:3366/deserve
+```
+
+
+
+## Functions
+
+### Store
+
+```
+curl \
+    -H 'Deserve-Token: <token>' \
+    -H 'Host: <host>' \
+    -H 'Content-Type: application/json' \
+    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) {  storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"<value>","text":"<value>"}}}' \
+    http://localhost:3366/deserve
+```
+
+example:
+
+```
+curl \
+    -H 'Deserve-Token: 123' \
+    -H 'Host: localhost:3355' \
+    -H 'Content-Type: application/json' \
+    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) {  storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"a","text":"b"}}}' \
     http://localhost:3366/deserve
 ```
