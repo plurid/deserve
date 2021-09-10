@@ -65,7 +65,6 @@ const storeFunction = async (
         const functionSHA = await sha.compute(ownerID + storedAt + functionText);
 
         const functionData = {
-            functionID,
             name: functionName,
             text: functionText,
             database: functionDatabase,

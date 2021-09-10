@@ -122,11 +122,18 @@ export const types = gql`
     }
 
     type StoredKey {
-        id: String!
+        id: ID!
     }
 
     type StoredFunction {
-        id: String!
+        id: ID!
+        name: String!
+        text: String!
+        database: String
+        storage: String
+        externals: [String!]
+        sha: String!
+        storedAt: Float!
     }
 
 
