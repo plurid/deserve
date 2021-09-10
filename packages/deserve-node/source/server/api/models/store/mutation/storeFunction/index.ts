@@ -95,6 +95,7 @@ const storeFunction = async (
             status: true,
             data: {
                 id: functionID,
+                ...functionData,
             },
         };
     } catch (error) {
