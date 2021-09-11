@@ -46,6 +46,7 @@
     "peerDependencies": {
         "@apollo/client": ">=3.4",
         "cross-fetch": ">=3.1",
+        "graphql": ">=15.5",
         "request": ">=2.88"
     },
     "devDependencies": {
@@ -60,6 +61,7 @@
         "@zerollup/ts-transform-paths": "^1.7.18",
         "cross-fetch": "^3.1.4",
         "eslint": "^7.31.0",
+        "graphql": "^15.5.3",
         "jest": "^27.0.6",
         "request": "^2.88.2",
         "rimraf": "^3.0.2",
