@@ -39,6 +39,10 @@
     } from '~server/logic/database';
 
     import {
+        getFunctioner,
+    } from '~server/logic/functioner';
+
+    import {
         tradeTokenForOwner,
 
         environment,
@@ -78,6 +82,8 @@ const setupGraphQLServer = async (
                 res,
             );
 
+            const functioner = getFunctioner(req);
+
             const context: Context = {
                 request: req,
                 response: res,
@@ -88,6 +94,7 @@ const setupGraphQLServer = async (
                 logLevels,
 
                 owner,
+                functioner,
 
                 collections,
             };

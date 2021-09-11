@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import {
+        Request,
+    } from 'express';
+
+    import {
         uuid,
     } from '@plurid/plurid-functions'
     // #endregion libraries
@@ -25,6 +29,18 @@
 
 
 // #region module
+export const getFunctioner = (
+    request: Request,
+) => {
+    const functioner = request.headers['deserve-functioner'];
+    if (typeof functioner !== 'string') {
+        return;
+    }
+
+    return functioner;
+}
+
+
 export const writeFunctioner = async (
     functionData: any,
 ) => {

@@ -23,11 +23,26 @@ const databaseGet = async (
     context: Context,
 ): Promise<Response> => {
     try {
+        const {
+            functioner,
+        } = context;
+
+        if (!functioner) {
+            delog({
+                text: 'databaseGet no functioner',
+                level: 'trace',
+            });
+
+            return {
+                status: false,
+            };
+        }
+
+
         delog({
             text: 'databaseGet success',
             level: 'trace',
         });
-
 
         return {
             status: true,

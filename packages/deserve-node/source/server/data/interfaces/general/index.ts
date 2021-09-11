@@ -30,6 +30,7 @@ export interface Context {
     logLevels: LogLevels;
 
     owner: ClientOwner | undefined;
+    functioner: string | undefined;
 
     collections: DatabaseCollections;
 }
