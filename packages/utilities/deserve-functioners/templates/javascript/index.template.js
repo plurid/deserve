@@ -19,7 +19,7 @@ const main = async () => {
 
     const startedAt = Date.now();
     const result = await executableFunction(
-        ...functionArguments,
+        functionArguments,
         services,
     );
     const finishedAt = Date.now();
