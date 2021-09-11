@@ -35,7 +35,9 @@ module.exports = {
     testTimeout: 30000,
     moduleNameMapper: {
         "data/(.*)": "<rootDir>/source/data/$1",
-        "functions/(.*)": "<rootDir>/source/functions/$1",
         "services/(.*)": "<rootDir>/source/services/$1",
     },
+    setupFiles: [
+        '<rootDir>/environment/.env.jest.js',
+    ],
 };
