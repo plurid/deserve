@@ -9,22 +9,29 @@ const services = {
 };
 
 
-const functionID = process.env.DESERVE_FUNCTION_ID;
-
 const executableFunction = require('./function').$FUNCTION_NAME;
 
 
 const main = async () => {
+    const functionID = process.env.DESERVE_FUNCTION_ID;
     const functionArguments = await database.getFunctionArguments();
 
+
+    const startedAt = Date.now();
     const result = await executableFunction(
         ...functionArguments,
         services,
     );
+    const finishedAt = Date.now();
+
 
     await database.set(
         `${functionID}-result`,
-        result,
+        {
+            startedAt,
+            finishedAt,
+            result,
+        },
     );
 }
 
