@@ -16,7 +16,7 @@
         "email": "source@plurid.com",
         "url": "https://github.com/plurid/deserve/issues"
     },
-    "homepage": "https://github.com/plurid/deserve/blob/master/packages/utilities/deserve-functioners/deserve-functioners-javascript/README.md",
+    "homepage": "https://github.com/plurid/deserve/blob/master/packages/utilities/deserve-functioners/templates/javascript/README.md",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
         "access": "public"
