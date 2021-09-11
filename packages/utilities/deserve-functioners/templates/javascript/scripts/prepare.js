@@ -10,6 +10,13 @@ const database = require('@plurid/deserve-functioner-database').default;
 
 
 
+const FUNCTION_FILE = 'function.js';
+const FUNCTION_NAME = '$FUNCTION_NAME';
+const TEMPLATE_FILE = '../index.template.js';
+const INDEX_FILE = 'index.js';
+
+
+
 const readFunctionData = async () => {
     return await database.getFunctionData();
 }
@@ -31,7 +38,7 @@ const writeFunctions = async (
         addins,
     } = functionData;
 
-    await writeFunction('function.js', text);
+    await writeFunction(FUNCTION_FILE, text);
 
     for (const addin of addins) {
         const {
@@ -51,11 +58,13 @@ const editTemplate = async (
         name,
     } = functionData;
 
-    const templateRaw = await fs.readFile(`../index.template.js`, 'utf-8');
-    const templateText = templateRaw
-        .replace('$FUNCTION_NAME', name);
+    const templateRaw = await fs.readFile(TEMPLATE_FILE, 'utf-8');
+    const templateText = templateRaw.replace(FUNCTION_NAME, name);
 
-    await fs.writeFile(`../index.js`, templateText);
+    await writeFunction(
+        INDEX_FILE,
+        templateText,
+    );
 }
 
 
