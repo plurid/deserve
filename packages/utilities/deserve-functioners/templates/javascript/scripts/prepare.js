@@ -85,7 +85,7 @@ const writeExternals = async (
 
 
 
-const main = () => {
+const main = async () => {
     const functionData = await readFunctionData();
     if (!functionData) {
         return;
