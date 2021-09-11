@@ -21,8 +21,10 @@
 const databaseGetFunctionData = async (
     input: any,
     context: Context,
-): Promise<Response> => {
+): Promise<any> => {
     try {
+        console.log('databaseGetFunctionData', input);
+
         delog({
             text: 'databaseGetFunctionData success',
             level: 'trace',
@@ -31,6 +33,20 @@ const databaseGetFunctionData = async (
 
         return {
             status: true,
+            data: {
+                name: 'test',
+                text: `
+                    const test = (
+                        args, services
+                    ) => {
+                        console.log(args, services);
+                    }
+
+                    module.exports = {
+                        test,
+                    };
+                `,
+            },
         };
     } catch (error) {
         delog({
