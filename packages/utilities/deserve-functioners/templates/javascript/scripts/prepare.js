@@ -11,13 +11,7 @@ const database = require('@plurid/deserve-functioner-database').default;
 
 
 const readFunctionData = async () => {
-    try {
-        const data = await database.getFunctionData();
-
-        return JSON.parse(data);
-    } catch (error) {
-        return;
-    }
+    return await database.getFunctionData();
 }
 
 
@@ -93,6 +87,9 @@ const writeExternals = async (
 
 const main = () => {
     const functionData = await readFunctionData();
+    if (!functionData) {
+        return;
+    }
 
     await writeFunctions(functionData);
 
