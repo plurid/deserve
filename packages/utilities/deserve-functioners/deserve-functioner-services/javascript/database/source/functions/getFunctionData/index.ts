@@ -16,7 +16,7 @@ const getFunctionData = async () => {
             query: QUERY_GET_FUNCTION_DATA,
         });
 
-        const response = query.data.functionerDatabaseGetFunctionArguments;
+        const response = query.data.functionerDatabaseGetFunctionData;
 
         if (!response.status) {
             return;
