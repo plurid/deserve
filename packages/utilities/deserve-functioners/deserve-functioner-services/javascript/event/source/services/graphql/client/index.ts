@@ -27,7 +27,7 @@ const client = new ApolloClient({
         credentials: 'include',
         fetch,
         headers: {
-            'Authorization': `Bearer ${EVENT_TOKEN}`,
+            'Deserve-Functioner': EVENT_TOKEN,
         },
     }),
     cache: new InMemoryCache(),

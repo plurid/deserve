@@ -23,7 +23,7 @@ const get: StorageGet = async (
     id,
 ) => {
     try {
-        if (!STORAGE_ENDPOINT) {
+        if (!STORAGE_ENDPOINT || !STORAGE_TOKEN) {
             return null;
         }
 
@@ -33,7 +33,7 @@ const get: StorageGet = async (
             }),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${STORAGE_TOKEN}`,
+                'Deserve-Functioner': STORAGE_TOKEN,
             },
         });
 

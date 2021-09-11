@@ -23,7 +23,7 @@ const upload: StorageUpload = async (
     stream,
 ) => {
     try {
-        if (!STORAGE_ENDPOINT) {
+        if (!STORAGE_ENDPOINT || !STORAGE_TOKEN) {
             return false;
         }
 
@@ -32,7 +32,7 @@ const upload: StorageUpload = async (
             STORAGE_ENDPOINT,
             {
                 headers: {
-                    'Authorization': `Bearer ${STORAGE_TOKEN}`,
+                    'Deserve-Functioner': STORAGE_TOKEN,
                 },
             },
         );
