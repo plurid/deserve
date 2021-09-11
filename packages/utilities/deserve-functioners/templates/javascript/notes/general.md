@@ -4,3 +4,8 @@ docker build \
     -t deserve-functioner-javascript \
     .
 ```
+
+
+```
+docker commit <deserve-functioner-javascript>
+```
