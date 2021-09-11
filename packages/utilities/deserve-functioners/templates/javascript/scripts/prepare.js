@@ -1,7 +1,7 @@
+const path = require('path');
 const {
     promises: fs,
 } = require('fs');
-
 const {
     execSync,
 } = require('child_process');
@@ -12,7 +12,7 @@ const database = require('@plurid/deserve-functioner-database').default;
 
 const FUNCTION_FILE = 'function.js';
 const FUNCTION_NAME = '$FUNCTION_NAME';
-const TEMPLATE_FILE = '../index.template.js';
+const TEMPLATE_FILE = 'index.template.js';
 const INDEX_FILE = 'index.js';
 
 
@@ -26,7 +26,12 @@ const writeFunction = async (
     name,
     text,
 ) => {
-    await fs.writeFile(`../${name}`, text);
+    const filepath = path.join(
+        __dirname,
+        `../${name}`,
+    );
+
+    await fs.writeFile(filepath, text);
 }
 
 
@@ -40,13 +45,15 @@ const writeFunctions = async (
 
     await writeFunction(FUNCTION_FILE, text);
 
-    for (const addin of addins) {
-        const {
-            name,
-            text,
-        } = addin;
+    if (addins) {
+        for (const addin of addins) {
+            const {
+                name,
+                text,
+            } = addin;
 
-        await writeFunction(name, text);
+            await writeFunction(name, text);
+        }
     }
 }
 
@@ -68,7 +75,11 @@ const editTemplate = async (
 const writeExternals = async (
     functionData,
 ) => {
-    if (!functionData.externals) {
+    const {
+        externals,
+    } = functionData;
+
+    if (!externals) {
         return;
     }
 
@@ -99,7 +110,7 @@ const main = async () => {
 
     await writeFunctions(functionData);
 
-    await editTemplate();
+    await editTemplate(functionData);
 
     await writeExternals(functionData);
 }
