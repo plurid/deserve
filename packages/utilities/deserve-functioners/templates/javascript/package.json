@@ -35,6 +35,7 @@
         "@plurid/deserve-functioner-event": "0.0.0-0",
         "@plurid/deserve-functioner-storage": "0.0.0-0",
         "cross-fetch": "^3.1.4",
+        "graphql": "^15.5.3",
         "request": "^2.88.2"
     }
 }
