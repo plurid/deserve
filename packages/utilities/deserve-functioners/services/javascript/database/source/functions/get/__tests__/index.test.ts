@@ -8,10 +8,7 @@
 
 // #region module
 describe('get', () => {
-    process.env.DATABASE_ENDPOINT = 'http://localhost:3366/graphql';
-    process.env.DATABASE_TOKEN = '__test__';
-
-    it(`works`, async () => {
+    it('works', async () => {
         const id = '1';
 
         const data = await get(id);
