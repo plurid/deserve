@@ -27,7 +27,7 @@ const client = new ApolloClient({
         credentials: 'include',
         fetch,
         headers: {
-            'Authorization': `Bearer ${DATABASE_TOKEN}`,
+            'Deserve-Functioner': `${DATABASE_TOKEN}`,
         },
     }),
     cache: new InMemoryCache(),
