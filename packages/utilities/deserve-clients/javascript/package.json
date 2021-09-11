@@ -16,7 +16,7 @@
         "email": "source@plurid.com",
         "url": "https://github.com/plurid/deserve/issues"
     },
-    "homepage": "https://github.com/plurid/deserve/tree/master/packages/utilities/deserve-clients/deserve-client-javascript",
+    "homepage": "https://github.com/plurid/deserve/tree/master/packages/utilities/deserve-clients/javascript",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
         "access": "public"
