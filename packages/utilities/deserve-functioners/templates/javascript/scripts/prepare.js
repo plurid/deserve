@@ -61,10 +61,7 @@ const editTemplate = async (
     const templateRaw = await fs.readFile(TEMPLATE_FILE, 'utf-8');
     const templateText = templateRaw.replace(FUNCTION_NAME, name);
 
-    await writeFunction(
-        INDEX_FILE,
-        templateText,
-    );
+    await writeFunction(INDEX_FILE, templateText);
 }
 
 
