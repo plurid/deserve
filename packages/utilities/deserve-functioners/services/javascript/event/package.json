@@ -35,6 +35,7 @@
     "scripts": {
         "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",
+        "test": "jest -c configurations/jest.config.js ./source",
         "start": "node distribution/index.js",
         "start.local": "deon environment ./environment/.env.local.deon -- node distribution/index.js",
         "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",

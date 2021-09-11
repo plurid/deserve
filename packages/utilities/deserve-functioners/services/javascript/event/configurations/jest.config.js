@@ -6,7 +6,6 @@ module.exports = {
     testEnvironment: 'node',
     testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
     testPathIgnorePatterns: [
-        'data',
     ],
     moduleFileExtensions: [
         'ts',
@@ -34,4 +33,9 @@ module.exports = {
         'source/*.{js,ts}'
     ],
     testTimeout: 30000,
+    moduleNameMapper: {
+        "data/(.*)": "<rootDir>/source/data/$1",
+        "functions/(.*)": "<rootDir>/source/functions/$1",
+        "services/(.*)": "<rootDir>/source/services/$1",
+    },
 };
