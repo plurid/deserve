@@ -1,3 +1,5 @@
+Build a new imagene
+
 ```
 docker build \
     -f ./configurations/production.dockerfile \
@@ -6,6 +8,18 @@ docker build \
 ```
 
 
+Run the imagene with the appropriate token for deserve function access
+
 ```
-docker commit <deserve-functioner-javascript>
+docker run \
+    --env DESERVE_DATABASE_ENDPOINT=
+    --env DESERVE_DATABASE_TOKEN=
+    deserve-functioner-javascript
+```
+
+
+Generate a new imagene from the running container with the deserve function environment
+
+```
+docker commit <deserve-functioner-javascript-id>
 ```
