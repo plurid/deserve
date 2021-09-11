@@ -23,6 +23,10 @@
     } from '~server/logic/database/collections';
 
     import docker from '~server/logic/docker';
+
+    import {
+        dataToObjectOrDefault,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -41,8 +45,58 @@ export const getFunctioner = (
 }
 
 
+export const validateDatabaseConstraints = async (
+    databaseConstraints: string | undefined,
+) => {
+    if (!databaseConstraints) {
+        return '*';
+    }
+
+    const data: string | string[] = dataToObjectOrDefault(databaseConstraints);
+
+    if (typeof data === 'string') {
+        if (data === '*') {
+            return data;
+        }
+
+        // check the owner has access to the id (data)
+    }
+
+    for (const item of data) {
+        // check the owner has access to the id (item)
+    }
+
+    return data;
+}
+
+
+export const validateStorageConstraints = async (
+    storageConstraints: string | undefined,
+) => {
+    if (!storageConstraints) {
+        return '*';
+    }
+
+    const data: string | string[] = dataToObjectOrDefault(storageConstraints);
+
+    if (typeof data === 'string') {
+        if (data === '*') {
+            return data;
+        }
+
+        // check the owner has access to the id (data)
+    }
+
+    for (const item of data) {
+        // check the owner has access to the id (item)
+    }
+
+    return data;
+}
+
+
 export const writeFunctioner = async (
-    functionData: any,
+    functionData: StoredFunction,
 ) => {
     const deserveFunctionersCollection = await getDeserveFunctionersCollection();
     if (!deserveFunctionersCollection) {
@@ -51,25 +105,28 @@ export const writeFunctioner = async (
 
 
     const {
-        functionID,
+        id: functionID,
         database: databaseConstraints,
         storage: storageConstraints,
     } = functionData;
 
+    const validDatabaseConstraints = await validateDatabaseConstraints(databaseConstraints);
+    const validStorageConstraints = await validateStorageConstraints(storageConstraints);
 
-    const databaseToken = databaseConstraints ? await generateToken(
+
+    const databaseToken = validDatabaseConstraints ? await generateToken(
         functionID,
         {
             type: 'database',
-            constraints: databaseConstraints,
+            constraints: validDatabaseConstraints,
         },
     ) : undefined;
 
-    const storageToken = storageConstraints ? await generateToken(
+    const storageToken = validStorageConstraints ? await generateToken(
         functionID,
         {
             type: 'storage',
-            constraints: storageConstraints,
+            constraints: validStorageConstraints,
         },
     ) : undefined;
 
@@ -107,6 +164,9 @@ export const prepareFunctioner = async (
     const functioner = await writeFunctioner(
         functionData,
     );
+    if (!functioner) {
+        return false;
+    }
 
     // create imagene based on functionData and functioner
     const imageneName = `functioner-${functionData.name}-${uuid.generate()}`;
@@ -123,12 +183,17 @@ export const prepareFunctioner = async (
     //         //...
     //     },
     // );
+
+    return true;
 }
 
 
 export const generateToken = async (
     functionID: string,
-    authorization: any,
+    authorization: {
+        type: 'database' | 'storage' | 'event',
+        constraints?: string | string[],
+    },
 ) => {
     const deserveTokensCollection = await getDeserveTokensCollection();
     if (!deserveTokensCollection) {

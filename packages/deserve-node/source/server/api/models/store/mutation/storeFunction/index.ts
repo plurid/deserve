@@ -79,7 +79,6 @@ const storeFunction = async (
             functionID,
             databaseFunctionData,
         );
-
         if (!stored) {
             return {
                 status: false,
@@ -92,9 +91,14 @@ const storeFunction = async (
             ...databaseFunctionData,
         };
 
-        prepareFunctioner(
+        const prepared = await prepareFunctioner(
             functionData,
         );
+        if (!prepared) {
+            return {
+                status: false,
+            };
+        }
 
 
         return {
