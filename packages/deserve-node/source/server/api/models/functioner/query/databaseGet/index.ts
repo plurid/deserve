@@ -25,6 +25,7 @@ const databaseGet = async (
     try {
         const {
             functioner,
+            collections,
         } = context;
 
         if (!functioner) {
@@ -37,6 +38,15 @@ const databaseGet = async (
                 status: false,
             };
         }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+
+        // based on the token access the database
 
 
         delog({
