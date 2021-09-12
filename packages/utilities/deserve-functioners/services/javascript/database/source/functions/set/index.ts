@@ -19,6 +19,13 @@ const set: DatabaseSet = async (
     data,
 ) => {
     try {
+        data = typeof data === 'string'
+            ? data
+            : JSON.stringify(
+                data,
+                (_, value) => typeof value === 'undefined' ? null : value,
+            );
+
         const mutation = await client.mutate({
             mutation: MUTATION_SET,
             variables: {
