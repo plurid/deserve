@@ -139,6 +139,6 @@ curl \
     -H 'Deserve-Token: 123' \
     -H 'Host: localhost:3355' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) {  storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"a","text":"b"}}}' \
+    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) {  storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"test","text":"const test = (\r\n    args, services,\r\n) => {\r\n    console.log(args, services);\r\n    return { a: 1 };\r\n}\r\n\r\nmodule.exports = {\r\n    test,\r\n};\r\n","language":"javascript"}}}' \
     http://localhost:3366/deserve
 ```
