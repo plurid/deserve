@@ -175,8 +175,12 @@ export const prepareFunctioner = async (
         language,
     } = functionData;
 
+
     // create imagene based on functionData and functioner
     const imageneName = `functioner-${name}-${uuid.generate()}`;
+
+    const databaseEndpoint = '';
+    const databaseToken = '';
 
     // docker run - obtain container with custom function data
     //              from deserve-functioner-language
@@ -187,7 +191,10 @@ export const prepareFunctioner = async (
             [],
             process.stdout,
             {
-                // environment
+                Env: [
+                    `DESERVE_DATABASE_ENDPOINT=${databaseEndpoint}`,
+                    `DESERVE_DATABASE_TOKEN=${databaseToken}`,
+                ],
             },
             (error: any, data: any, container: Container) => {
                 if (error) {
@@ -197,13 +204,15 @@ export const prepareFunctioner = async (
 
                 container.commit(
                     {
-                        tag: imageneName,
+                        repo: imageneName,
                     },
-                    (error, result) => {
+                    async (error, result) => {
                         if (error) {
                             reject(error);
                             return;
                         }
+
+                        await container.remove();
 
                         resolve(true);
                     },
@@ -212,7 +221,20 @@ export const prepareFunctioner = async (
         );
     });
 
+
     // save imageneName to database
+    const deserveFunctionersCollection = await getDeserveFunctionersCollection();
+    if (!deserveFunctionersCollection) {
+        return;
+    }
+
+    await database.updateDocument(
+        deserveFunctionersCollection,
+        functioner.id,
+        {
+            imageneName,
+        },
+    );
 
     return true;
 }
@@ -231,8 +253,8 @@ export const generateToken = async (
     }
 
 
-    const id = uuid.generate() + uuid.generate() + uuid.generate();
-    const value = uuid.generate() + uuid.generate() + uuid.generate() + uuid.generate();
+    const id = uuid.multiple(3);
+    const value = uuid.multiple(4);
 
     const token = {
         id,

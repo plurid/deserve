@@ -39,6 +39,14 @@
 
 
 // #region module
+const deserveFunctionsLanguages = [
+    // 'go',
+    'javascript',
+    // 'python',
+    // 'rust',
+];
+
+
 const storeFunction = async (
     input: InputStoreFunction,
     context: Context,
@@ -53,14 +61,22 @@ const storeFunction = async (
         const {
             name: functionName,
             text: functionText,
-            language,
+            language: functionLanguage,
             database: functionDatabase,
             storage: functionStorage,
             externals: functionExternals,
         } = input;
 
-        const core = await getCoreFromRequest(request);
 
+        const normalizedLanguage = functionLanguage.trim().toLowerCase();
+        if (!deserveFunctionsLanguages.includes(normalizedLanguage)) {
+            return {
+                status: false,
+            }
+        }
+
+
+        const core = await getCoreFromRequest(request);
         const ownerID = owner?.id || core.ownerID;
         if (!ownerID) {
             return {
@@ -88,7 +104,7 @@ const storeFunction = async (
         const databaseFunctionData = {
             name: functionName,
             text: functionText,
-            language,
+            language: normalizedLanguage,
             database: validDatabase,
             storage: validStorage,
             externals: validExternals,
