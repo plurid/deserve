@@ -114,10 +114,12 @@ export interface StoredFunction {
     id: string;
     name: string;
     text: string;
-    database?: string;
-    storage?: string;
-    externals?: string[];
+    language: string;
+    database: string | string[];
+    storage: string | string[];
+    externals: Record<string, string>[];
     sha: string;
     storedAt: number;
+    ownedBy: string;
 }
 // #endregion module

@@ -97,9 +97,10 @@ export interface InputDeleteKey {
 export interface InputStoreFunction {
     name: string;
     text: string;
+    language: string;
     database?: string;
     storage?: string;
-    externals?: string[];
+    externals?: string;
 }
 
 export interface InputUpdateFunction {
@@ -108,7 +109,7 @@ export interface InputUpdateFunction {
     text?: string;
     database?: string;
     storage?: string;
-    externals?: string[];
+    externals?: string;
 }
 
 export interface InputDeleteFunction {

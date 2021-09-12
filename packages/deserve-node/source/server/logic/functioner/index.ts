@@ -5,6 +5,10 @@
     } from 'express';
 
     import {
+        Container,
+    } from 'dockerode';
+
+    import {
         uuid,
     } from '@plurid/plurid-functions'
     // #endregion libraries
@@ -46,6 +50,7 @@ export const getFunctioner = (
 
 
 export const validateDatabaseConstraints = async (
+    ownerID: string,
     databaseConstraints: string | undefined,
 ) => {
     if (!databaseConstraints) {
@@ -71,6 +76,7 @@ export const validateDatabaseConstraints = async (
 
 
 export const validateStorageConstraints = async (
+    ownerID: string,
     storageConstraints: string | undefined,
 ) => {
     if (!storageConstraints) {
@@ -110,25 +116,22 @@ export const writeFunctioner = async (
         storage: storageConstraints,
     } = functionData;
 
-    const validDatabaseConstraints = await validateDatabaseConstraints(databaseConstraints);
-    const validStorageConstraints = await validateStorageConstraints(storageConstraints);
 
-
-    const databaseToken = validDatabaseConstraints ? await generateToken(
+    const databaseToken = await generateToken(
         functionID,
         {
             type: 'database',
-            constraints: validDatabaseConstraints,
+            constraints: databaseConstraints,
         },
-    ) : undefined;
+    )
 
-    const storageToken = validStorageConstraints ? await generateToken(
+    const storageToken = await generateToken(
         functionID,
         {
             type: 'storage',
-            constraints: validStorageConstraints,
+            constraints: storageConstraints,
         },
-    ) : undefined;
+    )
 
     const eventToken = await generateToken(
         functionID,
@@ -138,8 +141,7 @@ export const writeFunctioner = async (
     );
 
 
-    const id = uuid.generate() + uuid.generate() + uuid.generate();
-
+    const id = uuid.multiple(3);
     const functioner = {
         id,
         functionID,
@@ -168,28 +170,49 @@ export const prepareFunctioner = async (
         return false;
     }
 
-    // create imagene based on functionData and functioner
-    const imageneName = `functioner-${functionData.name}-${uuid.generate()}`;
+    const {
+        name,
+        language,
+    } = functionData;
 
+    // create imagene based on functionData and functioner
+    const imageneName = `functioner-${name}-${uuid.generate()}`;
 
     // docker run - obtain container with custom function data
     //              from deserve-functioner-language
     // docker commmit - obtain new imagene from the custom function container
+    await new Promise((resolve, reject) => {
+        docker.run(
+            `deserve-functioner-${language}`,
+            [],
+            process.stdout,
+            {
+                // environment
+            },
+            (error: any, data: any, container: Container) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
 
+                container.commit(
+                    {
+                        tag: imageneName,
+                    },
+                    (error, result) => {
+                        if (error) {
+                            reject(error);
+                            return;
+                        }
 
+                        resolve(true);
+                    },
+                );
+            },
+        );
+    });
 
-    // docker.buildImage(
-    //     {
-    //         context: '',
-    //         src: [],
-    //     },
-    //     {
-    //         t: imageneName,
-    //     },
-    //     (err, response) => {
-    //         //...
-    //     },
-    // );
+    // save imageneName to database
 
     return true;
 }

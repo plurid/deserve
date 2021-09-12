@@ -10,6 +10,16 @@
 
 
 // #region module
+export const dataToObjectOrEmpty = (
+    data: string,
+) => {
+    try {
+        return JSON.parse(data);
+    } catch (error) {
+        return {};
+    }
+}
+
 export const dataToObjectOrDefault = (
     data: string,
 ) => {

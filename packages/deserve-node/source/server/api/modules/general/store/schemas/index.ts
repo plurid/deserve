@@ -226,6 +226,7 @@ export const inputs = gql`
     input InputStoreFunction {
         name: String!
         text: String!
+        language: String!
         database: String
         storage: String
         externals: [String!]

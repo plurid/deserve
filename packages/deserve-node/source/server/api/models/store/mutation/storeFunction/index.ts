@@ -14,6 +14,7 @@
         Context,
 
         InputStoreFunction,
+        StoredFunction,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -24,7 +25,14 @@
 
     import {
         prepareFunctioner,
+
+        validateDatabaseConstraints,
+        validateStorageConstraints,
     } from '~server/logic/functioner';
+
+    import {
+        dataToObjectOrEmpty,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -45,6 +53,7 @@ const storeFunction = async (
         const {
             name: functionName,
             text: functionText,
+            language,
             database: functionDatabase,
             storage: functionStorage,
             externals: functionExternals,
@@ -60,18 +69,32 @@ const storeFunction = async (
         }
 
 
-        const functionID = ownerID + '/' + uuid.generate() + uuid.generate() + uuid.generate();
+        const functionID = ownerID + '/' + uuid.multiple(3);
         const storedAt = Date.now();
         const functionSHA = await sha.compute(ownerID + storedAt + functionText);
+
+
+        const validDatabase = await validateDatabaseConstraints(
+            ownerID,
+            functionDatabase,
+        );
+        const validStorage = await validateStorageConstraints(
+            ownerID,
+            functionStorage,
+        );
+
+        const validExternals = dataToObjectOrEmpty(functionExternals || '');
 
         const databaseFunctionData = {
             name: functionName,
             text: functionText,
-            database: functionDatabase,
-            storage: functionStorage,
-            externals: functionExternals,
+            language,
+            database: validDatabase,
+            storage: validStorage,
+            externals: validExternals,
             sha: functionSHA,
             storedAt,
+            ownedBy: ownerID,
         };
 
         const stored = await database.updateDocument(
@@ -86,11 +109,10 @@ const storeFunction = async (
         }
 
 
-        const functionData = {
+        const functionData: StoredFunction = {
             id: functionID,
             ...databaseFunctionData,
         };
-
         const prepared = await prepareFunctioner(
             functionData,
         );
