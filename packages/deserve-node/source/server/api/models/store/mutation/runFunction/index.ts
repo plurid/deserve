@@ -15,15 +15,19 @@
         InputRunFunction,
 
         StoredFunction,
+
     } from '~server/data/interfaces';
 
     import database, {
         getDeserveFunctionsArgumentsCollection,
+        getDeserveFunctionersCollection,
     } from '~server/services/database';
 
     import {
         getCoreFromRequest,
     } from '~server/logic/core';
+
+    import docker from '~server/logic/docker';
 
     import {
         generateToken,
@@ -52,12 +56,17 @@ export const executeFunction = async (
     try {
         const normalizedArguments = normalizeArguments(functionArguments);
 
-        const functionExecutionID = uuid.generate() + uuid.generate() + uuid.generate();
+        const functionExecutionID = uuid.multiple(3);
 
         const deserveFunctionsArgumentsCollection = await getDeserveFunctionsArgumentsCollection();
-        if (!deserveFunctionsArgumentsCollection) {
+        const deserveFunctionersCollection = await getDeserveFunctionersCollection();
+        if (
+            !deserveFunctionsArgumentsCollection
+            || !deserveFunctionersCollection
+        ) {
             return;
         }
+
         await database.updateDocument(
             deserveFunctionsArgumentsCollection,
             functionExecutionID,
@@ -66,7 +75,7 @@ export const executeFunction = async (
             },
         );
 
-        const databaseToken = await generateToken(
+        await generateToken(
             functionExecutionID,
             {
                 type: 'database',
@@ -74,12 +83,56 @@ export const executeFunction = async (
             },
         );
 
-        // based on
-            // functionData
-            // databaseToken
-                // run the appropriate docker imagene
+        const functioner = await database.getBy<any>(
+            deserveFunctionersCollection,
+            'functionID',
+            functionData.id,
+        );
+        if (!functioner) {
+            return;
+        }
+
+        const {
+            imageneName,
+        } = functioner;
+        if (!imageneName) {
+            return;
+        }
 
         // docker run with the appropriate tokens the custom imagene for the function
+        const databaseEndpoint = 'http://host.docker.internal:3366/deserve';
+        const databaseToken = functioner.databaseToken?.value;
+        const network = 'host';
+
+        await new Promise((resolve, reject) => {
+            docker.run(
+                imageneName,
+                ['yarn', 'start'],
+                process.stdout,
+                {
+                    HostConfig: {
+                        NetworkMode: network,
+                    },
+                    Env: [
+                        `DESERVE_DATABASE_ENDPOINT=${databaseEndpoint}`,
+                        `DESERVE_DATABASE_TOKEN=${databaseToken}`,
+                    ],
+                },
+                (error: any, data: any, container: any) => {
+                    if (error) {
+                        reject(error);
+                        return;
+                    }
+
+                    container.remove();
+
+                    resolve(true);
+                }
+            );
+        });
+
+        // query for the result
+        // and return it
 
         return true;
     } catch (error) {

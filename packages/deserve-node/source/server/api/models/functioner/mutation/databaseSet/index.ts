@@ -28,6 +28,8 @@ const databaseSet = async (
             level: 'trace',
         });
 
+        console.log('databaseSet', input);
+
 
         return {
             status: true,

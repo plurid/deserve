@@ -181,8 +181,6 @@ export const prepareFunctioner = async (
 
     const databaseEndpoint = 'http://host.docker.internal:3366/deserve';
     const databaseToken = functioner.databaseToken?.value;
-    console.log('databaseEndpoint', databaseEndpoint);
-    console.log('databaseToken', databaseToken);
     const network = 'host';
 
     // docker run - obtain container with custom function data
