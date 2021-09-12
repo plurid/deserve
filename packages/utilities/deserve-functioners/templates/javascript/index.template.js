@@ -13,7 +13,6 @@ const executableFunction = require('./function').$FUNCTION_NAME;
 
 
 const main = async () => {
-    const functionID = process.env.DESERVE_FUNCTION_ID;
     const functionArguments = await database.getFunctionArguments();
 
 
@@ -33,7 +32,7 @@ const main = async () => {
 
 
     await database.set(
-        `${functionID}-result`,
+        '__deserve-function-result__',
         {
             startedAt,
             finishedAt,
