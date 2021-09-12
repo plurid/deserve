@@ -80,29 +80,32 @@ const editTemplate = async (
 const writeExternals = async (
     functionData,
 ) => {
-    const {
-        externals,
-    } = functionData;
+    try {
+        const {
+            externals,
+        } = functionData;
+        if (!externals) {
+            return;
+        }
 
-    if (!externals) {
+        const dependencies = [];
+
+        for (const [name, version] of Object.entries(JSON.parse(externals))) {
+            const dependency = `${name}@${version}`;
+            dependencies.push(dependency);
+        }
+
+        const externalInstall = 'yarn install ' + dependencies.join(' ');
+
+        execSync(
+            externalInstall,
+            {
+                cwd: './',
+            },
+        );
+    } catch (error) {
         return;
     }
-
-    const dependencies = [];
-
-    for (const [name, version] of Object.entries(externals)) {
-        const dependency = `${name}@${version}`;
-        dependencies.push(dependency);
-    }
-
-    const externalInstall = 'yarn install ' + dependencies.join(' ');
-
-    execSync(
-        externalInstall,
-        {
-            cwd: './',
-        },
-    );
 }
 
 
