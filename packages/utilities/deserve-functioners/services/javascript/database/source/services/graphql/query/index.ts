@@ -53,6 +53,7 @@ export const QUERY_GET_FUNCTION_DATA = gql`
                 name
                 text
                 externals
+                addins
             }
         }
     }
