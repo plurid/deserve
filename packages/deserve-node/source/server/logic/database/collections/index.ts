@@ -6,12 +6,17 @@
 
     // #region external
     import {
+        DatabaseCollections
+    } from '~server/data/interfaces';
+
+    import {
         DESERVE_DATABASE,
         DESERVE_GLOBAL,
         DESERVE_OWNERS,
         DESERVE_CORES,
         DESERVE_KEYS,
         DESERVE_FUNCTIONS,
+        DESERVE_FUNCTIONS_ARGUMENTS,
         DESERVE_FUNCTIONERS,
         DESERVE_BLOBS,
         DESERVE_TOKENS,
@@ -33,6 +38,7 @@ export const getDeserveOwnersCollection = async <T = any>() => (await getDeserve
 export const getDeserveCoresCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_CORES);
 export const getDeserveKeysCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_KEYS);
 export const getDeserveFunctionsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONS);
+export const getDeserveFunctionsArgumentsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONS_ARGUMENTS);
 export const getDeserveFunctionersCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONERS);
 export const getDeserveBlobsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_BLOBS);
 export const getDeserveTokensCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_TOKENS);
@@ -44,6 +50,7 @@ export const loadCollections = async () => {
     const deserveCoresCollection = await getDeserveCoresCollection();
     const deserveKeysCollection = await getDeserveKeysCollection();
     const deserveFunctionsCollection = await getDeserveFunctionsCollection();
+    const deserveFunctionsArgumentsCollection = await getDeserveFunctionsArgumentsCollection();
     const deserveFunctionersCollection = await getDeserveFunctionersCollection();
     const deserveBlobsCollection = await getDeserveBlobsCollection();
     const deserveTokensCollection = await getDeserveTokensCollection();
@@ -54,6 +61,7 @@ export const loadCollections = async () => {
         || !deserveCoresCollection
         || !deserveKeysCollection
         || !deserveFunctionsCollection
+        || !deserveFunctionsArgumentsCollection
         || !deserveFunctionersCollection
         || !deserveBlobsCollection
         || !deserveTokensCollection
@@ -61,15 +69,18 @@ export const loadCollections = async () => {
         return;
     }
 
-    return {
+    const collections: DatabaseCollections = {
         global: deserveGlobalCollection,
         owners: deserveOwnersCollection,
         cores: deserveCoresCollection,
         keys: deserveKeysCollection,
         functions: deserveFunctionsCollection,
+        functionsArguments: deserveFunctionsArgumentsCollection,
         functioners: deserveFunctionersCollection,
         blobs: deserveBlobsCollection,
         tokens: deserveTokensCollection,
     };
+
+    return collections;
 }
 // #endregion module

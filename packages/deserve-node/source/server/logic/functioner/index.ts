@@ -171,6 +171,13 @@ export const prepareFunctioner = async (
     // create imagene based on functionData and functioner
     const imageneName = `functioner-${functionData.name}-${uuid.generate()}`;
 
+
+    // docker run - obtain container with custom function data
+    //              from deserve-functioner-language
+    // docker commmit - obtain new imagene from the custom function container
+
+
+
     // docker.buildImage(
     //     {
     //         context: '',

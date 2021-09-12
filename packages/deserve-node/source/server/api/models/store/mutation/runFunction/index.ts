@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import delog from '@plurid/delog';
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -13,29 +17,31 @@
         StoredFunction,
     } from '~server/data/interfaces';
 
-    import database from '~server/services/database';
+    import database, {
+        getDeserveFunctionsArgumentsCollection,
+    } from '~server/services/database';
 
     import {
         getCoreFromRequest,
     } from '~server/logic/core';
+
+    import {
+        generateToken,
+    } from '~server/logic/functioner';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-export const parseArguments = (
+export const normalizeArguments = (
     functionArguments: string | undefined,
 ) => {
-    try {
-        if (!functionArguments) {
-            return;
-        }
-
-        return JSON.parse(functionArguments);
-    } catch (error) {
-        return;
+    if (!functionArguments) {
+        return '{}';
     }
+
+    return functionArguments;
 }
 
 
@@ -44,9 +50,36 @@ export const executeFunction = async (
     functionArguments: string | undefined,
 ) => {
     try {
-        const parsedArguments = parseArguments(functionArguments);
+        const normalizedArguments = normalizeArguments(functionArguments);
 
-        // based on data and arguments run the appropriate docker imagene
+        const functionExecutionID = uuid.generate() + uuid.generate() + uuid.generate();
+
+        const deserveFunctionsArgumentsCollection = await getDeserveFunctionsArgumentsCollection();
+        if (!deserveFunctionsArgumentsCollection) {
+            return;
+        }
+        await database.updateDocument(
+            deserveFunctionsArgumentsCollection,
+            functionExecutionID,
+            {
+                value: normalizedArguments,
+            },
+        );
+
+        const databaseToken = await generateToken(
+            functionExecutionID,
+            {
+                type: 'database',
+                constraints: functionData.database,
+            },
+        );
+
+        // based on
+            // functionData
+            // databaseToken
+                // run the appropriate docker imagene
+
+        // docker run with the appropriate tokens the custom imagene for the function
 
         return true;
     } catch (error) {

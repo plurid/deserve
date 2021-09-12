@@ -23,7 +23,38 @@ const databaseGetFunctionArguments = async (
     context: Context,
 ): Promise<any> => {
     try {
-        console.log('databaseGetFunctionArguments', input);
+        const {
+            functioner,
+            collections,
+        } = context;
+
+        if (!functioner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
+
+        const functionArgumentsData = await database.getById<any>(
+            collections.functionsArguments,
+            token.functionID,
+        );
+        if (!functionArgumentsData) {
+            return {
+                status: false,
+            };
+        }
 
         delog({
             text: 'databaseGetFunctionArguments success',
@@ -34,7 +65,7 @@ const databaseGetFunctionArguments = async (
         return {
             status: true,
             data: {
-                value: true,
+                value: functionArgumentsData.value,
             },
         };
     } catch (error) {

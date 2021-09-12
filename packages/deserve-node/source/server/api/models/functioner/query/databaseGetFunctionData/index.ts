@@ -23,7 +23,45 @@ const databaseGetFunctionData = async (
     context: Context,
 ): Promise<any> => {
     try {
-        console.log('databaseGetFunctionData', input);
+        const {
+            functioner,
+            collections,
+        } = context;
+
+        if (!functioner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
+
+        const functionData = await database.getById<any>(
+            collections.functions,
+            token.functionID,
+        );
+        if (!functionData) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            name,
+            text,
+            externals,
+        } = functionData;
 
         delog({
             text: 'databaseGetFunctionData success',
@@ -34,18 +72,9 @@ const databaseGetFunctionData = async (
         return {
             status: true,
             data: {
-                name: 'test',
-                text: `
-                    const test = (
-                        args, services
-                    ) => {
-                        console.log(args, services);
-                    }
-
-                    module.exports = {
-                        test,
-                    };
-                `,
+                name,
+                text,
+                externals,
             },
         };
     } catch (error) {
