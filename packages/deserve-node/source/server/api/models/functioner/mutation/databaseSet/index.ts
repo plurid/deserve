@@ -7,7 +7,7 @@
     // #region external
     import {
         Context,
-
+        InputFunctionerDatabaseSet,
         Response,
     } from '~server/data/interfaces';
 
@@ -19,17 +19,60 @@
 
 // #region module
 const databaseSet = async (
-    input: any,
+    input: InputFunctionerDatabaseSet,
     context: Context,
 ): Promise<Response> => {
     try {
+        const {
+            data,
+            id,
+        } = input;
+
+        const {
+            functioner,
+            collections,
+        } = context;
+
+        if (!functioner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
+
+
+        if (id === '__deserve-function-result__') {
+            const result = JSON.parse(data);
+
+            database.updateDocument(
+                collections.functionsResults,
+                token.functionID,
+                {
+                    ...result,
+                },
+            );
+
+            return {
+                status: true,
+            };
+        }
+
+
         delog({
             text: 'databaseSet success',
             level: 'trace',
         });
-
-        console.log('databaseSet', input);
-
 
         return {
             status: true,

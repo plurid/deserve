@@ -3,6 +3,9 @@
     import {
         Context,
         InputOf,
+        InputFunctionerDatabaseGet,
+        InputFunctionerDatabaseQuery,
+        InputFunctionerEventEmit,
     } from '~server/data/interfaces';
 
     import {
@@ -17,7 +20,7 @@
 export default {
     functionerDatabaseGet: (
         _: any,
-        { input }: InputOf<any>,
+        { input }: InputOf<InputFunctionerDatabaseGet>,
         context: Context,
     ) => Functioner.Query.databaseGet(
         input,
@@ -25,7 +28,7 @@ export default {
     ),
     functionerDatabaseQuery: (
         _: any,
-        { input }: InputOf<any>,
+        { input }: InputOf<InputFunctionerDatabaseQuery>,
         context: Context,
     ) => Functioner.Query.databaseQuery(
         input,
@@ -51,7 +54,7 @@ export default {
 
     functionerEventEmit: (
         _: any,
-        { input }: InputOf<any>,
+        { input }: InputOf<InputFunctionerEventEmit>,
         context: Context,
     ) => Functioner.Query.eventEmit(
         input,

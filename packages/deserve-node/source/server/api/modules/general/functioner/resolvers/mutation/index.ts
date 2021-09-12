@@ -3,6 +3,9 @@
     import {
         Context,
         InputOf,
+        InputFunctionerDatabaseSet,
+        InputFunctionerDatabaseRemove,
+        InputFunctionerStorageRemove,
     } from '~server/data/interfaces';
 
     import {
@@ -17,7 +20,7 @@
 export default {
     functionerDatabaseSet: (
         _: any,
-        { input }: InputOf<any>,
+        { input }: InputOf<InputFunctionerDatabaseSet>,
         context: Context,
     ) => Functioner.Mutation.databaseSet(
         input,
@@ -25,7 +28,7 @@ export default {
     ),
     functionerDatabaseRemove: (
         _: any,
-        { input }: InputOf<any>,
+        { input }: InputOf<InputFunctionerDatabaseRemove>,
         context: Context,
     ) => Functioner.Mutation.databaseRemove(
         input,
@@ -35,7 +38,7 @@ export default {
 
     functionerStorageRemove: (
         _: any,
-        { input }: InputOf<any>,
+        { input }: InputOf<InputFunctionerStorageRemove>,
         context: Context,
     ) => Functioner.Mutation.storageRemove(
         input,

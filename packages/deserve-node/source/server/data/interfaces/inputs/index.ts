@@ -121,4 +121,41 @@ export interface InputRunFunction {
     id: string;
     arguments?: string;
 }
+
+
+
+
+
+
+
+
+export interface InputFunctionerDatabaseGet {
+    id?: string;
+}
+
+export interface InputFunctionerDatabaseQuery {
+    filter?: string;
+    pagination?: string;
+}
+
+
+export interface InputFunctionerEventEmit {
+    data: string;
+}
+
+
+
+export interface InputFunctionerDatabaseSet {
+    id: string;
+    data: string;
+}
+
+export interface InputFunctionerDatabaseRemove {
+    id: string;
+}
+
+
+export interface InputFunctionerStorageRemove {
+    id: string;
+}
 // #endregion module
