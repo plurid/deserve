@@ -43,22 +43,26 @@ const writeFunction = async (
 const writeFunctions = async (
     functionData,
 ) => {
-    const {
-        text,
-        addins,
-    } = functionData;
+    try {
+        const {
+            text,
+            addins,
+        } = functionData;
 
-    await writeFunction(FUNCTION_FILE, text);
+        await writeFunction(FUNCTION_FILE, text);
 
-    if (addins) {
-        for (const addin of addins) {
-            const {
-                name,
-                text,
-            } = addin;
+        if (addins) {
+            for (const addin of Object.entries(JSON.parse(addins))) {
+                const {
+                    name,
+                    text,
+                } = addin;
 
-            await writeFunction(name, text);
+                await writeFunction(name, text);
+            }
         }
+    } catch (error) {
+        return;
     }
 }
 
