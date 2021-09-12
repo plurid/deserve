@@ -65,6 +65,7 @@ const storeFunction = async (
             database: functionDatabase,
             storage: functionStorage,
             externals: functionExternals,
+            addins: functionAddins,
         } = input;
 
 
@@ -100,6 +101,7 @@ const storeFunction = async (
         );
 
         const validExternals = dataToObjectOrEmpty(functionExternals || '');
+        const validAddins = dataToObjectOrEmpty(functionAddins || '');
 
         const databaseFunctionData = {
             name: functionName,
@@ -108,6 +110,7 @@ const storeFunction = async (
             database: validDatabase,
             storage: validStorage,
             externals: validExternals,
+            addins: validAddins,
             sha: functionSHA,
             storedAt,
             ownedBy: ownerID,

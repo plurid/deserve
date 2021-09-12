@@ -101,6 +101,7 @@ export interface InputStoreFunction {
     database?: string;
     storage?: string;
     externals?: string;
+    addins?: string;
 }
 
 export interface InputUpdateFunction {
@@ -110,6 +111,7 @@ export interface InputUpdateFunction {
     database?: string;
     storage?: string;
     externals?: string;
+    addins?: string;
 }
 
 export interface InputDeleteFunction {

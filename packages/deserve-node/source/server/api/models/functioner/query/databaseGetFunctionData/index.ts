@@ -61,6 +61,7 @@ const databaseGetFunctionData = async (
             name,
             text,
             externals,
+            addins,
         } = functionData;
 
         delog({
@@ -75,6 +76,7 @@ const databaseGetFunctionData = async (
                 name,
                 text,
                 externals: JSON.stringify(externals),
+                addins: JSON.stringify(addins),
             },
         };
     } catch (error) {

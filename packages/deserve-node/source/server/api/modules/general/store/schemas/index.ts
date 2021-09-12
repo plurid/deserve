@@ -229,7 +229,8 @@ export const inputs = gql`
         language: String!
         database: String
         storage: String
-        externals: [String!]
+        externals: String
+        addins: String
     }
 
     input InputUpdateFunction {
@@ -238,7 +239,8 @@ export const inputs = gql`
         text: String
         database: String
         storage: String
-        externals: [String!]
+        externals: String
+        addins: String
     }
 
     input InputDeleteFunction {

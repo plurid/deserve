@@ -19,6 +19,11 @@
         StoredFunction,
     } from '~server/data/interfaces';
 
+    import {
+        FUNCTIONER_DATABASE_ENDPOINT,
+        FUNCTIONER_NETWORK,
+    } from '~server/data/constants';
+
     import database from '~server/services/database';
 
     import {
@@ -179,9 +184,7 @@ export const prepareFunctioner = async (
     // create imagene based on functionData and functioner
     const imageneName = `functioner-${ownedBy}-${uuid.generate()}`;
 
-    const databaseEndpoint = 'http://host.docker.internal:3366/deserve';
     const databaseToken = functioner.databaseToken?.value;
-    const network = 'host';
 
     // docker run - obtain container with custom function data
     //              from deserve-functioner-language
@@ -193,10 +196,10 @@ export const prepareFunctioner = async (
             process.stdout,
             {
                 HostConfig: {
-                    NetworkMode: network,
+                    NetworkMode: FUNCTIONER_NETWORK,
                 },
                 Env: [
-                    `DESERVE_DATABASE_ENDPOINT=${databaseEndpoint}`,
+                    `DESERVE_DATABASE_ENDPOINT=${FUNCTIONER_DATABASE_ENDPOINT}`,
                     `DESERVE_DATABASE_TOKEN=${databaseToken}`,
                 ],
             },

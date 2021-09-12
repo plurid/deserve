@@ -10,13 +10,15 @@
 
     // #region external
     import {
-        Context,
-
         InputRunFunction,
-
+        Context,
         StoredFunction,
-
     } from '~server/data/interfaces';
+
+    import {
+        FUNCTIONER_DATABASE_ENDPOINT,
+        FUNCTIONER_NETWORK,
+    } from '~server/data/constants';
 
     import database, {
         getDeserveFunctionsArgumentsCollection,
@@ -100,9 +102,7 @@ export const executeFunction = async (
         }
 
         // docker run with the appropriate tokens the custom imagene for the function
-        const databaseEndpoint = 'http://host.docker.internal:3366/deserve';
         const databaseToken = functioner.databaseToken?.value;
-        const network = 'host';
 
         await new Promise((resolve, reject) => {
             docker.run(
@@ -111,10 +111,10 @@ export const executeFunction = async (
                 process.stdout,
                 {
                     HostConfig: {
-                        NetworkMode: network,
+                        NetworkMode: FUNCTIONER_NETWORK,
                     },
                     Env: [
-                        `DESERVE_DATABASE_ENDPOINT=${databaseEndpoint}`,
+                        `DESERVE_DATABASE_ENDPOINT=${FUNCTIONER_DATABASE_ENDPOINT}`,
                         `DESERVE_DATABASE_TOKEN=${databaseToken}`,
                     ],
                 },
