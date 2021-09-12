@@ -171,16 +171,19 @@ export const prepareFunctioner = async (
     }
 
     const {
-        name,
         language,
+        ownedBy
     } = functionData;
 
 
     // create imagene based on functionData and functioner
-    const imageneName = `functioner-${name}-${uuid.generate()}`;
+    const imageneName = `functioner-${ownedBy}-${uuid.generate()}`;
 
-    const databaseEndpoint = '';
-    const databaseToken = '';
+    const databaseEndpoint = 'http://host.docker.internal:3366/deserve';
+    const databaseToken = functioner.databaseToken?.value;
+    console.log('databaseEndpoint', databaseEndpoint);
+    console.log('databaseToken', databaseToken);
+    const network = 'host';
 
     // docker run - obtain container with custom function data
     //              from deserve-functioner-language
@@ -191,6 +194,9 @@ export const prepareFunctioner = async (
             [],
             process.stdout,
             {
+                HostConfig: {
+                    NetworkMode: network,
+                },
                 Env: [
                     `DESERVE_DATABASE_ENDPOINT=${databaseEndpoint}`,
                     `DESERVE_DATABASE_TOKEN=${databaseToken}`,

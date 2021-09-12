@@ -74,7 +74,7 @@ const databaseGetFunctionData = async (
             data: {
                 name,
                 text,
-                externals,
+                externals: JSON.stringify(externals),
             },
         };
     } catch (error) {
