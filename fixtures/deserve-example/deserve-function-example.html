@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>deserve function example</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            background: #242b33;
+            color: #ddd;
+            user-select: none;
+            height: 100%;
+            text-align: center;
+            font-size: 18px;
+            font-family: 'Ubuntu', -apple-system, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            display: grid;
+            place-content: center;
+        }
+
+        button {
+            padding: 0.5rem;
+            width: 300px;
+            cursor: pointer;
+            margin: 0.5rem;
+            outline: none;
+            border: none;
+            color: #242b33;
+            font-size: 18px;
+            font-family: 'Ubuntu', -apple-system, system-ui, Roboto, sans-serif;
+        }
+
+
+        #hello {
+            display: flex;
+            align-items: center;
+        }
+
+        #edit {
+            height: 25px;
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        #world {
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div
+        id="hello"
+    >
+        <button
+            onclick="run()"
+        >
+            hello
+        </button>
+
+        <img
+            id="edit"
+            onclick="edit()"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Edit_icon_%28the_Noun_Project_30184%29.svg/200px-Edit_icon_%28the_Noun_Project_30184%29.svg.png"
+        />
+    </div>
+
+    <div
+        id="world"
+    >
+    </div>
+
+    <script>
+        const world = document.getElementById('world');
+
+        const run = async () => {
+            const value = await valueFromBackend();
+            world.textContent = value;
+        }
+
+        const valueFromBackend = async () => {
+            const hello = () => {
+                return 'world';
+            }
+
+            // make request from backend
+            // which will call the server-specified function
+            // or the deserve function written by the user
+            return hello();
+        }
+
+
+        const edit = () => {
+            // request from the backend the user's deserve function editing url
+            // <user>.data.example.com/function/<function-id>
+            // and open in new tab
+
+            const userDeserveURL = 'https://user.data.plurid.com/function/123';
+
+            window.open(
+                userDeserveURL,
+                '_blank',
+            );
+        }
+    </script>
+</body>
+</html>
