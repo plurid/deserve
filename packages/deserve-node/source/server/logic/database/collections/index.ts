@@ -17,6 +17,7 @@
         DESERVE_KEYS,
         DESERVE_FUNCTIONS,
         DESERVE_FUNCTIONS_ARGUMENTS,
+        DESERVE_FUNCTIONS_RESULTS,
         DESERVE_FUNCTIONERS,
         DESERVE_BLOBS,
         DESERVE_TOKENS,
@@ -39,6 +40,7 @@ export const getDeserveCoresCollection = async <T = any>() => (await getDeserveD
 export const getDeserveKeysCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_KEYS);
 export const getDeserveFunctionsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONS);
 export const getDeserveFunctionsArgumentsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONS_ARGUMENTS);
+export const getDeserveFunctionsResultsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONS_RESULTS);
 export const getDeserveFunctionersCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONERS);
 export const getDeserveBlobsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_BLOBS);
 export const getDeserveTokensCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_TOKENS);
@@ -51,6 +53,7 @@ export const loadCollections = async () => {
     const deserveKeysCollection = await getDeserveKeysCollection();
     const deserveFunctionsCollection = await getDeserveFunctionsCollection();
     const deserveFunctionsArgumentsCollection = await getDeserveFunctionsArgumentsCollection();
+    const deserveFunctionsResultsCollection = await getDeserveFunctionsResultsCollection();
     const deserveFunctionersCollection = await getDeserveFunctionersCollection();
     const deserveBlobsCollection = await getDeserveBlobsCollection();
     const deserveTokensCollection = await getDeserveTokensCollection();
@@ -62,6 +65,7 @@ export const loadCollections = async () => {
         || !deserveKeysCollection
         || !deserveFunctionsCollection
         || !deserveFunctionsArgumentsCollection
+        || !deserveFunctionsResultsCollection
         || !deserveFunctionersCollection
         || !deserveBlobsCollection
         || !deserveTokensCollection
@@ -76,6 +80,7 @@ export const loadCollections = async () => {
         keys: deserveKeysCollection,
         functions: deserveFunctionsCollection,
         functionsArguments: deserveFunctionsArgumentsCollection,
+        functionsResults: deserveFunctionsResultsCollection,
         functioners: deserveFunctionersCollection,
         blobs: deserveBlobsCollection,
         tokens: deserveTokensCollection,

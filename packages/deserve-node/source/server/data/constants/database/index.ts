@@ -6,6 +6,7 @@ export const DESERVE_CORES = 'cores';
 export const DESERVE_KEYS = 'keys';
 export const DESERVE_FUNCTIONS = 'functions';
 export const DESERVE_FUNCTIONS_ARGUMENTS = 'functionsArguments';
+export const DESERVE_FUNCTIONS_RESULTS = 'functionsResults';
 export const DESERVE_FUNCTIONERS = 'functioners';
 export const DESERVE_BLOBS = 'blobs';
 export const DESERVE_TOKENS = 'tokens';
