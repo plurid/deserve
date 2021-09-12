@@ -18,10 +18,17 @@ const main = async () => {
 
 
     const startedAt = Date.now();
-    const result = await executableFunction(
-        functionArguments,
-        services,
-    );
+
+    let result, error;
+    try {
+        result = await executableFunction(
+            functionArguments,
+            services,
+        );
+    } catch (_error) {
+        error = _error;
+    }
+
     const finishedAt = Date.now();
 
 
@@ -31,6 +38,7 @@ const main = async () => {
             startedAt,
             finishedAt,
             result,
+            error,
         },
     );
 }
