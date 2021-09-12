@@ -1,7 +1,5 @@
 const path = require('path');
-const {
-    promises: fs,
-} = require('fs');
+const fs = require('fs');
 const {
     execSync,
 } = require('child_process');
@@ -31,7 +29,14 @@ const writeFunction = async (
         `../${name}`,
     );
 
-    await fs.writeFile(filepath, text);
+    const dirname = path.dirname(filepath);
+    if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname, {
+            recursive: true,
+        });
+    }
+
+    await fs.promises.writeFile(filepath, text);
 }
 
 
@@ -65,7 +70,7 @@ const editTemplate = async (
         name,
     } = functionData;
 
-    const templateRaw = await fs.readFile(TEMPLATE_FILE, 'utf-8');
+    const templateRaw = await fs.promises.readFile(TEMPLATE_FILE, 'utf-8');
     const templateText = templateRaw.replace(FUNCTION_NAME, name);
 
     await writeFunction(INDEX_FILE, templateText);
@@ -95,7 +100,7 @@ const writeExternals = async (
     execSync(
         externalInstall,
         {
-            cwd: '../',
+            cwd: './',
         },
     );
 }
