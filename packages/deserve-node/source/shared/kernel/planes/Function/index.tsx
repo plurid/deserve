@@ -92,6 +92,12 @@ const Function: React.FC<FunctionProperties> = (
     const {
         name,
         text,
+        database,
+        storage,
+        externals,
+        addins,
+        language,
+        storedAt,
     } = functionData;
 
     return (
@@ -99,7 +105,21 @@ const Function: React.FC<FunctionProperties> = (
             theme={stateGeneralTheme}
         >
             <div>
-                name {name}
+                {new Date(storedAt).toLocaleString()}
+            </div>
+
+            <div>
+                {name} · {language}
+            </div>
+
+            <div>
+                database {database}
+
+                storage {storage}
+
+                externals {externals}
+
+                addins {addins}
             </div>
 
             <pre>
