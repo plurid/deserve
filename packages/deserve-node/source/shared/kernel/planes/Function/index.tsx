@@ -73,17 +73,19 @@ const Function: React.FC<FunctionProperties> = (
     const functionID = decodeURIComponent(plurid.plane.parameters.id || '');
 
     const coreStateFunctions = stateFunctions[coreID] || [];
-    const functionData = coreStateFunctions[functionID];
+    const functionData = coreStateFunctions.find(stateFunction => stateFunction.id === functionID);
     // #endregion properties
 
 
     // #region render
     if (!functionData) {
-        <StyledFunction
-            theme={stateGeneralTheme}
-        >
-            function not found
-        </StyledFunction>
+        return (
+            <StyledFunction
+                theme={stateGeneralTheme}
+            >
+                function not found
+            </StyledFunction>
+        );
     }
 
 
