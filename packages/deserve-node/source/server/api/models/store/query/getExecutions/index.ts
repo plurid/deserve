@@ -63,6 +63,8 @@ const getExecutions = async (
             const {
                 id,
                 result,
+                startedAt,
+                finishedAt,
                 functionID,
                 coreID,
             } = executionData;
@@ -70,6 +72,8 @@ const getExecutions = async (
             const clientExecution = {
                 id,
                 result,
+                startedAt,
+                finishedAt,
                 functionID,
                 coreID,
             };

@@ -183,7 +183,8 @@ export const types = gql`
 
     type ResponseExecution {
         id: ID!
-        executedAt: Float!
+        startedAt: Float!
+        finishedAt: Float!
         result: String!
         functionID: String!
         coreID: String!

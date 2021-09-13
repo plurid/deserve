@@ -13,6 +13,7 @@
         InputRunFunction,
         Context,
         StoredFunction,
+        Core,
 
         DatabaseCollections,
     } from '~server/data/interfaces';
@@ -55,6 +56,7 @@ export const normalizeArguments = (
 export const executeFunction = async (
     functionData: StoredFunction,
     functionArguments: string | undefined,
+    core: Core,
     collections: DatabaseCollections,
 ) => {
     try {
@@ -97,6 +99,7 @@ export const executeFunction = async (
                 arguments: normalizedArguments,
                 ownedBy,
                 functionID: functionData.id,
+                coreID: core.id,
             },
         );
 
@@ -237,6 +240,7 @@ const runFunction = async (
         const functionResult = await executeFunction(
             functionData,
             functionArguments,
+            core,
             collections,
         );
         if (!functionResult) {

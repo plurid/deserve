@@ -64,12 +64,16 @@ const getExecution = async (
         const {
             id,
             result,
+            startedAt,
+            finishedAt,
             coreID,
         } = executionData;
 
         const clientExecution = {
             id,
             result,
+            startedAt,
+            finishedAt,
             functionID,
             coreID,
         };
