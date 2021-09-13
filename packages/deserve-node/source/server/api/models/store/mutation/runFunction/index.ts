@@ -83,6 +83,10 @@ export const executeFunction = async (
         }
 
 
+        const {
+            ownedBy,
+        } = functionData;
+
         const normalizedArguments = normalizeArguments(functionArguments);
         const functionExecutionID = uuid.multiple(3);
 
@@ -91,12 +95,14 @@ export const executeFunction = async (
             functionExecutionID,
             {
                 value: normalizedArguments,
+                ownedBy,
+                functionID: functionData.id,
             },
         );
 
 
         const databaseToken = await generateToken(
-            functionData.ownedBy,
+            ownedBy,
             functionExecutionID,
             {
                 type: 'database',
@@ -106,7 +112,7 @@ export const executeFunction = async (
         );
 
         const storageToken = await generateToken(
-            functionData.ownedBy,
+            ownedBy,
             functionExecutionID,
             {
                 type: 'storage',
@@ -116,7 +122,7 @@ export const executeFunction = async (
         );
 
         const eventToken = await generateToken(
-            functionData.ownedBy,
+            ownedBy,
             functionExecutionID,
             {
                 type: 'event',

@@ -63,13 +63,19 @@ const eventEmit = async (
                 };
             }
 
+            const {
+                functionID,
+                ownedBy,
+            } = token;
             const result = JSON.parse(data);
 
             database.updateDocument(
                 collections.functionsResults,
-                token.functionID,
+                functionID,
                 {
                     ...result,
+                    functionID,
+                    ownedBy,
                 },
             );
 
