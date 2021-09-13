@@ -48,11 +48,11 @@ const databaseGetFunctionArguments = async (
         }
 
 
-        const functionArgumentsData = await database.getById<any>(
-            collections.functionsArguments,
+        const execution = await database.getById<any>(
+            collections.executions,
             token.functionID,
         );
-        if (!functionArgumentsData) {
+        if (!execution) {
             return {
                 status: false,
             };
@@ -68,7 +68,7 @@ const databaseGetFunctionArguments = async (
         return {
             status: true,
             data: {
-                value: functionArgumentsData.value,
+                value: execution.arguments,
             },
         };
     } catch (error) {

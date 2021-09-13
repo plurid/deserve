@@ -91,10 +91,10 @@ export const executeFunction = async (
         const functionExecutionID = uuid.multiple(3);
 
         await database.updateDocument(
-            collections.functionsArguments,
+            collections.executions,
             functionExecutionID,
             {
-                value: normalizedArguments,
+                arguments: normalizedArguments,
                 ownedBy,
                 functionID: functionData.id,
             },
@@ -176,7 +176,7 @@ export const executeFunction = async (
 
 
         const resultData = await database.getById<any>(
-            collections.functionsResults,
+            collections.executions,
             functionExecutionID,
         );
         if (!resultData) {
