@@ -101,7 +101,8 @@ const Executions: React.FC<ExecutionsProperties> = (
     const functionID = decodeURIComponent(parameters.function || '');
 
     const coreStateExecutions = stateExecutions[coreID] || [];
-    const functionExecutions = coreStateExecutions.filter(coreStateExecution=> coreStateExecution.functionID === functionID);
+    const functionExecutions = coreStateExecutions
+        .filter(coreStateExecution => coreStateExecution.functionID === functionID);
     // #endregion properties
 
 
@@ -140,7 +141,6 @@ const Executions: React.FC<ExecutionsProperties> = (
                         },
                     },
                 });
-                console.log('query', query);
 
                 const request = query.data.getExecutions;
                 if (!request.status) {
@@ -165,7 +165,8 @@ const Executions: React.FC<ExecutionsProperties> = (
 
     useEffect(() => {
         const coreStateExecutions = stateExecutions[coreID] || [];
-        const functionExecutions = coreStateExecutions.filter(coreStateExecution=> coreStateExecution.functionID === functionID);
+        const functionExecutions = coreStateExecutions
+            .filter(coreStateExecution=> coreStateExecution.functionID === functionID);
 
         setFilteredRows(
             functionExecutions.map(
@@ -176,7 +177,7 @@ const Executions: React.FC<ExecutionsProperties> = (
             ),
         );
     }, [
-        coreStateExecutions.length,
+        JSON.stringify(stateExecutions),
     ]);
     // #endregion effects
 

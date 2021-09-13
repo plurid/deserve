@@ -39,7 +39,7 @@ export const executionRowRenderer = (
     const executionRoute = `/execution/${encodedCoreID}/${encodedID}`;
 
     const duration = finishedAt - startedAt;
-    const lessThan = duration < 1 ? '<' : '';
+    const lessThan = duration <= 1 ? '<' : '';
 
     return (
         <>
