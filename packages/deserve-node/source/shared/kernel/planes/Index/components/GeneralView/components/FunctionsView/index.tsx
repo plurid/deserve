@@ -1,6 +1,8 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useState,
+    } from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -9,25 +11,25 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
-
-    import {
-        PluridLink,
-    } from '@plurid/plurid-react';
     // #endregion libraries
 
 
     // #region external
-    // import {
-    //     ClientFunction,
-    // } from '~server/data/interfaces';
-
-    // import CoreFunctionView from '~kernel-components/CoreFunctionView';
+    import EntityView from '~kernel-components/EntityView';
 
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
     // import actions from '~kernel-services/state/actions';
     // #endregion external
+
+
+    // #region internal
+    import {
+        functionRowRenderer,
+        createSearchTerms,
+    } from './logic';
+    // #endregion internal
 // #endregion imports
 
 
@@ -66,43 +68,63 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
     // #region properties
     const {
         // #region state
+        stateGeneralTheme,
+        stateInteractionTheme,
         // stateFunctions,
         // #endregion state
     } = properties;
     // #endregion properties
 
 
+    // #region state
+    const [
+        filteredRows,
+        setFilteredRows,
+    ] = useState(
+        []
+        // stateFunctions.map(
+        //     fn => functionRowRenderer(
+        //         fn,
+        //         stateGeneralTheme,
+        //     ),
+        // ),
+    );
+    // #endregion state
+
+
+    // #region handlers
+    const filterUpdate = (
+        rawValue: string,
+    ) => {
+    }
+    // #endregion handlers
+
+
     // #region render
-    // if (stateFunctions.length === 0) {
-    //     return (
-    //         <div
-    //             style={{
-    //                 textAlign: 'center',
-    //             }}
-    //         >
-    //             no functions
-    //         </div>
-    //     );
-    // }
+    const rowsHeader = (
+        <>
+            <div>
+                name
+            </div>
+
+            <div />
+        </>
+    );
 
     return (
-        <div>
-            {/* {stateFunctions.map(stateFunction => {
-                const {
-                    coreID,
-                    id,
-                    name
-                } = stateFunction;
+        <EntityView
+            generalTheme={stateGeneralTheme}
+            interactionTheme={stateInteractionTheme}
 
-                return (
-                    <PluridLink
-                        route={`/function/${coreID}/${id}`}
-                    >
-                        {name}
-                    </PluridLink>
-                );
-            })} */}
-        </div>
+            rowTemplate="auto 30px"
+            rowsHeader={rowsHeader}
+            rows={filteredRows}
+            noRows="no functions"
+
+            filterUpdate={filterUpdate}
+            refresh={() => {
+            }}
+        />
     );
     // #endregion render
 }
