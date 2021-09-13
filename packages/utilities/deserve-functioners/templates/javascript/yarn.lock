@@ -30,10 +30,10 @@
   resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-database/-/deserve-functioner-database-0.0.0-1.tgz#01264b03c058aaf7f1fd66c188efb343be32d7d7"
   integrity sha512-7qzcz2mbYxtkMXNI8CwL56SlvK4wfmlhTS8a064CSSnfklSR8ttVVaS1+RwbVrEK0SJj8rSghaGdwxXbS3ugEw==
 
-"@plurid/deserve-functioner-event@0.0.0-0":
-  version "0.0.0-0"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-event/-/deserve-functioner-event-0.0.0-0.tgz#67c0fb11f83b5e26320f1e81940e6aef897ab263"
-  integrity sha512-2vcegfk82qd6uGBap1RuTEnOXNv5l7o4VKbmUbco0aBYdvfpZkW1NTfGuND/Ur4uEpeCBMoeXmpYVJCsCiRJXw==
+"@plurid/deserve-functioner-event@0.0.0-1":
+  version "0.0.0-1"
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-event/-/deserve-functioner-event-0.0.0-1.tgz#9166e1e1dc851d3e2e89d59ea13617e951bc1da4"
+  integrity sha512-4nSsKxjsZKE1Ar8uiHsmdE7bMFTwX0o6iupStoxgD1YvZ1S3ytkB9MVz09iFLfLHGBBLAb7Nb8g7dUrA1oFrBQ==
 
 "@plurid/deserve-functioner-storage@0.0.0-0":
   version "0.0.0-0"
