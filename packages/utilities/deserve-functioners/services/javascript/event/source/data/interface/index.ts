@@ -1,6 +1,7 @@
 // #region module
 export type EventEmit = (
-    data: any,
+    type: string,
+    data?: string | any,
 ) => Promise<boolean>;
 
 

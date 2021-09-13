@@ -15,13 +15,23 @@
 
 // #region module
 const emit: EventEmit = async (
+    type,
     data,
 ) => {
     try {
+        data = typeof data === 'string'
+            ? data
+            : typeof data !== 'undefined'
+                ? JSON.stringify(
+                    data,
+                    (_, value) => typeof value === 'undefined' ? null : value,
+                ) : undefined;
+
         const mutation = await client.mutate({
             mutation: MUTATION_EVENT_EMIT,
             variables: {
                 input: {
+                    type,
                     data,
                 },
             },
