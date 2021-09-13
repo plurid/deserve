@@ -108,8 +108,9 @@ const GET_EXECUTIONS = gql`
             status
             data {
                 id
-                executedAt
                 result
+                startedAt
+                finishedAt
                 coreID
                 functionID
             }
