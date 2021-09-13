@@ -10,6 +10,18 @@
 
 
 // #region module
+const dataOrDefault = (
+    value: string,
+) => {
+    try {
+        const data = JSON.parse(value);
+        return data;
+    } catch (error) {
+        return value;
+    }
+}
+
+
 const getFunctionArguments = async () => {
     try {
         const query = await client.query({
@@ -22,7 +34,7 @@ const getFunctionArguments = async () => {
             return;
         }
 
-        return JSON.parse(response.data.value);
+        return dataOrDefault(response.data.value);
     } catch (error) {
         return;
     }
