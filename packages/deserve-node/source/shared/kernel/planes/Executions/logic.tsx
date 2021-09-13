@@ -48,7 +48,7 @@ export const executionRowRenderer = (
             </div>
 
             <div>
-                {lessThan}{duration} s
+                {lessThan}{duration} ms
             </div>
 
             <div>
