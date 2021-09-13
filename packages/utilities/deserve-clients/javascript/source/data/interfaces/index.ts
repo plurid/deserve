@@ -78,8 +78,16 @@ export type FunctionsGet = <T = any>(
     id: string | string[],
 ) => Promise<ClientResponse<T | undefined>>;
 
-export type FunctionsStore = <T = any>(
-    data: T,
+export type FunctionsStore = (
+    data: {
+        name: string;
+        text: string;
+        language: string;
+        database?: string;
+        storage?: string;
+        externals?: string;
+        addins?: string;
+    },
 ) => Promise<ClientResponse<boolean>>;
 
 export type FunctionsUpdate = <T = any>(
@@ -100,7 +108,7 @@ export type FunctionsQuery = <T = any>(
 
 export type FunctionsRun = <T = any>(
     id: string,
-    args?: string,
+    args?: string | any,
 ) => Promise<ClientResponse<T[] | undefined>>;
 
 

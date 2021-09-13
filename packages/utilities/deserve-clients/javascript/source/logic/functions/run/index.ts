@@ -3,11 +3,11 @@
     import {
         GraphqlClient,
 
-        KeysStore,
+        FunctionsRun,
     } from '~data/interfaces';
 
     import {
-        MUTATION_STORE_FUNCTION,
+        MUTATION_RUN_FUNCTION,
     } from '~services/graphql';
     // #endregion external
 // #endregion imports
@@ -15,25 +15,31 @@
 
 
 // #region module
-const store = (
+const run = (
     graphqlClient: GraphqlClient,
-): KeysStore => async (
-    data,
+): FunctionsRun => async (
+    id,
+    args,
 ) => {
     try {
-        data = typeof data === 'string'
-            ? data as any
-            : JSON.stringify(data);
+        args = typeof args === 'string'
+            ? args
+            : typeof args !== 'undefined'
+                ? JSON.stringify(
+                    args,
+                    (_, value) => typeof value === 'undefined' ? null : value,
+                ) : undefined;
 
         const request = await graphqlClient.mutate({
-            mutation: MUTATION_STORE_FUNCTION,
+            mutation: MUTATION_RUN_FUNCTION,
             variables: {
                 input: {
-                    data,
+                    id,
+                    arguments: args,
                 },
             },
         });
-        const response = request.data.storeFunction;
+        const response = request.data.runFunction;
 
         return response;
     } catch (error) {
@@ -47,5 +53,5 @@ const store = (
 
 
 // #region exports
-export default store;
+export default run;
 // #endregion exports

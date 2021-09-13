@@ -3,7 +3,7 @@
     import {
         GraphqlClient,
 
-        KeysStore,
+        FunctionsStore,
     } from '~data/interfaces';
 
     import {
@@ -17,19 +17,31 @@
 // #region module
 const store = (
     graphqlClient: GraphqlClient,
-): KeysStore => async (
+): FunctionsStore => async (
     data,
 ) => {
     try {
-        data = typeof data === 'string'
-            ? data as any
-            : JSON.stringify(data);
+        const {
+            name,
+            text,
+            language,
+            database,
+            storage,
+            externals,
+            addins,
+        } = data;
 
         const request = await graphqlClient.mutate({
             mutation: MUTATION_STORE_FUNCTION,
             variables: {
                 input: {
-                    data,
+                    name,
+                    text,
+                    language,
+                    database,
+                    storage,
+                    externals,
+                    addins,
                 },
             },
         });

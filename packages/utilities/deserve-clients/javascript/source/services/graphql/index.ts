@@ -169,6 +169,16 @@ export const MUTATION_STORE_FUNCTION = gql`
     }
 `;
 
+
+export const MUTATION_RUN_FUNCTION = gql`
+    mutation RunFunction($input: InputRunFunction!) {
+        runFunction(input: $input) {
+            status
+        }
+    }
+`;
+
+
 export const MUTATION_UPDATE_FUNCTION = gql`
     mutation UpdateFunction($input: InputUpdateFunction!) {
         updateFunction(input: $input) {
