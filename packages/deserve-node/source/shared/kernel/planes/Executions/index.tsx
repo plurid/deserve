@@ -216,7 +216,7 @@ const Executions: React.FC<ExecutionsProperties> = (
                 generalTheme={stateGeneralTheme}
                 interactionTheme={stateInteractionTheme}
 
-                rowTemplate="1fr 1fr 1fr 1fr 1fr 30px"
+                rowTemplate="1fr 60px 1fr 1fr 1fr 30px"
                 rowsHeader={rowsHeader}
                 rows={filteredRows}
                 noRows="no executions"
