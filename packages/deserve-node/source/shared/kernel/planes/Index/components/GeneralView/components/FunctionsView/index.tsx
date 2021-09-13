@@ -59,12 +59,12 @@ export interface FunctionsViewOwnProperties {
 export interface FunctionsViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    stateFunctions: any[];
+    stateFunctions: Record<string, any[] | undefined>;
 }
 
 export interface FunctionsViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>;
-    dispatchAddEntity: typeof actions.data.addEntity;
+    dispatchPushData: typeof actions.data.pushData;
 }
 
 export type FunctionsViewProperties =
@@ -85,9 +85,12 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
         // #endregion state
 
         // #region dispatch
-        dispatchAddEntity,
+        dispatchPushData,
         // #endregion dispatch
     } = properties;
+
+    const coreID = Object.keys(stateFunctions)[0] || '';
+    const coreStateFunctions = stateFunctions[coreID] || [];
     // #endregion properties
 
 
@@ -96,7 +99,7 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
         filteredRows,
         setFilteredRows,
     ] = useState(
-        stateFunctions.map(
+        coreStateFunctions.map(
             fn => functionRowRenderer(
                 fn,
                 stateGeneralTheme,
@@ -130,12 +133,12 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
                     return;
                 }
 
-                for (const data of graphql.deleteTypenames(request.data)) {
-                    dispatchAddEntity({
-                        type: 'function',
-                        data: {
-                            ...data,
-                        },
+                const data = graphql.deleteTypenames(request.data);
+                if (data.length > 0) {
+                    dispatchPushData({
+                        type: 'functions',
+                        coreID: data[0].coreID,
+                        data,
                     });
                 }
             } catch (error) {
@@ -147,8 +150,11 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
     }, []);
 
     useEffect(() => {
+        const coreID = Object.keys(stateFunctions)[0] || '';
+        const coreStateFunctions = stateFunctions[coreID] || [];
+
         setFilteredRows(
-            stateFunctions.map(
+            coreStateFunctions.map(
                 fn => functionRowRenderer(
                     fn,
                     stateGeneralTheme,
@@ -204,10 +210,10 @@ const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): FunctionsViewDispatchProperties => ({
     dispatch,
-    dispatchAddEntity: (
+    dispatchPushData: (
         payload,
     ) => dispatch(
-        actions.data.addEntity(payload),
+        actions.data.pushData(payload),
     ),
 });
 

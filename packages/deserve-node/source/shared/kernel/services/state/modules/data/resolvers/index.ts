@@ -44,22 +44,11 @@ export const addEntity = (
     let cores = [
         ...newState.cores,
     ];
-    let functions = [
-        ...newState.functions,
-    ];
 
     switch (type) {
         case 'core':
             cores = [
                 ...cores,
-                {
-                    ...data,
-                },
-            ];
-            break;
-        case 'function':
-            functions = [
-                ...functions,
                 {
                     ...data,
                 },
@@ -71,9 +60,6 @@ export const addEntity = (
         ...newState,
         cores: [
             ...cores,
-        ],
-        functions: [
-            ...functions,
         ],
     };
 }
@@ -96,19 +82,10 @@ export const removeEntity = (
         ...newState.cores,
     ];
 
-    let functions = [
-        ...newState.functions,
-    ];
-
     switch (type) {
         case 'core':
             cores = cores.filter(
                 core => core.id !== id
-            );
-            break;
-        case 'function':
-            functions = functions.filter(
-                fn => fn.id !== id
             );
             break;
     }
@@ -117,9 +94,6 @@ export const removeEntity = (
         ...newState,
         cores: [
             ...cores,
-        ],
-        functions: [
-            ...functions,
         ],
     };
 }

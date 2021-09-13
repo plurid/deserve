@@ -11,7 +11,7 @@ const initialState: Types.State = {
     cores: [],
     blobs: {},
     keys: {},
-    functions: [],
+    functions: {},
 };
 // #endregion module
 

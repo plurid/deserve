@@ -10,8 +10,7 @@
 
 // #region module
 export type AddableEntityType =
-    | 'core'
-    | 'function';
+    | 'core';
 
 export const ADD_ENTITY = 'ADD_ENTITY';
 export interface AddEntityPayload {
@@ -25,8 +24,7 @@ export interface AddEntityAction {
 
 
 export type RemovableEntityType =
-    | 'core'
-    | 'function';
+    | 'core';
 
 export const REMOVE_ENTITY = 'REMOVE_ENTITY';
 export interface RemoveEntityPayload {
@@ -66,7 +64,7 @@ export interface ClearDataAction {
 
 export const PUSH_DATA = 'PUSH_DATA';
 export interface PushDataPayload {
-    type: 'blobs' | 'keys';
+    type: 'blobs' | 'keys' | 'functions';
     coreID: string;
     data: any;
 }
@@ -78,7 +76,7 @@ export interface PushDataAction {
 
 export const REMOVE_DATA = 'REMOVE_DATA';
 export interface RemoveDataPayload {
-    type: 'blobs' | 'keys';
+    type: 'blobs' | 'keys' | 'functions';
     coreID: string;
     id: string;
 }
@@ -93,7 +91,7 @@ export interface State {
     cores: ClientCore[];
     blobs: Record<string, any[] | undefined>;
     keys: Record<string, any[] | undefined>;
-    functions: any[];
+    functions: Record<string, any[] | undefined>;
 }
 
 
