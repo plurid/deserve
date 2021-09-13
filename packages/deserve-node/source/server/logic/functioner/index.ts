@@ -5,6 +5,10 @@
     } from 'express';
 
     import {
+        Collection,
+    } from 'mongodb';
+
+    import {
         Container,
     } from 'dockerode';
 
@@ -111,8 +115,12 @@ export const validateStorageConstraints = async (
 export const writeFunctioner = async (
     functionData: StoredFunction,
 ) => {
+    const deserveTokensCollection = await getDeserveTokensCollection();
     const deserveFunctionersCollection = await getDeserveFunctionersCollection();
-    if (!deserveFunctionersCollection) {
+    if (
+        !deserveTokensCollection
+        || !deserveFunctionersCollection
+    ) {
         return;
     }
 
@@ -125,26 +133,32 @@ export const writeFunctioner = async (
 
 
     const databaseToken = await generateToken(
+        functionData.ownedBy,
         functionID,
         {
             type: 'database',
             constraints: databaseConstraints,
         },
+        deserveTokensCollection,
     )
 
     const storageToken = await generateToken(
+        functionData.ownedBy,
         functionID,
         {
             type: 'storage',
             constraints: storageConstraints,
         },
+        deserveTokensCollection,
     )
 
     const eventToken = await generateToken(
+        functionData.ownedBy,
         functionID,
         {
             type: 'event',
         },
+        deserveTokensCollection,
     );
 
 
@@ -152,9 +166,10 @@ export const writeFunctioner = async (
     const functioner = {
         id,
         functionID,
-        databaseToken,
-        storageToken,
-        eventToken,
+        database: databaseToken.value,
+        storage: storageToken.value,
+        event: eventToken.value,
+        ownedBy: functionData.ownedBy,
     };
 
     await database.updateDocument(
@@ -186,7 +201,7 @@ export const prepareFunctioner = async (
     // create imagene based on functionData and functioner
     const imageneName = `functioner-${ownedBy}-${uuid.generate()}`;
 
-    const databaseToken = functioner.databaseToken?.value;
+    const databaseToken = functioner.database;
 
     // docker run - obtain container with custom function data
     //              from deserve-functioner-language
@@ -250,25 +265,21 @@ export const prepareFunctioner = async (
 
 
 export const generateToken = async (
+    ownedBy: string,
     functionID: string,
     authorization: TokenAuthorization,
+    deserveTokensCollection: Collection<any>,
 ) => {
-    const deserveTokensCollection = await getDeserveTokensCollection();
-    if (!deserveTokensCollection) {
-        return;
-    }
-
-
     const id = uuid.multiple(3);
     const value = uuid.multiple(4);
 
     const token: Token = {
         id,
         value,
+        ownedBy,
         functionID,
         authorization,
     };
-
 
     await database.updateDocument(
         deserveTokensCollection,
@@ -285,7 +296,7 @@ export const deleteToken = async (
 ) => {
     const deserveTokensCollection = await getDeserveTokensCollection();
     if (!deserveTokensCollection) {
-        return;
+        return false;
     }
 
 
@@ -294,7 +305,6 @@ export const deleteToken = async (
         'value',
         tokenValue,
     );
-
     if (!token) {
         return true;
     }

@@ -130,6 +130,7 @@ export interface Token {
     id: string;
     value: string;
     functionID: string;
+    ownedBy: string;
     authorization: TokenAuthorization;
 }
 
