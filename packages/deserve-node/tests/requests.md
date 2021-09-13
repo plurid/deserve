@@ -162,6 +162,13 @@ curl \
     -H 'Deserve-Token: 123' \
     -H 'Host: localhost:3355' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) {  runFunction(input: $input) { status data }}", "variables":{"input":{"id":"406ee9451f6a164f4aefc1c236a2a53f/ec4b9dc7788df43b3d6524ca3068bce65ab40c54204cf38cfa490c14957d95a9d917cc35f3ef229a954fba9fbb0bd8e1"}}}' \
+    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) {  runFunction(input: $input) { status data }}", "variables":{"input":{"id":"value"}}}' \
+    http://localhost:3366/deserve
+
+curl \
+    -H 'Deserve-Token: 123' \
+    -H 'Host: localhost:3355' \
+    -H 'Content-Type: application/json' \
+    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) {  runFunction(input: $input) { status data }}", "variables":{"input":{"id":"value", "arguments": "value"}}}' \
     http://localhost:3366/deserve
 ```
