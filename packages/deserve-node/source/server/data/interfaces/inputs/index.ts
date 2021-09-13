@@ -161,4 +161,15 @@ export interface InputFunctionerDatabaseRemove {
 export interface InputFunctionerStorageRemove {
     id: string;
 }
+
+
+
+export interface InputGetExecutions {
+    functionID: string;
+}
+
+export interface InputGetExecution {
+    functionID: string;
+    executionID: string;
+}
 // #endregion module

@@ -11,6 +11,9 @@
     import queryKeys from './queryKeys';
 
     import getFunctions from './getFunctions';
+
+    import getExecutions from './getExecutions';
+    import getExecution from './getExecution';
     // #endregion internal
 // #endregion imports
 
@@ -29,5 +32,8 @@ export default {
     queryKeys,
 
     getFunctions,
+
+    getExecutions,
+    getExecution,
 };
 // #endregion exports

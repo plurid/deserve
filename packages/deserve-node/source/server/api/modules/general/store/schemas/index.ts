@@ -20,6 +20,9 @@ export const queries = gql`
         queryKeys(input: InputQueryKeys!): ResponseQueriedKeys!
 
         getFunctions(input: InputGetFunctions!): ResponseGetFunctions!
+
+        getExecutions(input: InputGetExecutions!): ResponseGetExecutions!
+        getExecution(input: InputGetExecution!): ResponseGetExecution!
     }
 `;
 
@@ -162,6 +165,29 @@ export const types = gql`
         error: Error
         data: String
     }
+
+
+
+
+    type ResponseGetExecutions {
+        status: Boolean!
+        error: Error
+        data: [ResponseExecution!]
+    }
+
+    type ResponseGetExecution {
+        status: Boolean!
+        error: Error
+        data: ResponseExecution
+    }
+
+    type ResponseExecution {
+        id: ID!
+        executedAt: Float!
+        result: String!
+        functionID: String!
+        coreID: String!
+    }
 `;
 
 
@@ -256,6 +282,16 @@ export const inputs = gql`
         id: ID!
         # JSON array of arguments to be passed to the deserve function
         arguments: String
+    }
+
+
+    input InputGetExecutions {
+        functionID: String!
+    }
+
+    input InputGetExecution {
+        functionID: String!
+        executionID: String!
     }
 `;
 // #endregion module
