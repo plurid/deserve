@@ -50,6 +50,23 @@ export const normalizeArguments = (
 }
 
 
+export const findDockerImagene = async (
+    name: string,
+) => {
+    const images = await docker.listImages();
+
+    for (const image of images) {
+        for (const repoTag of image.RepoTags) {
+            if (repoTag.startsWith(name)) {
+                return image;
+            }
+        }
+    }
+
+    return;
+}
+
+
 export const executeFunction = async (
     functionData: StoredFunction,
     functionArguments: string | undefined,
@@ -70,6 +87,13 @@ export const executeFunction = async (
             imageneName,
         } = functioner;
         if (!imageneName) {
+            return;
+        }
+
+        const imagene = await findDockerImagene(
+            imageneName,
+        );
+        if (!imagene) {
             return;
         }
 
@@ -175,7 +199,7 @@ export const executeFunction = async (
                 (_, value) => typeof value === 'undefined' ? null : value,
             );
 
-        return result
+        return result;
     } catch (error) {
         return;
     }
