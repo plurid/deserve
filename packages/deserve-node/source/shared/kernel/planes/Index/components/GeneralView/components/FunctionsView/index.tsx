@@ -2,6 +2,7 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import { AnyAction } from 'redux';
@@ -20,7 +21,12 @@
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
-    // import actions from '~kernel-services/state/actions';
+    import actions from '~kernel-services/state/actions';
+
+    import client from '~kernel-services/graphql/client';
+    import {
+        GET_FUNCTIONS,
+    } from '~kernel-services/graphql/query';
     // #endregion external
 
 
@@ -49,11 +55,12 @@ export interface FunctionsViewOwnProperties {
 export interface FunctionsViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    // stateFunctions: ClientFunction[];
+    stateFunctions: any[];
 }
 
 export interface FunctionsViewDispatchProperties {
-    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    dispatch: ThunkDispatch<{}, {}, AnyAction>;
+    dispatchAddEntity: typeof actions.data.addEntity;
 }
 
 export type FunctionsViewProperties =
@@ -70,8 +77,12 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
         // #region state
         stateGeneralTheme,
         stateInteractionTheme,
-        // stateFunctions,
+        stateFunctions,
         // #endregion state
+
+        // #region dispatch
+        dispatchAddEntity,
+        // #endregion dispatch
     } = properties;
     // #endregion properties
 
@@ -81,13 +92,12 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
         filteredRows,
         setFilteredRows,
     ] = useState(
-        []
-        // stateFunctions.map(
-        //     fn => functionRowRenderer(
-        //         fn,
-        //         stateGeneralTheme,
-        //     ),
-        // ),
+        stateFunctions.map(
+            fn => functionRowRenderer(
+                fn,
+                stateGeneralTheme,
+            ),
+        ),
     );
     // #endregion state
 
@@ -98,6 +108,41 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
     ) => {
     }
     // #endregion handlers
+
+
+    // #region effects
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const query = await client.query({
+                    query: GET_FUNCTIONS,
+                    variables: {
+                        input: {},
+                    },
+                });
+                console.log('query', query);
+
+                const request = query.data.getFunctions;
+                if (!request.status) {
+                    return;
+                }
+
+                for (const data of request.data) {
+                    dispatchAddEntity({
+                        type: 'function',
+                        data: {
+                            ...data,
+                        },
+                    });
+                }
+            } catch (error) {
+                return;
+            }
+        }
+
+        load();
+    }, []);
+    // #endregion effects
 
 
     // #region render
@@ -135,7 +180,7 @@ const mapStateToProperties = (
 ): FunctionsViewStateProperties => ({
     stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateInteractionTheme: selectors.themes.getInteractionTheme(state),
-    // stateFunctions: selectors.data.getFunctions(state),
+    stateFunctions: selectors.data.getFunctions(state),
 });
 
 
@@ -143,6 +188,11 @@ const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): FunctionsViewDispatchProperties => ({
     dispatch,
+    dispatchAddEntity: (
+        payload,
+    ) => dispatch(
+        actions.data.addEntity(payload),
+    ),
 });
 
 
