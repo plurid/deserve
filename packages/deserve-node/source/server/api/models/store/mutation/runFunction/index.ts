@@ -13,6 +13,8 @@
         InputRunFunction,
         Context,
         StoredFunction,
+
+        DatabaseCollections,
     } from '~server/data/interfaces';
 
     import {
@@ -20,10 +22,7 @@
         FUNCTIONER_NETWORK,
     } from '~server/data/constants';
 
-    import database, {
-        getDeserveFunctionsArgumentsCollection,
-        getDeserveFunctionersCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         getCoreFromRequest,
@@ -54,45 +53,18 @@ export const normalizeArguments = (
 export const executeFunction = async (
     functionData: StoredFunction,
     functionArguments: string | undefined,
+    collections: DatabaseCollections,
 ) => {
     try {
-        const normalizedArguments = normalizeArguments(functionArguments);
-
-        const functionExecutionID = uuid.multiple(3);
-
-        const deserveFunctionsArgumentsCollection = await getDeserveFunctionsArgumentsCollection();
-        const deserveFunctionersCollection = await getDeserveFunctionersCollection();
-        if (
-            !deserveFunctionsArgumentsCollection
-            || !deserveFunctionersCollection
-        ) {
-            return;
-        }
-
-        await database.updateDocument(
-            deserveFunctionsArgumentsCollection,
-            functionExecutionID,
-            {
-                value: normalizedArguments,
-            },
-        );
-
-        await generateToken(
-            functionExecutionID,
-            {
-                type: 'database',
-                constraints: functionData.database,
-            },
-        );
-
         const functioner = await database.getBy<any>(
-            deserveFunctionersCollection,
+            collections.functioners,
             'functionID',
             functionData.id,
         );
         if (!functioner) {
             return;
         }
+
 
         const {
             imageneName,
@@ -101,8 +73,48 @@ export const executeFunction = async (
             return;
         }
 
-        // docker run with the appropriate tokens the custom imagene for the function
-        const databaseToken = functioner.databaseToken?.value;
+
+        const normalizedArguments = normalizeArguments(functionArguments);
+        const functionExecutionID = uuid.multiple(3);
+
+        await database.updateDocument(
+            collections.functionsArguments,
+            functionExecutionID,
+            {
+                value: normalizedArguments,
+            },
+        );
+
+
+        const databaseToken = await generateToken(
+            functionData.ownedBy,
+            functionExecutionID,
+            {
+                type: 'database',
+                constraints: functionData.database,
+            },
+            collections.tokens,
+        );
+
+        const storageToken = await generateToken(
+            functionData.ownedBy,
+            functionExecutionID,
+            {
+                type: 'storage',
+                constraints: functionData.storage,
+            },
+            collections.tokens,
+        );
+
+        const eventToken = await generateToken(
+            functionData.ownedBy,
+            functionExecutionID,
+            {
+                type: 'event',
+            },
+            collections.tokens,
+        );
+
 
         await new Promise((resolve, reject) => {
             docker.run(
@@ -115,7 +127,9 @@ export const executeFunction = async (
                     },
                     Env: [
                         `DESERVE_DATABASE_ENDPOINT=${FUNCTIONER_DATABASE_ENDPOINT}`,
-                        `DESERVE_DATABASE_TOKEN=${databaseToken}`,
+                        `DESERVE_DATABASE_TOKEN=${databaseToken.value}`,
+                        `DESERVE_STORAGE_TOKEN=${storageToken.value}`,
+                        `DESERVE_EVENT_TOKEN=${eventToken.value}`,
                     ],
                 },
                 (error: any, data: any, container: any) => {
@@ -124,17 +138,38 @@ export const executeFunction = async (
                         return;
                     }
 
+                    // cleanup
                     container.remove();
+
+                    database.deleteDocument(
+                        collections.tokens,
+                        databaseToken.id,
+                    );
+                    database.deleteDocument(
+                        collections.tokens,
+                        storageToken.id,
+                    );
+                    database.deleteDocument(
+                        collections.tokens,
+                        eventToken.id,
+                    );
 
                     resolve(true);
                 }
             );
         });
 
-        // query for the result
-        // and return it
 
-        return true;
+        const resultData = await database.getById<any>(
+            collections.functionsResults,
+            functionExecutionID,
+        );
+        if (!resultData) {
+            return;
+        }
+
+
+        return resultData.result;
     } catch (error) {
         return;
     }
@@ -181,13 +216,14 @@ const runFunction = async (
         const functionResult = await executeFunction(
             functionData,
             functionArguments,
+            collections,
         );
-
         if (!functionResult) {
             return {
                 status: false,
             };
         }
+
 
         return {
             status: true,
