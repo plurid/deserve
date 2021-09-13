@@ -79,6 +79,24 @@ const QUERY_KEYS = gql`
         }
     }
 `;
+
+
+const GET_FUNCTIONS = gql`
+    query GetFunctions($input: InputGetFunctions!) {
+        getFunctions(input: $input) {
+            status
+            data {
+                id
+                name
+                text
+                database
+                storage
+                externals
+                addins
+            }
+        }
+    }
+`;
 // #endregion module
 
 
@@ -89,5 +107,6 @@ export {
     GET_GLOBAL_DATA,
     QUERY_BLOBS,
     QUERY_KEYS,
+    GET_FUNCTIONS,
 };
 // #endregion exports
