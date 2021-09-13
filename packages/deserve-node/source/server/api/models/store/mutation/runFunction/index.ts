@@ -28,7 +28,9 @@
         getCoreFromRequest,
     } from '~server/logic/core';
 
-    import docker from '~server/logic/docker';
+    import docker, {
+        findDockerImagene,
+    } from '~server/logic/docker';
 
     import {
         generateToken,
@@ -47,23 +49,6 @@ export const normalizeArguments = (
     }
 
     return functionArguments;
-}
-
-
-export const findDockerImagene = async (
-    name: string,
-) => {
-    const images = await docker.listImages();
-
-    for (const image of images) {
-        for (const repoTag of image.RepoTags) {
-            if (repoTag.startsWith(name)) {
-                return image;
-            }
-        }
-    }
-
-    return;
 }
 
 

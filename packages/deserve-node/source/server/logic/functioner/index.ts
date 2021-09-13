@@ -37,7 +37,9 @@
         getDeserveTokensCollection,
     } from '~server/logic/database/collections';
 
-    import docker from '~server/logic/docker';
+    import docker, {
+        findDockerImagene,
+    } from '~server/logic/docker';
 
     import {
         dataToObjectOrDefault,
@@ -188,15 +190,22 @@ export const prepareFunctioner = async (
     } = functionData;
 
 
+    const functionerBaseImageneName = `deserve-functioner-${language}`;
+    const baseImagene = await findDockerImagene(functionerBaseImageneName);
+    if (!baseImagene) {
+        return false;
+    }
+
+
     // create imagene based on functionData and functioner
-    const imageneName = `functioner-${ownedBy}-${uuid.generate()}`;
+    const functionerRunImageneName = `functioner-${ownedBy}-${uuid.generate()}`;
 
     // docker run - obtain container with custom function data
     //              from deserve-functioner-language
     // docker commmit - obtain new imagene from the custom function container
     await new Promise((resolve, reject) => {
         docker.run(
-            `deserve-functioner-${language}`,
+            functionerBaseImageneName,
             [],
             process.stdout,
             {
@@ -218,7 +227,7 @@ export const prepareFunctioner = async (
 
                 container.commit(
                     {
-                        repo: imageneName,
+                        repo: functionerRunImageneName,
                     },
                     async (error, result) => {
                         if (error) {
@@ -252,7 +261,7 @@ export const prepareFunctioner = async (
         deserveFunctionersCollection,
         functioner.id,
         {
-            imageneName,
+            imageneName: functionerRunImageneName,
         },
     );
 

@@ -8,6 +8,23 @@
 
 // #region module
 const docker = new Docker();
+
+
+export const findDockerImagene = async (
+    name: string,
+) => {
+    const images = await docker.listImages();
+
+    for (const image of images) {
+        for (const repoTag of image.RepoTags) {
+            if (repoTag.startsWith(name)) {
+                return image;
+            }
+        }
+    }
+
+    return;
+}
 // #endregion module
 
 
