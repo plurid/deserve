@@ -22,7 +22,7 @@ const getFunctionArguments = async () => {
             return;
         }
 
-        return response.data;
+        return JSON.parse(response.data.value);
     } catch (error) {
         return;
     }
