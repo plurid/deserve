@@ -41,7 +41,7 @@ export interface FunctionOwnProperties {
 export interface FunctionStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    // stateFunctions: Record<string, any[] | undefined>;
+    stateFunctions: Record<string, any[] | undefined>;
 }
 
 export interface FunctionDispatchProperties {
@@ -65,23 +65,44 @@ const Function: React.FC<FunctionProperties> = (
         // #region state
         stateGeneralTheme,
         // stateInteractionTheme,
-        // stateFunctions,
+        stateFunctions,
         // #endregion state
     } = properties;
 
     const coreID = decodeURIComponent(plurid.plane.parameters.core || '');
     const functionID = decodeURIComponent(plurid.plane.parameters.id || '');
+
+    const coreStateFunctions = stateFunctions[coreID] || [];
+    const functionData = coreStateFunctions[functionID];
     // #endregion properties
 
 
     // #region render
+    if (!functionData) {
+        <StyledFunction
+            theme={stateGeneralTheme}
+        >
+            function not found
+        </StyledFunction>
+    }
+
+
+    const {
+        name,
+        text,
+    } = functionData;
+
     return (
         <StyledFunction
             theme={stateGeneralTheme}
         >
-            core {coreID}
-            <br />
-            function {functionID}
+            <div>
+                name {name}
+            </div>
+
+            <pre>
+                {text}
+            </pre>
         </StyledFunction>
     );
     // #endregion render
@@ -93,7 +114,7 @@ const mapStateToProperties = (
 ): FunctionStateProperties => ({
     stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateInteractionTheme: selectors.themes.getInteractionTheme(state),
-    // stateFunctions: selectors.data.getFunctions(state),
+    stateFunctions: selectors.data.getFunctions(state),
 });
 
 
