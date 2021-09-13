@@ -118,6 +118,7 @@ export interface StoredFunction {
     database: string | string[];
     storage: string | string[];
     externals: Record<string, string>[];
+    addins: Record<string, any>[];
     sha: string;
     storedAt: number;
     ownedBy: string;

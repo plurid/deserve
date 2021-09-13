@@ -150,7 +150,8 @@ export const types = gql`
         text: String!
         database: String!
         storage: String!
-        externals: [String!]!
+        externals: String
+        addins: String
     }
 
     type ResponseRunFunction {
