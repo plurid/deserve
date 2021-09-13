@@ -162,7 +162,7 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
             ),
         );
     }, [
-        stateFunctions.length,
+        coreStateFunctions.length,
     ])
     // #endregion effects
 
