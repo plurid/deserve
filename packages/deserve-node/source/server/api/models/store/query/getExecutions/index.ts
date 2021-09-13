@@ -56,7 +56,6 @@ const getExecutions = async (
                 functionID,
             },
         );
-        console.log('executionsData', executionsData);
 
         const clientExecutions: any[] = [];
 
@@ -84,7 +83,6 @@ const getExecutions = async (
             };
             clientExecutions.push(clientExecution);
         }
-        console.log('clientExecutions', clientExecutions);
 
 
         return {
