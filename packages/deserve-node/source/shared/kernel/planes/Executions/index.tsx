@@ -42,6 +42,11 @@
     import {
         StyledExecutions,
     } from './styled';
+
+    import {
+        executionRowRenderer,
+        createSearchTerms,
+    } from './logic';
     // #endregion internal
 // #endregion imports
 
@@ -55,7 +60,7 @@ export interface ExecutionsOwnProperties {
 export interface ExecutionsStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    // stateExecutions: Record<string, any[] | undefined>;
+    stateExecutions: Record<string, any[] | undefined>;
 }
 
 export interface ExecutionsDispatchProperties {
@@ -80,7 +85,7 @@ const Executions: React.FC<ExecutionsProperties> = (
         // #region state
         stateGeneralTheme,
         stateInteractionTheme,
-        // stateExecutions,
+        stateExecutions,
         // #endregion state
 
         // #region dispatch
@@ -94,6 +99,9 @@ const Executions: React.FC<ExecutionsProperties> = (
 
     const coreID = decodeURIComponent(parameters.core || '');
     const functionID = decodeURIComponent(parameters.function || '');
+
+    const coreStateExecutions = stateExecutions[coreID] || [];
+    const functionExecutions = coreStateExecutions.filter(coreStateExecution=> coreStateExecution.functionID === functionID);
     // #endregion properties
 
 
@@ -102,7 +110,12 @@ const Executions: React.FC<ExecutionsProperties> = (
         filteredRows,
         setFilteredRows,
     ] = useState(
-        [],
+        functionExecutions.map(
+            fn => executionRowRenderer(
+                fn,
+                stateGeneralTheme,
+            ),
+        ),
     );
     // #endregion state
 
@@ -149,6 +162,22 @@ const Executions: React.FC<ExecutionsProperties> = (
 
         load();
     }, []);
+
+    useEffect(() => {
+        const coreStateExecutions = stateExecutions[coreID] || [];
+        const functionExecutions = coreStateExecutions.filter(coreStateExecution=> coreStateExecution.functionID === functionID);
+
+        setFilteredRows(
+            functionExecutions.map(
+                fn => executionRowRenderer(
+                    fn,
+                    stateGeneralTheme,
+                ),
+            ),
+        );
+    }, [
+        coreStateExecutions.length,
+    ]);
     // #endregion effects
 
 
@@ -157,6 +186,22 @@ const Executions: React.FC<ExecutionsProperties> = (
         <>
             <div>
                 executed at
+            </div>
+
+            <div>
+                duration
+            </div>
+
+            <div>
+                arguments
+            </div>
+
+            <div>
+                result
+            </div>
+
+            <div>
+                error
             </div>
 
             <div />
@@ -171,7 +216,7 @@ const Executions: React.FC<ExecutionsProperties> = (
                 generalTheme={stateGeneralTheme}
                 interactionTheme={stateInteractionTheme}
 
-                rowTemplate="auto 30px"
+                rowTemplate="1fr 1fr 1fr 1fr 1fr 30px"
                 rowsHeader={rowsHeader}
                 rows={filteredRows}
                 noRows="no executions"
@@ -191,7 +236,7 @@ const mapStateToProperties = (
 ): ExecutionsStateProperties => ({
     stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateInteractionTheme: selectors.themes.getInteractionTheme(state),
-    // stateExecutions: selectors.data.getExecutions(state),
+    stateExecutions: selectors.data.getExecutions(state),
 });
 
 

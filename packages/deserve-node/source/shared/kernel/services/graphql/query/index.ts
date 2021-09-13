@@ -109,6 +109,8 @@ const GET_EXECUTIONS = gql`
             data {
                 id
                 result
+                arguments
+                error
                 startedAt
                 finishedAt
                 coreID
