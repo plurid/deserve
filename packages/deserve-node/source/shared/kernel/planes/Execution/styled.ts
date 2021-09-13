@@ -17,10 +17,6 @@ export interface IStyledExecution {
 
 export const StyledExecution = styled.div<IStyledExecution>`
     padding: 2rem;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 1rem;
-    word-break: break-all;
     font-family: ${
         ({
             theme,

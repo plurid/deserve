@@ -1,6 +1,8 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useState,
+    } from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -17,6 +19,8 @@
 
 
     // #region external
+    import EntityView from '~kernel-components/EntityView';
+
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
@@ -64,7 +68,7 @@ const Executions: React.FC<ExecutionsProperties> = (
 
         // #region state
         stateGeneralTheme,
-        // stateInteractionTheme,
+        stateInteractionTheme,
         // stateExecutions,
         // #endregion state
     } = properties;
@@ -78,12 +82,52 @@ const Executions: React.FC<ExecutionsProperties> = (
     // #endregion properties
 
 
+    // #region state
+    const [
+        filteredRows,
+        setFilteredRows,
+    ] = useState(
+        [],
+    );
+    // #endregion state
+
+
+    // #region handlers
+    const filterUpdate = (
+        rawValue: string,
+    ) => {
+    }
+    // #endregion handlers
+
+
     // #region render
+    const rowsHeader = (
+        <>
+            <div>
+                executed at
+            </div>
+
+            <div />
+        </>
+    );
+
     return (
         <StyledExecutions
             theme={stateGeneralTheme}
         >
+            <EntityView
+                generalTheme={stateGeneralTheme}
+                interactionTheme={stateInteractionTheme}
 
+                rowTemplate="auto 30px"
+                rowsHeader={rowsHeader}
+                rows={filteredRows}
+                noRows="no executions"
+
+                filterUpdate={filterUpdate}
+                refresh={() => {
+                }}
+            />
         </StyledExecutions>
     );
     // #endregion render

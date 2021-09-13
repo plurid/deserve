@@ -175,6 +175,8 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
             </div>
 
             <div />
+
+            <div />
         </>
     );
 
@@ -183,7 +185,7 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
             generalTheme={stateGeneralTheme}
             interactionTheme={stateInteractionTheme}
 
-            rowTemplate="auto 30px"
+            rowTemplate="auto 30px 30px"
             rowsHeader={rowsHeader}
             rows={filteredRows}
             noRows="no functions"

@@ -11,29 +11,10 @@
     } from '@plurid/plurid-react';
 
     import {
-        PluridIconCopy,
+        PluridIconPlay,
         PluridIconInfo,
     } from '@plurid/plurid-icons-react';
-
-    import {
-        clipboard,
-    } from '@plurid/plurid-functions';
     // #endregion libraries
-
-
-    // #region external
-    import {
-        ClientCore,
-    } from '~server/data/interfaces';
-
-    import {
-        PluridSwitch,
-    } from '~kernel-services/styled';
-
-    import {
-        cleanDomainName,
-    } from '~kernel-services/utilities';
-    // #endregion external
 // #endregion imports
 
 
@@ -49,13 +30,26 @@ export const functionRowRenderer = (
         name,
     } = fn;
 
-    const functionRoute = `/function/${encodeURIComponent(coreID)}/${encodeURIComponent(id)}`;
+    const encodedCoreID = encodeURIComponent(coreID);
+    const encodedID = encodeURIComponent(id);
+
+    const executionsRoute = `/executions/${encodedCoreID}/${encodedID}`;
+    const functionRoute = `/function/${encodedCoreID}/${encodedID}`;
 
     return (
         <>
             <div>
                 {name}
             </div>
+
+            <PluridLink
+                route={executionsRoute}
+                devisible={true}
+            >
+                <PluridIconPlay
+                    theme={theme}
+                />
+            </PluridLink>
 
             <PluridLink
                 route={functionRoute}
