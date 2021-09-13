@@ -17,6 +17,8 @@
     // #region external
     import {
         StoredFunction,
+        Token,
+        TokenAuthorization,
     } from '~server/data/interfaces';
 
     import {
@@ -249,10 +251,7 @@ export const prepareFunctioner = async (
 
 export const generateToken = async (
     functionID: string,
-    authorization: {
-        type: 'database' | 'storage' | 'event',
-        constraints?: string | string[],
-    },
+    authorization: TokenAuthorization,
 ) => {
     const deserveTokensCollection = await getDeserveTokensCollection();
     if (!deserveTokensCollection) {
@@ -263,7 +262,7 @@ export const generateToken = async (
     const id = uuid.multiple(3);
     const value = uuid.multiple(4);
 
-    const token = {
+    const token: Token = {
         id,
         value,
         functionID,

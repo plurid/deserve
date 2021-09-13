@@ -123,4 +123,18 @@ export interface StoredFunction {
     storedAt: number;
     ownedBy: string;
 }
+
+
+
+export interface Token {
+    id: string;
+    value: string;
+    functionID: string;
+    authorization: TokenAuthorization;
+}
+
+export interface TokenAuthorization {
+    type: 'database' | 'storage' | 'event';
+    constraints?: string | string[];
+}
 // #endregion module

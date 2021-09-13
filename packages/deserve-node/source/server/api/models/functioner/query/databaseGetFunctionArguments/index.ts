@@ -7,6 +7,7 @@
     // #region external
     import {
         Context,
+        Token,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -32,16 +33,20 @@ const databaseGetFunctionArguments = async (
         }
 
 
-        const token = await database.getBy<any>(
+        const token = await database.getBy<Token>(
             collections.tokens,
             'value',
             functioner,
         );
-        if (!token) {
+        if (
+            !token
+            || token.authorization.type !== 'database'
+        ) {
             return {
                 status: false,
             };
         }
+
 
         const functionArgumentsData = await database.getById<any>(
             collections.functionsArguments,
@@ -52,6 +57,7 @@ const databaseGetFunctionArguments = async (
                 status: false,
             };
         }
+
 
         delog({
             text: 'databaseGetFunctionArguments success',

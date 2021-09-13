@@ -8,6 +8,7 @@
     import {
         Context,
         InputFunctionerDatabaseQuery,
+        Token,
         Response,
     } from '~server/data/interfaces';
 
@@ -34,12 +35,15 @@ const databaseQuery = async (
         }
 
 
-        const token = await database.getBy<any>(
+        const token = await database.getBy<Token>(
             collections.tokens,
             'value',
             functioner,
         );
-        if (!token) {
+        if (
+            !token
+            || token.authorization.type !== 'database'
+        ) {
             return {
                 status: false,
             };

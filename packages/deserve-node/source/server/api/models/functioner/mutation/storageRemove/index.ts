@@ -8,6 +8,7 @@
     import {
         Context,
         InputFunctionerStorageRemove,
+        Token,
         Response,
     } from '~server/data/interfaces';
 
@@ -39,7 +40,10 @@ const storageRemove = async (
             'value',
             functioner,
         );
-        if (!token) {
+        if (
+            !token
+            || token.authorization.type !== 'storage'
+        ) {
             return {
                 status: false,
             };

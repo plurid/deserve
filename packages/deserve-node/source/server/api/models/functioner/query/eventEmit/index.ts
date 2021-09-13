@@ -8,6 +8,7 @@
     import {
         Context,
         InputFunctionerEventEmit,
+        Token,
         Response,
     } from '~server/data/interfaces';
 
@@ -34,12 +35,15 @@ const eventEmit = async (
         }
 
 
-        const token = await database.getBy<any>(
+        const token = await database.getBy<Token>(
             collections.tokens,
             'value',
             functioner,
         );
-        if (!token) {
+        if (
+            !token
+            || token.authorization.type !== 'event'
+        ) {
             return {
                 status: false,
             };
