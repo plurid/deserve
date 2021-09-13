@@ -128,9 +128,7 @@ export const writeFunctioner = async (
     const {
         id: functionID,
         database: databaseConstraints,
-        storage: storageConstraints,
     } = functionData;
-
 
     const databaseToken = await generateToken(
         functionData.ownedBy,
@@ -140,25 +138,6 @@ export const writeFunctioner = async (
             constraints: databaseConstraints,
         },
         deserveTokensCollection,
-    )
-
-    const storageToken = await generateToken(
-        functionData.ownedBy,
-        functionID,
-        {
-            type: 'storage',
-            constraints: storageConstraints,
-        },
-        deserveTokensCollection,
-    )
-
-    const eventToken = await generateToken(
-        functionData.ownedBy,
-        functionID,
-        {
-            type: 'event',
-        },
-        deserveTokensCollection,
     );
 
 
@@ -166,9 +145,6 @@ export const writeFunctioner = async (
     const functioner = {
         id,
         functionID,
-        database: databaseToken.value,
-        storage: storageToken.value,
-        event: eventToken.value,
         ownedBy: functionData.ownedBy,
     };
 
@@ -178,19 +154,33 @@ export const writeFunctioner = async (
         functioner,
     );
 
-    return functioner;
+
+    return {
+        functioner,
+        databaseToken,
+    };
 }
 
 
 export const prepareFunctioner = async (
     functionData: StoredFunction,
 ) => {
-    const functioner = await writeFunctioner(
-        functionData,
-    );
-    if (!functioner) {
+    const deserveTokensCollection = await getDeserveTokensCollection();
+    if (!deserveTokensCollection) {
         return false;
     }
+
+    const functionerData = await writeFunctioner(
+        functionData,
+    );
+    if (!functionerData) {
+        return false;
+    }
+
+    const {
+        functioner,
+        databaseToken,
+    } = functionerData;
 
     const {
         language,
@@ -200,8 +190,6 @@ export const prepareFunctioner = async (
 
     // create imagene based on functionData and functioner
     const imageneName = `functioner-${ownedBy}-${uuid.generate()}`;
-
-    const databaseToken = functioner.database;
 
     // docker run - obtain container with custom function data
     //              from deserve-functioner-language
@@ -217,11 +205,13 @@ export const prepareFunctioner = async (
                 },
                 Env: [
                     `DESERVE_DATABASE_ENDPOINT=${FUNCTIONER_DATABASE_ENDPOINT}`,
-                    `DESERVE_DATABASE_TOKEN=${databaseToken}`,
+                    `DESERVE_DATABASE_TOKEN=${databaseToken.value}`,
                 ],
             },
             (error: any, data: any, container: Container) => {
                 if (error) {
+                    // cleanup
+
                     reject(error);
                     return;
                 }
@@ -232,11 +222,18 @@ export const prepareFunctioner = async (
                     },
                     async (error, result) => {
                         if (error) {
+                            // cleanup
+
                             reject(error);
                             return;
                         }
 
                         await container.remove();
+
+                        database.deleteDocument(
+                            deserveTokensCollection,
+                            databaseToken.id,
+                        );
 
                         resolve(true);
                     },
@@ -246,7 +243,6 @@ export const prepareFunctioner = async (
     });
 
 
-    // save imageneName to database
     const deserveFunctionersCollection = await getDeserveFunctionersCollection();
     if (!deserveFunctionersCollection) {
         return;
@@ -259,6 +255,7 @@ export const prepareFunctioner = async (
             imageneName,
         },
     );
+
 
     return true;
 }
