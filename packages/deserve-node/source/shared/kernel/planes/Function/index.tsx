@@ -69,8 +69,8 @@ const Function: React.FC<FunctionProperties> = (
         // #endregion state
     } = properties;
 
-    const coreID = plurid.plane.parameters.core;
-    const functionID = plurid.plane.parameters.id;
+    const coreID = decodeURIComponent(plurid.plane.parameters.core || '');
+    const functionID = decodeURIComponent(plurid.plane.parameters.id || '');
     // #endregion properties
 
 

@@ -12,6 +12,10 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
+
+    import {
+        graphql,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -120,14 +124,13 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
                         input: {},
                     },
                 });
-                console.log('query', query);
 
                 const request = query.data.getFunctions;
                 if (!request.status) {
                     return;
                 }
 
-                for (const data of request.data) {
+                for (const data of graphql.deleteTypenames(request.data)) {
                     dispatchAddEntity({
                         type: 'function',
                         data: {
@@ -142,6 +145,19 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
 
         load();
     }, []);
+
+    useEffect(() => {
+        setFilteredRows(
+            stateFunctions.map(
+                fn => functionRowRenderer(
+                    fn,
+                    stateGeneralTheme,
+                ),
+            ),
+        );
+    }, [
+        stateFunctions.length,
+    ])
     // #endregion effects
 
 

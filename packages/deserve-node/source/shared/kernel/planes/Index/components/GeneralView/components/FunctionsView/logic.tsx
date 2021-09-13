@@ -49,7 +49,7 @@ export const functionRowRenderer = (
         name,
     } = fn;
 
-    const functionRoute = `/function/${coreID}/${id}`;
+    const functionRoute = `/function/${encodeURIComponent(coreID)}/${encodeURIComponent(id)}`;
 
     return (
         <>
