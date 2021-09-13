@@ -165,9 +165,7 @@ export const pushData = (
         data,
     } = action.payload;
 
-    const newState = {
-        ...state,
-    };
+    const newState: Types.State = JSON.parse(JSON.stringify(state));
 
     const coreData = newState[type][coreID] || [];
     const newCoreData = [
@@ -190,9 +188,7 @@ export const removeData = (
         id,
     } = action.payload;
 
-    const newState = {
-        ...state,
-    };
+    const newState: Types.State = JSON.parse(JSON.stringify(state));
 
     const coreData = newState[type][coreID] || [];
     const newCoreData = coreData.filter(core => core.id !== id);

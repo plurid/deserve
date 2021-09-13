@@ -181,6 +181,12 @@ const Executions: React.FC<ExecutionsProperties> = (
     useEffect(() => {
         loadExecutions();
     }, []);
+
+    useEffect(() => {
+        renderRows(stateExecutions);
+    }, [
+        JSON.stringify(stateExecutions),
+    ]);
     // #endregion effects
 
 
