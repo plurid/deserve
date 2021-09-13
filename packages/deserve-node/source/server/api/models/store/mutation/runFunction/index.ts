@@ -168,8 +168,14 @@ export const executeFunction = async (
             return;
         }
 
+        const result = typeof resultData.result === 'string'
+            ? resultData.result
+            : JSON.stringify(
+                resultData.result,
+                (_, value) => typeof value === 'undefined' ? null : value,
+            );
 
-        return resultData.result;
+        return result
     } catch (error) {
         return;
     }
