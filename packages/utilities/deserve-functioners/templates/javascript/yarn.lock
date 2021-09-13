@@ -25,10 +25,10 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@plurid/deserve-functioner-database@0.0.0-2":
-  version "0.0.0-2"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-database/-/deserve-functioner-database-0.0.0-2.tgz#3c50cfaefbc4e48dcb8679c430e15b5b162fe336"
-  integrity sha512-wbqeTQlKm46BuOOEi5nykvqOmM3xnVGaV2uycAbNs8E8Im/mDi7fHhl/4rZERcmCnZsTSqNljfMb60qHqo8waQ==
+"@plurid/deserve-functioner-database@0.0.0-3":
+  version "0.0.0-3"
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-database/-/deserve-functioner-database-0.0.0-3.tgz#8946a4a034320c29f411f445e332d1c389551e42"
+  integrity sha512-zdpjrKAv0blcgE4eCDDBvgwnse5KhikdQ/zNuiQHbdHrqMeI0+J67Hq9RJMYu9+CGJbLRQzqNziyYJUENKSfPw==
 
 "@plurid/deserve-functioner-event@0.0.0-1":
   version "0.0.0-1"
