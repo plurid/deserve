@@ -163,8 +163,6 @@ const Executions: React.FC<ExecutionsProperties> = (
                     coreID: data[0].coreID,
                     data,
                 });
-
-                renderRows(data);
             }
         } catch (error) {
             return;
