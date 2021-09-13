@@ -14,6 +14,8 @@
     import BlobPlane from '~kernel-planes/Blob';
     import KeyPlane from '~kernel-planes/Key';
     import FunctionPlane from '~kernel-planes/Function';
+    import ExecutionsPlane from '~kernel-planes/Executions';
+    import ExecutionPlane from '~kernel-planes/Execution';
     import NotFoundPlane from '~kernel-planes/NotFound';
 
     import Head from '~kernel-components/Head';
@@ -48,6 +50,14 @@ const indexRoute: PluridReactRoute = {
         {
             value: '/function/:core/:id',
             component: FunctionPlane,
+        },
+        {
+            value: '/executions/:core/:function',
+            component: ExecutionsPlane,
+        },
+        {
+            value: '/execution/:core/:function/:id',
+            component: ExecutionPlane,
         },
     ],
     view: [
