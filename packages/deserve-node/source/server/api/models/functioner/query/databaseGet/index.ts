@@ -55,6 +55,11 @@ const databaseGet = async (
         }
 
 
+        const {
+            id,
+        } = input;
+
+
         delog({
             text: 'databaseGet success',
             level: 'trace',

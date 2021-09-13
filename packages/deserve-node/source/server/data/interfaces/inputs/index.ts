@@ -142,7 +142,8 @@ export interface InputFunctionerDatabaseQuery {
 
 
 export interface InputFunctionerEventEmit {
-    data: string;
+    type: string;
+    data?: string;
 }
 
 

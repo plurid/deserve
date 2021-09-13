@@ -55,22 +55,6 @@ const databaseSet = async (
             id,
         } = input;
 
-        if (id === '__deserve-function-result__') {
-            const result = JSON.parse(data);
-
-            database.updateDocument(
-                collections.functionsResults,
-                token.functionID,
-                {
-                    ...result,
-                },
-            );
-
-            return {
-                status: true,
-            };
-        }
-
 
         delog({
             text: 'databaseSet success',

@@ -90,7 +90,8 @@ export const inputs = gql`
 
 
     input InputFunctionerEventEmit {
-        data: String!
+        type: String!
+        data: String
     }
 
 

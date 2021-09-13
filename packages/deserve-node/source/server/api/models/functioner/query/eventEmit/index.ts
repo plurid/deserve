@@ -51,8 +51,32 @@ const eventEmit = async (
 
 
         const {
+            type,
             data,
         } = input;
+
+
+        if (type === 'deserve-function-result') {
+            if (!data) {
+                return {
+                    status: false,
+                };
+            }
+
+            const result = JSON.parse(data);
+
+            database.updateDocument(
+                collections.functionsResults,
+                token.functionID,
+                {
+                    ...result,
+                },
+            );
+
+            return {
+                status: true,
+            };
+        }
 
 
         delog({
