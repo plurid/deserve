@@ -100,6 +100,22 @@ const GET_FUNCTIONS = gql`
         }
     }
 `;
+
+
+const GET_EXECUTIONS = gql`
+    query GetExecutions($input: InputGetExecutions!) {
+        getExecutions(input: $input) {
+            status
+            data {
+                id
+                executedAt
+                result
+                coreID
+                functionID
+            }
+        }
+    }
+`;
 // #endregion module
 
 
@@ -111,5 +127,6 @@ export {
     QUERY_BLOBS,
     QUERY_KEYS,
     GET_FUNCTIONS,
+    GET_EXECUTIONS,
 };
 // #endregion exports
