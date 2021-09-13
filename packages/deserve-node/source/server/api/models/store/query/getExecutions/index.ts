@@ -56,6 +56,7 @@ const getExecutions = async (
                 functionID,
             },
         );
+        console.log('executionsData', executionsData);
 
         const clientExecutions: any[] = [];
 
@@ -63,6 +64,8 @@ const getExecutions = async (
             const {
                 id,
                 result,
+                arguments: args,
+                error,
                 startedAt,
                 finishedAt,
                 functionID,
@@ -72,6 +75,8 @@ const getExecutions = async (
             const clientExecution = {
                 id,
                 result,
+                arguments: typeof args === 'string' ? args : JSON.stringify(args),
+                error,
                 startedAt,
                 finishedAt,
                 functionID,
@@ -79,6 +84,7 @@ const getExecutions = async (
             };
             clientExecutions.push(clientExecution);
         }
+        console.log('clientExecutions', clientExecutions);
 
 
         return {
