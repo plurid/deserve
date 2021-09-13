@@ -62,9 +62,15 @@ export interface ClearDataAction {
 }
 
 
+export type RecordDataType =
+    | 'blobs'
+    | 'keys'
+    | 'functions'
+    | 'executions';
+
 export const PUSH_DATA = 'PUSH_DATA';
 export interface PushDataPayload {
-    type: 'blobs' | 'keys' | 'functions';
+    type: RecordDataType;
     coreID: string;
     data: any;
 }
@@ -76,7 +82,7 @@ export interface PushDataAction {
 
 export const REMOVE_DATA = 'REMOVE_DATA';
 export interface RemoveDataPayload {
-    type: 'blobs' | 'keys' | 'functions';
+    type: RecordDataType;
     coreID: string;
     id: string;
 }
@@ -92,6 +98,7 @@ export interface State {
     blobs: Record<string, any[] | undefined>;
     keys: Record<string, any[] | undefined>;
     functions: Record<string, any[] | undefined>;
+    executions: Record<string, any[] | undefined>;
 }
 
 
