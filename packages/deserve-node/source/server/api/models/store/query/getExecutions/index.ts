@@ -74,7 +74,7 @@ const getExecutions = async (
 
             const clientExecution = {
                 id,
-                result,
+                result: typeof result === 'string' ? result : JSON.stringify(result),
                 arguments: typeof args === 'string' ? args : JSON.stringify(args),
                 error,
                 startedAt,
