@@ -49,8 +49,9 @@ const getFunctions = async (
 
         const functionsData = await database.getAllWhere<StoredFunction>(
             collections.functions,
-            'ownedBy',
-            ownerID,
+            {
+                ownedBy: ownerID,
+            },
         );
 
         const clientFunctions: any[] = [];
