@@ -89,6 +89,7 @@ const GET_FUNCTIONS = gql`
                 id
                 name
                 text
+                language
                 database
                 storage
                 externals

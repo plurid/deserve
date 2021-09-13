@@ -61,24 +61,26 @@ const getFunctions = async (
                 id,
                 name,
                 text,
-                coreID,
+                language,
                 database,
                 storage,
                 externals,
                 addins,
                 storedAt,
+                coreID,
             } = functionData;
 
             const clientFunction = {
                 id,
                 name,
                 text,
-                coreID,
+                language,
                 database: typeof database === 'string' ? database : JSON.stringify(database),
                 storage: typeof storage === 'string' ? storage : JSON.stringify(storage),
                 externals: JSON.stringify(externals),
                 addins: JSON.stringify(addins),
                 storedAt,
+                coreID,
             };
             clientFunctions.push(clientFunction);
         }
