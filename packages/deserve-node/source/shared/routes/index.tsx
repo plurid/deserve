@@ -13,6 +13,7 @@
     import CorePlane from '~kernel-planes/Core';
     import BlobPlane from '~kernel-planes/Blob';
     import KeyPlane from '~kernel-planes/Key';
+    import FunctionPlane from '~kernel-planes/Function';
     import NotFoundPlane from '~kernel-planes/NotFound';
 
     import Head from '~kernel-components/Head';
@@ -43,6 +44,10 @@ const indexRoute: PluridReactRoute = {
         {
             value: '/key/:core/:id',
             component: KeyPlane,
+        },
+        {
+            value: '/function/:core/:id',
+            component: FunctionPlane,
         },
     ],
     view: [

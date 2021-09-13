@@ -9,6 +9,10 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
+
+    import {
+        PluridLink,
+    } from '@plurid/plurid-react';
     // #endregion libraries
 
 
@@ -83,7 +87,21 @@ const FunctionsView: React.FC<FunctionsViewProperties> = (
 
     return (
         <div>
+            {/* {stateFunctions.map(stateFunction => {
+                const {
+                    coreID,
+                    id,
+                    name
+                } = stateFunction;
 
+                return (
+                    <PluridLink
+                        route={`/function/${coreID}/${id}`}
+                    >
+                        {name}
+                    </PluridLink>
+                );
+            })} */}
         </div>
     );
     // #endregion render
