@@ -31,8 +31,8 @@ const main = async () => {
     const finishedAt = Date.now();
 
 
-    await database.set(
-        '__deserve-function-result__',
+    await event.emit(
+        'deserve-function-result',
         {
             startedAt,
             finishedAt,
