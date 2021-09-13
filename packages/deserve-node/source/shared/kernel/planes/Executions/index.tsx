@@ -2,6 +2,7 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import { AnyAction } from 'redux';
@@ -15,6 +16,10 @@
     import {
         PluridPlaneComponentProperty,
     } from '@plurid/plurid-react';
+
+    import {
+        graphql,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -24,7 +29,12 @@
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
-    // import actions from '~kernel-services/state/actions';
+    import actions from '~kernel-services/state/actions';
+
+    import client from '~kernel-services/graphql/client';
+    import {
+        GET_EXECUTIONS,
+    } from '~kernel-services/graphql/query';
     // #endregion external
 
 
@@ -49,6 +59,7 @@ export interface ExecutionsStateProperties {
 }
 
 export interface ExecutionsDispatchProperties {
+    dispatchPushData: typeof actions.data.pushData;
 }
 
 export type ExecutionsProperties =
@@ -71,6 +82,10 @@ const Executions: React.FC<ExecutionsProperties> = (
         stateInteractionTheme,
         // stateExecutions,
         // #endregion state
+
+        // #region dispatch
+        dispatchPushData,
+        // #endregion dispatch
     } = properties;
 
     const {
@@ -98,6 +113,43 @@ const Executions: React.FC<ExecutionsProperties> = (
     ) => {
     }
     // #endregion handlers
+
+
+    // #region effects
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const query = await client.query({
+                    query: GET_EXECUTIONS,
+                    variables: {
+                        input: {
+                            functionID,
+                        },
+                    },
+                });
+                console.log('query', query);
+
+                const request = query.data.getExecutions;
+                if (!request.status) {
+                    return;
+                }
+
+                const data = graphql.deleteTypenames(request.data);
+                if (data.length > 0) {
+                    dispatchPushData({
+                        type: 'executions',
+                        coreID: data[0].coreID,
+                        data,
+                    });
+                }
+            } catch (error) {
+                return;
+            }
+        }
+
+        load();
+    }, []);
+    // #endregion effects
 
 
     // #region render
@@ -146,6 +198,11 @@ const mapStateToProperties = (
 const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): ExecutionsDispatchProperties => ({
+    dispatchPushData: (
+        payload,
+    ) => dispatch(
+        actions.data.pushData(payload),
+    ),
 });
 
 
