@@ -4,8 +4,6 @@
     import databaseQuery from './databaseQuery';
     import databaseGetFunctionArguments from './databaseGetFunctionArguments';
     import databaseGetFunctionData from './databaseGetFunctionData';
-
-    import eventEmit from './eventEmit';
     // #endregion internal
 // #endregion imports
 
@@ -17,7 +15,5 @@ export default {
     databaseQuery,
     databaseGetFunctionArguments,
     databaseGetFunctionData,
-
-    eventEmit,
 };
 // #endregion exports

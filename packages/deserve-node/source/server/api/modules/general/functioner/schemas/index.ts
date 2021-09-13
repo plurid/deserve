@@ -13,8 +13,6 @@ export const queries = gql`
         functionerDatabaseQuery(input: InputFunctionerDatabaseQuery!): ResponseFunctionerDatabaseQuery!
         functionerDatabaseGetFunctionArguments: ResponseFunctionerDatabaseGetFunctionArguments!
         functionerDatabaseGetFunctionData: ResponseFunctionerDatabaseGetFunctionData!
-
-        functionerEventEmit(input: InputFunctionerEventEmit!): Response!
     }
 `;
 
@@ -25,6 +23,8 @@ export const mutations = gql`
         functionerDatabaseRemove(input: InputFunctionerDatabaseRemove!): Response!
 
         functionerStorageRemove(input: InputFunctionerStorageRemove!): Response!
+
+        functionerEventEmit(input: InputFunctionerEventEmit!): Response!
     }
 `;
 

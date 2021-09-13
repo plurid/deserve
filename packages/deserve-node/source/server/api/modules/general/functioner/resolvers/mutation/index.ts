@@ -5,7 +5,10 @@
         InputOf,
         InputFunctionerDatabaseSet,
         InputFunctionerDatabaseRemove,
+
         InputFunctionerStorageRemove,
+
+        InputFunctionerEventEmit,
     } from '~server/data/interfaces';
 
     import {
@@ -41,6 +44,16 @@ export default {
         { input }: InputOf<InputFunctionerStorageRemove>,
         context: Context,
     ) => Functioner.Mutation.storageRemove(
+        input,
+        context,
+    ),
+
+
+    functionerEventEmit: (
+        _: any,
+        { input }: InputOf<InputFunctionerEventEmit>,
+        context: Context,
+    ) => Functioner.Mutation.eventEmit(
         input,
         context,
     ),

@@ -5,7 +5,6 @@
         InputOf,
         InputFunctionerDatabaseGet,
         InputFunctionerDatabaseQuery,
-        InputFunctionerEventEmit,
     } from '~server/data/interfaces';
 
     import {
@@ -47,16 +46,6 @@ export default {
         { input }: InputOf<any>,
         context: Context,
     ) => Functioner.Query.databaseGetFunctionData(
-        input,
-        context,
-    ),
-
-
-    functionerEventEmit: (
-        _: any,
-        { input }: InputOf<InputFunctionerEventEmit>,
-        context: Context,
-    ) => Functioner.Query.eventEmit(
         input,
         context,
     ),

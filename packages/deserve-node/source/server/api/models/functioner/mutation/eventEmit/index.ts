@@ -28,6 +28,8 @@ const eventEmit = async (
             collections,
             functioner,
         } = context;
+        console.log('eventEmit input', input);
+        console.log('functioner', functioner);
         if (!functioner) {
             return {
                 status: false,
@@ -40,6 +42,7 @@ const eventEmit = async (
             'value',
             functioner,
         );
+        console.log('token', token);
         if (
             !token
             || token.authorization.type !== 'event'

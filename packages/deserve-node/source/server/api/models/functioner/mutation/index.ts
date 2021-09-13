@@ -4,6 +4,8 @@
     import databaseRemove from './databaseRemove';
 
     import storageRemove from './storageRemove';
+
+    import eventEmit from './eventEmit';
     // #endregion internal
 // #endregion imports
 
@@ -15,5 +17,7 @@ export default {
     databaseRemove,
 
     storageRemove,
+
+    eventEmit,
 };
 // #endregion exports
