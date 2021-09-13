@@ -150,6 +150,7 @@ export const types = gql`
         text: String!
         database: String!
         storage: String!
+        coreID: String!
         externals: String
         addins: String
     }

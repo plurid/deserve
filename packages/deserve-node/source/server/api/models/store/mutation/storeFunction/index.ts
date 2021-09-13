@@ -103,7 +103,7 @@ const storeFunction = async (
         const validExternals = dataToObjectOrEmpty(functionExternals || '');
         const validAddins = dataToObjectOrEmpty(functionAddins || '');
 
-        const databaseFunctionData = {
+        const databaseFunctionData: Omit<StoredFunction, 'id'> = {
             name: functionName,
             text: functionText,
             language: normalizedLanguage,
@@ -114,6 +114,7 @@ const storeFunction = async (
             sha: functionSHA,
             storedAt,
             ownedBy: ownerID,
+            coreID: core.id,
         };
 
         const stored = await database.updateDocument(

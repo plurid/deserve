@@ -122,6 +122,7 @@ export interface StoredFunction {
     sha: string;
     storedAt: number;
     ownedBy: string;
+    coreID: string;
 }
 
 
