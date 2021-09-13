@@ -7,7 +7,7 @@
     // #region external
     import {
         Context,
-
+        InputFunctionerDatabaseGet,
         Response,
     } from '~server/data/interfaces';
 
@@ -19,7 +19,7 @@
 
 // #region module
 const databaseGet = async (
-    input: any,
+    input: InputFunctionerDatabaseGet,
     context: Context,
 ): Promise<Response> => {
     try {
@@ -27,7 +27,6 @@ const databaseGet = async (
             functioner,
             collections,
         } = context;
-
         if (!functioner) {
             delog({
                 text: 'databaseGet no functioner',
@@ -45,8 +44,11 @@ const databaseGet = async (
             'value',
             functioner,
         );
-
-        // based on the token access the database
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
 
 
         delog({

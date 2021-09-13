@@ -7,7 +7,7 @@
     // #region external
     import {
         Context,
-
+        InputFunctionerEventEmit,
         Response,
     } from '~server/data/interfaces';
 
@@ -19,10 +19,38 @@
 
 // #region module
 const eventEmit = async (
-    input: any,
+    input: InputFunctionerEventEmit,
     context: Context,
 ): Promise<Response> => {
     try {
+        const {
+            collections,
+            functioner,
+        } = context;
+        if (!functioner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            data,
+        } = input;
+
+
         delog({
             text: 'eventEmit success',
             level: 'trace',

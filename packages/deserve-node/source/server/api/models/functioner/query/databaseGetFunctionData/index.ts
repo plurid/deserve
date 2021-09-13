@@ -7,8 +7,6 @@
     // #region external
     import {
         Context,
-
-        Response,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
@@ -19,7 +17,7 @@
 
 // #region module
 const databaseGetFunctionData = async (
-    input: any,
+    _: any,
     context: Context,
 ): Promise<any> => {
     try {
@@ -27,7 +25,6 @@ const databaseGetFunctionData = async (
             functioner,
             collections,
         } = context;
-
         if (!functioner) {
             return {
                 status: false,
@@ -45,6 +42,7 @@ const databaseGetFunctionData = async (
                 status: false,
             };
         }
+
 
         const functionData = await database.getById<any>(
             collections.functions,

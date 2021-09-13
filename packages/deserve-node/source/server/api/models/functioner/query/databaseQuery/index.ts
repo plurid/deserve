@@ -7,7 +7,7 @@
     // #region external
     import {
         Context,
-
+        InputFunctionerDatabaseQuery,
         Response,
     } from '~server/data/interfaces';
 
@@ -19,10 +19,39 @@
 
 // #region module
 const databaseQuery = async (
-    input: any,
+    input: InputFunctionerDatabaseQuery,
     context: Context,
 ): Promise<Response> => {
     try {
+        const {
+            collections,
+            functioner,
+        } = context;
+        if (!functioner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            filter,
+            pagination,
+        } = input;
+
+
         delog({
             text: 'databaseQuery success',
             level: 'trace',

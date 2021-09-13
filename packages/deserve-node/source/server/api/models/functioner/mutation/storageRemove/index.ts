@@ -7,7 +7,7 @@
     // #region external
     import {
         Context,
-
+        InputFunctionerStorageRemove,
         Response,
     } from '~server/data/interfaces';
 
@@ -19,10 +19,38 @@
 
 // #region module
 const storageRemove = async (
-    input: any,
+    input: InputFunctionerStorageRemove,
     context: Context,
 ): Promise<Response> => {
     try {
+        const {
+            collections,
+            functioner,
+        } = context;
+        if (!functioner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            id,
+        } = input;
+
+
         delog({
             text: 'storageRemove success',
             level: 'trace',

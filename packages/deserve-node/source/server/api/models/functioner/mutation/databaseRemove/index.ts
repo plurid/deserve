@@ -7,7 +7,7 @@
     // #region external
     import {
         Context,
-
+        InputFunctionerDatabaseRemove,
         Response,
     } from '~server/data/interfaces';
 
@@ -19,10 +19,40 @@
 
 // #region module
 const databaseRemove = async (
-    input: any,
+    input: InputFunctionerDatabaseRemove,
     context: Context,
 ): Promise<Response> => {
     try {
+        const {
+            collections,
+            functioner,
+        } = context;
+        if (!functioner) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const token = await database.getBy<any>(
+            collections.tokens,
+            'value',
+            functioner,
+        );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
+
+
+        const {
+            id,
+        } = input;
+
+        // check token has access to the key with id
+
+
         delog({
             text: 'databaseRemove success',
             level: 'trace',

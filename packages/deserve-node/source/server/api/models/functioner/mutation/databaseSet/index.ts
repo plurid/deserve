@@ -24,15 +24,9 @@ const databaseSet = async (
 ): Promise<Response> => {
     try {
         const {
-            data,
-            id,
-        } = input;
-
-        const {
             functioner,
             collections,
         } = context;
-
         if (!functioner) {
             return {
                 status: false,
@@ -51,6 +45,11 @@ const databaseSet = async (
             };
         }
 
+
+        const {
+            data,
+            id,
+        } = input;
 
         if (id === '__deserve-function-result__') {
             const result = JSON.parse(data);
