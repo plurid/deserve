@@ -113,13 +113,21 @@ const Function: React.FC<FunctionProperties> = (
             </div>
 
             <div>
-                database {database}
+                <div>
+                    database {database}
+                </div>
 
-                storage {storage}
+                <div>
+                    storage {storage}
+                </div>
 
-                externals {externals}
+                <div>
+                    externals {externals}
+                </div>
 
-                addins {addins}
+                <div>
+                    addins {addins}
+                </div>
             </div>
 
             <pre>

@@ -93,6 +93,7 @@ const GET_FUNCTIONS = gql`
                 storage
                 externals
                 addins
+                storedAt
                 coreID
             }
         }
