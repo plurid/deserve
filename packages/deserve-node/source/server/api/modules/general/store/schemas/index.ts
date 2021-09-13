@@ -153,6 +153,7 @@ export const types = gql`
         coreID: String!
         externals: String
         addins: String
+        storedAt: Float!
     }
 
     type ResponseRunFunction {
