@@ -122,63 +122,67 @@ const Executions: React.FC<ExecutionsProperties> = (
 
 
     // #region handlers
+    const renderRows = (
+        stateExecutions: any,
+    ) => {
+        const coreStateExecutions = stateExecutions[coreID] || [];
+        const functionExecutions = coreStateExecutions
+            .filter((coreStateExecution: any) => coreStateExecution.functionID === functionID);
+
+        setFilteredRows(
+            functionExecutions.map(
+                (fn: any) => executionRowRenderer(
+                    fn,
+                    stateGeneralTheme,
+                ),
+            ),
+        );
+    }
+
+    const loadExecutions = async () => {
+        try {
+            const query = await client.query({
+                query: GET_EXECUTIONS,
+                variables: {
+                    input: {
+                        functionID,
+                    },
+                },
+                fetchPolicy: 'no-cache',
+            });
+
+            const request = query.data.getExecutions;
+            if (!request.status) {
+                return;
+            }
+
+            const data = graphql.deleteTypenames(request.data);
+            if (data.length > 0) {
+                dispatchPushData({
+                    type: 'executions',
+                    coreID: data[0].coreID,
+                    data,
+                });
+
+                renderRows(data);
+            }
+        } catch (error) {
+            return;
+        }
+    }
+
     const filterUpdate = (
         rawValue: string,
     ) => {
+        loadExecutions();
     }
     // #endregion handlers
 
 
     // #region effects
     useEffect(() => {
-        const load = async () => {
-            try {
-                const query = await client.query({
-                    query: GET_EXECUTIONS,
-                    variables: {
-                        input: {
-                            functionID,
-                        },
-                    },
-                });
-
-                const request = query.data.getExecutions;
-                if (!request.status) {
-                    return;
-                }
-
-                const data = graphql.deleteTypenames(request.data);
-                if (data.length > 0) {
-                    dispatchPushData({
-                        type: 'executions',
-                        coreID: data[0].coreID,
-                        data,
-                    });
-                }
-            } catch (error) {
-                return;
-            }
-        }
-
-        load();
+        loadExecutions();
     }, []);
-
-    useEffect(() => {
-        const coreStateExecutions = stateExecutions[coreID] || [];
-        const functionExecutions = coreStateExecutions
-            .filter(coreStateExecution=> coreStateExecution.functionID === functionID);
-
-        setFilteredRows(
-            functionExecutions.map(
-                fn => executionRowRenderer(
-                    fn,
-                    stateGeneralTheme,
-                ),
-            ),
-        );
-    }, [
-        JSON.stringify(stateExecutions),
-    ]);
     // #endregion effects
 
 
