@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useRef,
+        useState,
+        useEffect,
+    } from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -35,6 +39,7 @@
 export interface ViewOwnProperties {
     // #region required
         // #region values
+        view: string;
         text: string;
         // #endregion values
 
@@ -65,6 +70,7 @@ const View: React.FC<ViewProperties> = (
     const {
         // #region required
             // #region values
+            view,
             text,
             // #endregion values
 
@@ -81,16 +87,56 @@ const View: React.FC<ViewProperties> = (
     // #endregion properties
 
 
+    // #region references
+    const mounted = useRef(false);
+    // #endregion references
+
+
+    // #region state
+    const [
+        refreshEditor,
+        setRefreshEditor,
+    ] = useState(true);
+    // #endregion state
+
+
+    // #region effects
+    useEffect(() => {
+        mounted.current = true;
+
+        return () => {
+            mounted.current = false;
+        }
+    }, []);
+
+    useEffect(() => {
+        setRefreshEditor(refresh => !refresh);
+
+        setTimeout(() => {
+            if (!mounted.current) {
+                return;
+            }
+
+            setRefreshEditor(refresh => !refresh);
+        }, 10);
+    }, [
+        view,
+    ]);
+    // #endregion effects
+
+
     // #region render
     return (
         <StyledView
             theme={stateGeneralTheme}
         >
-            <Editor
-                value={text}
+            {refreshEditor && (
+                <Editor
+                    value={text}
 
-                atChange={atChange}
-            />
+                    atChange={atChange}
+                />
+            )}
         </StyledView>
     );
     // #endregion render

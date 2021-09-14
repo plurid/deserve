@@ -170,6 +170,7 @@ const Function: React.FC<FunctionProperties> = (
             />
 
             <View
+                view={view}
                 text={viewText}
 
                 atChange={handleViewTextChange}
