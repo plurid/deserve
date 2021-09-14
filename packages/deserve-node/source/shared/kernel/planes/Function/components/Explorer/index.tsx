@@ -13,6 +13,10 @@
 
 
     // #region external
+    import {
+        PluridPureButton,
+    } from '~kernel-services/styled';
+
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
@@ -23,6 +27,9 @@
     // #region internal
     import {
         StyledExplorer,
+        StyledLanguage,
+        StyledDate,
+        StyledButton,
     } from './styled';
     // #endregion internal
 // #endregion imports
@@ -116,53 +123,66 @@ const Explorer: React.FC<ExplorerProperties> = (
                         {name}
                     </div>
 
-                    <div>
+                    <StyledLanguage>
                         {language}
-                    </div>
+                    </StyledLanguage>
                 </div>
 
-                <div>
+                <StyledDate>
                     {new Date(storedAt).toLocaleString()}
-                </div>
+                </StyledDate>
             </div>
 
             <div>
-                <div
+                <StyledButton
                     onClick={() => changeView('function')}
+                    theme={stateGeneralTheme}
+                    selected={view === 'function'}
                 >
                     {functionName}
-                </div>
+                </StyledButton>
 
                 {/* addins map */}
 
-                <div
+                <StyledButton
                     onClick={() => newAddin()}
+                    theme={stateGeneralTheme}
                 >
                     +
-                </div>
+                </StyledButton>
             </div>
 
             <div>
                 {bottomButtons.map(button => {
                     return (
-                        <div
+                        <StyledButton
                             key={button + Math.random()}
                             onClick={() => changeView(button)}
+                            theme={stateGeneralTheme}
+                            selected={view === button}
                         >
                             {button}
-                        </div>
+                        </StyledButton>
                     );
                 })}
             </div>
 
             <div>
-                <div>
-                    Update
-                </div>
+                <PluridPureButton
+                    text="Update"
+                    atClick={() => {}}
+                    style={{
+                        margin: '0.7rem 0',
+                    }}
+                />
 
-                <div>
-                    Obliterate
-                </div>
+                <PluridPureButton
+                    text="Obliterate"
+                    atClick={() => {}}
+                    style={{
+                        margin: '0.7rem 0',
+                    }}
+                />
             </div>
         </StyledExplorer>
     );
