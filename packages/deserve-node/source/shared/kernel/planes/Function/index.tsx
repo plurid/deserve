@@ -122,12 +122,60 @@ const Function: React.FC<FunctionProperties> = (
     }
 
     const newAddin = () => {
+
+    }
+
+
+    const updateFunction = (
+        text: string,
+    ) => {
+
+    }
+
+    const updateExternals = (
+        text: string,
+    ) => {
+
+    }
+
+    const updateDatabase = (
+        text: string,
+    ) => {
+
+    }
+
+    const updateStorage = (
+        text: string,
+    ) => {
+
+    }
+
+    const updateAddin = (
+        text: string,
+    ) => {
+
     }
 
     const handleViewTextChange = (
-        value: any,
+        value: string,
     ) => {
-
+        switch (view) {
+            case 'function':
+                updateFunction(value);
+                break;
+            case 'externals':
+                updateExternals(value);
+                break;
+            case 'database':
+                updateDatabase(value);
+                break;
+            case 'storage':
+                updateStorage(value);
+                break;
+            default:
+                updateAddin(value);
+                break;
+        }
     }
     // #endregion handlers
 

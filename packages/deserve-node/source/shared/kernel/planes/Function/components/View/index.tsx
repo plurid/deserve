@@ -45,7 +45,7 @@ export interface ViewOwnProperties {
         // #endregion values
 
         // #region methods
-        atChange: (value: any) => void;
+        atChange: (value: string) => void;
         // #endregion methods
     // #endregion required
 }
