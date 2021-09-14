@@ -26,6 +26,7 @@ export const executionRowRenderer = (
     const {
         id,
         coreID,
+        functionID,
         result,
         arguments: args,
         error,
@@ -34,9 +35,10 @@ export const executionRowRenderer = (
     } = execution;
 
     const encodedCoreID = encodeURIComponent(coreID);
+    const encodedFunctionID = encodeURIComponent(functionID);
     const encodedID = encodeURIComponent(id);
 
-    const executionRoute = `/execution/${encodedCoreID}/${encodedID}`;
+    const executionRoute = `/execution/${encodedCoreID}/${encodedFunctionID}/${encodedID}`;
 
     const duration = finishedAt - startedAt;
     const lessThan = duration <= 1 ? '<' : '';

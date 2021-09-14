@@ -41,7 +41,7 @@ export interface ExecutionOwnProperties {
 export interface ExecutionStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    // stateExecution: Record<string, any[] | undefined>;
+    stateExecutions: Record<string, any[] | undefined>;
 }
 
 export interface ExecutionDispatchProperties {
@@ -65,7 +65,7 @@ const Execution: React.FC<ExecutionProperties> = (
         // #region state
         stateGeneralTheme,
         // stateInteractionTheme,
-        // stateExecution,
+        stateExecutions,
         // #endregion state
     } = properties;
 
@@ -76,6 +76,40 @@ const Execution: React.FC<ExecutionProperties> = (
     const coreID = decodeURIComponent(parameters.core || '');
     const functionID = decodeURIComponent(parameters.function || '');
     const executionID = decodeURIComponent(parameters.id || '');
+
+    const coreStateExecutions = stateExecutions[coreID] || [];
+    const functionExecution = coreStateExecutions
+        .find(coreStateExecution => {
+            if (
+                coreStateExecution.id === executionID
+                && coreStateExecution.functionID === functionID
+            ) {
+                return true;
+            }
+
+            return false;
+        });
+
+    if (!functionExecution) {
+        return (
+            <StyledExecution
+                theme={stateGeneralTheme}
+            >
+                execution not found
+            </StyledExecution>
+        );
+    }
+
+    const {
+        result,
+        arguments: args,
+        error,
+        startedAt,
+        finishedAt,
+    } = functionExecution;
+
+    const duration = finishedAt - startedAt;
+    const lessThan = duration <= 1 ? '<' : '';
     // #endregion properties
 
 
@@ -84,7 +118,55 @@ const Execution: React.FC<ExecutionProperties> = (
         <StyledExecution
             theme={stateGeneralTheme}
         >
+            <div>
+                <div>
+                    executed at
+                </div>
 
+                <div>
+                    {new Date(startedAt).toLocaleString()}
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    duration
+                </div>
+
+                <div>
+                    {lessThan}{duration} ms
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    arguments
+                </div>
+
+                <div>
+                    {args}
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    result
+                </div>
+
+                <div>
+                    {result}
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    error
+                </div>
+
+                <div>
+                    {error}
+                </div>
+            </div>
         </StyledExecution>
     );
     // #endregion render
@@ -96,7 +178,7 @@ const mapStateToProperties = (
 ): ExecutionStateProperties => ({
     stateGeneralTheme: selectors.themes.getGeneralTheme(state),
     stateInteractionTheme: selectors.themes.getInteractionTheme(state),
-    // stateExecution: selectors.data.getExecution(state),
+    stateExecutions: selectors.data.getExecutions(state),
 });
 
 
