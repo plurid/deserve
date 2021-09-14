@@ -1,0 +1,31 @@
+{
+    "name": "@plurid/fixtures.deserve-example",
+    "version": "0.0.0-0",
+    "description": "Deserve Example",
+    "keywords": [
+        "deserve",
+        "example"
+    ],
+    "license": "UNLICENSED",
+    "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/plurid/deserve"
+    },
+    "bugs": {
+        "email": "source@plurid.com",
+        "url": "https://github.com/plurid/deserve/issues"
+    },
+    "homepage": "https://github.com/plurid/deserve",
+    "engines": {
+        "node": ">=12",
+        "npm": ">=6"
+    },
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1"
+    }
+}
