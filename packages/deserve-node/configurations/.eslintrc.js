@@ -23,6 +23,7 @@ module.exports = {
     "rules": {
         "no-unused-vars": 0,
         "no-prototype-builtins": 0,
-        "no-async-promise-executor": 0
+        "no-async-promise-executor": 0,
+        "prefer-const": 0
     }
 };
