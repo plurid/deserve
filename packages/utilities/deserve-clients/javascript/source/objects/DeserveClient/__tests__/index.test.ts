@@ -18,5 +18,19 @@ describe('DeserveClient:', () => {
 
         expect(true).toBeTruthy();
     });
+
+    it(`gets functions`, async () => {
+        const deserveClient = DeserveClient(
+            'localhost',
+            'secret',
+            {
+                clientURI: 'http://localhost:3366/deserve',
+            },
+        );
+
+        const data = await deserveClient?.functions.get('id');
+
+        expect(true).toBeTruthy();
+    });
 });
 // #endregion module

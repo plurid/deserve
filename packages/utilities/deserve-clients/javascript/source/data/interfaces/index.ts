@@ -81,7 +81,7 @@ export type FunctionsGet = <T = any>(
      *
      * Default `'id-or-name'`
      */
-    type: 'id' | 'name' | 'id-or-name',
+    type?: 'id' | 'name' | 'id-or-name',
 ) => Promise<ClientResponse<T | undefined>>;
 
 export type FunctionsStore = (
