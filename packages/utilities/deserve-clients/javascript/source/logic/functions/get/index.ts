@@ -7,8 +7,8 @@
     } from '~data/interfaces';
 
     import {
-        QUERY_REQUEST_FUNCTION,
-        QUERY_REQUEST_FUNCTIONS,
+        QUERY_GET_FUNCTION,
+        QUERY_GET_FUNCTIONS,
     } from '~services/graphql';
     // #endregion external
 // #endregion imports
@@ -26,8 +26,8 @@ const get = (
         const singular = typeof value === 'string';
 
         const query = singular
-            ? QUERY_REQUEST_FUNCTION
-            : QUERY_REQUEST_FUNCTIONS;
+            ? QUERY_GET_FUNCTION
+            : QUERY_GET_FUNCTIONS;
 
         const input = singular
             ? {
@@ -47,8 +47,8 @@ const get = (
 
 
         const responseName = singular
-            ? 'requestFunction'
-            : 'requestFunctions';
+            ? 'getFunction'
+            : 'getFunctions';
 
         const response = request.data[responseName];
 

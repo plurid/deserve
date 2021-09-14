@@ -39,9 +39,25 @@ export const QUERY_QUERY_KEYS = gql`
 `;
 
 
-export const QUERY_QUERY_FUNCTIONS = gql`
-    query QueryFunctions($input: InputQueryFunctions!) {
-        queryFunctions(input: $input) {
+export const QUERY_GET_FUNCTION = gql`
+    query GetFunction($input: InputGetFunction!) {
+        getFunction(input: $input) {
+            status
+            data {
+                id
+                value
+                storedAt
+                updatedAt
+                sha
+            }
+        }
+    }
+`;
+
+
+export const QUERY_GET_FUNCTIONS = gql`
+    query GetFunctions($input: InputGetFunctions!) {
+        getFunctions(input: $input) {
             status
             data {
                 id
@@ -86,33 +102,6 @@ export const QUERY_REQUEST_KEYS = gql`
     }
 `;
 
-
-export const QUERY_REQUEST_FUNCTION = gql`
-    query RequestFunction($input: InputRequestFunction!) {
-        requestFunction(input: $input) {
-            status
-            data {
-                id
-                text
-                storedAt
-            }
-        }
-    }
-`;
-
-
-export const QUERY_REQUEST_FUNCTIONS = gql`
-    query RequestFunctions($input: InputRequestFunctions!) {
-        requestFunctions(input: $input) {
-            status
-            data {
-                id
-                text
-                storedAt
-            }
-        }
-    }
-`;
 
 
 export const MUTATION_DELETE_BLOB = gql`
