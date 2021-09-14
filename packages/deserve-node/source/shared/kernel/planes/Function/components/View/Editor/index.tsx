@@ -89,6 +89,7 @@ const Editor: React.FC<EditorProperties> = (
 
 
     // #region references
+    const mounted = useRef(false);
     const editorName = useRef('code' + Math.random());
     const editorRef = useRef<any | null>(null);
     // #endregion references
@@ -104,6 +105,14 @@ const Editor: React.FC<EditorProperties> = (
 
     // #region effects
     useEffect(() => {
+        mounted.current = true;
+
+        return () => {
+            mounted.current = false;
+        }
+    }, []);
+
+    useEffect(() => {
         const load = async () => {
             if (typeof window === 'undefined') {
                 return;
@@ -118,6 +127,11 @@ const Editor: React.FC<EditorProperties> = (
             await import('ace-builds/src-noconflict/mode-typescript');
             await import('ace-builds/src-noconflict/mode-python');
             await import('ace-builds/src-noconflict/mode-rust');
+
+            if (!mounted.current) {
+                return;
+            }
+
             ace.config.set('basePath', '');
 
             let mode = 'text';
@@ -163,6 +177,7 @@ const Editor: React.FC<EditorProperties> = (
                     className="code-editor"
                 />
             );
+
             setEditor(editor);
         }
 
