@@ -24,6 +24,8 @@
     import {
         StyledView,
     } from './styled';
+
+    import Editor from './Editor';
     // #endregion internal
 // #endregion imports
 
@@ -84,9 +86,11 @@ const View: React.FC<ViewProperties> = (
         <StyledView
             theme={stateGeneralTheme}
         >
-            <pre>
-                {text}
-            </pre>
+            <Editor
+                value={text}
+
+                atChange={atChange}
+            />
         </StyledView>
     );
     // #endregion render
