@@ -16,7 +16,6 @@ export interface IStyledFunction {
 }
 
 export const StyledFunction = styled.div<IStyledFunction>`
-    padding: 2rem;
     font-family: ${
         ({
             theme,
@@ -24,6 +23,7 @@ export const StyledFunction = styled.div<IStyledFunction>`
     };
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 250px 1fr;
+    height: 500px;
 `;
 // #region module
