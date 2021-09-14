@@ -92,6 +92,18 @@ export interface RemoveDataAction {
 }
 
 
+export const UPDATE_FUNCTION_DATA = 'UPDATE_FUNCTION_DATA';
+export interface UpdateFunctionDataPayload {
+    coreID: string;
+    functionID: string;
+    data: any;
+}
+export interface UpdateFunctionDataAction {
+    type: typeof UPDATE_FUNCTION_DATA;
+    payload: UpdateFunctionDataPayload;
+}
+
+
 
 export interface State {
     cores: ClientCore[];
@@ -109,5 +121,6 @@ export type Actions =
     | ActivateCoreAction
     | ClearDataAction
     | PushDataAction
-    | RemoveDataAction;
+    | RemoveDataAction
+    | UpdateFunctionDataAction;
 // #endregion module

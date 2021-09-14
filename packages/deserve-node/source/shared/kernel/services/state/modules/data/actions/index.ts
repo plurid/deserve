@@ -79,6 +79,16 @@ export const removeData = (
 }
 
 
+export const updateFunctionData = (
+    payload: Types.UpdateFunctionDataPayload,
+): Types.UpdateFunctionDataAction => {
+    return {
+        type: Types.UPDATE_FUNCTION_DATA,
+        payload,
+    };
+}
+
+
 
 const actions = {
     addEntity,
@@ -88,6 +98,7 @@ const actions = {
     clearData,
     pushData,
     removeData,
+    updateFunctionData,
 };
 // #endregion module
 

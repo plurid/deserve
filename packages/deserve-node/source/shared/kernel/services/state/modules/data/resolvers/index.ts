@@ -207,6 +207,31 @@ export const removeData = (
 }
 
 
+export const updateFunctionData = (
+    state: Types.State,
+    action: Types.UpdateFunctionDataAction,
+): Types.State => {
+    const {
+        coreID,
+        functionID,
+        data,
+    } = action.payload;
+
+    const newState = objects.clone(state, 'any');
+
+    const functions = newState.functions[coreID] || [];
+    const currentFunctionData = functions.find(fn => fn.id !== functionID);
+
+    for (const [key, value] of Object.entries(data)) {
+        currentFunctionData[key] = value;
+    }
+
+    newState.functions[coreID] = currentFunctionData;
+
+    return newState;
+}
+
+
 
 const resolvers = {
     addEntity,
@@ -216,6 +241,7 @@ const resolvers = {
     clearData,
     pushData,
     removeData,
+    updateFunctionData,
 };
 // #endregion module
 

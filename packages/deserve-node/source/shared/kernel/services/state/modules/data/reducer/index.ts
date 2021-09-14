@@ -30,6 +30,8 @@ const reducer = (
             return resolvers.pushData(state, action);
         case Types.REMOVE_DATA:
             return resolvers.removeData(state, action);
+        case Types.UPDATE_FUNCTION_DATA:
+            return resolvers.updateFunctionData(state, action);
         default:
             return {
                 ...state,
