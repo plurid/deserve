@@ -41,11 +41,17 @@ const GraphqlClient = (
     options?: DeserveClientOptions,
 ) => {
     const host = options?.host || DESERVE_CLIENT_HOST;
-    if (!host) {
+    const clientURI = options && options.clientURI
+        ? options.clientURI
+        : identonym + host;
+
+    if (
+        !host
+        && !options?.clientURI
+    ) {
         return;
     }
 
-    const clientURI = identonym + host;
     const client = new ApolloClient({
         link: createHttpLink({
             uri: clientURI,

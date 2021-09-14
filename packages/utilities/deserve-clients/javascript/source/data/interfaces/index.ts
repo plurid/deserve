@@ -139,5 +139,10 @@ export interface IDeserveClient {
 
 export interface DeserveClientOptions {
     host?: string;
+
+    /**
+     * Specific URI to be used by the graphql client.
+     */
+    clientURI?: string;
 }
 // #endregion exports
