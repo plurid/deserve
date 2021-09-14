@@ -1,4 +1,11 @@
 // #region imports
+    // #region libraries
+    import {
+        objects,
+    } from '@plurid/plurid-functions';
+    // #endregion libraries
+
+
     // #region internal
     import * as Types from '../types';
 
@@ -37,9 +44,7 @@ export const addEntity = (
         data,
     } = action.payload;
 
-    const newState = {
-        ...state,
-    };
+    const newState = objects.clone(state, 'any');
 
     let cores = [
         ...newState.cores,
@@ -74,9 +79,7 @@ export const removeEntity = (
         type,
     } = action.payload;
 
-    const newState = {
-        ...state,
-    };
+    const newState = objects.clone(state, 'any');
 
     let cores = [
         ...newState.cores,
@@ -103,8 +106,10 @@ export const setCores = (
     state: Types.State,
     action: Types.SetCoresAction,
 ): Types.State => {
+    const newState = objects.clone(state, 'any');
+
     return {
-        ...state,
+        ...newState,
         cores: [
             ...action.payload,
         ],
@@ -123,7 +128,9 @@ export const activateCore = (
         },
     } = action;
 
-    const cores = state.cores.map(core => {
+    const newState = objects.clone(state, 'any');
+
+    const cores = newState.cores.map(core => {
         if (core.id !== id) {
             return {
                 ...core,
@@ -137,7 +144,7 @@ export const activateCore = (
     });
 
     return {
-        ...state,
+        ...newState,
         cores: [
             ...cores,
         ],
@@ -149,8 +156,10 @@ export const clearData = (
     state: Types.State,
     action: Types.ClearDataAction,
 ): Types.State => {
+    const newState = objects.clone(initialState, 'any');
+
     return {
-        ...initialState,
+        ...newState,
     };
 }
 
@@ -165,7 +174,7 @@ export const pushData = (
         data,
     } = action.payload;
 
-    const newState: Types.State = JSON.parse(JSON.stringify(state));
+    const newState = objects.clone(state, 'any');
 
     const coreData = newState[type][coreID] || [];
     const newCoreData = [
@@ -188,7 +197,7 @@ export const removeData = (
         id,
     } = action.payload;
 
-    const newState: Types.State = JSON.parse(JSON.stringify(state));
+    const newState = objects.clone(state, 'any');
 
     const coreData = newState[type][coreID] || [];
     const newCoreData = coreData.filter(core => core.id !== id);
