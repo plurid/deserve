@@ -3,7 +3,7 @@
     import {
         GraphqlClient,
 
-        KeysGet,
+        FunctionsGet,
     } from '~data/interfaces';
 
     import {
@@ -18,19 +18,25 @@
 // #region module
 const get = (
     graphqlClient: GraphqlClient,
-): KeysGet => async (
-    id,
+): FunctionsGet => async (
+    value,
+    type,
 ) => {
     try {
-        const singular = typeof id === 'string';
+        const singular = typeof value === 'string';
 
         const query = singular
             ? QUERY_REQUEST_FUNCTION
             : QUERY_REQUEST_FUNCTIONS;
 
         const input = singular
-            ? { id }
-            : { ids: id };
+            ? {
+                id: value,
+                type,
+            } : {
+                ids: value,
+                type
+            };
 
         const request = await graphqlClient.query({
             query,

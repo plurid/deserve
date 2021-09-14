@@ -3,7 +3,7 @@
     import {
         GraphqlClient,
 
-        KeysUpdate,
+        FunctionsUpdate,
     } from '~data/interfaces';
 
     import {
@@ -17,7 +17,7 @@
 // #region module
 const update = (
     graphqlClient: GraphqlClient,
-): KeysUpdate => async (
+): FunctionsUpdate => async (
     id,
     data,
     field,

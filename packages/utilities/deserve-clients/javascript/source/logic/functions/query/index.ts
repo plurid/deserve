@@ -3,7 +3,7 @@
     import {
         GraphqlClient,
 
-        KeysQuery,
+        FunctionsQuery,
     } from '~data/interfaces';
 
     import {
@@ -17,7 +17,7 @@
 // #region module
 const query = (
     graphqlClient: GraphqlClient,
-): KeysQuery => async (
+): FunctionsQuery => async (
     filter,
     count,
     start,

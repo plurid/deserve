@@ -3,7 +3,7 @@
     import {
         GraphqlClient,
 
-        KeysDelete,
+        FunctionsDelete,
     } from '~data/interfaces';
 
     import {
@@ -17,7 +17,7 @@
 // #region module
 const functionsDelete = (
     graphqlClient: GraphqlClient,
-): KeysDelete => async (
+): FunctionsDelete => async (
     id,
 ) => {
     try {

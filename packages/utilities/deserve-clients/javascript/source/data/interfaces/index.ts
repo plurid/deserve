@@ -75,7 +75,13 @@ export type KeysQuery = <T = any>(
 
 
 export type FunctionsGet = <T = any>(
-    id: string | string[],
+    value: string | string[],
+    /**
+     * Type of `value`.
+     *
+     * Default `'id-or-name'`
+     */
+    type: 'id' | 'name' | 'id-or-name',
 ) => Promise<ClientResponse<T | undefined>>;
 
 export type FunctionsStore = (
