@@ -23,7 +23,7 @@
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
     import selectors from '~kernel-services/state/selectors';
-    // import actions from '~kernel-services/state/actions';
+    import actions from '~kernel-services/state/actions';
     // #endregion external
 
 
@@ -51,6 +51,7 @@ export interface FunctionStateProperties {
 }
 
 export interface FunctionDispatchProperties {
+    dispatchUpdateFunctionData: typeof actions.data.updateFunctionData;
 }
 
 export type FunctionProperties =
@@ -73,6 +74,10 @@ const Function: React.FC<FunctionProperties> = (
         // stateInteractionTheme,
         stateFunctions,
         // #endregion state
+
+        // #region dispatch
+        dispatchUpdateFunctionData,
+        // #endregion dispatch
     } = properties;
 
     const coreID = decodeURIComponent(plurid.plane.parameters.core || '');
@@ -129,25 +134,49 @@ const Function: React.FC<FunctionProperties> = (
     const updateFunction = (
         text: string,
     ) => {
-
+        dispatchUpdateFunctionData({
+            coreID,
+            functionID,
+            data: {
+                text,
+            },
+        });
     }
 
     const updateExternals = (
         text: string,
     ) => {
-
+        dispatchUpdateFunctionData({
+            coreID,
+            functionID,
+            data: {
+                externals: text,
+            },
+        });
     }
 
     const updateDatabase = (
         text: string,
     ) => {
-
+        dispatchUpdateFunctionData({
+            coreID,
+            functionID,
+            data: {
+                database: text,
+            },
+        });
     }
 
     const updateStorage = (
         text: string,
     ) => {
-
+        dispatchUpdateFunctionData({
+            coreID,
+            functionID,
+            data: {
+                externals: text,
+            },
+        });
     }
 
     const updateAddin = (
@@ -243,6 +272,11 @@ const mapStateToProperties = (
 const mapDispatchToProperties = (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
 ): FunctionDispatchProperties => ({
+    dispatchUpdateFunctionData: (
+        payload,
+    ) => dispatch(
+        actions.data.updateFunctionData(payload),
+    ),
 });
 
 
