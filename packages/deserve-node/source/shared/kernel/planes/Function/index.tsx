@@ -92,11 +92,7 @@ const Function: React.FC<FunctionProperties> = (
     }
 
     const {
-        name,
-        language,
-        storedAt,
         text,
-        addins,
         externals,
         database,
         storage,
@@ -167,6 +163,7 @@ const Function: React.FC<FunctionProperties> = (
         >
             <Explorer
                 data={functionData}
+                view={view}
 
                 changeView={changeView}
                 newAddin={newAddin}

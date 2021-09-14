@@ -48,6 +48,7 @@ export interface ExplorerOwnProperties {
     // #region required
         // #region values
         data: any;
+        view: string;
         // #endregion values
 
         // #region methods
@@ -79,6 +80,7 @@ const Explorer: React.FC<ExplorerProperties> = (
         // #region required
             // #region values
             data,
+            view,
             // #endregion values
 
             // #region methods
