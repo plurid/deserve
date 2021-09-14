@@ -32,6 +32,15 @@ export const StyledDate = styled.div`
 `;
 
 
+export const StyledNewAddin = styled.div`
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin: 0.7rem;
+`;
+
+
 export interface IStyledButton {
     theme: Theme;
     selected?: boolean;

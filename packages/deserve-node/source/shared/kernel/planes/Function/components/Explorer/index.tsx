@@ -9,6 +9,10 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
+
+    import {
+        PluridIconAdd,
+    } from '@plurid/plurid-icons-react';
     // #endregion libraries
 
 
@@ -30,6 +34,7 @@
         StyledLanguage,
         StyledDate,
         StyledButton,
+        StyledNewAddin,
     } from './styled';
     // #endregion internal
 // #endregion imports
@@ -144,12 +149,12 @@ const Explorer: React.FC<ExplorerProperties> = (
 
                 {/* addins map */}
 
-                <StyledButton
-                    onClick={() => newAddin()}
-                    theme={stateGeneralTheme}
-                >
-                    +
-                </StyledButton>
+                <StyledNewAddin>
+                    <PluridIconAdd
+                        atClick={() => newAddin()}
+                        theme={stateGeneralTheme}
+                    />
+                </StyledNewAddin>
             </div>
 
             <div>
