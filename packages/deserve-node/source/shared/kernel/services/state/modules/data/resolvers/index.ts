@@ -220,13 +220,20 @@ export const updateFunctionData = (
     const newState = objects.clone(state, 'any');
 
     const functions = newState.functions[coreID] || [];
-    const currentFunctionData = functions.find(fn => fn.id !== functionID);
+    const newFunctions = functions.map(functionData => {
+        const currentFunctionData = {
+            ...functionData,
+        };
 
-    for (const [key, value] of Object.entries(data)) {
-        currentFunctionData[key] = value;
-    }
+        if (functionData.id === functionID) {
+            for (const [key, value] of Object.entries(data)) {
+                currentFunctionData[key] = value;
+            }
+        }
 
-    newState.functions[coreID] = currentFunctionData;
+        return currentFunctionData;
+    });
+    newState.functions[coreID] = newFunctions;
 
     return newState;
 }
