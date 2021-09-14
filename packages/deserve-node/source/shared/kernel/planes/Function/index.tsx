@@ -1,6 +1,9 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useState,
+        useEffect,
+    } from 'react';
 
     import { AnyAction } from 'redux';
     import { connect } from 'react-redux';
@@ -28,6 +31,8 @@
     import {
         StyledFunction,
     } from './styled';
+
+    import View from './components/View';
     // #endregion internal
 // #endregion imports
 
@@ -74,10 +79,7 @@ const Function: React.FC<FunctionProperties> = (
 
     const coreStateFunctions = stateFunctions[coreID] || [];
     const functionData = coreStateFunctions.find(stateFunction => stateFunction.id === functionID);
-    // #endregion properties
 
-
-    // #region render
     if (!functionData) {
         return (
             <StyledFunction
@@ -88,18 +90,76 @@ const Function: React.FC<FunctionProperties> = (
         );
     }
 
-
     const {
         name,
         language,
         storedAt,
         text,
         addins,
+        externals,
         database,
         storage,
-        externals,
     } = functionData;
+    // #endregion properties
 
+
+    // #region state
+    const [
+        viewText,
+        setViewText,
+    ] = useState(text);
+
+    const [
+        view,
+        setView,
+    ] = useState('function');
+    // #endregion state
+
+
+    // #region handlers
+    const changeView = (
+        view: string,
+    ) => {
+        setView(view);
+    }
+
+    const newAddin = () => {
+    }
+
+    const handleViewTextChange = (
+        value: any,
+    ) => {
+
+    }
+    // #endregion handlers
+
+
+    // #region effects
+    useEffect(() => {
+        switch (view) {
+            case 'function':
+                setViewText(text);
+                break;
+            case 'externals':
+                setViewText(externals);
+                break;
+            case 'database':
+                setViewText(database);
+                break;
+            case 'storage':
+                setViewText(storage);
+                break;
+            default:
+                // check for addin
+                break;
+        }
+    }, [
+        view,
+    ]);
+    // #endregion effects
+
+
+    // #region render
     return (
         <StyledFunction
             theme={stateGeneralTheme}
@@ -107,7 +167,13 @@ const Function: React.FC<FunctionProperties> = (
             <div>
                 <div>
                     <div>
-                        {name} · {language}
+                        <div>
+                            {name}
+                        </div>
+
+                        <div>
+                            {language}
+                        </div>
                     </div>
 
                     <div>
@@ -116,36 +182,45 @@ const Function: React.FC<FunctionProperties> = (
                 </div>
 
                 <div>
-                    <div>
+                    <div
+                        onClick={() => changeView('function')}
+                    >
                         function.js
                     </div>
 
-                    <div>
+                    <div
+                        onClick={() => newAddin()}
+                    >
                         +
                     </div>
                 </div>
 
                 <div>
-                    <div>
+                    <div
+                        onClick={() => changeView('externals')}
+                    >
                         externals
                     </div>
 
-                    <div>
+                    <div
+                        onClick={() => changeView('database')}
+                    >
                         database
                     </div>
 
-                    <div>
+                    <div
+                        onClick={() => changeView('storage')}
+                    >
                         storage
                     </div>
                 </div>
             </div>
 
+            <View
+                text={viewText}
 
-            <div>
-                <pre>
-                    {text}
-                </pre>
-            </div>
+                atChange={handleViewTextChange}
+            />
         </StyledFunction>
     );
     // #endregion render
