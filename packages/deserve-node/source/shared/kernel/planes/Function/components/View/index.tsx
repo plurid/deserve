@@ -41,6 +41,7 @@ export interface ViewOwnProperties {
         // #region values
         view: string;
         text: string;
+        language: string;
         // #endregion values
 
         // #region methods
@@ -72,6 +73,7 @@ const View: React.FC<ViewProperties> = (
             // #region values
             view,
             text,
+            language,
             // #endregion values
 
             // #region methods
@@ -110,6 +112,10 @@ const View: React.FC<ViewProperties> = (
     }, []);
 
     useEffect(() => {
+        if (!mounted.current) {
+            return;
+        }
+
         setRefreshEditor(refresh => !refresh);
 
         setTimeout(() => {
@@ -133,6 +139,7 @@ const View: React.FC<ViewProperties> = (
             {refreshEditor && (
                 <Editor
                     value={text}
+                    language={language}
 
                     atChange={atChange}
                 />

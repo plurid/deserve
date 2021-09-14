@@ -35,8 +35,16 @@
 
 // #region module
 export interface EditorOwnProperties {
-    value: string;
-    atChange: (value: string) => void;
+    // #region required
+        // #region values
+        value: string;
+        language: string;
+        // #endregion values
+
+        // #region methods
+        atChange: (value: string) => void;
+        // #endregion methods
+    // #endregion required
 }
 
 export interface EditorStateProperties {
@@ -47,19 +55,27 @@ export interface EditorStateProperties {
 export interface EditorDispatchProperties {
 }
 
-export type EditorProperties = EditorOwnProperties
+export type EditorProperties =
+    & EditorOwnProperties
     & EditorStateProperties
     & EditorDispatchProperties;
+
 
 const Editor: React.FC<EditorProperties> = (
     properties,
 ) => {
     // #region properties
     const {
-        // #region own
-        value,
-        atChange,
-        // #endregion own
+        // #region required
+            // #region values
+            value,
+            language,
+            // #endregion values
+
+            // #region methods
+            atChange,
+            // #endregion methods
+        // #endregion required
 
         // #region state
         stateGeneralTheme,
@@ -73,6 +89,7 @@ const Editor: React.FC<EditorProperties> = (
 
 
     // #region references
+    const editorName = useRef('code' + Math.random());
     const editorRef = useRef<any | null>(null);
     // #endregion references
 
@@ -83,6 +100,7 @@ const Editor: React.FC<EditorProperties> = (
         setEditor,
     ] = useState((<></>));
     // #endregion state
+
 
     // #region effects
     useEffect(() => {
@@ -96,14 +114,34 @@ const Editor: React.FC<EditorProperties> = (
             const ace = (await import('ace-builds'));
             await import('ace-builds/src-noconflict/mode-text');
             await import('ace-builds/src-noconflict/theme-github');
+            await import('ace-builds/src-noconflict/mode-golang');
+            await import('ace-builds/src-noconflict/mode-typescript');
+            await import('ace-builds/src-noconflict/mode-python');
+            await import('ace-builds/src-noconflict/mode-rust');
             ace.config.set('basePath', '');
+
+            let mode = 'text';
+            switch (language) {
+                case 'go':
+                    mode = 'golang';
+                    break;
+                case 'javascript':
+                    mode = 'typescript';
+                    break;
+                case 'python':
+                    mode = 'python';
+                    break;
+                case 'rust':
+                    mode = 'rust';
+                    break;
+            }
 
             const editor = (
                 <Editor
                     ref={editorRef}
-                    mode="text"
+                    mode={mode}
                     theme="github"
-                    name={'code-123'}
+                    name={editorName.current}
                     editorProps={{
                         // $blockScrolling: true,
                     }}

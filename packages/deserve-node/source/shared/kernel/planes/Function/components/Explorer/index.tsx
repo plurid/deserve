@@ -47,8 +47,8 @@ const bottomButtons = [
 export interface ExplorerOwnProperties {
     // #region required
         // #region values
-        data: any;
         view: string;
+        data: any;
         // #endregion values
 
         // #region methods
@@ -79,8 +79,8 @@ const Explorer: React.FC<ExplorerProperties> = (
     const {
         // #region required
             // #region values
-            data,
             view,
+            data,
             // #endregion values
 
             // #region methods

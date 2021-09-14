@@ -96,6 +96,7 @@ const Function: React.FC<FunctionProperties> = (
         externals,
         database,
         storage,
+        language,
     } = functionData;
     // #endregion properties
 
@@ -162,8 +163,8 @@ const Function: React.FC<FunctionProperties> = (
             theme={stateGeneralTheme}
         >
             <Explorer
-                data={functionData}
                 view={view}
+                data={functionData}
 
                 changeView={changeView}
                 newAddin={newAddin}
@@ -172,6 +173,7 @@ const Function: React.FC<FunctionProperties> = (
             <View
                 view={view}
                 text={viewText}
+                language={language}
 
                 atChange={handleViewTextChange}
             />
