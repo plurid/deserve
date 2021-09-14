@@ -174,7 +174,7 @@ const Function: React.FC<FunctionProperties> = (
             coreID,
             functionID,
             data: {
-                externals: text,
+                storage: text,
             },
         });
     }
