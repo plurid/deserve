@@ -10,6 +10,7 @@
 
     import queryKeys from './queryKeys';
 
+    import getFunction from './getFunction';
     import getFunctions from './getFunctions';
 
     import getExecutions from './getExecutions';
@@ -31,6 +32,7 @@ export default {
 
     queryKeys,
 
+    getFunction,
     getFunctions,
 
     getExecutions,

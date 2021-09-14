@@ -14,6 +14,7 @@
 
         InputQueryKeys,
 
+        InputGetFunction,
         InputGetFunctions,
 
         InputGetExecutions,
@@ -81,6 +82,14 @@ export default {
     ),
 
 
+    getFunction: (
+        _: any,
+        { input }: InputOf<InputGetFunction>,
+        context: Context,
+    ) => Store.Query.getFunction(
+        input,
+        context,
+    ),
     getFunctions: (
         _: any,
         { input }: InputOf<InputGetFunctions>,

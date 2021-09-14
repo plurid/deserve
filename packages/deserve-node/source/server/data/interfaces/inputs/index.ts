@@ -65,6 +65,12 @@ export interface InputQueryKeys {
 }
 
 
+export interface InputGetFunction {
+    coreID?: string;
+    id: string;
+    type?: string;
+}
+
 export interface InputGetFunctions {
     coreID?: string;
 }
@@ -123,10 +129,6 @@ export interface InputRunFunction {
     id: string;
     arguments?: string;
 }
-
-
-
-
 
 
 

@@ -19,6 +19,7 @@ export const queries = gql`
 
         queryKeys(input: InputQueryKeys!): ResponseQueriedKeys!
 
+        getFunction(input: InputGetFunction!): ResponseGetFunction!
         getFunctions(input: InputGetFunctions!): ResponseGetFunctions!
 
         getExecutions(input: InputGetExecutions!): ResponseGetExecutions!
@@ -141,6 +142,12 @@ export const types = gql`
 
 
 
+    type ResponseGetFunction {
+        status: Boolean!
+        error: Error
+        data: ResponseFunction
+    }
+
     type ResponseGetFunctions {
         status: Boolean!
         error: Error
@@ -250,6 +257,12 @@ export const inputs = gql`
     }
 
 
+
+    input InputGetFunction {
+        coreID: String
+        id: String!
+        type: String
+    }
 
     input InputGetFunctions {
         coreID: String

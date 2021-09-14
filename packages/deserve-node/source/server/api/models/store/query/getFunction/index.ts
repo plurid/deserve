@@ -7,9 +7,8 @@
     // #region external
     import {
         Context,
-        InputGetFunctions,
+        InputGetFunction,
         StoredFunction,
-        ClientFunction,
     } from '~server/data/interfaces';
 
     import {
@@ -27,8 +26,8 @@
 
 
 // #region module
-const getFunctions = async (
-    input: InputGetFunctions,
+const getFunction = async (
+    input: InputGetFunction,
     context: Context,
 ): Promise<any> => {
     try {
@@ -52,26 +51,61 @@ const getFunctions = async (
         }
 
 
-        const functionsData = await database.getAllWhere<StoredFunction>(
+        const {
+            id,
+            type,
+        } = input;
+
+
+        const queryType = typeof type === 'string'
+            ? type
+            : 'id-or-name';
+
+        let filter = {};
+        switch (queryType) {
+            case 'id':
+                filter = {
+                    id,
+                };
+                break;
+            case 'name':
+                filter = {
+                    name: id,
+                };
+                break;
+            case 'id-or-name':
+                filter = {
+                    $or: [
+                        {
+                            id,
+                        },
+                        {
+                            name: id,
+                        },
+                    ],
+                };
+                break;
+        }
+
+        const query = await database.getAllWhere<StoredFunction>(
             collections.functions,
-            {
-                ownedBy: ownerID,
-            },
+            filter,
         );
 
-        const clientFunctions: ClientFunction[] = [];
-
-        for (const functionData of functionsData) {
-            const clientFunction = modelClientFunction(functionData);
-            clientFunctions.push(clientFunction);
+        if (query.length === 0) {
+            return {
+                status: false,
+            };
         }
+
+        const clientFunction = modelClientFunction(query[0]);
 
 
         return {
             status: true,
-            data: [
-                ...clientFunctions,
-            ],
+            data: {
+                ...clientFunction,
+            },
         };
     } catch (error) {
         delog({
@@ -90,5 +124,5 @@ const getFunctions = async (
 
 
 // #region exports
-export default getFunctions;
+export default getFunction;
 // #endregion exports
