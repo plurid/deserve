@@ -22,5 +22,8 @@ export const StyledFunction = styled.div<IStyledFunction>`
             theme,
         }: IStyledFunction) => theme.fontFamilySansSerif
     };
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 `;
 // #region module

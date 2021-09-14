@@ -91,13 +91,13 @@ const Function: React.FC<FunctionProperties> = (
 
     const {
         name,
+        language,
+        storedAt,
         text,
+        addins,
         database,
         storage,
         externals,
-        addins,
-        language,
-        storedAt,
     } = functionData;
 
     return (
@@ -105,34 +105,47 @@ const Function: React.FC<FunctionProperties> = (
             theme={stateGeneralTheme}
         >
             <div>
-                {new Date(storedAt).toLocaleString()}
+                <div>
+                    <div>
+                        {name} · {language}
+                    </div>
+
+                    <div>
+                        {new Date(storedAt).toLocaleString()}
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        function.js
+                    </div>
+
+                    <div>
+                        +
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        externals
+                    </div>
+
+                    <div>
+                        database
+                    </div>
+
+                    <div>
+                        storage
+                    </div>
+                </div>
             </div>
+
 
             <div>
-                {name} · {language}
+                <pre>
+                    {text}
+                </pre>
             </div>
-
-            <div>
-                <div>
-                    database {database}
-                </div>
-
-                <div>
-                    storage {storage}
-                </div>
-
-                <div>
-                    externals {externals}
-                </div>
-
-                <div>
-                    addins {addins}
-                </div>
-            </div>
-
-            <pre>
-                {text}
-            </pre>
         </StyledFunction>
     );
     // #endregion render
