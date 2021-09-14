@@ -32,6 +32,7 @@
         StyledFunction,
     } from './styled';
 
+    import Explorer from './components/Explorer';
     import View from './components/View';
     // #endregion internal
 // #endregion imports
@@ -164,57 +165,12 @@ const Function: React.FC<FunctionProperties> = (
         <StyledFunction
             theme={stateGeneralTheme}
         >
-            <div>
-                <div>
-                    <div>
-                        <div>
-                            {name}
-                        </div>
+            <Explorer
+                data={functionData}
 
-                        <div>
-                            {language}
-                        </div>
-                    </div>
-
-                    <div>
-                        {new Date(storedAt).toLocaleString()}
-                    </div>
-                </div>
-
-                <div>
-                    <div
-                        onClick={() => changeView('function')}
-                    >
-                        function.js
-                    </div>
-
-                    <div
-                        onClick={() => newAddin()}
-                    >
-                        +
-                    </div>
-                </div>
-
-                <div>
-                    <div
-                        onClick={() => changeView('externals')}
-                    >
-                        externals
-                    </div>
-
-                    <div
-                        onClick={() => changeView('database')}
-                    >
-                        database
-                    </div>
-
-                    <div
-                        onClick={() => changeView('storage')}
-                    >
-                        storage
-                    </div>
-                </div>
-            </div>
+                changeView={changeView}
+                newAddin={newAddin}
+            />
 
             <View
                 text={viewText}
