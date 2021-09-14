@@ -171,14 +171,16 @@ const Explorer: React.FC<ExplorerProperties> = (
                 <PluridPureButton
                     text="Update"
                     atClick={() => {}}
+                    level={2}
                     style={{
-                        margin: '0.7rem 0',
+                        margin: '1.7rem 0',
                     }}
                 />
 
                 <PluridPureButton
                     text="Obliterate"
                     atClick={() => {}}
+                    level={2}
                     style={{
                         margin: '0.7rem 0',
                     }}

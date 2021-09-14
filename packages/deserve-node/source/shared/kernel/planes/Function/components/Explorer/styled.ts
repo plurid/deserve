@@ -16,11 +16,6 @@ export interface IStyledExplorer {
 }
 
 export const StyledExplorer = styled.div<IStyledExplorer>`
-    background-color: ${
-        ({
-            theme,
-        }: IStyledExplorer) => theme.backgroundColorTertiary
-    };
     padding: 1rem;
 `;
 
@@ -43,7 +38,8 @@ export interface IStyledButton {
 }
 
 export const StyledButton = styled.div<IStyledButton>`
-    padding: 0.7rem;
+    padding: 0.7rem 1.7rem;
+    margin: 0 -1rem;
     cursor: pointer;
     user-select: none;
 
@@ -53,7 +49,7 @@ export const StyledButton = styled.div<IStyledButton>`
             selected,
         }: IStyledButton) => {
             if (selected) {
-                return theme.backgroundColorSecondary;
+                return theme.backgroundColorQuaternary;
             }
 
             return 'initial';

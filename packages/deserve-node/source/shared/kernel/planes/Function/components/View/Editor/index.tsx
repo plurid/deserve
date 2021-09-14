@@ -154,7 +154,7 @@ const Editor: React.FC<EditorProperties> = (
                     fontSize={18}
                     showGutter={true}
                     width="100%"
-                    height="400px"
+                    height="500px"
                     placeholder={''}
 
                     value={value}
