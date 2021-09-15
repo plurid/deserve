@@ -25,9 +25,12 @@ const build = {
         }
     ],
     external: [
-        'cross-fetch',
+        'url',
+
         '@apollo/client',
         '@apollo/client/core',
+        'cross-fetch',
+        'form-data',
     ],
     plugins: [
         typescript({
