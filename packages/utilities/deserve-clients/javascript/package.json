@@ -45,9 +45,10 @@
     },
     "peerDependencies": {
         "@apollo/client": ">=3.4",
+        "axios": ">=0.21",
         "cross-fetch": ">=3.1",
-        "graphql": ">=15.5",
-        "form-data": ">=4.0"
+        "form-data": ">=4.0",
+        "graphql": ">=15.5"
     },
     "devDependencies": {
         "@apollo/client": "^3.4.11",
@@ -56,6 +57,7 @@
         "@typescript-eslint/eslint-plugin": "^4.31.1",
         "@typescript-eslint/parser": "^4.31.1",
         "@zerollup/ts-transform-paths": "^1.7.18",
+        "axios": "^0.21.4",
         "cross-fetch": "^3.1.4",
         "eslint": "^7.32.0",
         "form-data": "^4.0.0",
