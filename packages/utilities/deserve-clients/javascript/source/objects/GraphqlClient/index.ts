@@ -12,12 +12,8 @@
 
     // #region external
     import {
-        DeserveClientOptions,
-    } from '~data/interfaces';
-
-    import {
-        resolveURI,
-    } from '~utilities/index';
+        GRAPHQL_PATH,
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 
@@ -25,33 +21,24 @@
 
 // #region module
 /**
- * Generates a reusable graphql client
- * to make requests to `<identonym><domain>`
- * where `<domain>` is defined through `options` (`host`)
- * or by the `DESERVE_CLIENT_HOST` environment variable.
+ * Generates a reusable graphql client to make requests to the `clientOrigin`
+ * with the adequate `token`.
  *
- * @param identonym
+ * @param clientOrigin
  * @param token
- * @param options
  * @returns
  */
 const GraphqlClient = (
-    identonym: string,
+    clientOrigin: string | undefined,
     token: string,
-    options?: DeserveClientOptions,
 ) => {
-    const clientURI = resolveURI(
-        identonym,
-        options,
-    );
-
-    if (!clientURI) {
+    if (!clientOrigin) {
         return;
     }
 
     const client = new ApolloClient({
         link: createHttpLink({
-            uri: clientURI,
+            uri: clientOrigin + GRAPHQL_PATH,
             credentials: 'include',
             fetch,
             headers: {

@@ -1,7 +1,7 @@
 // #region imports
     // #region external
     import {
-        GraphqlClient,
+        ClientData,
 
         BlobsDelete,
     } from '~data/interfaces';
@@ -16,11 +16,15 @@
 
 // #region module
 const blobsDelete = (
-    graphqlClient: GraphqlClient | undefined,
+    clientData: ClientData,
 ): BlobsDelete => async (
     id,
 ) => {
     try {
+        const {
+            graphqlClient,
+        } = clientData;
+
         if (!graphqlClient) {
             return {
                 status: false,

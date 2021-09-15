@@ -3,6 +3,7 @@
     import {
         IDeserveClient,
         DeserveClientOptions,
+        ClientData,
     } from '~data/interfaces';
 
     import GraphqlClient from '~objects/GraphqlClient';
@@ -10,7 +11,7 @@
     import logic from '~logic/index';
 
     import {
-        resolveURI,
+        resolveOrigin,
     } from '~utilities/index';
     // #endregion external
 // #endregion imports
@@ -23,42 +24,46 @@ const DeserveClient = (
     token: string,
     options?: DeserveClientOptions,
 ): IDeserveClient => {
-    const clientOrigin = resolveURI(
+    const clientOrigin = resolveOrigin(
         identonym,
         options,
-        true,
     );
 
     const graphqlClient = GraphqlClient(
-        identonym,
+        clientOrigin,
         token,
-        options,
     );
+
+    const clientData: ClientData = {
+        token,
+        clientOrigin,
+        graphqlClient,
+    };
 
 
     return {
         blobs: {
-            get: logic.blobs.get(clientOrigin, token),
-            store: logic.blobs.store(clientOrigin, token),
-            delete: logic.blobs.delete(graphqlClient),
-            query: logic.blobs.query(graphqlClient),
+            get: logic.blobs.get(clientData),
+            store: logic.blobs.store(clientData),
+            delete: logic.blobs.delete(clientData),
+            query: logic.blobs.query(clientData),
         },
 
         keys: {
-            get: logic.keys.get(graphqlClient),
-            store: logic.keys.store(graphqlClient),
-            update: logic.keys.update(graphqlClient),
-            delete: logic.keys.delete(graphqlClient),
-            query: logic.keys.query(graphqlClient),
+            get: logic.keys.get(clientData),
+            store: logic.keys.store(clientData),
+            update: logic.keys.update(clientData),
+            delete: logic.keys.delete(clientData),
+            query: logic.keys.query(clientData),
         },
 
         functions: {
-            get: logic.functions.get(graphqlClient),
-            store: logic.functions.store(graphqlClient),
-            update: logic.functions.update(graphqlClient),
-            delete: logic.functions.delete(graphqlClient),
-            query: logic.functions.query(graphqlClient),
-            run: logic.functions.query(graphqlClient),
+            get: logic.functions.get(clientData),
+            store: logic.functions.store(clientData),
+            update: logic.functions.update(clientData),
+            delete: logic.functions.delete(clientData),
+            query: logic.functions.query(clientData),
+            run: logic.functions.query(clientData),
         },
     };
 };

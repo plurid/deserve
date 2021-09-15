@@ -1,7 +1,7 @@
 // #region imports
     // #region external
     import {
-        GraphqlClient,
+        ClientData,
 
         KeysQuery,
     } from '~data/interfaces';
@@ -16,13 +16,17 @@
 
 // #region module
 const query = (
-    graphqlClient: GraphqlClient | undefined,
+    clientData: ClientData,
 ): KeysQuery => async (
     filter,
     count,
     start,
 ) => {
     try {
+        const {
+            graphqlClient,
+        } = clientData;
+
         if (!graphqlClient) {
             return {
                 status: false,

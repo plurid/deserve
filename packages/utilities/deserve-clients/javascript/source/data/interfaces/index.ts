@@ -14,6 +14,12 @@
 // #region exports
 export type GraphqlClient = ApolloClient<NormalizedCacheObject>;
 
+export interface ClientData {
+    token: string;
+    clientOrigin: string | undefined;
+    graphqlClient: GraphqlClient | undefined;
+}
+
 
 export type ClientResponse<D = any> =
     | ClientErrorResponse<any>

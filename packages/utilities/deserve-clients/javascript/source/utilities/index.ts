@@ -13,6 +13,7 @@
 
     import {
         DESERVE_CLIENT_HOST,
+        DESERVE_CLIENT_PROTOCOL,
     } from '~data/constants';
     // #endregion external
 // #endregion imports
@@ -20,15 +21,14 @@
 
 
 // #region exports
-export const resolveURI = (
+export const resolveOrigin = (
     identonym: string,
     options?: DeserveClientOptions,
-    origin?: boolean,
 ) => {
     const host = options?.host || DESERVE_CLIENT_HOST;
-    const clientURI = options && options.clientURI
+    const clientURI = options?.clientURI
         ? options.clientURI
-        : identonym + host;
+        : DESERVE_CLIENT_PROTOCOL + identonym + host;
 
     if (
         !host
@@ -37,11 +37,7 @@ export const resolveURI = (
         return;
     }
 
-    if (origin) {
-        const url = new URL(clientURI);
-        return url.origin;
-    }
-
-    return clientURI;
+    const url = new URL(clientURI);
+    return url.origin;
 }
 // #endregion exports

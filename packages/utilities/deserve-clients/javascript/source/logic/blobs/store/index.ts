@@ -7,6 +7,7 @@
 
     // #region external
     import {
+        ClientData,
         BlobsStore,
     } from '~data/interfaces';
 
@@ -20,13 +21,17 @@
 
 // #region module
 const store = (
-    origin: string | undefined,
-    token: string,
+    clientData: ClientData,
 ): BlobsStore => async (
     stream,
 ) => {
     try {
-        if (!origin) {
+        const {
+            clientOrigin,
+            token,
+        } = clientData;
+
+        if (!clientOrigin) {
             return {
                 status: false,
             };
@@ -36,15 +41,18 @@ const store = (
             const form = new FormData();
             form.append('blob', stream);
 
-            const response = await fetch(origin + UPLOAD_PATH, {
-                method: 'POST',
-                headers: {
-                    'Deserve-Token': token,
-                    'Content-Type': 'application/octet-stream',
-                    ...form.getHeaders(),
+            const response = await fetch(
+                clientOrigin + UPLOAD_PATH,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Deserve-Token': token,
+                        'Content-Type': 'application/octet-stream',
+                        ...form.getHeaders(),
+                    },
+                    body: form.getBuffer(),
                 },
-                body: form.getBuffer(),
-            });
+            );
 
             if (response.status === 200) {
                 const json = await response.json();

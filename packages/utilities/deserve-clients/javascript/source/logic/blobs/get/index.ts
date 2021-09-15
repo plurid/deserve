@@ -6,6 +6,7 @@
 
     // #region external
     import {
+        ClientData,
         BlobsGet,
     } from '~data/interfaces';
 
@@ -19,18 +20,22 @@
 
 // #region module
 const get = (
-    origin: string | undefined,
-    token: string,
+    clientData: ClientData,
 ): BlobsGet => async (
     id,
 ) => {
     try {
-        if (!origin) {
+        const {
+            clientOrigin,
+            token,
+        } = clientData;
+
+        if (!clientOrigin) {
             return;
         }
 
         const response = await fetch(
-            origin + DOWNLOAD_PATH + '?blob=' + id,
+            clientOrigin + DOWNLOAD_PATH + '?blob=' + id,
             {
                 method: 'GET',
                 headers: {
