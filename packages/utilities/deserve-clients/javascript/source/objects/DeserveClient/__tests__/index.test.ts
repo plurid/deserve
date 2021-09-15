@@ -10,9 +10,7 @@
 describe('DeserveClient:', () => {
     it(`works`, async () => {
         const deserveClient = DeserveClient('identonym', 'access-token');
-        if (!deserveClient) {
-            return;
-        }
+
         const blob = await deserveClient.blobs.get('blob-id');
         const key = await deserveClient.keys.get('key-id');
 

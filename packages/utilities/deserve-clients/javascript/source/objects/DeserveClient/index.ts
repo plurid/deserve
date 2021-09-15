@@ -18,7 +18,7 @@ const DeserveClient = (
     identonym: string,
     token: string,
     options?: DeserveClientOptions,
-): IDeserveClient | undefined => {
+): IDeserveClient => {
     const graphqlClient = GraphqlClient(
         identonym,
         token,
