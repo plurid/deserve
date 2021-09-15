@@ -39,6 +39,27 @@ export const QUERY_QUERY_KEYS = gql`
 `;
 
 
+export const QUERY_QUERY_FUNCTIONS = gql`
+    query QueryFunctions($input: InputQueryFunctions!) {
+        queryFunctions(input: $input) {
+            status
+            data {
+                id
+                name
+                text
+                language
+                database
+                storage
+                externals
+                addins
+                storedAt
+                coreID
+            }
+        }
+    }
+`;
+
+
 export const QUERY_GET_FUNCTION = gql`
     query GetFunction($input: InputGetFunction!) {
         getFunction(input: $input) {
