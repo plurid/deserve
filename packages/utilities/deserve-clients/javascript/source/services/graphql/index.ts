@@ -45,10 +45,15 @@ export const QUERY_GET_FUNCTION = gql`
             status
             data {
                 id
-                value
+                name
+                text
+                language
+                database
+                storage
+                externals
+                addins
                 storedAt
-                updatedAt
-                sha
+                coreID
             }
         }
     }
@@ -61,10 +66,15 @@ export const QUERY_GET_FUNCTIONS = gql`
             status
             data {
                 id
-                value
+                name
+                text
+                language
+                database
+                storage
+                externals
+                addins
                 storedAt
-                updatedAt
-                sha
+                coreID
             }
         }
     }

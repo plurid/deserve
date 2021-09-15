@@ -35,7 +35,7 @@ const get = (
                 type,
             } : {
                 ids: value,
-                type
+                type,
             };
 
         const request = await graphqlClient.query({
