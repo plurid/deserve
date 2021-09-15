@@ -1,4 +1,11 @@
 // #region imports
+    // #region libraries
+    import {
+        URL
+    } from 'url';
+    // #endregion libraries
+
+
     // #region external
     import {
         DeserveClientOptions,
@@ -16,6 +23,7 @@
 export const resolveURI = (
     identonym: string,
     options?: DeserveClientOptions,
+    origin?: boolean,
 ) => {
     const host = options?.host || DESERVE_CLIENT_HOST;
     const clientURI = options && options.clientURI
@@ -27,6 +35,11 @@ export const resolveURI = (
         && !options?.clientURI
     ) {
         return;
+    }
+
+    if (origin) {
+        const url = new URL(clientURI);
+        return url.origin;
     }
 
     return clientURI;

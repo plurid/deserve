@@ -1,10 +1,12 @@
 // #region imports
     // #region external
     import {
-        GraphqlClient,
-
         BlobsGet,
     } from '~data/interfaces';
+
+    import {
+        DOWNLOAD_PATH,
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 
@@ -12,12 +14,12 @@
 
 // #region module
 const get = (
-    graphqlClient: GraphqlClient | undefined,
+    origin: string | undefined,
 ): BlobsGet => async (
     id,
 ) => {
     try {
-        if (!graphqlClient) {
+        if (!origin) {
             return {
                 status: false,
             };

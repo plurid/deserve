@@ -7,10 +7,12 @@
 
     // #region external
     import {
-        GraphqlClient,
-
         BlobsStore,
     } from '~data/interfaces';
+
+    import {
+        UPLOAD_PATH,
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 
@@ -18,12 +20,12 @@
 
 // #region module
 const store = (
-    graphqlClient: GraphqlClient | undefined,
+    origin: string | undefined,
 ): BlobsStore => async (
     stream,
 ) => {
     try {
-        if (!graphqlClient) {
+        if (!origin) {
             return {
                 status: false,
             };
@@ -33,7 +35,7 @@ const store = (
             const form = new FormData();
             form.append('file', stream);
 
-            const response = await fetch('uri', {
+            const response = await fetch(origin + UPLOAD_PATH, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/octet-stream',
@@ -43,9 +45,10 @@ const store = (
             });
 
             if (response.status === 200) {
-                resolve(true);
+                const json = await response.json();
+                resolve(json.id);
             } else {
-                reject();
+                reject('deserve client could not store');
             }
         });
 

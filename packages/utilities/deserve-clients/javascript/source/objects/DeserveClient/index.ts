@@ -8,6 +8,10 @@
     import GraphqlClient from '~objects/GraphqlClient';
 
     import logic from '~logic/index';
+
+    import {
+        resolveURI,
+    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -19,16 +23,23 @@ const DeserveClient = (
     token: string,
     options?: DeserveClientOptions,
 ): IDeserveClient => {
+    const clientOrigin = resolveURI(
+        identonym,
+        options,
+        true,
+    );
+
     const graphqlClient = GraphqlClient(
         identonym,
         token,
         options,
     );
 
+
     return {
         blobs: {
-            get: logic.blobs.get(graphqlClient),
-            store: logic.blobs.store(graphqlClient),
+            get: logic.blobs.get(clientOrigin),
+            store: logic.blobs.store(clientOrigin),
             delete: logic.blobs.delete(graphqlClient),
             query: logic.blobs.query(graphqlClient),
         },
