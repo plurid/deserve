@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import fs from 'fs';
+    // #endregion libraries
+
+
     // #region external
     import DeserveClient from '~objects/DeserveClient';
     // #endregion external
@@ -27,6 +32,22 @@ describe('DeserveClient:', () => {
         );
 
         const data = await deserveClient?.functions.get('id');
+
+        expect(true).toBeTruthy();
+    });
+
+    it(`stores files`, async () => {
+        const deserveClient = DeserveClient(
+            'localhost',
+            'secret',
+            {
+                clientURI: 'http://localhost:3366/deserve',
+            },
+        );
+
+        const pathToFile = '';
+        const readStream = fs.createReadStream(pathToFile);
+        const result = await deserveClient.blobs.store(readStream);
 
         expect(true).toBeTruthy();
     });

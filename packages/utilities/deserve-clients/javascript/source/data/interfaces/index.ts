@@ -1,4 +1,6 @@
 // #region imports
+    import fs from 'fs';
+
     // #region libraries
     import {
         ApolloClient,
@@ -33,7 +35,7 @@ export type BlobsGet = (
 ) => Promise<ClientResponse<ReadableStream | undefined>>;
 
 export type BlobsStore = (
-    stream: ReadableStream,
+    stream: fs.ReadStream,
 ) => Promise<ClientResponse<any>>;
 
 export type BlobsDelete = (

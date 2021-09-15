@@ -14,7 +14,7 @@
 const store = (
     graphqlClient: GraphqlClient | undefined,
 ): BlobsStore => async (
-    id,
+    stream,
 ) => {
     try {
         if (!graphqlClient) {
@@ -23,8 +23,20 @@ const store = (
             };
         }
 
+        const storedID = await new Promise((resolve, reject) => {
+        });
+
+        if (!storedID) {
+            return {
+                status: false,
+            };
+        }
+
         return {
-            status: false,
+            status: true,
+            data: {
+                id: storedID,
+            },
         };
     } catch (error) {
         return {
