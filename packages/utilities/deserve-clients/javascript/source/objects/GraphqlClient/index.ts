@@ -6,7 +6,7 @@
         ApolloClient,
         createHttpLink,
         InMemoryCache,
-    } from '@apollo/client';
+    } from '@apollo/client/core';
     // #endregion libraries
 
 
