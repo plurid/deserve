@@ -38,8 +38,8 @@ const DeserveClient = (
 
     return {
         blobs: {
-            get: logic.blobs.get(clientOrigin),
-            store: logic.blobs.store(clientOrigin),
+            get: logic.blobs.get(clientOrigin, token),
+            store: logic.blobs.store(clientOrigin, token),
             delete: logic.blobs.delete(graphqlClient),
             query: logic.blobs.query(graphqlClient),
         },

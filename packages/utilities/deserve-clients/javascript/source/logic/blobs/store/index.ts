@@ -21,6 +21,7 @@
 // #region module
 const store = (
     origin: string | undefined,
+    token: string,
 ): BlobsStore => async (
     stream,
 ) => {
@@ -33,11 +34,12 @@ const store = (
 
         const storedID = await new Promise(async (resolve, reject) => {
             const form = new FormData();
-            form.append('file', stream);
+            form.append('blob', stream);
 
             const response = await fetch(origin + UPLOAD_PATH, {
                 method: 'POST',
                 headers: {
+                    'Deserve-Token': token,
                     'Content-Type': 'application/octet-stream',
                     ...form.getHeaders(),
                 },

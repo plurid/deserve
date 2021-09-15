@@ -31,8 +31,8 @@ export interface ClientSuccessResponse<D = any> {
 
 
 export type BlobsGet = (
-    id: string | string[],
-) => Promise<ClientResponse<ReadableStream | undefined>>;
+    id: string,
+) => Promise<Response | undefined>;
 
 export type BlobsStore = (
     stream: fs.ReadStream,

@@ -1,4 +1,9 @@
 // #region imports
+    // #region libraries
+    import fetch from 'cross-fetch';
+    // #endregion libraries
+
+
     // #region external
     import {
         BlobsGet,
@@ -15,23 +20,28 @@
 // #region module
 const get = (
     origin: string | undefined,
+    token: string,
 ): BlobsGet => async (
     id,
 ) => {
     try {
         if (!origin) {
-            return {
-                status: false,
-            };
+            return;
         }
 
-        return {
-            status: false,
-        };
+        const response = await fetch(
+            origin + DOWNLOAD_PATH + '?blob=' + id,
+            {
+                method: 'GET',
+                headers: {
+                    'Deserve-Token': token,
+                },
+            },
+        );
+
+        return response;
     } catch (error) {
-        return {
-            status: false,
-        };
+        return;
     }
 }
 // #endregion module
