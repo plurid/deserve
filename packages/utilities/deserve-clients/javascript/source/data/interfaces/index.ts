@@ -152,11 +152,14 @@ export interface IDeserveClient {
 }
 
 export interface DeserveClientOptions {
+    /**
+     * Specific `host` to be used by the deserve client.
+     */
     host?: string;
 
     /**
-     * Specific URI to be used by the graphql client.
+     * Specific `origin` to be used by the deserve client.
      */
-    clientURI?: string;
+    origin?: string;
 }
 // #endregion exports

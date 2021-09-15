@@ -26,13 +26,13 @@ export const resolveOrigin = (
     options?: DeserveClientOptions,
 ) => {
     const host = options?.host || DESERVE_CLIENT_HOST;
-    const clientURI = options?.clientURI
-        ? options.clientURI
+    const clientURI = options?.origin
+        ? options.origin
         : DESERVE_CLIENT_PROTOCOL + identonym + host;
 
     if (
         !host
-        && !options?.clientURI
+        && !options?.origin
     ) {
         return;
     }

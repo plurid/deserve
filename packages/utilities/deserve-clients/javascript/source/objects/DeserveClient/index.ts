@@ -19,6 +19,31 @@
 
 
 // #region module
+/**
+ * Generates a reusable deserve client
+ * to make requests to the `identonym`'s deserve core.
+ *
+ * ```
+ * // global host to be used to form the client origin
+ * process.env.DESERVE_CLIENT_HOST = '.data.example.com';
+ * const deserveClient = DeserveClient('identonym', 'token');
+ *
+ * // or custom client origin
+ * // const deserveClient = DeserveClient(
+ * //    'identonym',
+ * //    'token',
+ * //    { origin: 'https://custom.client.origin' },
+ * // );
+ *
+ * const blob = await deserveClient.blobs.get('blob-id');
+ * const key = await deserveClient.keys.get('key-id');
+ * ````
+ *
+ * @param identonym
+ * @param token
+ * @param options
+ * @returns
+ */
 const DeserveClient = (
     identonym: string,
     token: string,

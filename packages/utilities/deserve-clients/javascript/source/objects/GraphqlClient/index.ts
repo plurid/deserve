@@ -21,7 +21,7 @@
 
 // #region module
 /**
- * Generates a reusable graphql client to make requests to the `clientOrigin`
+ * Generates a reusable GraphQL client to make requests to the `clientOrigin`
  * with the adequate `token`.
  *
  * @param clientOrigin

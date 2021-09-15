@@ -27,7 +27,7 @@ describe('DeserveClient:', () => {
             'localhost',
             'secret',
             {
-                clientURI: 'http://localhost:3366/deserve',
+                origin: 'http://localhost:3366/deserve',
             },
         );
 
@@ -41,7 +41,7 @@ describe('DeserveClient:', () => {
             'localhost',
             'secret',
             {
-                clientURI: 'http://localhost:3366/deserve',
+                origin: 'http://localhost:3366/deserve',
             },
         );
 
