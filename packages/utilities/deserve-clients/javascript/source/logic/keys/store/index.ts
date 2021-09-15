@@ -16,11 +16,17 @@
 
 // #region module
 const store = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): KeysStore => async (
     data,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         data = typeof data === 'string'
             ? data as any
             : JSON.stringify(data);

@@ -16,11 +16,17 @@
 
 // #region module
 const store = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): FunctionsStore => async (
     data,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         const {
             name,
             text,

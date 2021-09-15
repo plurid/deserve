@@ -12,11 +12,16 @@
 
 // #region module
 const get = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): BlobsGet => async (
     id,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
 
         return {
             status: false,

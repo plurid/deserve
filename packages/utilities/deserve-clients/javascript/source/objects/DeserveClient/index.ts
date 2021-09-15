@@ -24,10 +24,6 @@ const DeserveClient = (
         token,
         options,
     );
-    if (!graphqlClient) {
-        return;
-    }
-
 
     return {
         blobs: {

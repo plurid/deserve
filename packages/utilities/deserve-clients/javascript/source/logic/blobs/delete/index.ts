@@ -16,11 +16,17 @@
 
 // #region module
 const blobsDelete = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): BlobsDelete => async (
     id,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         const request = await graphqlClient.mutate({
             mutation: MUTATION_DELETE_BLOB,
             variables: {

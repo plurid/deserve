@@ -16,13 +16,19 @@
 
 // #region module
 const query = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): KeysQuery => async (
     filter,
     count,
     start,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         const request = await graphqlClient.query({
             query: QUERY_QUERY_KEYS,
             variables: {

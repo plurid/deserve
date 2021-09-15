@@ -12,11 +12,16 @@
 
 // #region module
 const store = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): BlobsStore => async (
     id,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
 
         return {
             status: false,

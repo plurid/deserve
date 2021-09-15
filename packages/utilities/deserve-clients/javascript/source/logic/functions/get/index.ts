@@ -17,12 +17,18 @@
 
 // #region module
 const get = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): FunctionsGet => async (
     value,
     type,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         const singular = typeof value === 'string';
 
         const query = singular

@@ -16,12 +16,18 @@
 
 // #region module
 const run = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): FunctionsRun => async (
     id,
     args,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         args = typeof args === 'string'
             ? args
             : typeof args !== 'undefined'

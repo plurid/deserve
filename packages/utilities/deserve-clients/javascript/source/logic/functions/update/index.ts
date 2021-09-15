@@ -16,13 +16,19 @@
 
 // #region module
 const update = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): FunctionsUpdate => async (
     id,
     data,
     field,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         data = typeof data === 'string'
             ? data as any
             : JSON.stringify(data);

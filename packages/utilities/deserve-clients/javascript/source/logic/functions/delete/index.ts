@@ -16,11 +16,17 @@
 
 // #region module
 const functionsDelete = (
-    graphqlClient: GraphqlClient,
+    graphqlClient: GraphqlClient | undefined,
 ): FunctionsDelete => async (
     id,
 ) => {
     try {
+        if (!graphqlClient) {
+            return {
+                status: false,
+            };
+        }
+
         const request = await graphqlClient.mutate({
             mutation: MUTATION_DELETE_FUNCTION,
             variables: {
