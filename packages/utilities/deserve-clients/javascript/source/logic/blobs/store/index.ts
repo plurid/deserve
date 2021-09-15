@@ -1,7 +1,7 @@
 // #region imports
     // #region libraries
-    import fetch from 'cross-fetch';
     import FormData from 'form-data';
+    import axios from 'axios';
     // #endregion libraries
 
 
@@ -37,32 +37,37 @@ const store = (
             };
         }
 
-        const storedID = await new Promise(async (resolve, reject) => {
-            const form = new FormData();
-            form.append('blob', stream);
+        const stored = await new Promise<any>(async (resolve, reject) => {
+            try {
+                const form = new FormData();
+                form.append('blob', stream);
 
-            const response = await fetch(
-                clientOrigin + UPLOAD_PATH,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Deserve-Token': token,
-                        'Content-Type': 'application/octet-stream',
-                        ...form.getHeaders(),
+                const formHeaders = form.getHeaders();
+
+                const response = await axios.post(
+                    clientOrigin + UPLOAD_PATH,
+                    form,
+                    {
+                        headers: {
+                            'Deserve-Token': token,
+                            // 'Host': 'localhost:3355',
+                            ...formHeaders,
+                        },
                     },
-                    body: form.getBuffer(),
-                },
-            );
+                );
 
-            if (response.status === 200) {
-                const json = await response.json();
-                resolve(json.id);
-            } else {
-                reject('deserve client could not store');
+                if (response.status !== 200) {
+                    reject('deserve client could not store');
+                    return;
+                }
+
+                resolve(response.data);
+            } catch (error) {
+                reject(error);
             }
         });
 
-        if (!storedID) {
+        if (!stored) {
             return {
                 status: false,
             };
@@ -71,7 +76,7 @@ const store = (
         return {
             status: true,
             data: {
-                id: storedID,
+                ...stored,
             },
         };
     } catch (error) {
