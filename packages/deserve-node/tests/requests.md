@@ -8,9 +8,9 @@
 
 ```
 curl \
+    -F 'blob=@<file-path>' \
     -H 'Deserve-Token: <token>' \
     -H 'Host: <host>' \
-    -F 'file=@<file-path>' \
     <deserve.domain>/upload
 ```
 
