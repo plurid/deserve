@@ -1,5 +1,9 @@
 // #region imports
     // #region libraries
+    import {
+        URL,
+    } from 'url';
+
     import fetch from 'cross-fetch';
     // #endregion libraries
 
@@ -34,12 +38,15 @@ const get = (
             return;
         }
 
+        const originURL = new URL(clientOrigin);
+
         const response = await fetch(
             clientOrigin + DOWNLOAD_PATH + '?blob=' + id,
             {
                 method: 'GET',
                 headers: {
                     'Deserve-Token': token,
+                    'Host': originURL.host,
                 },
             },
         );
