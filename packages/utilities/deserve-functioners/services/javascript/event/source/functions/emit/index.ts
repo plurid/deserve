@@ -8,6 +8,10 @@
     import {
         MUTATION_EVENT_EMIT,
     } from '~services/graphql/mutate';
+
+    import {
+        stringedDataOrDefault,
+    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -19,20 +23,14 @@ const emit: EventEmit = async (
     data,
 ) => {
     try {
-        data = typeof data === 'string'
-            ? data
-            : typeof data !== 'undefined'
-                ? JSON.stringify(
-                    data,
-                    (_, value) => typeof value === 'undefined' ? null : value,
-                ) : undefined;
+        const stringedData = stringedDataOrDefault(data);
 
         const mutation = await client.mutate({
             mutation: MUTATION_EVENT_EMIT,
             variables: {
                 input: {
                     type,
-                    data,
+                    data: stringedData,
                 },
             },
         });
