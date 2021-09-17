@@ -13,8 +13,10 @@ Run the imagene with the appropriate token for deserve function access
 ```
 docker run \
     --network host \
-    --env DESERVE_DATABASE_ENDPOINT= \
+    --env DESERVE_ENDPOINT= \
     --env DESERVE_DATABASE_TOKEN= \
+    --env DESERVE_STORAGE_TOKEN= \
+    --env DESERVE_EVENT_TOKEN= \
     deserve-functioner-javascript
 ```
 
