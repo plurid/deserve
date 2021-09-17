@@ -600,6 +600,11 @@
     encoding "^0.1.13"
     sync-fetch "^0.3.0"
 
+"@plurid/plurid-functions@^0.0.0-7":
+  version "0.0.0-7"
+  resolved "https://registry.yarnpkg.com/@plurid/plurid-functions/-/plurid-functions-0.0.0-7.tgz#7af03ae2a4eb098285aab2198bb098739cacefab"
+  integrity sha512-tZKPEiom7FySe0XYFXZSK25nDt/mwj++r+Gug3aPZ6vs39gt1X7jXedqX5uwzuzSCJLEWhzId00HH4082EIXsQ==
+
 "@rollup/pluginutils@^4.1.0":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.1.1.tgz#1d4da86dd4eded15656a57d933fda2b9a08d47ec"

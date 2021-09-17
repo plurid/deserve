@@ -31,8 +31,11 @@ const build = {
         },
     ],
     external: [
+        '@apollo/client',
         '@apollo/client/core',
+        '@plurid/plurid-functions',
         'cross-fetch',
+        'graphql',
         'request',
     ],
     plugins: [
