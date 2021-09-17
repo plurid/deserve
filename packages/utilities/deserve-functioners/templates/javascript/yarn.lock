@@ -25,20 +25,20 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@plurid/deserve-functioner-database@0.0.0-3":
-  version "0.0.0-3"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-database/-/deserve-functioner-database-0.0.0-3.tgz#8946a4a034320c29f411f445e332d1c389551e42"
-  integrity sha512-zdpjrKAv0blcgE4eCDDBvgwnse5KhikdQ/zNuiQHbdHrqMeI0+J67Hq9RJMYu9+CGJbLRQzqNziyYJUENKSfPw==
+"@plurid/deserve-functioner-database@0.0.0-4":
+  version "0.0.0-4"
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-database/-/deserve-functioner-database-0.0.0-4.tgz#d256225cd8c08bb6063d4aa87465c833f3b39ecd"
+  integrity sha512-RGOaNBKiU3m5lz346Wxnwsx/5drPORSCU4FUoFEvaptud2wyBE1E9WI91IRqcgS7kxp89cYKtWESBVF6JXybLA==
 
-"@plurid/deserve-functioner-event@0.0.0-1":
+"@plurid/deserve-functioner-event@0.0.0-2":
+  version "0.0.0-2"
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-event/-/deserve-functioner-event-0.0.0-2.tgz#c8fa6ab13a6e3d2c3ab945dae287a2a9593c1bd9"
+  integrity sha512-64NMaWiYIQflECvV56DjK0/ca8OHDOBsxabJCIhri/eHddH7HR5xwbZWbUvYM3Z0nR27UYWbNU70tvSFju0idA==
+
+"@plurid/deserve-functioner-storage@0.0.0-1":
   version "0.0.0-1"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-event/-/deserve-functioner-event-0.0.0-1.tgz#9166e1e1dc851d3e2e89d59ea13617e951bc1da4"
-  integrity sha512-4nSsKxjsZKE1Ar8uiHsmdE7bMFTwX0o6iupStoxgD1YvZ1S3ytkB9MVz09iFLfLHGBBLAb7Nb8g7dUrA1oFrBQ==
-
-"@plurid/deserve-functioner-storage@0.0.0-0":
-  version "0.0.0-0"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-storage/-/deserve-functioner-storage-0.0.0-0.tgz#ca3205d356575f90ab288890714be63bee743885"
-  integrity sha512-vonqeCu5y6n8xz+qd3B/7kTdeVq+ac9nmaMeKjtw0O0H3kt0Z1BL9QtUxAvbhZPyVnlwvj8txW4aZDnNgQy66g==
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-storage/-/deserve-functioner-storage-0.0.0-1.tgz#21c3aa9e7d1e5c5a41a0a36d8ede4094e2bd0b3e"
+  integrity sha512-JSWis4ZPhxjv8SGRq/GABgoUVFlIuIXHcv3oe597x4ZNQ8am2c1xbbM4YsG3ecBQR14ffDGJ3TeTWQawQ/sR4Q==
 
 "@plurid/plurid-functions@^0.0.0-7":
   version "0.0.0-7"
