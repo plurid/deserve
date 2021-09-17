@@ -1,4 +1,11 @@
 // #region imports
+    // #region libraries
+    import {
+        data as functionsData,
+    } from '@plurid/plurid-functions';
+    // #endregion libraries
+
+
     // #region external
     import {
         EventEmit,
@@ -8,10 +15,6 @@
     import {
         MUTATION_EVENT_EMIT,
     } from '~services/graphql/mutate';
-
-    import {
-        stringedDataOrDefault,
-    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -23,7 +26,7 @@ const emit: EventEmit = async (
     data,
 ) => {
     try {
-        const stringedData = stringedDataOrDefault(data);
+        const stringedData = functionsData.stringifyOrDefault(data);
 
         const mutation = await client.mutate({
             mutation: MUTATION_EVENT_EMIT,
