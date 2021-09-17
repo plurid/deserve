@@ -38,4 +38,8 @@ export const defaultConfigurationPath = path.join(
     '.deserve/data.deon',
 );
 export const CONFIGURATION_PATH = process.env.DESERVE_NODE_CONFIGURATION_PATH || defaultConfigurationPath;
+
+
+
+export const TEST_MODE = process.env.DESERVE_NODE_TEST_MODE === 'true';
 // #endregion module
