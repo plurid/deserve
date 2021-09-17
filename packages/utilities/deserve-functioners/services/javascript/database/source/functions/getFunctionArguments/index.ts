@@ -1,13 +1,16 @@
 // #region imports
+    // #region libraries
+    import {
+        data,
+    } from '@plurid/plurid-functions';
+    // #endregion libraries
+
+
     // #region external
     import client from '~services/graphql/client';
     import {
         QUERY_GET_FUNCTION_ARGUMENTS,
     } from '~services/graphql/query';
-
-    import {
-        dataOrDefault,
-    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -26,7 +29,7 @@ const getFunctionArguments = async () => {
             return;
         }
 
-        return dataOrDefault(response.data.value);
+        return data.parseFromString(response.data.value);
     } catch (error) {
         return;
     }
