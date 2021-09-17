@@ -16,7 +16,10 @@
             ],
             "~services/*": [
                 "./source/services/*"
-            ]
+            ],
+            "~utilities/*": [
+                "./source/utilities/*"
+            ],
         },
 
         "outDir": "distribution",
