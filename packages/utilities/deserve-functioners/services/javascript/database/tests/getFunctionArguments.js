@@ -1,5 +1,7 @@
-const curl = require('./utilities/curl').default;
-const runner = require('./utilities/runner').default;
+const {
+    curl,
+    runner,
+} = require('@plurid/runner');
 
 const database = require('../distribution').default;
 
