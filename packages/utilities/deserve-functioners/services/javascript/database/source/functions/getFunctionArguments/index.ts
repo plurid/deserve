@@ -4,24 +4,16 @@
     import {
         QUERY_GET_FUNCTION_ARGUMENTS,
     } from '~services/graphql/query';
+
+    import {
+        dataOrDefault,
+    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const dataOrDefault = (
-    value: string,
-) => {
-    try {
-        const data = JSON.parse(value);
-        return data;
-    } catch (error) {
-        return value;
-    }
-}
-
-
 const getFunctionArguments = async () => {
     try {
         const query = await client.query({
