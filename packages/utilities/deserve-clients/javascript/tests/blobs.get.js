@@ -24,7 +24,7 @@ const prepare = async (
 
     const pathToReadFile = path.join(
         __dirname,
-        'test.file',
+        'test.blob',
     );
     const readStream = fs.createReadStream(pathToReadFile);
 
@@ -38,7 +38,7 @@ const prepare = async (
         },
     );
     check(
-        '.store file',
+        '.store blob',
         storeResult.status, true, '==',
     );
 
@@ -48,7 +48,6 @@ const prepare = async (
         storeResult,
     };
 }
-
 
 const run = async (
     check,
@@ -62,26 +61,52 @@ const run = async (
     const blobID = storeResult.data.id;
     const getResult = await deserveClient.blobs.get(blobID);
     check(
-        '.get file',
+        '.get blob',
         getResult.status, true, '==',
     );
 
-    const pathToWriteFile = path.join(
+    const getBlobPath = path.join(
         __dirname,
-        'test.file.get',
+        'test.blob.get',
     );
-    const writeStream = fs.createWriteStream(pathToWriteFile);
+    const writeStream = fs.createWriteStream(getBlobPath);
     getResult.data.body.pipe(writeStream);
 
 
     return {
         getResult,
+        getBlobPath,
     };
 }
 
+const postpare = async (
+    check,
+    preparation,
+    result,
+) => {
+    const {
+        deserveClient,
+        storeResult,
+    } = preparation;
+
+    const {
+        getBlobPath,
+    } = result;
+
+    const blobID = storeResult.data.id;
+
+    const deleteResult = await deserveClient.blobs.delete(blobID);
+    check(
+        '.delete blob',
+        deleteResult.status, true, '==',
+    );
+
+    fs.unlinkSync(getBlobPath);
+}
 
 
 runner(
     prepare,
     run,
+    postpare,
 );
