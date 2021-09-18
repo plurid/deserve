@@ -39,7 +39,7 @@ export interface ClientSuccessResponse<D = any> {
 
 export type BlobsGet = (
     id: string,
-) => Promise<Response | undefined>;
+) => Promise<ClientResponse<Response | undefined>>;
 
 export interface BlobsStoreOptions {
     contentType?: string;

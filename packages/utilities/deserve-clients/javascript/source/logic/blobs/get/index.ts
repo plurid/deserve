@@ -32,7 +32,9 @@ const get = (
         } = clientData;
 
         if (!clientOrigin) {
-            return;
+            return {
+                status: false,
+            };
         }
 
         const response = await fetch(
@@ -46,9 +48,20 @@ const get = (
             },
         );
 
-        return response;
+        if (response.status !== 200) {
+            return {
+                status: false,
+            };
+        }
+
+        return {
+            status: true,
+            data: response,
+        };
     } catch (error) {
-        return;
+        return {
+            status: false,
+        };
     }
 }
 // #endregion module
