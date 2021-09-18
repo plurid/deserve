@@ -8,7 +8,28 @@ const database = require('../distribution').default;
 
 
 const prepare = async () => {
-    const functionText = `const test = (\\r\\n    args, services,\\r\\n) => {\\r\\n    console.log(args, services);\\r\\n    return { args };\\r\\n}\\r\\n\\r\\nmodule.exports = {\\r\\n    test,\\r\\n};\\r\\n`;
+    const functionText = `
+const test = async (
+    args,
+    services,
+) => {
+    console.log(args, services);
+
+    await new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(true);
+        }, 5_000);
+    });
+
+    return {
+        args,
+    };
+}
+
+module.exports = {
+    test,
+};
+`;
 
     const generateFunctionData = await curl([
         `-H 'Deserve-Token: 123'`,
@@ -20,8 +41,19 @@ const prepare = async () => {
 
     const id = generateFunctionData.data.storeFunction.data.id;
 
+    const runFunctionData = await curl([
+        `-H 'Deserve-Token: 123'`,
+        `-H 'Host: localhost:3355'`,
+        `-H 'Content-Type: application/json'`,
+        `--data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) { runFunction(input: $input) { status data }}", "variables":{"input":{"id":"${id}", "arguments": "value"}}}'`,
+        `http://localhost:3366/deserve`,
+    ]);
+
+    const tokens = runFunctionData.data.runFunction.data;
+
     return {
         id,
+        tokens,
         functionText,
     };
 }
@@ -31,11 +63,12 @@ const run = async (
 ) => {
     const {
         id,
+        tokens,
         functionText,
     } = preparation;
 
     process.env.DESERVE_ENDPOINT = 'http://localhost:3366';
-    process.env.DESERVE_DATABASE_TOKEN = '__test__';
+    process.env.DESERVE_DATABASE_TOKEN = tokens.database;
 
     const data = await database.getFunctionData();
     console.log('getFunctionData', data);
