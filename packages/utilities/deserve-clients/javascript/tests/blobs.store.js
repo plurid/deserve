@@ -37,7 +37,10 @@ const run = async (
         },
     );
 
-    check(result.status, true);
+    check(
+        '.store file',
+        result.status, true, '==',
+    );
 }
 
 
