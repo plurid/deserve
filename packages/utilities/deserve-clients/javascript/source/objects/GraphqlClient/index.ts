@@ -30,7 +30,7 @@
  */
 const GraphqlClient = (
     clientOrigin: string | undefined,
-    clientHost: string | undefined,
+    clientHost: string,
     token: string,
 ) => {
     if (!clientOrigin) {
@@ -43,7 +43,7 @@ const GraphqlClient = (
             credentials: 'include',
             fetch,
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Deserve-Token': `${token}`,
                 'Host': clientHost,
             },
         }),
