@@ -21,7 +21,7 @@ const run = async (
 
     const pathToFile = path.join(
         __dirname,
-        'test.file',
+        'a.blob',
     );
     const readStream = fs.createReadStream(pathToFile);
 

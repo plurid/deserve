@@ -22,7 +22,7 @@ const prepare = async (
 
     const pathToReadFile = path.join(
         __dirname,
-        'test.blob',
+        'a.blob',
     );
     const readStream = fs.createReadStream(pathToReadFile);
 
@@ -65,7 +65,7 @@ const run = async (
 
     const getBlobPath = path.join(
         __dirname,
-        'test.blob.get',
+        'a.blob.get',
     );
     const writeStream = fs.createWriteStream(getBlobPath);
     getResult.data.body.pipe(writeStream);
