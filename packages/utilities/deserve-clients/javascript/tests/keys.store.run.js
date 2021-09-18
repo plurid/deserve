@@ -1,4 +1,4 @@
-const runner = require('@plurid/runner');
+const runner = require('@plurid/runner').default;
 
 const DeserveClient = require('../distribution').default;
 
