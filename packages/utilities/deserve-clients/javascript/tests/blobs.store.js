@@ -9,13 +9,7 @@ const DeserveClient = require('../distribution').default;
 
 
 
-const prepare = async (
-    check,
-) => {
-}
-
 const run = async (
-    preparation,
     check,
 ) => {
     const deserveClient = DeserveClient(
@@ -36,16 +30,8 @@ const run = async (
     console.log('result', result);
 }
 
-const postpare = async (
-    preparation,
-    result,
-    check,
-) => {
-}
 
 
 runner(
-    prepare,
     run,
-    postpare,
 );
