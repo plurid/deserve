@@ -590,6 +590,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@plurid/runner@^0.0.0-0":
+  version "0.0.0-0"
+  resolved "https://npm.plurid.cloud/@plurid%2frunner/-/runner-0.0.0-0.tgz#e05bc8c6dccb42b20447f277d941ce26c249c370"
+  integrity sha512-xzKqIvGS12zR6e3argEnHTC7e9E0XLQWOaFMEQsFB8sV8YidKWYM14H96ySm7KcRd/O4SCQgT8kqUgkqk/kh7w==
+  dependencies:
+    commander "^8.2.0"
+
 "@rollup/pluginutils@^4.1.0":
   version "4.1.1"
   resolved "https://npm.plurid.cloud/@rollup%2fpluginutils/-/pluginutils-4.1.1.tgz#1d4da86dd4eded15656a57d933fda2b9a08d47ec"
@@ -1220,6 +1227,11 @@ commander@^2.20.0:
   version "2.20.3"
   resolved "https://npm.plurid.cloud/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
+commander@^8.2.0:
+  version "8.2.0"
+  resolved "https://npm.plurid.cloud/commander/-/commander-8.2.0.tgz#37fe2bde301d87d47a53adeff8b5915db1381ca8"
+  integrity sha512-LLKxDvHeL91/8MIyTAD5BFMNtoIwztGPMiM/7Bl8rIPmHCZXRxmSWr91h57dpOpnQ6jIUqEWdXE/uBYMfiVZDA==
 
 commondir@^1.0.1:
   version "1.0.1"
