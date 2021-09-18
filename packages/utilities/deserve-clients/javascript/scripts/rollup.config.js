@@ -29,6 +29,7 @@ const build = {
 
         '@apollo/client',
         '@apollo/client/core',
+        'axios',
         'cross-fetch',
         'form-data',
     ],
