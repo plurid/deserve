@@ -1,9 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const {
-    runner,
-} = require('@plurid/runner');
+const runner = require('@plurid/runner');
 
 const DeserveClient = require('../distribution').default;
 
