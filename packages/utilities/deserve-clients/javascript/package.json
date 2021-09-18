@@ -52,7 +52,7 @@
     },
     "devDependencies": {
         "@apollo/client": "^3.4.12",
-        "@plurid/runner": "^0.0.0-3",
+        "@plurid/runner": "^0.0.0-4",
         "@types/jest": "^27.0.1",
         "@types/node": "^16.9.2",
         "@typescript-eslint/eslint-plugin": "^4.31.1",
