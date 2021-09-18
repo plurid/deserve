@@ -14,8 +14,9 @@ const run = async (
 ) => {
     const deserveClient = DeserveClient(
         'localhost',
-        'secret',
+        '123',
         {
+            host: 'localhost:3355',
             origin: 'http://localhost:3366/deserve',
         },
     );
@@ -26,8 +27,17 @@ const run = async (
     );
     const readStream = fs.createReadStream(pathToFile);
 
-    const result = await deserveClient.blobs.store(readStream);
-    console.log('result', result);
+    const result = await deserveClient.blobs.store(
+        readStream,
+        {
+            contentType: 'image/png',
+            metadata: {
+                some: 'data',
+            },
+        },
+    );
+
+    check(result.status, true);
 }
 
 
