@@ -12,6 +12,7 @@
 
     import {
         resolveOrigin,
+        resolveHost,
     } from '~utilities/index';
     // #endregion external
 // #endregion imports
@@ -53,15 +54,21 @@ const DeserveClient = (
         identonym,
         options,
     );
+    const clientHost = resolveHost(
+        clientOrigin,
+        options,
+    );
 
     const graphqlClient = GraphqlClient(
         clientOrigin,
+        clientHost,
         token,
     );
 
     const clientData: ClientData = {
         token,
         clientOrigin,
+        clientHost,
         graphqlClient,
     };
 

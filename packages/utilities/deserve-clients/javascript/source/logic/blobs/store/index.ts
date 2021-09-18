@@ -1,9 +1,5 @@
 // #region imports
     // #region libraries
-    import {
-        URL,
-    } from 'url';
-
     import FormData from 'form-data';
     import axios from 'axios';
     // #endregion libraries
@@ -28,10 +24,12 @@ const store = (
     clientData: ClientData,
 ): BlobsStore => async (
     stream,
+    options,
 ) => {
     try {
         const {
             clientOrigin,
+            clientHost,
             token,
         } = clientData;
 
@@ -43,10 +41,18 @@ const store = (
 
         const stored = await new Promise<any>(async (resolve, reject) => {
             try {
-                const originURL = new URL(clientOrigin);
-
                 const form = new FormData();
-                form.append('blob', stream);
+                form.append(
+                    'blob',
+                    stream,
+                    {
+                        contentType: options?.contentType,
+                    },
+                );
+                form.append(
+                    'metadata',
+                    JSON.stringify(options?.metadata),
+                );
 
                 const formHeaders = form.getHeaders();
 
@@ -56,7 +62,7 @@ const store = (
                     {
                         headers: {
                             'Deserve-Token': token,
-                            'Host': originURL.host,
+                            'Host': clientHost,
                             ...formHeaders,
                         },
                     },

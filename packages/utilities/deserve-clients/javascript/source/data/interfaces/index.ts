@@ -16,6 +16,7 @@ export type GraphqlClient = ApolloClient<NormalizedCacheObject>;
 
 export interface ClientData {
     token: string;
+    clientHost: string,
     clientOrigin: string | undefined;
     graphqlClient: GraphqlClient | undefined;
 }
@@ -40,8 +41,14 @@ export type BlobsGet = (
     id: string,
 ) => Promise<Response | undefined>;
 
+export interface BlobsStoreOptions {
+    contentType?: string;
+    metadata?: any;
+}
+
 export type BlobsStore = (
     stream: fs.ReadStream,
+    options?: BlobsStoreOptions,
 ) => Promise<ClientResponse<any>>;
 
 export type BlobsDelete = (
@@ -152,6 +159,11 @@ export interface IDeserveClient {
 }
 
 export interface DeserveClientOptions {
+    /**
+     * Specific `router` to be used by the deserve client.
+     */
+    router?: string;
+
     /**
      * Specific `host` to be used by the deserve client.
      */
