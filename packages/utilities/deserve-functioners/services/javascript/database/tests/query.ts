@@ -1,9 +1,11 @@
-const {
+import runner, {
     curl,
-    runner,
-} = require('@plurid/runner');
+    RunnerPrepare,
+    RunnerRun,
+    RunnerPostpare,
+} from '@plurid/runner';
 
-const database = require('../distribution').default;
+import database from '../distribution';
 
 
 

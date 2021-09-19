@@ -1,13 +1,15 @@
-const {
+import runner, {
     curl,
-    runner,
-} = require('@plurid/runner');
+    RunnerPrepare,
+    RunnerRun,
+    RunnerPostpare,
+} from '@plurid/runner';
 
-const database = require('../distribution').default;
+import database from '../distribution';
 
 
 
-const prepare = async () => {
+const prepare: RunnerPrepare = async () => {
     const functionText = `
 const test = async (
     args,
@@ -58,14 +60,15 @@ module.exports = {
     };
 }
 
-const run = async (
-    preparation,
+const run: RunnerRun = async (
+    check,
+    prepared,
 ) => {
     const {
         id,
         tokens,
         functionText,
-    } = preparation;
+    } = prepared;
 
     process.env.DESERVE_ENDPOINT = 'http://localhost:3366';
     process.env.DESERVE_DATABASE_TOKEN = tokens.database;
@@ -80,13 +83,14 @@ const run = async (
     }
 }
 
-const postpare = async (
-    preparation,
-    result,
+const postpare: RunnerPostpare = async (
+    check,
+    prepared,
+    runned,
 ) => {
     const {
         id,
-    } = preparation;
+    } = prepared;
 
     const deleted = await curl([
         `-H 'Deserve-Token: 123'`,
