@@ -7,11 +7,27 @@ import runner, {
     RunnerPostpare,
 } from '@plurid/runner';
 
-import DeserveClient from '../distribution';
+import DeserveClient, {
+    IDeserveClient,
+    ClientResponse,
+    ClientSuccessResponse,
+} from '../distribution';
 
 
 
-const prepare: RunnerPrepare = async (
+interface Prepared {
+    deserveClient: IDeserveClient;
+    storeResult: ClientResponse<any>;
+    blobID: string;
+}
+
+
+interface Runned {
+    getBlobPath: string;
+}
+
+
+const prepare: RunnerPrepare<Prepared> = async (
     check,
 ) => {
     const deserveClient = DeserveClient(
@@ -44,23 +60,24 @@ const prepare: RunnerPrepare = async (
         storeResult.status, true, '==',
     );
 
+    const blobID = (storeResult as ClientSuccessResponse).data.id;
 
     return {
         deserveClient,
         storeResult,
+        blobID,
     };
 }
 
-const run: RunnerRun = async (
+const run: RunnerRun<Prepared> = async (
     check,
     preparation,
 ) => {
     const {
         deserveClient,
-        storeResult,
+        blobID,
     } = preparation;
 
-    const blobID = storeResult.data.id;
     const getResult = await deserveClient.blobs.get(blobID);
     check(
         '.get blob',
@@ -72,30 +89,27 @@ const run: RunnerRun = async (
         'a.blob.get',
     );
     const writeStream = fs.createWriteStream(getBlobPath);
-    getResult.data.body.pipe(writeStream);
+    (getResult as ClientSuccessResponse).data.body.pipe(writeStream);
 
 
     return {
-        getResult,
         getBlobPath,
     };
 }
 
-const postpare: RunnerPostpare = async (
+const postpare: RunnerPostpare<Prepared, Runned> = async (
     check,
     preparation,
     result,
 ) => {
     const {
         deserveClient,
-        storeResult,
+        blobID,
     } = preparation;
 
     const {
         getBlobPath,
     } = result;
-
-    const blobID = storeResult.data.id;
 
     const deleteResult = await deserveClient.blobs.delete(blobID);
     check(
