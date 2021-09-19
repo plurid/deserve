@@ -590,10 +590,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@plurid/runner@^0.0.0-7":
-  version "0.0.0-7"
-  resolved "https://npm.plurid.cloud/@plurid%2frunner/-/runner-0.0.0-7.tgz#b8a7e4e855a3a1ba1764f27602d4d2c66e3a0b72"
-  integrity sha512-p2LptUK8LfgsWaocEAF1EpeOyIzgCSo/nDHW5NQWXKP+N0HK+6WLXI91rFiTz3pr7hEapFSY8i+kSyLcgz7YQg==
+"@plurid/runner@^0.0.0-8":
+  version "0.0.0-8"
+  resolved "https://npm.plurid.cloud/@plurid%2frunner/-/runner-0.0.0-8.tgz#0f60e36b582bb42cf5409228784ba81bdb99769e"
+  integrity sha512-zwgcxJAf8oPL7lRoX0j+Fp/o58nI/Pm5vaGq6PTYX3RseRe8JBiD5rYXo8zkZxlly0Mq+Bc93SO/UviJMrg9Qg==
   dependencies:
     "@balsamic/esrun" "^0.0.27"
     commander "^8.2.0"
