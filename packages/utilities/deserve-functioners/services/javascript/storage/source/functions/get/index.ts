@@ -10,7 +10,7 @@
     } from '~data/interface';
 
     import {
-        STORAGE_ENDPOINT,
+        DOWNLOAD_ENDPOINT,
         STORAGE_TOKEN,
     } from '~data/constants';
     // #endregion external
@@ -23,16 +23,12 @@ const get: StorageGet = async (
     id,
 ) => {
     try {
-        if (!STORAGE_ENDPOINT || !STORAGE_TOKEN) {
+        if (!DOWNLOAD_ENDPOINT || !STORAGE_TOKEN) {
             return null;
         }
 
-        const response = await fetch(STORAGE_ENDPOINT, {
-            body: JSON.stringify({
-                id,
-            }),
+        const response = await fetch(DOWNLOAD_ENDPOINT + `?blob=${id}`, {
             headers: {
-                'Content-Type': 'application/json',
                 'Deserve-Functioner': STORAGE_TOKEN,
             },
         });

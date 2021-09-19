@@ -10,7 +10,7 @@
     } from '~data/interface';
 
     import {
-        STORAGE_ENDPOINT,
+        UPLOAD_ENDPOINT,
         STORAGE_TOKEN,
     } from '~data/constants';
     // #endregion external
@@ -23,13 +23,13 @@ const upload: StorageUpload = async (
     stream,
 ) => {
     try {
-        if (!STORAGE_ENDPOINT || !STORAGE_TOKEN) {
+        if (!UPLOAD_ENDPOINT || !STORAGE_TOKEN) {
             return false;
         }
 
 
         const requested = request.post(
-            STORAGE_ENDPOINT,
+            UPLOAD_ENDPOINT,
             {
                 headers: {
                     'Deserve-Functioner': STORAGE_TOKEN,
