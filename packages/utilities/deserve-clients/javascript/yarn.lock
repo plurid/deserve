@@ -590,10 +590,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@plurid/runner@^0.0.0-8":
-  version "0.0.0-8"
-  resolved "https://npm.plurid.cloud/@plurid%2frunner/-/runner-0.0.0-8.tgz#0f60e36b582bb42cf5409228784ba81bdb99769e"
-  integrity sha512-zwgcxJAf8oPL7lRoX0j+Fp/o58nI/Pm5vaGq6PTYX3RseRe8JBiD5rYXo8zkZxlly0Mq+Bc93SO/UviJMrg9Qg==
+"@plurid/runner@^0.0.0-9":
+  version "0.0.0-9"
+  resolved "https://npm.plurid.cloud/@plurid%2frunner/-/runner-0.0.0-9.tgz#552e9eb8ae5acd9c95d222db2c896eca9e882f34"
+  integrity sha512-x+p0zzcI8vYKmONq/PXKH2BsawrkyToamntJGhU10ATOZTnW3JufaiXSbuGEV8Zl02Y0SdxzT1c+9rsJ8/rnCQ==
   dependencies:
     "@balsamic/esrun" "^0.0.27"
     commander "^8.2.0"
@@ -718,10 +718,10 @@
   resolved "https://npm.plurid.cloud/@types%2fjson-schema/-/json-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
   integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
 
-"@types/node@*", "@types/node@^16.9.2":
-  version "16.9.2"
-  resolved "https://npm.plurid.cloud/@types%2fnode/-/node-16.9.2.tgz#81f5a039d6ed1941f8cc57506c74e7c2b8fc64b9"
-  integrity sha512-ZHty/hKoOLZvSz6BtP1g7tc7nUeJhoCf3flLjh8ZEv1vFKBWHXcnMbJMyN/pftSljNyy0kNW/UqI3DccnBnZ8w==
+"@types/node@*", "@types/node@^16.9.3":
+  version "16.9.3"
+  resolved "https://npm.plurid.cloud/@types%2fnode/-/node-16.9.3.tgz#92230abb80a66beb10236e78a51cd9e6396f4489"
+  integrity sha512-5UmMznRvrwKqisJ458JbNoq3AyXHxlAKMkGtNe143W1SkZ1BVgvCHYBzn7wD66J+smE+BolqA1mes5BeXlWY6w==
 
 "@types/prettier@^2.1.5":
   version "2.3.2"
