@@ -1,11 +1,28 @@
 #
-# Expected to run on deserver0 with Ubuntu Server 20.04 LTS, 1 disk
+# Expected to run on deserver0 - Raspberry Pi 4 with Ubuntu Server 20.04 LTS, 1 disk
 #
+
+
+# Download Raspberry Pi Imager from https://www.raspberrypi.org/software/
+curl -L https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb --output imager.deb
+# or curl -L https://downloads.raspberrypi.org/imager/imager_latest.dmg --output imager.dmg
+
+# Write Ubuntu Server 20.04 LTS to SD Card
+
+
+# touch ssh file on SD Card's /system-boot/
+touch /path/to/system-boot/ssh
+
+# get machine's IP
+DESERVER_IP=
+# ssh into the machine, default password 'ubuntu', change to 'deserver'
+ssh ubuntu@$DESERVER_IP
 
 
 
 # General
 
+# change machine name from 'ubuntu' to 'deserver'
 hostnamectl set-hostname deserver
 
 sudo adduser identonym
