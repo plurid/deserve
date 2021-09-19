@@ -1,13 +1,15 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
-const runner = require('@plurid/runner').default;
+import runner, {
+    RunnerRun,
+} from '@plurid/runner';
 
-const DeserveClient = require('../distribution').default;
+import DeserveClient from '../distribution';
 
 
 
-const run = async (
+const run: RunnerRun = async (
     check,
 ) => {
     const deserveClient = DeserveClient(
