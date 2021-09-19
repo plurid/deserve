@@ -136,6 +136,7 @@ export const writeFunctioner = async (
     const databaseToken = await generateToken(
         functionData.ownedBy,
         functionID,
+        coreID,
         {
             type: 'database',
             constraints: databaseConstraints,
@@ -274,6 +275,7 @@ export const prepareFunctioner = async (
 export const generateToken = async (
     ownedBy: string,
     functionID: string,
+    coreID: string,
     authorization: TokenAuthorization,
     deserveTokensCollection: Collection<any>,
 ) => {
@@ -285,6 +287,7 @@ export const generateToken = async (
         value,
         ownedBy,
         functionID,
+        coreID,
         authorization,
     };
 
