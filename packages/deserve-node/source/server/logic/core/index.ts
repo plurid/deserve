@@ -7,11 +7,18 @@
     // #region external
     import {
         ClientOwner,
+        Token,
     } from '~server/data/interfaces';
 
     import database, {
         getDeserveCoresCollection,
+        getDeserveTokensCollection,
+        getDeserveFunctionersCollection,
     } from '~server/services/database';
+
+    import {
+        getFunctioner,
+    } from '~server/logic/functioner';
     // #endregion external
 // #endregion imports
 
@@ -24,11 +31,18 @@ export const getCoreFromRequest = async (
     coreID?: string | undefined,
 ) => {
     const deserveCoresCollection = await getDeserveCoresCollection();
-    if (!deserveCoresCollection) {
+    const deserveTokensCollection = await getDeserveTokensCollection();
+    const deserveFunctionersCollection = await getDeserveFunctionersCollection();
+    if (
+        !deserveCoresCollection
+        || !deserveTokensCollection
+        || !deserveFunctionersCollection
+    ) {
         // console.log('No database');
 
         return;
     }
+
 
     if (owner && coreID) {
         const cores: any[] = await database.getAllWhere(
@@ -45,6 +59,28 @@ export const getCoreFromRequest = async (
             return;
         }
 
+        return core;
+    }
+
+
+    const functioner = getFunctioner(request);
+    if (functioner) {
+        const token = await database.getBy<Token>(
+            deserveTokensCollection,
+            'value',
+            functioner,
+        );
+
+        if (!token) {
+            // console.log('No token');
+
+            return;
+        }
+
+        const core = await database.getById(
+            deserveCoresCollection,
+            token.coreID,
+        );
         return core;
     }
 

@@ -130,6 +130,7 @@ export const writeFunctioner = async (
     const {
         id: functionID,
         database: databaseConstraints,
+        coreID,
     } = functionData;
 
     const databaseToken = await generateToken(

@@ -132,6 +132,7 @@ export interface Token {
     value: string;
     functionID: string;
     ownedBy: string;
+    coreID: string;
     authorization: TokenAuthorization;
 }
 
