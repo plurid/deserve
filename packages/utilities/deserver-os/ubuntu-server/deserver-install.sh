@@ -3,6 +3,9 @@
 #
 
 
+
+# OS Install
+
 # Download Raspberry Pi Imager from https://www.raspberrypi.org/software/
 curl -L https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb --output imager.deb
 # or curl -L https://downloads.raspberrypi.org/imager/imager_latest.dmg --output imager.dmg
@@ -14,9 +17,10 @@ curl -L https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb --outpu
 touch /path/to/system-boot/ssh
 
 # get machine's IP
-DESERVER_IP=
+DESERVER_IP=<machine-ip>
 # ssh into the machine, default password 'ubuntu', change to 'deserver'
 ssh ubuntu@$DESERVER_IP
+
 
 
 
@@ -25,16 +29,41 @@ ssh ubuntu@$DESERVER_IP
 # change machine name from 'ubuntu' to 'deserver'
 hostnamectl set-hostname deserver
 
-sudo adduser identonym
+# generate new user
+IDENTONYM=<username>
+sudo adduser $IDENTONYM
 # default password: deserving
+
+# add user to sudoers
+sudo usermod -aG sudo $IDENTONYM
+sudo usermod -G netdev -a $IDENTONYM
+
+# logout and login as $IDENTONYM
+
+
+
+sudo apt-get update
+sudo apt-get upgrade
+
+
+
+# Install network manager
+sudo apt-get install network-manager
+
+sudo systemctl start NetworkManager.service
+sudo systemctl enable NetworkManager.service
+
+
+
+# optionals
+sudo apt install wireless-tools
+sudo apt install net-tools
+
 
 
 sudo apt-get install gcc-arm*
 
 sudo apt-get install build-essential
-
-
-# https://unix.stackexchange.com/a/399531 - if dpkg is locked
 
 
 
@@ -154,3 +183,10 @@ sudo docker run \
     minio/minio server /data --console-address ":33736"
 
 printf "\n\nSafely store the\nMINIO_ROOT_USER $DESERVE_NODE_MINIO_ACCESS_KEY\nand the\nMINIO_ROOT_PASSWORD $DESERVE_NODE_MINIO_SECRET_KEY\n\n\n"
+
+
+
+
+### Notes
+
+# if dpkg is locked - https://unix.stackexchange.com/a/399531
