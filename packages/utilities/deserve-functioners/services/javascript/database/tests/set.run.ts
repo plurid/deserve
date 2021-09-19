@@ -9,11 +9,13 @@ import database from '../distribution';
 
 
 
-const prepare = async () => {
+const prepare: RunnerPrepare = async (
+    check,
+) => {
 }
 
-const run = async (
-    preparation,
+const run: RunnerRun = async (
+    check,
 ) => {
     process.env.DESERVE_ENDPOINT = 'http://localhost:3366';
     process.env.DESERVE_DATABASE_TOKEN = '__test__';
@@ -21,9 +23,10 @@ const run = async (
     const data = await database.set('id', 'data');
 }
 
-const postpare = async (
-    preparation,
-    result,
+const postpare: RunnerPostpare = async (
+    check,
+    prepared,
+    runned,
 ) => {
 }
 

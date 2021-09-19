@@ -9,21 +9,22 @@ import database from '../distribution';
 
 
 
-const prepare = async () => {
+const prepare: RunnerPrepare = async () => {
 }
 
-const run = async (
-    preparation,
+const run: RunnerRun = async (
+    check,
 ) => {
     process.env.DESERVE_ENDPOINT = 'http://localhost:3366';
     process.env.DESERVE_DATABASE_TOKEN = '__test__';
 
-    const data = await database.query({ filter: ''}, 'pagination');
+    const data = await database.remove('id');
 }
 
-const postpare = async (
-    preparation,
-    result,
+const postpare: RunnerPostpare = async (
+    check,
+    prepared,
+    runned,
 ) => {
 }
 
