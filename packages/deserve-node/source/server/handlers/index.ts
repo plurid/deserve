@@ -31,29 +31,37 @@ const setupHandlers = async (
         return false;
     }
 
-    await setupConfiguration(
-        collections,
-    );
-
-
     const instance = server.instance();
 
-    await setupMiddleware(
+
+    const configuration = await setupConfiguration(
+        collections,
+    );
+
+    const middleware = await setupMiddleware(
         collections,
         instance,
     );
 
-    await setupGraphQL(
+    const graphql = await setupGraphQL(
         collections,
         instance,
     );
 
-    await setupBlobs(
+    const blobs = await setupBlobs(
         collections,
         instance,
     );
 
-    return true;
+
+    const successfulSetup = (
+        configuration
+        && middleware
+        && graphql
+        && blobs
+    );
+
+    return successfulSetup;
 }
 // #endregion module
 

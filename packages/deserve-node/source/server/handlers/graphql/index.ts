@@ -108,6 +108,9 @@ const setupGraphQLServer = async (
         path: GRAPHQL_ENDPOINT,
         // cors: false,
     });
+
+
+    return true;
 }
 // #endregion module
 

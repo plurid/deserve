@@ -166,6 +166,9 @@ const setupBlobs = async (
             );
         },
     );
+
+
+    return true;
 }
 // #endregion module
 

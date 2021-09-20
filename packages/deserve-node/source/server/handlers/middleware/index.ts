@@ -66,6 +66,9 @@ const setupMiddleware = async (
             );
         },
     );
+
+
+    return true;
 }
 // #endregion module
 

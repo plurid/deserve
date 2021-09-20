@@ -163,13 +163,15 @@ const setupConfiguration = async (
         await handleConfigurationFile(
             collections,
         );
+
+        return true;
     } catch (error) {
         delog({
             text: 'could not setup configuration',
             level: 'error',
             error,
         });
-        return;
+        return false;
     }
 }
 // #endregion module
