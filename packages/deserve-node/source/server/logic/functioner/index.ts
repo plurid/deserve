@@ -26,7 +26,7 @@
     } from '~server/data/interfaces';
 
     import {
-        FUNCTIONER_DATABASE_ENDPOINT,
+        FUNCTIONER_DESERVE_ENDPOINT,
         FUNCTIONER_NETWORK,
     } from '~server/data/constants';
 
@@ -215,7 +215,7 @@ export const prepareFunctioner = async (
                     NetworkMode: FUNCTIONER_NETWORK,
                 },
                 Env: [
-                    `DESERVE_DATABASE_ENDPOINT=${FUNCTIONER_DATABASE_ENDPOINT}`,
+                    `DESERVE_ENDPOINT=${FUNCTIONER_DESERVE_ENDPOINT}`,
                     `DESERVE_DATABASE_TOKEN=${databaseToken.value}`,
                 ],
             },

@@ -29,7 +29,7 @@ export const COOKIE_DOMAIN = process.env.DESERVE_NODE_COOKIE_DOMAIN || 'localhos
 
 export const DEFAULT_TUNNEL_HOST = process.env.DESERVE_NODE_DEFAULT_TUNNEL_HOST || 'https://deserve.plurid.cloud';
 
-export const FUNCTIONER_DATABASE_ENDPOINT = process.env.DESERVE_NODE_FUNCTIONER_DATABASE_ENDPOINT || '';
+export const FUNCTIONER_DESERVE_ENDPOINT = process.env.DESERVE_NODE_FUNCTIONER_DESERVE_ENDPOINT || '';
 export const FUNCTIONER_NETWORK = process.env.DESERVE_NODE_FUNCTIONER_NETWORK || '';
 
 
