@@ -102,7 +102,7 @@ curl \
     -H 'Deserve-Token: <token>' \
     -H 'Host: <host>' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation DeleteKey($input: InputDeleteKey!) { deleteKey(input: $input) {    status }}","variables":{"input":{"id":""}}}' \
+    --data-binary '{"query":"mutation DeleteKey($input: InputDeleteKey!) { deleteKey(input: $input) { status }}","variables":{"input":{"id":""}}}' \
     http://localhost:3366/deserve
 ```
 
@@ -113,7 +113,7 @@ curl \
     -H 'Deserve-Token: 123' \
     -H 'Host: localhost:3355' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation DeleteKey($input: InputDeleteKey!) { deleteKey(input: $input) {    status }}","variables":{"input":{"id":"406ee9451f6a164f4aefc1c236a2a53f/b794dd52c78c2f73db907365fc8c8b7dcec230dd7880ae3594e8325c709d265c0e3c9346a8c78a2f840d9b0b77ba01cf"}}}' \
+    --data-binary '{"query":"mutation DeleteKey($input: InputDeleteKey!) { deleteKey(input: $input) { status }}","variables":{"input":{"id":"value"}}}' \
     http://localhost:3366/deserve
 ```
 
@@ -128,7 +128,7 @@ curl \
     -H 'Deserve-Token: <token>' \
     -H 'Host: <host>' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) {  storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"<value>","text":"<value>"}}}' \
+    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) { storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"<value>","text":"<value>"}}}' \
     http://localhost:3366/deserve
 ```
 
@@ -139,7 +139,7 @@ curl \
     -H 'Deserve-Token: 123' \
     -H 'Host: localhost:3355' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) {  storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"test","text":"const test = (\r\n    args, services,\r\n) => {\r\n    console.log(args, services);\r\n    return { args };\r\n}\r\n\r\nmodule.exports = {\r\n    test,\r\n};\r\n","language":"javascript"}}}' \
+    --data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) { storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"test","text":"const test = (\r\n    args, services,\r\n) => {\r\n    console.log(args, services);\r\n    return { args };\r\n}\r\n\r\nmodule.exports = {\r\n    test,\r\n};\r\n","language":"javascript"}}}' \
     http://localhost:3366/deserve
 ```
 
@@ -151,7 +151,7 @@ curl \
     -H 'Deserve-Token: <token>' \
     -H 'Host: <host>' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) {  runFunction(input: $input) { status data }}", "variables":{"input":{"id":"<value>"}}}' \
+    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) { runFunction(input: $input) { status data }}", "variables":{"input":{"id":"<value>"}}}' \
     http://localhost:3366/deserve
 ```
 
@@ -162,13 +162,13 @@ curl \
     -H 'Deserve-Token: 123' \
     -H 'Host: localhost:3355' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) {  runFunction(input: $input) { status data }}", "variables":{"input":{"id":"value"}}}' \
+    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) { runFunction(input: $input) { status data }}", "variables":{"input":{"id":"value"}}}' \
     http://localhost:3366/deserve
 
 curl \
     -H 'Deserve-Token: 123' \
     -H 'Host: localhost:3355' \
     -H 'Content-Type: application/json' \
-    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) {  runFunction(input: $input) { status data }}", "variables":{"input":{"id":"value", "arguments": "value"}}}' \
+    --data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) { runFunction(input: $input) { status data }}", "variables":{"input":{"id":"value", "arguments": "value"}}}' \
     http://localhost:3366/deserve
 ```
