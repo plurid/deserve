@@ -33,11 +33,17 @@ module.exports = {
 };
 `;
 
+    const input = {
+        name: 'test',
+        text: functionText,
+        language: 'javascript',
+    };
+
     const generateFunctionData = await curl([
         `-H 'Deserve-Token: 123'`,
         `-H 'Host: localhost:3355'`,
         `-H 'Content-Type: application/json'`,
-        `--data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) { storeFunction(input: $input) { status data { id } }}","variables":{"input":{"name":"test","text":"${functionText}","language":"javascript"}}}'`,
+        `--data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) { storeFunction(input: $input) { status data { id } }}","variables":{"input":${JSON.stringify(input)}}}'`,
         `http://localhost:3366/deserve`,
     ]);
 
