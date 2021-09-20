@@ -140,4 +140,14 @@ export interface TokenAuthorization {
     type: 'database' | 'storage' | 'event';
     constraints?: string | string[];
 }
+
+
+
+export interface Functioner {
+    id: string;
+    functionID: string;
+    ownedBy: string;
+    generatedAt: number;
+    imageneName?: string;
+};
 // #endregion module

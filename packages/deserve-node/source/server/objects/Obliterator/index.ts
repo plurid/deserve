@@ -87,7 +87,7 @@ const obliterateFunctioners = async (
         );
 
         for (const markedFunctioner of markedFunctioners) {
-            const image = docker.getImage(markedFunctioner.imagene);
+            const image = docker.getImage(markedFunctioner.imageneName);
             image.remove({
                 force: true,
             });

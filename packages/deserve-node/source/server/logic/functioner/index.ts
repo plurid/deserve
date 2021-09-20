@@ -20,9 +20,11 @@
 
     // #region external
     import {
+        DatabaseCollections,
         StoredFunction,
         Token,
         TokenAuthorization,
+        Functioner,
     } from '~server/data/interfaces';
 
     import {
@@ -115,18 +117,9 @@ export const validateStorageConstraints = async (
 
 
 export const writeFunctioner = async (
+    collections: DatabaseCollections,
     functionData: StoredFunction,
 ) => {
-    const deserveTokensCollection = await getDeserveTokensCollection();
-    const deserveFunctionersCollection = await getDeserveFunctionersCollection();
-    if (
-        !deserveTokensCollection
-        || !deserveFunctionersCollection
-    ) {
-        return;
-    }
-
-
     const {
         id: functionID,
         database: databaseConstraints,
@@ -141,19 +134,20 @@ export const writeFunctioner = async (
             type: 'database',
             constraints: databaseConstraints,
         },
-        deserveTokensCollection,
+        collections.tokens,
     );
 
 
     const id = uuid.multiple(3);
-    const functioner = {
+    const functioner: Functioner = {
         id,
         functionID,
+        generatedAt: Date.now(),
         ownedBy: functionData.ownedBy,
     };
 
     await database.updateDocument(
-        deserveFunctionersCollection,
+        collections.functioners,
         id,
         functioner,
     );
@@ -167,14 +161,11 @@ export const writeFunctioner = async (
 
 
 export const prepareFunctioner = async (
+    collections: DatabaseCollections,
     functionData: StoredFunction,
 ) => {
-    const deserveTokensCollection = await getDeserveTokensCollection();
-    if (!deserveTokensCollection) {
-        return false;
-    }
-
     const functionerData = await writeFunctioner(
+        collections,
         functionData,
     );
     if (!functionerData) {
@@ -242,7 +233,7 @@ export const prepareFunctioner = async (
                         await container.remove();
 
                         database.deleteDocument(
-                            deserveTokensCollection,
+                            collections.tokens,
                             databaseToken.id,
                         );
 
@@ -254,13 +245,8 @@ export const prepareFunctioner = async (
     });
 
 
-    const deserveFunctionersCollection = await getDeserveFunctionersCollection();
-    if (!deserveFunctionersCollection) {
-        return;
-    }
-
     await database.updateDocument(
-        deserveFunctionersCollection,
+        collections.functioners,
         functioner.id,
         {
             imageneName: functionerRunImageneName,

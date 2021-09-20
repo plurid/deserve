@@ -137,6 +137,7 @@ const storeFunction = async (
             ...databaseFunctionData,
         };
         const prepared = await prepareFunctioner(
+            collections,
             functionData,
         );
         if (!prepared) {
