@@ -121,10 +121,18 @@ const deserveServer = new PluridServer({
 });
 
 
-const deserveSetup = () => {
-    setupHandlers(
+const deserveSetup = async (
+    callback?: () => void,
+) => {
+    const successfulSetup = await setupHandlers(
         deserveServer,
     );
+
+    if (successfulSetup && callback) {
+        callback();
+    }
+
+    return successfulSetup;
 }
 // #endregion server
 // #endregion module
@@ -140,9 +148,11 @@ const deserveSetup = () => {
  * for programmatic usage.
  */
 if (require.main === module) {
-    deserveSetup();
-
-    deserveServer.start(PORT);
+    deserveSetup(
+        () => {
+            deserveServer.start(PORT);
+        },
+    );
 }
 // #endregion run
 

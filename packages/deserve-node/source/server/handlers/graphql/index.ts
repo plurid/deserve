@@ -17,6 +17,7 @@
 
     // #region external
     import {
+        DatabaseCollections,
         Context,
     } from '~server/data/interfaces';
 
@@ -35,10 +36,6 @@
     } from '~server/api';
 
     import {
-        loadCollections,
-    } from '~server/logic/database';
-
-    import {
         getFunctioner,
     } from '~server/logic/functioner';
 
@@ -54,14 +51,9 @@
 
 // #region module
 const setupGraphQLServer = async (
+    collections: DatabaseCollections,
     instance: Application,
 ) => {
-    const collections = await loadCollections();
-    if (!collections) {
-        console.log('deserve node :: database not loaded');
-        return;
-    }
-
     const playground = {
         // settings: {
         //     'request.credentials': 'include',

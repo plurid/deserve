@@ -4,6 +4,13 @@
     // #endregion libraries
 
 
+    // #region external
+    import {
+        loadCollections,
+    } from '~server/logic/database';
+    // #endregion external
+
+
     // #region internal
     import setupConfiguration from './configuration';
     import setupMiddleware from './middleware';
@@ -18,21 +25,35 @@
 const setupHandlers = async (
     server: PluridServer,
 ) => {
-    await setupConfiguration();
+    const collections = await loadCollections();
+    if (!collections) {
+        console.log('deserve node :: database not loaded');
+        return false;
+    }
+
+    await setupConfiguration(
+        collections,
+    );
+
 
     const instance = server.instance();
 
-    setupMiddleware(
+    await setupMiddleware(
+        collections,
         instance,
     );
 
-    setupGraphQL(
+    await setupGraphQL(
+        collections,
         instance,
     );
 
-    setupBlobs(
+    await setupBlobs(
+        collections,
         instance,
     );
+
+    return true;
 }
 // #endregion module
 

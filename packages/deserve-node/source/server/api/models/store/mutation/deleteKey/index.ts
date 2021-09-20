@@ -36,6 +36,7 @@ const deleteKey = async (
         } = context;
 
         const core = await getCoreFromRequest(
+            collections,
             request,
             owner,
             input.coreID,

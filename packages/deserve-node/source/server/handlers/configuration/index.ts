@@ -24,16 +24,12 @@
     } from '~server/data/constants';
 
     import {
+        DatabaseCollections,
         ConfigurationFile,
         ConfigurationOwner,
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
-
-    import {
-        getDeserveGlobalCollection,
-        getDeserveOwnersCollection,
-    } from '~server/logic/database';
     // #endregion external
 // #endregion imports
 
@@ -41,13 +37,9 @@
 
 // #region module
 const setupOwners = async (
+    collections: DatabaseCollections,
     owners: ConfigurationOwner[],
 ) => {
-    const deserveOwnersCollection = await getDeserveOwnersCollection();
-    if (!deserveOwnersCollection) {
-        return;
-    }
-
     for (const owner of owners) {
         try {
             const {
@@ -63,14 +55,14 @@ const setupOwners = async (
             }
 
             const existingOwner: any = await database.getBy(
-                deserveOwnersCollection,
+                collections.owners,
                 'identonym',
                 identonym,
             );
 
             if (!existingOwner) {
                 await database.updateDocument(
-                    deserveOwnersCollection,
+                    collections.owners,
                     uuid.generate(),
                     {
                         identonym,
@@ -82,7 +74,7 @@ const setupOwners = async (
 
             if (existingOwner.key !== hashedKey) {
                 await database.updateWhere(
-                    deserveOwnersCollection,
+                    collections.owners,
                     {
                         identonym,
                     },
@@ -98,15 +90,11 @@ const setupOwners = async (
 
 
 const setupRegistration = async (
+    collections: DatabaseCollections,
     registration: boolean,
 ) => {
-    const deserveGlobalCollection = await getDeserveGlobalCollection();
-    if (!deserveGlobalCollection) {
-        return;
-    }
-
     await database.updateDocument(
-        deserveGlobalCollection,
+        collections.global,
         DESERVE_GLOBAL_DOCUMENT_ID,
         {
             registration,
@@ -115,7 +103,9 @@ const setupRegistration = async (
 }
 
 
-const handleConfigurationFile = async () => {
+const handleConfigurationFile = async (
+    collections: DatabaseCollections,
+) => {
     if (!fs.existsSync(CONFIGURATION_PATH)) {
         delog({
             text: 'configuration path does not exist',
@@ -142,25 +132,37 @@ const handleConfigurationFile = async () => {
     } = typer<ConfigurationFile>(data);
 
     if (Array.isArray(owners)) {
-        await setupOwners(owners);
+        await setupOwners(
+            collections,
+            owners,
+        );
     }
 
     if (typeof registration === 'boolean') {
-        await setupRegistration(registration);
+        await setupRegistration(
+            collections,
+            registration,
+        );
     }
 }
 
 
-const setupConfiguration = async () => {
+const setupConfiguration = async (
+    collections: DatabaseCollections,
+) => {
     try {
         chokidar
             .watch(
                 CONFIGURATION_PATH,
             ).on('all', () => {
-                handleConfigurationFile();
+                handleConfigurationFile(
+                    collections,
+                );
             });
 
-        await handleConfigurationFile();
+        await handleConfigurationFile(
+            collections,
+        );
     } catch (error) {
         delog({
             text: 'could not setup configuration',

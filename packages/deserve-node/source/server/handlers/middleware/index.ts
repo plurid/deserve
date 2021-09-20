@@ -14,6 +14,10 @@
 
     // #region external
     import {
+        DatabaseCollections,
+    } from '~server/data/interfaces';
+
+    import {
         HEALTH_CHECK_ENDPOINT,
 
         Headers,
@@ -34,6 +38,7 @@ const corsOptions = {
 
 
 const setupMiddleware = async (
+    collections: DatabaseCollections,
     instance: Express,
 ) => {
     instance.options('*', cors(corsOptions) as any);

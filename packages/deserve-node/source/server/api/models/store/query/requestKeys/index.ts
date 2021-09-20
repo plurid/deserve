@@ -39,7 +39,10 @@ const requestKeys = async (
             collections,
         } = context;
 
-        const core = await getCoreFromRequest(request);
+        const core = await getCoreFromRequest(
+            collections,
+            request,
+        );
         if (!core) {
             delog({
                 text: 'requestKeys no core',

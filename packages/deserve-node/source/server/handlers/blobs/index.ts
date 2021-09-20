@@ -19,6 +19,10 @@
 
     // #region external
     import {
+        DatabaseCollections,
+    } from '~server/data/interfaces';
+
+    import {
         DATA_PATH,
     } from '~server/data/constants';
 
@@ -74,17 +78,21 @@ const initializeStorage = async () => {
 }
 
 
-const setupBlobs = (
+const setupBlobs = async (
+    collections: DatabaseCollections,
     instance: Application,
 ) => {
-    initializeStorage();
+    await initializeStorage();
 
 
     const multerInstance = multer(
         {
             storage: {
                 _handleFile: async (request, file, callback) => {
-                    const core = await getCoreFromRequest(request);
+                    const core = await getCoreFromRequest(
+                        collections,
+                        request,
+                    );
                     if (!core) {
                         callback(
                             {
@@ -148,8 +156,15 @@ const setupBlobs = (
 
     instance.get(
         '/download',
-        cors(corsOptions),
-        Store.blobs.download,
+        // FORCED as any
+        cors(corsOptions) as any,
+        (request, response) => {
+            return Store.blobs.download(
+                collections,
+                request,
+                response,
+            );
+        },
     );
 }
 // #endregion module

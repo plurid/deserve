@@ -34,6 +34,7 @@ const getExecution = async (
 
 
         const core = await getCoreFromRequest(
+            collections,
             request,
             owner,
         );

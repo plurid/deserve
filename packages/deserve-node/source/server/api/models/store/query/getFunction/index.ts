@@ -39,6 +39,7 @@ const getFunction = async (
 
 
         const core = await getCoreFromRequest(
+            collections,
             request,
             owner,
             input.coreID,

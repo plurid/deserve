@@ -8,13 +8,10 @@
     import {
         ClientOwner,
         Token,
+        DatabaseCollections,
     } from '~server/data/interfaces';
 
-    import database, {
-        getDeserveCoresCollection,
-        getDeserveTokensCollection,
-        getDeserveFunctionersCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         getFunctioner,
@@ -26,27 +23,14 @@
 
 // #region module
 export const getCoreFromRequest = async (
+    collections: DatabaseCollections,
     request: express.Request,
     owner?: ClientOwner | undefined,
     coreID?: string | undefined,
 ) => {
-    const deserveCoresCollection = await getDeserveCoresCollection();
-    const deserveTokensCollection = await getDeserveTokensCollection();
-    const deserveFunctionersCollection = await getDeserveFunctionersCollection();
-    if (
-        !deserveCoresCollection
-        || !deserveTokensCollection
-        || !deserveFunctionersCollection
-    ) {
-        // console.log('No database');
-
-        return;
-    }
-
-
     if (owner && coreID) {
         const cores: any[] = await database.getAllWhere(
-            deserveCoresCollection,
+            collections.cores,
             {
                 id: coreID,
                 ownerID: owner.id,
@@ -66,7 +50,7 @@ export const getCoreFromRequest = async (
     const functioner = getFunctioner(request);
     if (functioner) {
         const token = await database.getBy<Token>(
-            deserveTokensCollection,
+            collections.tokens,
             'value',
             functioner,
         );
@@ -78,7 +62,7 @@ export const getCoreFromRequest = async (
         }
 
         const core = await database.getById(
-            deserveCoresCollection,
+            collections.cores,
             token.coreID,
         );
         return core;
@@ -94,7 +78,7 @@ export const getCoreFromRequest = async (
     }
 
     const cores: any[] = await database.getAllWhere(
-        deserveCoresCollection,
+        collections.cores,
         {
             origins: origin,
             tokens: token,

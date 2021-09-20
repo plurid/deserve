@@ -8,6 +8,10 @@
 
     // #region external
     import {
+        DatabaseCollections,
+    } from '~server/data/interfaces';
+
+    import {
         getCoreFromRequest,
     } from '~server/logic/core';
 
@@ -25,6 +29,7 @@
 
 // #region module
 const download = async (
+    collections: DatabaseCollections,
     request: express.Request,
     response: express.Response,
 ) => {
@@ -41,7 +46,10 @@ const download = async (
         }
 
 
-        const core = await getCoreFromRequest(request);
+        const core = await getCoreFromRequest(
+            collections,
+            request,
+        );
         if (!core) {
             delog({
                 text: 'download no core',

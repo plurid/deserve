@@ -37,7 +37,10 @@ const requestBlob = async (
             collections,
         } = context;
 
-        const core = await getCoreFromRequest(request);
+        const core = await getCoreFromRequest(
+            collections,
+            request,
+        );
         if (!core) {
             delog({
                 text: 'requestBlob no core',

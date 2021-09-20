@@ -77,7 +77,10 @@ const storeFunction = async (
         }
 
 
-        const core = await getCoreFromRequest(request);
+        const core = await getCoreFromRequest(
+            collections,
+            request,
+        );
         const ownerID = owner?.id || core.ownerID;
         if (!ownerID) {
             return {
