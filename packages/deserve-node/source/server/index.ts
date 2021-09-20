@@ -32,6 +32,8 @@
     import preserves from './preserves';
 
     import setupHandlers from './handlers';
+
+    import * as Models from './api/models';
     // #endregion internal
 // #endregion imports
 
@@ -122,14 +124,14 @@ const deserveServer = new PluridServer({
 
 
 const deserveSetup = async (
-    callback?: () => void,
+    callback?: () => Promise<void>,
 ) => {
     const successfulSetup = await setupHandlers(
         deserveServer,
     );
 
     if (successfulSetup && callback) {
-        callback();
+        await callback();
     }
 
     return successfulSetup;
@@ -149,7 +151,7 @@ const deserveSetup = async (
  */
 if (require.main === module) {
     deserveSetup(
-        () => {
+        async () => {
             deserveServer.start(PORT);
         },
     );
@@ -159,8 +161,11 @@ if (require.main === module) {
 
 
 // #region exports
+export * from './data/interfaces';
+
 export {
     deserveSetup,
+    Models,
 };
 
 export default deserveServer;
