@@ -35,8 +35,8 @@
         "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",
         "test": "jest -c configurations/jest.config.js ./source",
+        "runs": "runner",
         "runner": "runner tests",
-        "runners": "runner",
         "start": "node distribution/index.js",
         "start.local": "deon environment ./environment/.env.local.deon -- node distribution/index.js",
         "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
@@ -53,10 +53,10 @@
         "graphql": ">=15.5"
     },
     "devDependencies": {
-        "@apollo/client": "^3.4.12",
+        "@apollo/client": "3.4.11",
         "@plurid/runner": "^0.0.0-9",
         "@types/jest": "^27.0.1",
-        "@types/node": "^16.9.3",
+        "@types/node": "^16.9.4",
         "@typescript-eslint/eslint-plugin": "^4.31.1",
         "@typescript-eslint/parser": "^4.31.1",
         "@zerollup/ts-transform-paths": "^1.7.18",
