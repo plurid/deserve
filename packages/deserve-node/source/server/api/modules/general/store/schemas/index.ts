@@ -88,7 +88,7 @@ export const types = gql`
     type ResponseStoredKey {
         status: Boolean!
         error: Error
-        data: StoredKey
+        data: Key
     }
 
 
@@ -112,6 +112,8 @@ export const types = gql`
         mimetype: String!
         size: Float!
         metadata: String!
+        deleted: Boolean
+        deletedAt: Float
     }
 
     type Key {
@@ -123,10 +125,8 @@ export const types = gql`
         storedAt: Float!
         sha: String!
         updatedAt: Float
-    }
-
-    type StoredKey {
-        id: ID!
+        deleted: Boolean
+        deletedAt: Float
     }
 
     type StoredFunction {
@@ -138,6 +138,16 @@ export const types = gql`
         externals: [String!]
         sha: String!
         storedAt: Float!
+        deleted: Boolean
+        deletedAt: Float
+    }
+
+    type Functioner {
+        id: ID!
+        functionID: String!
+        imageneName: String
+        deleted: Boolean
+        deletedAt: Float
     }
 
 
@@ -197,6 +207,8 @@ export const types = gql`
         finishedAt: Float!
         functionID: String!
         coreID: String!
+        deleted: Boolean
+        deletedAt: Float
     }
 `;
 
