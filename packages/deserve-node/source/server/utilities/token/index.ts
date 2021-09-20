@@ -15,6 +15,7 @@
 
     // #region external
     import {
+        DatabaseCollections,
         Owner,
         Core,
     } from '~server/data/interfaces';
@@ -24,9 +25,7 @@
         COOKIE_OWNER_TOKEN,
     } from '~server/data/constants';
 
-    import database, {
-        getDeserveOwnersCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
 
     import {
         clientOwner,
@@ -124,17 +123,12 @@ const refreshToken = (
 
 
 const tradeTokenForOwner = async (
+    collections: DatabaseCollections,
     request: Request,
     response: Response,
 ) => {
     const token: string | undefined = request.cookies[COOKIE_OWNER_TOKEN];
-
     if (!token) {
-        return;
-    }
-
-    const deserveOwnersCollection = await getDeserveOwnersCollection();
-    if (!deserveOwnersCollection) {
         return;
     }
 
@@ -147,7 +141,7 @@ const tradeTokenForOwner = async (
         const ownerID = tokenContent.id;
 
         const owner: any = await database.getById(
-            deserveOwnersCollection,
+            collections.owners,
             ownerID,
         );
 
@@ -155,7 +149,10 @@ const tradeTokenForOwner = async (
             return;
         }
 
-        return await clientOwner(owner);
+        return await clientOwner(
+            collections,
+            owner,
+        );
     } catch (error) {
         const tokenContent = jsonWebToken.verify(
             token,
@@ -172,7 +169,7 @@ const tradeTokenForOwner = async (
         }
 
         const owner: any = await database.getById(
-            deserveOwnersCollection,
+            collections.owners,
             ownerID,
         );
 
@@ -185,7 +182,10 @@ const tradeTokenForOwner = async (
             response,
         );
 
-        return await clientOwner(owner);
+        return await clientOwner(
+            collections,
+            owner,
+        );
     }
 }
 // #endregion module

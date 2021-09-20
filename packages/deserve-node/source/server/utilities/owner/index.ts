@@ -1,15 +1,14 @@
 // #region imports
     // #region external
     import {
+        DatabaseCollections,
         Owner,
         ClientOwner,
     } from '~server/data/interfaces';
 
     import tunnelsManager from '~server/services/tunnelsManager';
 
-    import database, {
-        getDeserveCoresCollection,
-    } from '~server/services/database';
+    import database from '~server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -17,15 +16,11 @@
 
 // #region module
 const getClientCores = async (
+    collections: DatabaseCollections,
     owner: Owner,
 ) => {
-    const deserveCoresCollection = await getDeserveCoresCollection();
-    if (!deserveCoresCollection) {
-        return;
-    }
-
     const cores: any[] = await database.getAllBy(
-        deserveCoresCollection,
+        collections.cores,
         'ownerID',
         owner.id,
     );
@@ -50,9 +45,13 @@ const getClientCores = async (
 
 
 const clientOwner = async (
+    collections: DatabaseCollections,
     owner: Owner,
 ) => {
-    const cores = await getClientCores(owner);
+    const cores = await getClientCores(
+        collections,
+        owner,
+    );
 
     const clientOwnerData: any = {
         ...owner,

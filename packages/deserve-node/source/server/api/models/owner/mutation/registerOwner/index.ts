@@ -116,10 +116,16 @@ const registerOwner = async (
             level: 'trace',
         });
 
+        const clientOwnerData = clientOwner(
+            collections,
+            owner,
+        );
 
         return {
             status: true,
-            data: clientOwner(owner),
+            data: {
+                ...clientOwnerData,
+            },
         };
     } catch (error) {
         delog({

@@ -65,20 +65,23 @@ const setupGraphQLServer = async (
     const graphQLServer = new ApolloServer({
         typeDefs: schemas,
         resolvers,
-        context: async ({
-            req,
-            res,
-        }: any) => {
+        context: async (contextData: any) => {
+            const {
+                req: request,
+                res: response,
+            } = contextData;
+
             const owner = await tradeTokenForOwner(
-                req,
-                res,
+                collections,
+                request,
+                response,
             );
 
-            const functioner = getFunctioner(req);
+            const functioner = getFunctioner(request);
 
             const context: Context = {
-                request: req,
-                response: res,
+                request,
+                response,
 
                 instance,
 
