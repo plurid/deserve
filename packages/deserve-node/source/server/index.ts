@@ -20,7 +20,11 @@
     import {
         routes,
         shell,
-    } from '../shared';
+    } from '~shared/index';
+
+    import {
+        APPLICATION_ROOT,
+    } from '~shared/data/constants';
     // #endregion external
 
 
@@ -46,7 +50,7 @@ const watchMode = process.env.PLURID_WATCH_MODE === 'true';
 const isProduction = process.env.ENV_MODE === 'production';
 const buildDirectory = process.env.PLURID_BUILD_DIRECTORY || 'build';
 
-const applicationRoot = 'deserve-application';
+const applicationRoot = APPLICATION_ROOT;
 const openAtStart = watchMode
     ? false
     : isProduction

@@ -4,6 +4,14 @@
     import ReactDOM from 'react-dom';
     // #endregion libraries
 
+
+    // #region external
+    import {
+        APPLICATION_ROOT,
+    } from '~shared/data/constants';
+    // #endregion external
+
+
     // #region internal
     import Client from './Client';
     // #endregion internal
@@ -17,7 +25,7 @@
 //     navigator.serviceWorker.register('/service-worker.js');
 // }
 
-const deserveApp = document.getElementById('deserve-application');
+const deserveApp = document.getElementById(APPLICATION_ROOT);
 
 
 ReactDOM.hydrate(

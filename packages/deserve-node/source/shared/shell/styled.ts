@@ -4,6 +4,13 @@
         createGlobalStyle,
     } from 'styled-components';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        APPLICATION_ROOT,
+    } from '~shared/data/constants';
+    // #endregion external
 // #endregion imports
 
 
@@ -35,7 +42,7 @@ export const GlobalStyle = createGlobalStyle`
         text-decoration: none;
     }
 
-    #performer-application {
+    #${APPLICATION_ROOT} {
         height: 100%;
         overflow: auto;
     }
