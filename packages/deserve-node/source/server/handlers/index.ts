@@ -8,6 +8,8 @@
     import {
         loadCollections,
     } from '~server/logic/database';
+
+    import Obliterator from '~server/objects/Obliterator';
     // #endregion external
 
 
@@ -31,6 +33,10 @@ const setupHandlers = async (
         return false;
     }
 
+    const obliterator = new Obliterator(
+        collections,
+    );
+
     const instance = server.instance();
 
 
@@ -46,6 +52,7 @@ const setupHandlers = async (
     const graphql = await setupGraphQL(
         collections,
         instance,
+        obliterator,
     );
 
     const blobs = await setupBlobs(

@@ -39,6 +39,8 @@
         getFunctioner,
     } from '~server/logic/functioner';
 
+    import Obliterator from '~server/objects/Obliterator';
+
     import {
         tradeTokenForOwner,
 
@@ -53,6 +55,7 @@
 const setupGraphQLServer = async (
     collections: DatabaseCollections,
     instance: Application,
+    obliterator: Obliterator,
 ) => {
     const playground = {
         // settings: {
