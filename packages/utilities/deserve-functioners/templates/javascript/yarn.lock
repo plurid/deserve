@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@apollo/client@^3.4.11":
+"@apollo/client@3.4.11":
   version "3.4.11"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.4.11.tgz#19cc27abe59d0cdcc1d357b30a89ebec8bb2b072"
   integrity sha512-+A0z/Vy7sDg1uyijv3t9w1U0ybxn0bSpMUZHpsb2cLg/zM8fEHQ217226buzJ+cPUA1GVfJ8n6JsiN26RchvNA==
@@ -25,20 +25,20 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@plurid/deserve-functioner-database@0.0.0-4":
-  version "0.0.0-4"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-database/-/deserve-functioner-database-0.0.0-4.tgz#d256225cd8c08bb6063d4aa87465c833f3b39ecd"
-  integrity sha512-RGOaNBKiU3m5lz346Wxnwsx/5drPORSCU4FUoFEvaptud2wyBE1E9WI91IRqcgS7kxp89cYKtWESBVF6JXybLA==
+"@plurid/deserve-functioner-database@0.0.0-5":
+  version "0.0.0-5"
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-database/-/deserve-functioner-database-0.0.0-5.tgz#fdf2df9a15788470c9da12d66baff2d185428f29"
+  integrity sha512-pbbVgJ2aB2JAbr4WmVd7y1AzZNiOhTcXS1zL71u6b4mVm4q1+qm3wmzANMtkWN0MAyiaAj4iqBKvlYsSqcVbIQ==
 
-"@plurid/deserve-functioner-event@0.0.0-2":
+"@plurid/deserve-functioner-event@0.0.0-3":
+  version "0.0.0-3"
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-event/-/deserve-functioner-event-0.0.0-3.tgz#deaa58614cbc8fda1fc6b97810a420ae48d47f74"
+  integrity sha512-6acXC389SrH6pbXknmWWKJDx5VZrXHGk+X0T+TRxbEWKrzXyuaaBHaMpy8DmxvUaHDX1wsyYBCXYmgsnQN6Vew==
+
+"@plurid/deserve-functioner-storage@0.0.0-2":
   version "0.0.0-2"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-event/-/deserve-functioner-event-0.0.0-2.tgz#c8fa6ab13a6e3d2c3ab945dae287a2a9593c1bd9"
-  integrity sha512-64NMaWiYIQflECvV56DjK0/ca8OHDOBsxabJCIhri/eHddH7HR5xwbZWbUvYM3Z0nR27UYWbNU70tvSFju0idA==
-
-"@plurid/deserve-functioner-storage@0.0.0-1":
-  version "0.0.0-1"
-  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-storage/-/deserve-functioner-storage-0.0.0-1.tgz#21c3aa9e7d1e5c5a41a0a36d8ede4094e2bd0b3e"
-  integrity sha512-JSWis4ZPhxjv8SGRq/GABgoUVFlIuIXHcv3oe597x4ZNQ8am2c1xbbM4YsG3ecBQR14ffDGJ3TeTWQawQ/sR4Q==
+  resolved "https://registry.yarnpkg.com/@plurid/deserve-functioner-storage/-/deserve-functioner-storage-0.0.0-2.tgz#528c1a8a1a93ee3f8ba947db304f53cdc64202a7"
+  integrity sha512-L7+PcjonbGbx4kpn1cT1TQJP91+Tp8X2863nAjzChP2CsK8AFkLABovZXxJUIRTYZADNqH27Jn+7Ixr0ilQf3g==
 
 "@plurid/plurid-functions@^0.0.0-7":
   version "0.0.0-7"
