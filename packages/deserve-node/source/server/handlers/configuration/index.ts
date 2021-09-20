@@ -30,6 +30,8 @@
     } from '~server/data/interfaces';
 
     import database from '~server/services/database';
+
+    import Obliterator from '~server/objects/Obliterator';
     // #endregion external
 // #endregion imports
 
@@ -147,6 +149,8 @@ const handleConfigurationFile = async (
 }
 
 
+let obliterator;
+
 const setupConfiguration = async (
     collections: DatabaseCollections,
 ) => {
@@ -161,6 +165,10 @@ const setupConfiguration = async (
             });
 
         await handleConfigurationFile(
+            collections,
+        );
+
+        obliterator = new Obliterator(
             collections,
         );
 

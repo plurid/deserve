@@ -1,36 +1,20 @@
 // #region module
-const PORT = parseInt(process.env.PORT || '') || 3366;
+export const PORT = parseInt(process.env.PORT || '') || 3366;
 
-const HEALTH_CHECK_ENDPOINT = '/service-check/health';
-
-
-const DATA_OWNERS = '/data/owners';
-const DATA_CORES = '/data/cores';
-const DATA_OWNERSPACE = '/data/ownerspace';
-
-const DATA_OWNERSPACE_CORES = '/cores';
-const DATA_OWNERSPACE_FILES = '/files';
+export const HEALTH_CHECK_ENDPOINT = '/service-check/health';
 
 
-const COOKIE_OWNER_TOKEN = 'OWNTKN';
-const COOKIE_EMPTY_VALUE = '';
+export const DATA_OWNERS = '/data/owners';
+export const DATA_CORES = '/data/cores';
+export const DATA_OWNERSPACE = '/data/ownerspace';
+
+export const DATA_OWNERSPACE_CORES = '/cores';
+export const DATA_OWNERSPACE_FILES = '/files';
+
+
+export const COOKIE_OWNER_TOKEN = 'OWNTKN';
+export const COOKIE_EMPTY_VALUE = '';
+
+
+export const ONE_DAY = 1_000 * 60 * 60 * 24;
 // #endregion module
-
-
-
-// #region exports
-export {
-    PORT,
-
-    HEALTH_CHECK_ENDPOINT,
-
-    DATA_OWNERS,
-    DATA_CORES,
-    DATA_OWNERSPACE,
-    DATA_OWNERSPACE_CORES,
-    DATA_OWNERSPACE_FILES,
-
-    COOKIE_OWNER_TOKEN,
-    COOKIE_EMPTY_VALUE,
-};
-// #endregion exports
