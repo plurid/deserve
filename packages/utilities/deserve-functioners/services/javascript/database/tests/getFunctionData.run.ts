@@ -39,6 +39,7 @@ module.exports = {
         language: 'javascript',
     };
 
+    // const s1 = Date.now();
     const generateFunctionData = await curl([
         `-H 'Deserve-Token: 123'`,
         `-H 'Host: localhost:3355'`,
@@ -46,9 +47,13 @@ module.exports = {
         `--data-binary '{"query":"mutation StoreFunction($input: InputStoreFunction!) { storeFunction(input: $input) { status data { id } }}","variables":{"input":${JSON.stringify(input)}}}'`,
         `http://localhost:3366/deserve`,
     ]);
+    // const s2 = Date.now();
+    // console.log('duration function generation', s2 - s1);
 
     const id = generateFunctionData.data.storeFunction.data.id;
 
+
+    // const s3 = Date.now();
     const runFunctionData = await curl([
         `-H 'Deserve-Token: 123'`,
         `-H 'Host: localhost:3355'`,
@@ -56,8 +61,11 @@ module.exports = {
         `--data-binary '{"query":"mutation RunFunction($input: InputRunFunction!) { runFunction(input: $input) { status data }}", "variables":{"input":{"id":"${id}", "arguments": "value"}}}'`,
         `http://localhost:3366/deserve`,
     ]);
+    // const s4 = Date.now();
+    // console.log('duration function run', s4 - s3);
 
     const tokens = runFunctionData.data.runFunction.data;
+
 
     return {
         id,
