@@ -174,4 +174,30 @@ export interface DeserveClientOptions {
      */
     origin?: string;
 }
+
+
+
+
+export type RecordOf<T> = Record<string, T | undefined>;
+
+export interface DeserveClientsManagerOptions {
+    /**
+     * Interval time to run the client cleanup. (ms)
+     *
+     * Default: one hour
+     */
+    cleanupInterval: number;
+    /**
+     * Client expiration time. (ms)
+     *
+     * Default: one day.
+     */
+    expiration: number;
+}
+
+export interface DeserveClientsManagerMetadata {
+    generatedAt: number;
+}
+
+export type DeserveClients = RecordOf<IDeserveClient>;
 // #endregion exports
