@@ -1,5 +1,9 @@
 // #region imports
     import {
+        Buffer,
+    } from 'buffer';
+
+    import {
         Readable,
     } from 'stream';
 
@@ -49,7 +53,7 @@ export interface BlobsStoreOptions {
 }
 
 export type BlobsStore = (
-    stream: Readable,
+    storeable: string | Buffer | Readable,
     options?: BlobsStoreOptions,
 ) => Promise<ClientResponse<any>>;
 

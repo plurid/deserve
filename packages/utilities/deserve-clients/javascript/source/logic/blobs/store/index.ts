@@ -23,7 +23,7 @@
 const store = (
     clientData: ClientData,
 ): BlobsStore => async (
-    stream,
+    storeable,
     options,
 ) => {
     try {
@@ -44,7 +44,7 @@ const store = (
                 const form = new FormData();
                 form.append(
                     'blob',
-                    stream,
+                    storeable,
                     {
                         contentType: options?.contentType,
                     },
