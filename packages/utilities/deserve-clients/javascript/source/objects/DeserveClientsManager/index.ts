@@ -108,6 +108,11 @@ class DeserveClientsManager {
         delete this.metadata[index];
         delete this.clients[index];
     }
+
+    public removeAll() {
+        this.metadata = {};
+        this.clients = {};
+    }
 }
 // #endregion module
 
