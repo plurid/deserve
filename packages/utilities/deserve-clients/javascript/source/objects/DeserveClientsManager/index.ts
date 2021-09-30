@@ -55,6 +55,7 @@ class DeserveClientsManager {
 
 
     public generate(
+        index: string,
         identonym: string,
         token: string,
         options?: DeserveClientOptions,
@@ -65,8 +66,8 @@ class DeserveClientsManager {
             options,
         );
 
-        this.clients[identonym] = deserveClient;
-        this.metadata[identonym] = {
+        this.clients[index] = deserveClient;
+        this.metadata[index] = {
             generatedAt: Date.now(),
         };
 
@@ -75,9 +76,9 @@ class DeserveClientsManager {
 
 
     public get(
-        identonym: string,
+        index: string,
     ): IDeserveClient | undefined {
-        return this.clients[identonym];
+        return this.clients[index];
     }
 
     public getAll(): DeserveClients {
@@ -89,23 +90,23 @@ class DeserveClientsManager {
         const now = Date.now();
         const metadataEntries = Object.entries(this.metadata);
 
-        for (const [identonym, metadata] of metadataEntries) {
+        for (const [index, metadata] of metadataEntries) {
             if (!metadata) {
                 continue;
             }
 
             if (now > metadata.generatedAt + this.options.expiration) {
-                delete this.metadata[identonym];
-                delete this.clients[identonym];
+                delete this.metadata[index];
+                delete this.clients[index];
             }
         }
     }
 
     public remove(
-        identonym: string,
+        index: string,
     ) {
-        delete this.metadata[identonym];
-        delete this.clients[identonym];
+        delete this.metadata[index];
+        delete this.clients[index];
     }
 }
 // #endregion module
