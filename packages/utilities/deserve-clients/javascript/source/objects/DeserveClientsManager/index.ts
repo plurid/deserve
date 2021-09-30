@@ -15,7 +15,11 @@
         ONE_DAY,
     } from '~data/constants';
 
-    import DeserveClient from '../DeserveClient';
+    import DeserveClient from '~objects/DeserveClient';
+
+    import {
+        checkExpired,
+    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -98,9 +102,13 @@ class DeserveClientsManager {
                 continue;
             }
 
-            if (now > metadata.generatedAt + expirationValue) {
-                delete this.metadata[index];
-                delete this.clients[index];
+            if (
+                checkExpired(
+                    now,
+                    metadata.generatedAt + expirationValue,
+                )
+            ) {
+                this.remove(index);
             }
         }
     }

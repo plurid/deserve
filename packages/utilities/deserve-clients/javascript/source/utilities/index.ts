@@ -62,4 +62,16 @@ export const resolveHost = (
     const url = new URL(clientOrigin);
     return url.host;
 }
+
+
+export const checkExpired = (
+    now: number,
+    value: number,
+) => {
+    if (now > value) {
+        return true;
+    }
+
+    return false;
+}
 // #endregion exports
