@@ -1,5 +1,11 @@
 // #region imports
-    import fs from 'fs';
+    import {
+        ReadStream,
+    } from 'fs';
+
+    import {
+        Readable,
+    } from 'stream';
 
     // #region libraries
     import {
@@ -47,7 +53,7 @@ export interface BlobsStoreOptions {
 }
 
 export type BlobsStore = (
-    stream: fs.ReadStream,
+    stream: ReadStream | Readable,
     options?: BlobsStoreOptions,
 ) => Promise<ClientResponse<any>>;
 
