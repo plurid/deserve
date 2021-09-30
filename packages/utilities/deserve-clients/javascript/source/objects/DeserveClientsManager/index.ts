@@ -86,8 +86,11 @@ class DeserveClientsManager {
     }
 
 
-    public cleanup() {
+    public cleanup(
+        expiration?: number,
+    ) {
         const now = Date.now();
+        const expirationValue = expiration || this.options.expiration;
         const metadataEntries = Object.entries(this.metadata);
 
         for (const [index, metadata] of metadataEntries) {
@@ -95,7 +98,7 @@ class DeserveClientsManager {
                 continue;
             }
 
-            if (now > metadata.generatedAt + this.options.expiration) {
+            if (now > metadata.generatedAt + expirationValue) {
                 delete this.metadata[index];
                 delete this.clients[index];
             }
