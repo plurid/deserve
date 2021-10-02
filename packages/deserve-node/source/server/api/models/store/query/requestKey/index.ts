@@ -3,7 +3,7 @@
     import delog from '@plurid/delog';
 
     import {
-        data,
+        data as dataFunctions,
     } from '@plurid/plurid-functions';
     // #endregion libraries
 
@@ -99,7 +99,7 @@ const requestKey = async (
 
 
         if (selector) {
-            const filter = data.parse(selector);
+            const filter = dataFunctions.parse(selector);
             if (!filter) {
                 delog({
                     text: 'requestKey invalid filter',
@@ -135,7 +135,7 @@ const requestKey = async (
                 };
             }
 
-            const extractedData = keyFromData(keyData);
+            const data = keyFromData(keyData);
 
 
             delog({
@@ -146,7 +146,7 @@ const requestKey = async (
 
             return {
                 status: true,
-                data: extractedData,
+                data,
             };
         }
 
