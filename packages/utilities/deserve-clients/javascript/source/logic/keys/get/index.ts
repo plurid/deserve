@@ -49,32 +49,20 @@ const get = (
         }
 
 
-        if (typeof selector === 'string') {
-            const request = await graphqlClient.query({
-                query: QUERY_REQUEST_KEY,
-                variables: {
-                    input: {
-                        id: selector,
-                    },
-                },
-            });
-
-            const response = request.data.requestKey;
-
-            return response;
-        }
-
+        const input = typeof selector === 'string'
+            ? { id: selector }
+            : { selector: JSON.stringify(selector) };
 
         const request = await graphqlClient.query({
-            query: QUERY_REQUEST_KEYS,
+            query: QUERY_REQUEST_KEY,
             variables: {
                 input: {
-                    selector: JSON.stringify(selector),
+                    ...input,
                 },
             },
         });
 
-        const response = request.data.requestKeys;
+        const response = request.data.requestKey;
 
         return response;
     } catch (error) {
