@@ -19,7 +19,7 @@
 const get = (
     clientData: ClientData,
 ): KeysGet => async (
-    id,
+    selector,
 ) => {
     try {
         const {
@@ -32,29 +32,49 @@ const get = (
             };
         }
 
-        const singular = typeof id === 'string';
 
-        const query = singular
-            ? QUERY_REQUEST_KEY
-            : QUERY_REQUEST_KEYS;
+        if (Array.isArray(selector)) {
+            const request = await graphqlClient.query({
+                query: QUERY_REQUEST_KEYS,
+                variables: {
+                    input: {
+                        ids: selector,
+                    },
+                },
+            });
 
-        const input = singular
-            ? { id }
-            : { ids: id };
+            const response = request.data.requestKeys;
+
+            return response;
+        }
+
+
+        if (typeof selector === 'string') {
+            const request = await graphqlClient.query({
+                query: QUERY_REQUEST_KEY,
+                variables: {
+                    input: {
+                        id: selector,
+                    },
+                },
+            });
+
+            const response = request.data.requestKey;
+
+            return response;
+        }
+
 
         const request = await graphqlClient.query({
-            query,
+            query: QUERY_REQUEST_KEYS,
             variables: {
-                input,
+                input: {
+                    selector: JSON.stringify(selector),
+                },
             },
         });
 
-
-        const responseName = singular
-            ? 'requestKey'
-            : 'requestKeys';
-
-        const response = request.data[responseName];
+        const response = request.data.requestKeys;
 
         return response;
     } catch (error) {

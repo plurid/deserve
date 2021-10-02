@@ -33,6 +33,7 @@ const query = (
             };
         }
 
+
         const request = await graphqlClient.query({
             query: QUERY_QUERY_KEYS,
             variables: {
@@ -43,6 +44,7 @@ const query = (
                 },
             },
         });
+
         const response = request.data.queryKeys;
 
         return response;

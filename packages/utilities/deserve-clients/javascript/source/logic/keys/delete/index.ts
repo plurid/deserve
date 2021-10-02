@@ -18,7 +18,7 @@
 const keysDelete = (
     clientData: ClientData,
 ): KeysDelete => async (
-    id,
+    selector,
 ) => {
     try {
         const {
@@ -31,14 +31,18 @@ const keysDelete = (
             };
         }
 
+
+        const input = typeof selector === 'string'
+            ? { id: selector }
+            : { selector: JSON.stringify(selector) };
+
         const request = await graphqlClient.mutate({
             mutation: MUTATION_DELETE_KEY,
             variables: {
-                input: {
-                    id,
-                },
+                input,
             },
         });
+
         const response = request.data.deleteKey;
 
         return response;

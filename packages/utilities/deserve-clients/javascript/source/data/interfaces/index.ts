@@ -70,7 +70,10 @@ export type BlobsQuery = (
 
 
 export type KeysGet = <T = any>(
-    id: string | string[],
+    /**
+     * The key selector can be a `string` id, or `string[]` ids or a filter `record`.
+     */
+    selector: string | string[] | Record<string, any>,
 ) => Promise<ClientResponse<T | undefined>>;
 
 export type KeysStore = <T = any>(
@@ -78,13 +81,19 @@ export type KeysStore = <T = any>(
 ) => Promise<ClientResponse<boolean>>;
 
 export type KeysUpdate = <T = any>(
-    id: string,
+    /**
+     * The key selector can be a `string` id or a filter `record`.
+     */
+    selector: string | Record<string, any>,
     data: T,
     field?: string,
 ) => Promise<ClientResponse<boolean>>;
 
 export type KeysDelete =(
-    id: string,
+    /**
+     * The key selector can be a `string` id or a filter `record`.
+     */
+    selector: string | Record<string, any>,
 ) => Promise<ClientResponse<boolean>>;
 
 export type KeysQuery = <T = any>(

@@ -31,18 +31,20 @@ const store = (
             };
         }
 
-        data = typeof data === 'string'
-            ? data as any
+
+        const normalizedData = typeof data === 'string'
+            ? data
             : JSON.stringify(data);
 
         const request = await graphqlClient.mutate({
             mutation: MUTATION_STORE_KEY,
             variables: {
                 input: {
-                    data,
+                    data: normalizedData,
                 },
             },
         });
+
         const response = request.data.storeKey;
 
         return response;

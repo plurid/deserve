@@ -18,7 +18,7 @@
 const update = (
     clientData: ClientData,
 ): KeysUpdate => async (
-    id,
+    selector,
     data,
     field,
 ) => {
@@ -33,20 +33,26 @@ const update = (
             };
         }
 
-        data = typeof data === 'string'
-            ? data as any
+
+        const normalizedData = typeof data === 'string'
+            ? data
             : JSON.stringify(data);
+
+        const selectorInput = typeof selector === 'string'
+            ? { id: selector }
+            : { selector: JSON.stringify(selector) };
 
         const request = await graphqlClient.mutate({
             mutation: MUTATION_UPDATE_KEY,
             variables: {
                 input: {
-                    id,
-                    data,
+                    ...selectorInput,
+                    data: normalizedData,
                     field,
                 },
             },
         });
+
         const response = request.data.updateKey;
 
         return response;
