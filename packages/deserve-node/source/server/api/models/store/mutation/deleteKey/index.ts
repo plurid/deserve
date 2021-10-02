@@ -151,7 +151,7 @@ const deleteKey = async (
                 };
             }
 
-            const keyData = await database.getAllWhere<any>(
+            const keysData = await database.getAllWhere<any>(
                 collections.keys,
                 {
                     ...filter,
@@ -159,8 +159,8 @@ const deleteKey = async (
                 },
             );
 
-            for (const keyItem of keyData) {
-                if (keyItem.ownerID !== ownerID) {
+            for (const keyData of keysData) {
+                if (keyData.ownerID !== ownerID) {
                     delog({
                         text: 'deleteKey unauthorized',
                         level: 'warn',
@@ -171,7 +171,7 @@ const deleteKey = async (
 
                 const markedDeleted = await database.updateDocument(
                     collections.keys,
-                    keyItem.id,
+                    keyData.id,
                     {
                         deleted: true,
                         deletedAt: Date.now(),

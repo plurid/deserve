@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import delog from '@plurid/delog';
+
+    import {
+        data,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -58,6 +62,10 @@ const requestKey = async (
             selector,
         } = input;
 
+        const {
+            ownerID,
+        } = core;
+
         if (id) {
             const query: any = await database.getById(
                 collections.keys,
@@ -91,7 +99,55 @@ const requestKey = async (
 
 
         if (selector) {
+            const filter = data.parse(selector);
+            if (!filter) {
+                delog({
+                    text: 'requestKey invalid filter',
+                    level: 'warn',
+                });
 
+                return {
+                    status: false,
+                };
+            }
+
+
+            const keysData = await database.getAllWhere<any>(
+                collections.keys,
+                {
+                    ...filter,
+                    ownerID,
+                },
+            );
+
+            const keyData = keysData[0];
+            if (
+                !keyData
+                || keyData.ownedID !== ownerID
+            ) {
+                delog({
+                    text: 'requestKey not found',
+                    level: 'warn',
+                });
+
+                return {
+                    status: false,
+                };
+            }
+
+            const extractedData = keyFromData(keyData);
+
+
+            delog({
+                text: 'requestKey success',
+                level: 'trace',
+            });
+
+
+            return {
+                status: true,
+                data: extractedData,
+            };
         }
 
 

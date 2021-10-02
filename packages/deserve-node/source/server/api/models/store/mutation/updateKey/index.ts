@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import delog from '@plurid/delog';
+
+    import {
+        data as dataFunctions,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -27,6 +31,70 @@
 
 
 // #region module
+const updateLogic = async (
+    collections: any,
+    keyData: any,
+    ownerID: any,
+    data: any,
+    field: string | undefined,
+) => {
+    if (keyData.ownerID === ownerID) {
+        return false;
+    }
+
+
+    const updatedAt = Date.now();
+    let previousHistory: any[] = keyData.history || [];
+
+    if (previousHistory.length > 0) {
+        // history logic
+    }
+
+
+    if (field) {
+        await database.updateField(
+            collections.keys,
+            keyData.id,
+            'value.' + field,
+            dataToObjectOrDefault(data),
+        );
+    } else {
+        await database.updateField(
+            collections.keys,
+            keyData.id,
+            'value',
+            dataToObjectOrDefault(data),
+        );
+    }
+
+    const updated = await database.updateField(
+        collections.keys,
+        keyData.id,
+        'updatedAt',
+        updatedAt,
+    );
+
+    await database.updateField(
+        collections.keys,
+        keyData.id,
+        'history',
+        [
+            ...previousHistory,
+            {
+                value: keyData.value,
+                updatedAt,
+            },
+        ],
+    );
+
+    if (!updated) {
+        return false;
+    }
+
+    return true;
+}
+
+
 const updateKey = async (
     input: InputUpdateKey,
     context: Context,
@@ -60,6 +128,10 @@ const updateKey = async (
             field,
         } = input;
 
+        const {
+            ownerID,
+        } = core;
+
 
         if (id) {
             const keyData = await database.getById<any>(
@@ -77,48 +149,12 @@ const updateKey = async (
                 };
             }
 
-            const updatedAt = Date.now();
-            let previousHistory: any[] = keyData.history || [];
-
-            if (previousHistory.length > 0) {
-                // history logic
-            }
-
-
-            if (field) {
-                await database.updateField(
-                    collections.keys,
-                    id,
-                    'value.' + field,
-                    dataToObjectOrDefault(data),
-                );
-            } else {
-                await database.updateField(
-                    collections.keys,
-                    id,
-                    'value',
-                    dataToObjectOrDefault(data),
-                );
-            }
-
-            const updated = await database.updateField(
-                collections.keys,
-                id,
-                'updatedAt',
-                updatedAt,
-            );
-
-            await database.updateField(
-                collections.keys,
-                id,
-                'history',
-                [
-                    ...previousHistory,
-                    {
-                        value: keyData.value,
-                        updatedAt,
-                    },
-                ],
+            const updated = await updateLogic(
+                collections,
+                keyData,
+                ownerID,
+                data,
+                field,
             );
 
             if (!updated) {
@@ -146,7 +182,55 @@ const updateKey = async (
 
 
         if (selector) {
+            const filter = dataFunctions.parse(selector);
+            if (!filter) {
+                delog({
+                    text: 'updateKey invalid filter',
+                    level: 'warn',
+                });
 
+                return {
+                    status: false,
+                };
+            }
+
+            const keysData = await database.getAllWhere<any>(
+                collections.keys,
+                {
+                    ...filter,
+                    ownerID,
+                },
+            );
+
+            for (const keyData of keysData) {
+                const updated = await updateLogic(
+                    collections,
+                    keyData,
+                    ownerID,
+                    data,
+                    field,
+                );
+
+                if (!updated) {
+                    delog({
+                        text: 'updateKey not updated',
+                        level: 'warn',
+                    });
+
+                    continue;
+                }
+            }
+
+
+            delog({
+                text: 'updateKey success',
+                level: 'trace',
+            });
+
+
+            return {
+                status: true,
+            };
         }
 
 
