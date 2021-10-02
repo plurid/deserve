@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import delog from '@plurid/delog';
+
+    import {
+        data,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -62,9 +66,6 @@ const deleteKey = async (
             ownerID,
         } = core;
 
-        // TODO:
-        // mark as deleted
-        // and set for obliteration following the obliteration policy
 
         if (id) {
             const keyData: any = await database.getById(
@@ -138,7 +139,57 @@ const deleteKey = async (
 
 
         if (selector) {
+            const filter = data.parse(selector);
+            if (!filter) {
+                delog({
+                    text: 'deleteKey invalid filter',
+                    level: 'warn',
+                });
 
+                return {
+                    status: false,
+                };
+            }
+
+            const keyData = await database.getAllWhere<any>(
+                collections.keys,
+                {
+                    ...filter,
+                    ownerID,
+                },
+            );
+
+            for (const keyItem of keyData) {
+                if (keyItem.ownerID !== ownerID) {
+                    delog({
+                        text: 'deleteKey unauthorized',
+                        level: 'warn',
+                    });
+
+                    continue;
+                }
+
+                const markedDeleted = await database.updateDocument(
+                    collections.keys,
+                    keyItem.id,
+                    {
+                        deleted: true,
+                        deletedAt: Date.now(),
+                    },
+                );
+                if (!markedDeleted) {
+                    delog({
+                        text: 'deleteKey not marked deleted',
+                        level: 'warn',
+                    });
+
+                    continue;
+                }
+            }
+
+            return {
+                status: true,
+            };
         }
 
 
