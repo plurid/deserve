@@ -55,6 +55,7 @@ const deleteKey = async (
 
         const {
             id,
+            selector,
         } = input;
 
         const {
@@ -65,72 +66,84 @@ const deleteKey = async (
         // mark as deleted
         // and set for obliteration following the obliteration policy
 
-        const keyData: any = await database.getById(
-            collections.keys,
-            id,
-        );
-        if (!keyData) {
+        if (id) {
+            const keyData: any = await database.getById(
+                collections.keys,
+                id,
+            );
+            if (!keyData) {
+                delog({
+                    text: 'deleteKey key not found',
+                    level: 'warn',
+                });
+
+                return {
+                    status: false,
+                };
+            }
+
+            if (keyData.ownerID !== ownerID) {
+                delog({
+                    text: 'deleteKey unauthorized',
+                    level: 'warn',
+                });
+
+                return {
+                    status: false,
+                };
+            }
+
+            if (keyData.deleted) {
+                delog({
+                    text: 'deleteKey already deleted',
+                    level: 'warn',
+                });
+
+                return {
+                    status: false,
+                };
+            }
+
+
+            const markedDeleted = await database.updateDocument(
+                collections.keys,
+                id,
+                {
+                    deleted: true,
+                    deletedAt: Date.now(),
+                },
+            );
+            if (!markedDeleted) {
+                delog({
+                    text: 'deleteKey not marked deleted',
+                    level: 'warn',
+                });
+
+                return {
+                    status: false,
+                };
+            }
+
+
             delog({
-                text: 'deleteKey key not found',
-                level: 'warn',
+                text: 'deleteKey success',
+                level: 'trace',
             });
 
+
             return {
-                status: false,
+                status: true,
             };
         }
 
-        if (keyData.ownerID !== ownerID) {
-            delog({
-                text: 'deleteKey unauthorized',
-                level: 'warn',
-            });
 
-            return {
-                status: false,
-            };
+        if (selector) {
+
         }
-
-        if (keyData.deleted) {
-            delog({
-                text: 'deleteKey already deleted',
-                level: 'warn',
-            });
-
-            return {
-                status: false,
-            };
-        }
-
-
-        const markedDeleted = await database.updateDocument(
-            collections.keys,
-            id,
-            {
-                deleted: true,
-                deletedAt: Date.now(),
-            },
-        );
-        if (!markedDeleted) {
-            delog({
-                text: 'deleteKey not marked deleted',
-                level: 'warn',
-            });
-
-            return {
-                status: false,
-            };
-        }
-
-
-        delog({
-            text: 'deleteKey success',
-            level: 'trace',
-        });
 
 
         return {
-            status: true,
+            status: false,
         };
     } catch (error) {
         delog({

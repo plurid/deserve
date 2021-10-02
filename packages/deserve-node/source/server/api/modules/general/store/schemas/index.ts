@@ -231,7 +231,8 @@ export const inputs = gql`
 
 
     input InputRequestKey {
-        id: ID!
+        id: ID
+        selector: String
     }
 
     input InputRequestKeys {
@@ -252,7 +253,8 @@ export const inputs = gql`
 
 
     input InputUpdateKey {
-        id: ID!
+        id: ID
+        selector: String
         data: String!
         field: String
     }
@@ -265,7 +267,8 @@ export const inputs = gql`
 
     input InputDeleteKey {
         coreID: String
-        id: ID!
+        id: ID
+        selector: String
     }
 
 

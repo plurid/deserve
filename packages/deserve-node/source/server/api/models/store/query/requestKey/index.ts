@@ -55,35 +55,54 @@ const requestKey = async (
 
         const {
             id,
+            selector,
         } = input;
 
-        const query: any = await database.getById(
-            collections.keys,
-            id,
-        );
-        if (!query) {
+        if (id) {
+            const query: any = await database.getById(
+                collections.keys,
+                id,
+            );
+            if (!query) {
+                delog({
+                    text: 'requestKey not found',
+                    level: 'warn',
+                });
+
+                return {
+                    status: false,
+                };
+            }
+
+            const data = keyFromData(query);
+
+
             delog({
-                text: 'requestKey not found',
-                level: 'warn',
+                text: 'requestKey success',
+                level: 'trace',
             });
 
+
             return {
-                status: false,
+                status: true,
+                data,
             };
         }
 
-        const data = keyFromData(query);
+
+        if (selector) {
+
+        }
 
 
         delog({
-            text: 'requestKey success',
+            text: 'requestKey not found',
             level: 'trace',
         });
 
 
         return {
-            status: true,
-            data,
+            status: false,
         };
     } catch (error) {
         delog({

@@ -55,89 +55,103 @@ const updateKey = async (
 
         const {
             id,
+            selector,
             data,
             field,
         } = input;
 
-        const keyData = await database.getById<any>(
-            collections.keys,
-            id,
-        );
-        if (!keyData) {
-            delog({
-                text: 'updateKey not found',
-                level: 'warn',
-            });
 
-            return {
-                status: false,
-            };
-        }
+        if (id) {
+            const keyData = await database.getById<any>(
+                collections.keys,
+                id,
+            );
+            if (!keyData) {
+                delog({
+                    text: 'updateKey not found',
+                    level: 'warn',
+                });
 
-        const updatedAt = Date.now();
-        let previousHistory: any[] = keyData.history || [];
+                return {
+                    status: false,
+                };
+            }
 
-        if (previousHistory.length > 0) {
-            // history logic
-        }
+            const updatedAt = Date.now();
+            let previousHistory: any[] = keyData.history || [];
+
+            if (previousHistory.length > 0) {
+                // history logic
+            }
 
 
-        if (field) {
+            if (field) {
+                await database.updateField(
+                    collections.keys,
+                    id,
+                    'value.' + field,
+                    dataToObjectOrDefault(data),
+                );
+            } else {
+                await database.updateField(
+                    collections.keys,
+                    id,
+                    'value',
+                    dataToObjectOrDefault(data),
+                );
+            }
+
+            const updated = await database.updateField(
+                collections.keys,
+                id,
+                'updatedAt',
+                updatedAt,
+            );
+
             await database.updateField(
                 collections.keys,
                 id,
-                'value.' + field,
-                dataToObjectOrDefault(data),
+                'history',
+                [
+                    ...previousHistory,
+                    {
+                        value: keyData.value,
+                        updatedAt,
+                    },
+                ],
             );
-        } else {
-            await database.updateField(
-                collections.keys,
-                id,
-                'value',
-                dataToObjectOrDefault(data),
-            );
-        }
 
-        const updated = await database.updateField(
-            collections.keys,
-            id,
-            'updatedAt',
-            updatedAt,
-        );
+            if (!updated) {
+                delog({
+                    text: 'updateKey not updated',
+                    level: 'warn',
+                });
 
-        await database.updateField(
-            collections.keys,
-            id,
-            'history',
-            [
-                ...previousHistory,
-                {
-                    value: keyData.value,
-                    updatedAt,
-                },
-            ],
-        );
+                return {
+                    status: false,
+                };
+            }
 
-        if (!updated) {
+
             delog({
-                text: 'updateKey not updated',
-                level: 'warn',
+                text: 'updateKey success',
+                level: 'trace',
             });
 
+
             return {
-                status: false,
+                status: true,
             };
         }
 
 
-        delog({
-            text: 'updateKey success',
-            level: 'trace',
-        });
+        if (selector) {
+
+        }
 
 
         return {
-            status: true,
+            status: false,
         };
     } catch (error) {
         delog({

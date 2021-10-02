@@ -50,7 +50,8 @@ export interface InputQueryBlobs {
 
 
 export interface InputRequestKey {
-    id: string;
+    id?: string;
+    selector?: string;
 }
 
 export interface InputRequestKeys {
@@ -82,7 +83,8 @@ export interface InputStoreKey {
 
 
 export interface InputUpdateKey {
-    id: string;
+    id?: string;
+    selector?: string;
     data: string;
     field?: string;
 }
@@ -95,7 +97,8 @@ export interface InputDeleteBlob {
 
 export interface InputDeleteKey {
     coreID?: string;
-    id: string;
+    id?: string;
+    selector?: string;
 }
 
 
