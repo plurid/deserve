@@ -34,11 +34,15 @@ const query = (
         }
 
 
+        const filterInput = typeof filter === 'string'
+            ? filter
+            : JSON.stringify(filter);
+
         const request = await graphqlClient.query({
             query: QUERY_QUERY_KEYS,
             variables: {
                 input: {
-                    filter,
+                    filter: filterInput,
                     count,
                     start,
                 },

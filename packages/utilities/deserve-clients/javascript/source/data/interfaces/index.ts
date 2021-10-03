@@ -97,7 +97,7 @@ export type KeysDelete =(
 ) => Promise<ClientResponse<boolean>>;
 
 export type KeysQuery = <T = any>(
-    filter: string,
+    filter: string | Record<string, any>,
     count?: number,
     start?: string,
 ) => Promise<ClientResponse<T[] | undefined>>;
