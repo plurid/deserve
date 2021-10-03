@@ -43,6 +43,13 @@ export interface ClientSuccessResponse<D = any> {
 }
 
 
+/**
+ * The selector can be a `string` id or a filter `record`.
+ */
+export type DataSelector = string | Record<string, any>;
+
+
+
 export type BlobsGet = (
     id: string,
 ) => Promise<ClientResponse<Response | undefined>>;
@@ -62,7 +69,7 @@ export type BlobsDelete = (
 ) => Promise<ClientResponse<boolean>>;
 
 export type BlobsQuery = (
-    filter: string,
+    selector: DataSelector,
     count?: number,
     start?: string,
 ) => Promise<ClientResponse<any>>;
@@ -70,10 +77,7 @@ export type BlobsQuery = (
 
 
 export type KeysGet = <T = any>(
-    /**
-     * The key selector can be a `string` id, or `string[]` ids or a filter `record`.
-     */
-    selector: string | string[] | Record<string, any>,
+    selector: DataSelector,
 ) => Promise<ClientResponse<T | undefined>>;
 
 export type KeysStore = <T = any>(
@@ -81,23 +85,17 @@ export type KeysStore = <T = any>(
 ) => Promise<ClientResponse<boolean>>;
 
 export type KeysUpdate = <T = any>(
-    /**
-     * The key selector can be a `string` id or a filter `record`.
-     */
-    selector: string | Record<string, any>,
+    selector: DataSelector,
     data: T,
     field?: string,
 ) => Promise<ClientResponse<boolean>>;
 
 export type KeysDelete =(
-    /**
-     * The key selector can be a `string` id or a filter `record`.
-     */
-    selector: string | Record<string, any>,
+    selector: DataSelector,
 ) => Promise<ClientResponse<boolean>>;
 
 export type KeysQuery = <T = any>(
-    filter: string | Record<string, any>,
+    selector: DataSelector,
     count?: number,
     start?: string,
 ) => Promise<ClientResponse<T[] | undefined>>;
@@ -137,7 +135,7 @@ export type FunctionsDelete =(
 ) => Promise<ClientResponse<boolean>>;
 
 export type FunctionsQuery = <T = any>(
-    filter: string,
+    selector: DataSelector,
     count?: number,
     start?: string,
 ) => Promise<ClientResponse<T[] | undefined>>;

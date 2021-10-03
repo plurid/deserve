@@ -18,7 +18,7 @@
 const query = (
     clientData: ClientData,
 ): FunctionsQuery => async (
-    filter,
+    selector,
     count,
     start,
 ) => {
@@ -33,16 +33,22 @@ const query = (
             };
         }
 
+
+        const filterInput = typeof selector === 'string'
+            ? selector
+            : JSON.stringify(selector);
+
         const request = await graphqlClient.query({
             query: QUERY_QUERY_FUNCTIONS,
             variables: {
                 input: {
-                    filter,
+                    filter: filterInput,
                     count,
                     start,
                 },
             },
         });
+
         const response = request.data.queryFunctions;
 
         return response;
