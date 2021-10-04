@@ -82,7 +82,11 @@ export type KeysGet = <T = any>(
 
 export type KeysStore = <T = any>(
     data: T,
-) => Promise<ClientResponse<boolean>>;
+) => Promise<
+    ClientResponse<{
+        id: string,
+    }>
+>;
 
 export type KeysUpdate = <T = any>(
     selector: DataSelector,
