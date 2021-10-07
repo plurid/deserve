@@ -76,6 +76,7 @@ const DeserveClient = (
     return {
         blobs: {
             get: logic.blobs.get(clientData),
+            partial: logic.blobs.partial(clientData),
             store: logic.blobs.store(clientData),
             delete: logic.blobs.delete(clientData),
             query: logic.blobs.query(clientData),

@@ -54,6 +54,12 @@ export type BlobsGet = (
     id: string,
 ) => Promise<ClientResponse<Response | undefined>>;
 
+export type BlobsPartial = (
+    id: string,
+    start: number,
+    end: number,
+) => Promise<ClientResponse<Buffer | undefined>>;
+
 export interface BlobsStoreOptions {
     contentType?: string;
     metadata?: any;
@@ -154,6 +160,7 @@ export type FunctionsRun = <T = any>(
 export interface IDeserveClient {
     blobs: {
         get: BlobsGet,
+        partial: BlobsPartial,
         store: BlobsStore,
         delete: BlobsDelete,
         query: BlobsQuery,
