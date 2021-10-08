@@ -3,6 +3,7 @@
     import blobs from './blobs';
     import keys from './keys';
     import functions from './functions';
+    import expiration from './expiration';
     // #endregion internal
 // #endregion imports
 
@@ -13,5 +14,6 @@ export default {
     blobs,
     keys,
     functions,
+    expiration,
 };
 // #endregion exports

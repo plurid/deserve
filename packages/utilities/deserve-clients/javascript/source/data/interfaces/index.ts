@@ -156,6 +156,8 @@ export type FunctionsRun = <T = any>(
 ) => Promise<ClientResponse<T[] | undefined>>;
 
 
+export type ExpirationGet = () => Promise<ClientResponse<{value: number}>>;
+
 
 export interface IDeserveClient {
     blobs: {
@@ -180,6 +182,7 @@ export interface IDeserveClient {
         query: FunctionsQuery,
         run: FunctionsQuery,
     };
+    expiration: () => Promise<number>;
 }
 
 export interface DeserveClientOptions {

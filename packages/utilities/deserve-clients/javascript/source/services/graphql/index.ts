@@ -41,6 +41,18 @@ export const QUERY_QUERY_KEYS = gql`
 `;
 
 
+export const QUERY_EXPIRATION = gql`
+    query QueryExpiration {
+        queryExpiration {
+            status
+            data {
+                value
+            }
+        }
+    }
+`;
+
+
 export const QUERY_QUERY_FUNCTIONS = gql`
     query QueryFunctions($input: InputQueryFunctions!) {
         queryFunctions(input: $input) {

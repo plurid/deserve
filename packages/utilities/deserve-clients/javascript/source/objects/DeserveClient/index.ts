@@ -6,6 +6,10 @@
         ClientData,
     } from '~data/interfaces';
 
+    import {
+        ONE_HOUR,
+    } from '~data/constants';
+
     import GraphqlClient from '~objects/GraphqlClient';
 
     import logic from '~logic/index';
@@ -72,6 +76,10 @@ const DeserveClient = (
         graphqlClient,
     };
 
+    const expirationFunction = logic.expiration(clientData);
+    let expirationValue: number | undefined = undefined;
+    let expirationQueried: number | undefined = undefined;
+
 
     return {
         blobs: {
@@ -97,6 +105,29 @@ const DeserveClient = (
             delete: logic.functions.delete(clientData),
             query: logic.functions.query(clientData),
             run: logic.functions.query(clientData),
+        },
+
+        expiration: async () => {
+            const now = Date.now();
+
+            if (typeof expirationValue === 'number') {
+                if (typeof expirationQueried === 'number') {
+                    if (now < expirationQueried + ONE_HOUR) {
+                        return expirationValue;
+                    }
+                }
+            }
+
+            const newExpiration = await expirationFunction();
+
+            if (newExpiration.status) {
+                expirationValue = newExpiration.data.value;
+                expirationQueried = now;
+
+                return expirationValue;
+            }
+
+            return ONE_HOUR;
         },
     };
 };
