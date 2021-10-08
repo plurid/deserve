@@ -13,6 +13,10 @@
     import {
         DOWNLOAD_PATH,
     } from '~data/constants';
+
+    import {
+        resolveExpiration,
+    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -54,9 +58,12 @@ const get = (
             };
         }
 
+        const expiration = resolveExpiration(response);
+
         return {
             status: true,
             data: response,
+            expiration,
         };
     } catch (error) {
         return {

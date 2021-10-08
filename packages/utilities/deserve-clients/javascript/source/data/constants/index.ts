@@ -11,4 +11,7 @@ export const DOWNLOAD_PATH = '/download';
 
 export const ONE_HOUR = 1_000 * 60 * 60;
 export const ONE_DAY = ONE_HOUR * 24;
+
+
+export const HEADER_DESERVE_EXPIRATION = 'Deserve-Expiration';
 // #endregion exports

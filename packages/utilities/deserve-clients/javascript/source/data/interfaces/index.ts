@@ -40,6 +40,7 @@ export interface ClientErrorResponse<E = any> {
 export interface ClientSuccessResponse<D = any> {
     status: true;
     data: D;
+    expiration?: number | Record<string, number>;
 }
 
 

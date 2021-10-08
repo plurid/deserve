@@ -15,6 +15,10 @@
         DESERVE_CLIENT_ROUTER,
         DESERVE_CLIENT_PROTOCOL,
         DESERVE_CLIENT_HOST,
+
+        HEADER_DESERVE_EXPIRATION,
+
+        ONE_DAY,
     } from '~data/constants';
     // #endregion external
 // #endregion imports
@@ -73,5 +77,20 @@ export const checkExpired = (
     }
 
     return false;
+}
+
+
+
+export const resolveExpiration = (
+    response: Response,
+) => {
+    const header = response.headers.get(HEADER_DESERVE_EXPIRATION);
+    if (!header) {
+        return ONE_DAY;
+    }
+
+    const expiration = parseInt(header) || ONE_DAY;
+
+    return expiration;
 }
 // #endregion exports
