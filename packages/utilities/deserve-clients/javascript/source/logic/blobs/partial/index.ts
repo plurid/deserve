@@ -13,6 +13,10 @@
     import {
         DOWNLOAD_PATH,
     } from '~data/constants';
+
+    import {
+        resolveExpiration,
+    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -62,9 +66,12 @@ const partial = (
             new Uint8Array(arrayBuffer),
         );
 
+        const expiration = resolveExpiration(response);
+
         return {
             status: true,
             data: buffer,
+            expiration,
         };
     } catch (error) {
         return {
