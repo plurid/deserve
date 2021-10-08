@@ -17,8 +17,6 @@
         DESERVE_CLIENT_HOST,
 
         HEADER_DESERVE_EXPIRATION,
-
-        ONE_DAY,
     } from '~data/constants';
     // #endregion external
 // #endregion imports
@@ -85,12 +83,52 @@ export const resolveExpiration = (
     response: Response,
 ) => {
     const header = response.headers.get(HEADER_DESERVE_EXPIRATION);
-    if (!header) {
-        return ONE_DAY;
+    return resolveExpirationString(header);
+}
+
+
+export const resolveExpirationString = (
+    value: string | undefined | null,
+) => {
+    if (!value) {
+        return;
     }
 
-    const expiration = parseInt(header) || ONE_DAY;
+    const integer = parseInt(value);
+    if (integer) {
+        return integer;
+    }
 
-    return expiration;
+    const split = value.split(';');
+    if (split.length === 0) {
+        return;
+    }
+
+    const expirations: Record<string, number> = {};
+
+    for (const value of split) {
+        const valueSplit = value.split(':');
+        if (valueSplit.length !== 2) {
+            continue;
+        }
+
+        const idValue = valueSplit[0];
+        const expirationValue = valueSplit[1];
+        if (!idValue || !expirationValue) {
+            continue;
+        }
+
+        const id = idValue.trim();
+        const expiration = parseInt(expirationValue);
+
+        if (
+            id
+            && typeof expiration === 'number' && !isNaN(expiration)
+        ) {
+            expirations[id] = expiration;
+        }
+    }
+
+    return expirations;
 }
 // #endregion exports

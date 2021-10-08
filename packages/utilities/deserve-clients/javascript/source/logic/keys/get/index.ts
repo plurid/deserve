@@ -10,6 +10,10 @@
         QUERY_REQUEST_KEY,
         QUERY_REQUEST_KEYS,
     } from '~services/graphql';
+
+    import {
+        resolveExpirationString,
+    } from '~utilities/index';
     // #endregion external
 // #endregion imports
 
@@ -45,7 +49,12 @@ const get = (
 
             const response = request.data.requestKeys;
 
-            return response;
+            const expiration = resolveExpirationString(response.expiration);
+
+            return {
+                ...response,
+                expiration,
+            };
         }
 
 
@@ -64,7 +73,12 @@ const get = (
 
         const response = request.data.requestKey;
 
-        return response;
+        const expiration = resolveExpirationString(response.expiration);
+
+        return {
+            ...response,
+            expiration,
+        };
     } catch (error) {
         return {
             status: false,
