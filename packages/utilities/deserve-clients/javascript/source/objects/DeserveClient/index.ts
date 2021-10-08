@@ -4,6 +4,8 @@
         IDeserveClient,
         DeserveClientOptions,
         ClientData,
+
+        ExpirationGet,
     } from '~data/interfaces';
 
     import {
@@ -24,6 +26,13 @@
 
 
 // #region module
+interface InternalExpiration {
+    function: ExpirationGet;
+    value: number | undefined;
+    lastQuery: number | undefined;
+}
+
+
 /**
  * Generates a reusable deserve client
  * to make requests to the `identonym`'s deserve core.
@@ -76,9 +85,11 @@ const DeserveClient = (
         graphqlClient,
     };
 
-    const expirationFunction = logic.expiration(clientData);
-    let expirationValue: number | undefined = undefined;
-    let expirationLastQuery: number | undefined = undefined;
+    const expiration: InternalExpiration = {
+        function: logic.expiration(clientData),
+        value: undefined,
+        lastQuery: undefined,
+    };
 
 
     return {
@@ -111,22 +122,22 @@ const DeserveClient = (
             const now = Date.now();
 
             if (
-                typeof expirationValue === 'number'
-                && typeof expirationLastQuery === 'number'
+                typeof expiration.value === 'number'
+                && typeof expiration.lastQuery === 'number'
             ) {
-                if (now < expirationLastQuery + ONE_HOUR) {
-                    return expirationValue;
+                if (now < expiration.lastQuery + ONE_HOUR) {
+                    return expiration.value;
                 }
             }
 
 
-            const newExpiration = await expirationFunction();
+            const newExpiration = await expiration.function();
 
             if (newExpiration.status) {
-                expirationValue = newExpiration.data.value;
-                expirationLastQuery = now;
+                expiration.value = newExpiration.data.value;
+                expiration.lastQuery = now;
 
-                return expirationValue;
+                return expiration.value;
             }
 
 
