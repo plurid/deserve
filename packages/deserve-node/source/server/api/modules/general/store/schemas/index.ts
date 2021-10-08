@@ -70,6 +70,7 @@ export const types = gql`
         status: Boolean!
         error: Error
         data: Key
+        expiration: String
     }
 
     type ResponseRequestedKeys {
