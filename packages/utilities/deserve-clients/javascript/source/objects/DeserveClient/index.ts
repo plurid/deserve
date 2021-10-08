@@ -78,7 +78,7 @@ const DeserveClient = (
 
     const expirationFunction = logic.expiration(clientData);
     let expirationValue: number | undefined = undefined;
-    let expirationQueried: number | undefined = undefined;
+    let expirationLastQuery: number | undefined = undefined;
 
 
     return {
@@ -110,22 +110,25 @@ const DeserveClient = (
         expiration: async () => {
             const now = Date.now();
 
-            if (typeof expirationValue === 'number') {
-                if (typeof expirationQueried === 'number') {
-                    if (now < expirationQueried + ONE_HOUR) {
-                        return expirationValue;
-                    }
+            if (
+                typeof expirationValue === 'number'
+                && typeof expirationLastQuery === 'number'
+            ) {
+                if (now < expirationLastQuery + ONE_HOUR) {
+                    return expirationValue;
                 }
             }
+
 
             const newExpiration = await expirationFunction();
 
             if (newExpiration.status) {
                 expirationValue = newExpiration.data.value;
-                expirationQueried = now;
+                expirationLastQuery = now;
 
                 return expirationValue;
             }
+
 
             return ONE_HOUR;
         },
