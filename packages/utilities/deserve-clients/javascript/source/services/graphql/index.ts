@@ -20,6 +20,7 @@ export const QUERY_QUERY_BLOBS = gql`
                 size
                 metadata
             }
+            expiration
         }
     }
 `;
@@ -36,6 +37,7 @@ export const QUERY_QUERY_KEYS = gql`
                 updatedAt
                 sha
             }
+            expiration
         }
     }
 `;
@@ -127,6 +129,7 @@ export const QUERY_REQUEST_KEY = gql`
                 updatedAt
                 sha
             }
+            expiration
         }
     }
 `;
@@ -143,6 +146,7 @@ export const QUERY_REQUEST_KEYS = gql`
                 updatedAt
                 sha
             }
+            expiration
         }
     }
 `;
