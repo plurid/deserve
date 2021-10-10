@@ -187,7 +187,7 @@ class Tunnel extends EventEmitter {
                     params,
                 )
                 .then((response) => {
-                    const body = response.data;
+                    const body: any = response.data;
                     // console.log('got tunnel information', response.data);
 
                     if (response.status !== 200) {
