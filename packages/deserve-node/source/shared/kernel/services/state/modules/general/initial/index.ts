@@ -13,7 +13,8 @@
 // #region module
 const initialState: Types.State = {
     notFoundFace: getRandomFace(),
-    registration: false,
+    // TODO: set registration with environment variable
+    registration: true,
 };
 // #endregion module
 
