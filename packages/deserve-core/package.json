@@ -35,12 +35,12 @@
         "clean": "rimraf ./distribution",
         "lint": "eslint ./source --ext .ts,.tsx",
         "start": "deon environment ./environment/.env.local.deon -- node test/index.js",
-        "build.development": "yarn clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
+        "build.development": "pnpm clean && rollup -c ./scripts/rollup.config.js --environment ENV_MODE:local",
         "build.production": "rollup -c ./scripts/rollup.config.js --environment ENV_MODE:production",
         "build.removeTests": "rimraf `find ./distribution/ -type d -name __tests__`",
         "build.copyAssets": "cp -r ./source/assets ./distribution/assets",
-        "build": "yarn clean && yarn build.production && yarn build.removeTests && yarn build.copyAssets",
-        "prepublishOnly": "yarn build"
+        "build": "pnpm clean && pnpm build.production && pnpm build.removeTests && pnpm build.copyAssets",
+        "prepublishOnly": "pnpm build"
     },
     "dependencies": {
         "@plurid/delog": "^0.0.0-6",
