@@ -16,6 +16,10 @@ export const findDockerImagene = async (
     const images = await docker.listImages();
 
     for (const image of images) {
+        if (!image.RepoTags) {
+            continue;
+        }
+
         for (const repoTag of image.RepoTags) {
             if (repoTag.startsWith(name)) {
                 return image;
