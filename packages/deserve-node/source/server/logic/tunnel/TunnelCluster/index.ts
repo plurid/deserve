@@ -226,6 +226,8 @@ class TunnelCluster extends EventEmitter {
 
                 // retrying connection to local server
                 setTimeout(connectLocal, 1_000);
+
+                return;
             });
 
             local.once('connect', () => {
