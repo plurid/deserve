@@ -1,7 +1,6 @@
 const path = require('path');
 
 const {
-    promises: fs,
     existsSync,
 } = require('fs');
 
@@ -30,6 +29,7 @@ try {
                 : './environment/.env.local',
     });
 } catch (error) {
+    console.log('no dotenv');
 }
 
 
@@ -61,55 +61,19 @@ const crossCommand = (
 }
 
 
-const injectEnvironment = async () => {
-    const environmentData = `
-process.env.MINIO_END_POINT = process.env.DESERVE_NODE_MINIO_END_POINT;
-process.env.MINIO_PORT = process.env.DESERVE_NODE_MINIO_PORT;
-process.env.MINIO_ACCESS_KEY = process.env.DESERVE_NODE_MINIO_ACCESS_KEY;
-process.env.MINIO_SECRET_KEY = process.env.DESERVE_NODE_MINIO_SECRET_KEY;\n\n
-`;
-
-    const serverFile = path.join(
-        buildFolder,
-        'index.js',
-    );
-
-    if (!existsSync(serverFile)) {
-        return;
-    }
-
-    const fileData = await fs.readFile(serverFile);
-    const finalFile = environmentData + fileData;
-
-    await fs.writeFile(
-        serverFile,
-        finalFile,
-    );
-}
-
-
 
 /** COMMANDS */
 const commandStart = [
     `node ${buildFolder}`,
 ];
 
-const commandWatchClient = [
-    `${crossCommand('webpack')} --watch --config ./scripts/workings/client.development.js`,
-];
-const commandWatchServer = [
-    `${crossCommand('rollup')} -w -c ./scripts/workings/server.development.js`,
-];
-
 const commandStartLocal = [
     `${crossCommand('nodemon')} --watch ${path.join(buildFolder, '/index.js')} ${buildFolder}`,
 ];
 
-const commandWatch = [
-    `${crossCommand('rimraf')} ${path.join(buildFolder, '/stills')}`,
-    `PLURID_WATCH_MODE=true concurrently \"yarn watch.client verbose\" \"yarn watch.server verbose\" \"yarn start.local verbose\"`,
+const commandCheck = [
+    `${crossCommand('tsc')} --project ./configurations/tsconfig.check.json`,
 ];
-
 
 const commandClean = [
     `${crossCommand('rimraf')} ${buildFolder}`,
@@ -121,6 +85,14 @@ const commandLint = [
 
 const commandTest = [
     `${crossCommand('jest')} -c ./configurations/jest.config.js ./source`,
+];
+
+const commandLive = [
+    ...commandClean,
+    'mkdir -p build/client',
+    'cp -r source/public/ build/client/',
+    'touch build/client/vendor.js',
+    `node ./scripts/live/client.js & node ./scripts/live/server.js & deon environment ./environment/.env.local.deon nodemon build/index.js`,
 ];
 
 const commandContainerizeProduction = [
@@ -207,9 +179,9 @@ const runCommand = (
 switch (command) {
     case 'start':
         if (!existsSync(buildFolder)) {
-            console.log('\n\tBuild Required. Starting the Stilled Production Build Process...');
-            runCommand(commandBuildProductionStills);
-            console.log('\n\tFinished the Stilled Production Build Process.\n');
+            console.log('\n\tBuild Required. Starting the Production Build Process...');
+            runCommand(commandBuildProduction);
+            console.log('\n\tFinished the Production Build Process.\n');
         }
         console.log('\n\tStarting the Application Server...');
         runCommand(commandStart, {
@@ -222,27 +194,13 @@ switch (command) {
             stdio: verbose,
         });
         break;
-    case 'start.development':
-        console.log('\n\tRunning the Development Server...');
-        runCommand(commandStartLocal, {
+    case 'live':
+        runCommand(commandLive, {
             stdio: verbose,
         });
         break;
-    case 'watch.client':
-        console.log('\n\tStarting the Client Watching Process...');
-        runCommand(commandWatchClient, {
-            stdio: verbose,
-        });
-        break;
-    case 'watch.server':
-        console.log('\n\tStarting the Server Watching Process...');
-        runCommand(commandWatchServer, {
-            stdio: verbose,
-        });
-        break;
-    case 'watch':
-        console.log('\n\tRunning the Watching Process...');
-        runCommand(commandWatch, {
+    case 'check':
+        runCommand(commandCheck, {
             stdio: verbose,
         });
         break;
@@ -329,7 +287,6 @@ switch (command) {
         runCommand(commandBuildDevelopment, {
             stdio: verbose,
         });
-        injectEnvironment();
         console.log('\n\tFinished the Local Build Process.\n');
         break;
     case 'build.local.stills':
@@ -337,7 +294,6 @@ switch (command) {
         runCommand(commandBuildDevelopmentStills, {
             stdio: verbose,
         });
-        injectEnvironment();
         console.log('\n\tFinished the Stilled Development Build Process.\n');
         break;
     case 'build.development':
@@ -345,7 +301,6 @@ switch (command) {
         runCommand(commandBuildDevelopment, {
             stdio: verbose,
         });
-        injectEnvironment();
         console.log('\n\tFinished the Development Build Process.\n');
         break;
     case 'build.development.stills':
@@ -353,7 +308,6 @@ switch (command) {
         runCommand(commandBuildDevelopmentStills, {
             stdio: verbose,
         });
-        injectEnvironment();
         console.log('\n\tFinished the Stilled Development Build Process.\n');
         break;
     case 'build.production':
@@ -361,7 +315,6 @@ switch (command) {
         runCommand(commandBuildProduction, {
             stdio: verbose,
         });
-        injectEnvironment();
         console.log('\n\tFinished the Production Build Process.\n');
         break;
     case 'build.production.stills':
@@ -369,7 +322,6 @@ switch (command) {
         runCommand(commandBuildProductionStills, {
             stdio: verbose,
         });
-        injectEnvironment();
         console.log('\n\tFinished the Stilled Production Build Process.\n');
         break;
 }

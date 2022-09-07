@@ -53,7 +53,7 @@ const compressionPluginGzip = new CompressionPlugin({
 
 const processEnvironmentPlugin = new webpack.DefinePlugin({
     'process.env.ENV_MODE': JSON.stringify(process.env.ENV_MODE),
-    'process.env.SC_DISABLE_SPEEDY': true, /** HACK: styled components not rendering in production */
+    'process.env.SC_DISABLE_SPEEDY': JSON.stringify(true), /** HACK: styled components not rendering in production */
 });
 
 
@@ -78,16 +78,11 @@ const styleRule = {
 
 const fileRule = {
     test: /\.(jpe?g|gif|png|svg|eof|otf|woff|ttf|wav|mp3|pdf|mov|mp4)$/i,
-    use: [
-        {
-            loader: 'file-loader',
-            options: {
-                name: `${ASSETS_DIRECTORY}/[name].[ext]`,
-                publicPath: '/',
-                outputPath: '/',
-            },
-        },
-    ],
+    type: 'asset/resource',
+    generator: {
+        filename: `${ASSETS_DIRECTORY}/[name][ext]`,
+        publicPath: '/',
+    },
 };
 
 
