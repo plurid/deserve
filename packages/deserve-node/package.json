@@ -34,14 +34,11 @@
     "scripts": {
         "start": "node scripts start",
         "start.local": "node scripts start.local",
-        "start.development": "node scripts start.development",
-        "watch.client": "node scripts watch.client",
-        "watch.server": "node scripts watch.server",
-        "watch": "node scripts watch",
+        "live": "node scripts live",
+        "check": "node scripts check",
         "clean": "node scripts clean",
         "lint": "node scripts lint",
         "test": "node scripts test",
-        "containerize.production": "node scripts containerize.production",
         "build.client.local": "node scripts build.client.local",
         "build.client.development": "node scripts build.client.development",
         "build.client.production": "node scripts build.client.production",
@@ -50,7 +47,9 @@
         "build.server.production": "node scripts build.server.production",
         "build.local": "node scripts build.local",
         "build.development": "node scripts build.development",
-        "build.production": "node scripts build.production"
+        "build.development.stills": "node scripts build.development.stills",
+        "build.production": "node scripts build.production",
+        "build.production.stills": "node scripts build.production.stills"
     },
     "dependencies": {
         "@apollo/client": "^3.6.9",
