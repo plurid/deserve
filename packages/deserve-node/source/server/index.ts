@@ -1,18 +1,20 @@
 // #region imports
     // #region libraries
+    import {
+        ApolloProvider,
+    } from '@apollo/client';
+
+    import {
+        Provider as ReduxProvider,
+    } from 'react-redux';
+
+
     import PluridServer, {
         PluridServerMiddleware,
         PluridServerService,
         PluridServerPartialOptions,
         PluridServerTemplateConfiguration,
     } from '@plurid/plurid-react-server';
-
-    import helmet from '~kernel-services/helmet';
-
-    import reduxStore from '~kernel-services/state/store';
-    import reduxContext from '~kernel-services/state/context';
-
-    import apolloClient from '~kernel-services/graphql/client';
     // #endregion libraries
 
 
@@ -25,6 +27,13 @@
     import {
         APPLICATION_ROOT,
     } from '~shared/data/constants';
+
+    import helmet from '~kernel-services/helmet';
+
+    import reduxStore from '~kernel-services/state/store';
+    import reduxContext from '~kernel-services/state/context';
+
+    import apolloClient from '~kernel-services/graphql/client';
     // #endregion external
 
 
@@ -77,16 +86,14 @@ const middleware: PluridServerMiddleware[] = [
 const services: PluridServerService[] = [
     {
         name: 'Apollo',
-        package: '@apollo/client',
-        provider: 'ApolloProvider',
+        Provider: ApolloProvider,
         properties: {
             client: apolloClient,
         },
     },
     {
         name: 'Redux',
-        package: 'react-redux',
-        provider: 'Provider',
+        Provider: ReduxProvider,
         properties: {
             store: reduxStore({}),
             context: reduxContext,

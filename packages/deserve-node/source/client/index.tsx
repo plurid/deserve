@@ -1,7 +1,10 @@
 // #region imports
     // #region libraries
     import React from 'react';
-    import ReactDOM from 'react-dom';
+
+    import {
+        hydrateRoot,
+    } from 'react-dom/client';
     // #endregion libraries
 
 
@@ -25,11 +28,10 @@
 //     navigator.serviceWorker.register('/service-worker.js');
 // }
 
-const deserveApp = document.getElementById(APPLICATION_ROOT);
+const deserveApp = document.getElementById(APPLICATION_ROOT)!;
 
-
-ReactDOM.hydrate(
-    <Client />,
+hydrateRoot(
     deserveApp,
+    <Client />,
 );
 // #endregion module

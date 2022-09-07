@@ -9,6 +9,7 @@
     } from '@apollo/client';
     // #endregion libraries
 
+
     // #region external
     import {
         GRAPHQL_ENDPOINT,

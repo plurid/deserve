@@ -1,62 +1,34 @@
 // #region imports
     // #region libraries
     import {
-        createStore,
-        applyMiddleware,
-    } from 'redux';
-
-    import thunk from 'redux-thunk';
-
-    import {
-        composeWithDevTools,
-    } from 'redux-devtools-extension';
+        configureStore,
+        Store,
+    } from '@reduxjs/toolkit';
     // #endregion libraries
 
 
     // #region external
-    import reducers from '../reducers';
+    import reducer, {
+        AppState,
+    } from '../reducer';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-export type AppState = ReturnType<typeof reducers>;
+const store: (
+    preloadedState: AppState | {},
+) => Store<AppState> = (
+    preloadedState: AppState | {},
+) => configureStore({
+    preloadedState,
+    reducer,
+    devTools: true,
+});
 
-const store = (
-    preloadedState: any,
-) => {
-    const middleware = [
-        thunk,
-    ];
 
-    // const localState = localStorage.loadState();
-
-    // const persistedState = {
-    //     themes: localState?.themes,
-    // };
-
-    const _store = createStore(
-        reducers,
-        preloadedState,
-        // persistedState || preloadedState,
-        composeWithDevTools(
-            applyMiddleware(...middleware),
-        ),
-    );
-
-    // _store.subscribe(
-    //     () => {
-    //         const localState = localStorage.loadState();
-    //         localStorage.saveState({
-    //             ...localState,
-    //             themes: _store.getState().themes,
-    //         });
-    //     },
-    // );
-
-    return _store;
-}
+export type AppDispatch = ReturnType<typeof store>['dispatch'];
 // #endregion module
 
 

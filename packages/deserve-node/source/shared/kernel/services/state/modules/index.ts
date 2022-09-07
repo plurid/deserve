@@ -10,7 +10,7 @@
 
 
 // #region exports
-export {
+export default {
     data,
     general,
     themes,

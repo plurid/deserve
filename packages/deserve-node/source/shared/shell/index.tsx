@@ -38,6 +38,7 @@
 
 // #region module
 export interface ShellOwnProperties {
+    children: React.ReactNode;
 }
 
 export interface ShellStateProperties {
