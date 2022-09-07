@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@apollo/client': ^3.6.9
-  '@plurid/dataface-mongo': ^0.0.0-0
+  '@plurid/dataface-mongo': ^0.0.0-1
   '@plurid/delog': ^0.0.0-6
   '@plurid/deon': ^0.0.0-8
   '@plurid/elementql': ^0.0.0-1
@@ -109,7 +109,7 @@ specifiers:
 
 dependencies:
   '@apollo/client': 3.6.9_onqnqwb3ubg5opvemcqf7c2qhy
-  '@plurid/dataface-mongo': 0.0.0-0_mongodb@4.9.1
+  '@plurid/dataface-mongo': 0.0.0-1_mongodb@4.9.1
   '@plurid/delog': 0.0.0-6_au3wyuemydd2ii7dqaa7tiwwui
   '@plurid/deon': 0.0.0-8
   '@plurid/elementql': 0.0.0-1
@@ -1218,11 +1218,11 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@plurid/dataface-mongo/0.0.0-0_mongodb@4.9.1:
-    resolution: {integrity: sha512-Jdb/MltREZRR80m1TMub+q9xhGWNiS/75dLRzKQ1KJD/lPe2Shck4FVIGTOx8ZbzJT8fJlqQFa3kGO29yNElOw==}
+  /@plurid/dataface-mongo/0.0.0-1_mongodb@4.9.1:
+    resolution: {integrity: sha512-TJahQOXEcsA8Ws/gwWfmEl0+YPOp4Ijt/DYbgXSC1xTmwow4yOA02U+eOxBSTQRA1jOAH7x1J54YAx3/RhjMCw==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
-      mongodb: '>=3.6'
+      mongodb: '>=4.9'
     dependencies:
       mongodb: 4.9.1
     dev: false
