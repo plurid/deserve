@@ -1,11 +1,6 @@
 // #region imports
     // #region external
-    import {
-        data,
-        general,
-        themes,
-        view,
-    } from '../modules';
+    import modules from '~kernel-services/state/modules';
     // #endregion external
 // #endregion imports
 
@@ -13,10 +8,10 @@
 
 // #region module
 const actions = {
-    general: general.actions,
-    data: data.actions,
-    themes: themes.actions,
-    view: view.actions,
+    general: modules.general.actions,
+    data: modules.data.actions,
+    themes: modules.themes.actions,
+    view: modules.view.actions,
 };
 // #endregion module
 

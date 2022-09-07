@@ -1,11 +1,6 @@
 // #region imports
     // #region external
-    import {
-        data,
-        general,
-        themes,
-        view,
-    } from '../modules';
+    import modules from '~kernel-services/state/modules';
     // #endregion external
 // #endregion imports
 
@@ -13,10 +8,10 @@
 
 // #region module
 const selectors = {
-    data: data.selectors,
-    general: general.selectors,
-    themes: themes.selectors,
-    view: view.selectors,
+    data: modules.data.selectors,
+    general: modules.general.selectors,
+    themes: modules.themes.selectors,
+    view: modules.view.selectors,
 };
 // #endregion module
 
