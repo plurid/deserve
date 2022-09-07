@@ -68,6 +68,7 @@ jspm_packages/
 .env
 .env.sh
 .env.local
+.env.local.deon
 .env.development
 .env.production
 
