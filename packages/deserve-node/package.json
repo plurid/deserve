@@ -58,7 +58,7 @@
         "@plurid/deon": "^0.0.0-8",
         "@plurid/elementql": "^0.0.0-1",
         "@plurid/elementql-client-react": "^0.0.0-1",
-        "@plurid/fileface-minio": "^0.0.0-0",
+        "@plurid/fileface-minio": "^0.0.0-1",
         "@plurid/plurid-data": "^0.0.0-20",
         "@plurid/plurid-engine": "^0.0.0-18",
         "@plurid/plurid-functions": "^0.0.0-30",

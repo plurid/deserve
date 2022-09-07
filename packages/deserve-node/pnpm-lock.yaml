@@ -7,7 +7,7 @@ specifiers:
   '@plurid/deon': ^0.0.0-8
   '@plurid/elementql': ^0.0.0-1
   '@plurid/elementql-client-react': ^0.0.0-1
-  '@plurid/fileface-minio': ^0.0.0-0
+  '@plurid/fileface-minio': ^0.0.0-1
   '@plurid/plurid-data': ^0.0.0-20
   '@plurid/plurid-engine': ^0.0.0-18
   '@plurid/plurid-functions': ^0.0.0-30
@@ -114,7 +114,7 @@ dependencies:
   '@plurid/deon': 0.0.0-8
   '@plurid/elementql': 0.0.0-1
   '@plurid/elementql-client-react': 0.0.0-1
-  '@plurid/fileface-minio': 0.0.0-0_minio@7.0.32
+  '@plurid/fileface-minio': 0.0.0-1_minio@7.0.32
   '@plurid/plurid-data': 0.0.0-20_mxmwhuu22ojdd45featjegrj4i
   '@plurid/plurid-engine': 0.0.0-18_ep7r43ywjm4e3rin7cakgptuva
   '@plurid/plurid-functions': 0.0.0-30
@@ -1274,8 +1274,8 @@ packages:
     engines: {node: '>=12', npm: '>=6'}
     dev: false
 
-  /@plurid/fileface-minio/0.0.0-0_minio@7.0.32:
-    resolution: {integrity: sha512-lgkhs36jhuGiYXGLn62SPnYMph+t1HLGFDGlzBy1rKwc5f3egSAvwqQANMpKzPbN7Gs7rjMS7svjNt3Exr85Gw==}
+  /@plurid/fileface-minio/0.0.0-1_minio@7.0.32:
+    resolution: {integrity: sha512-Uph4ctvkGiq4BTEFunJlbko/9QI+FnUP0lO6Mcvrwl5d49zVfn3rW8bVsUgAlV1e1VC85GRuer7JFveuaGNwBQ==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       minio: '>=7.0'
