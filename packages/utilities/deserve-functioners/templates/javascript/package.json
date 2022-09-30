@@ -30,13 +30,13 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "@apollo/client": "3.4.11",
+        "@apollo/client": "3.6.10",
         "@plurid/deserve-functioner-database": "0.0.0-5",
         "@plurid/deserve-functioner-event": "0.0.0-3",
         "@plurid/deserve-functioner-storage": "0.0.0-2",
-        "@plurid/plurid-functions": "^0.0.0-7",
-        "cross-fetch": "^3.1.4",
-        "graphql": "^15.5.3",
+        "@plurid/plurid-functions": "^0.0.0-30",
+        "cross-fetch": "^3.1.5",
+        "graphql": "^16.6.0",
         "request": "^2.88.2"
     }
 }
