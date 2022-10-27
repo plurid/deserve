@@ -9,7 +9,9 @@
         uuid,
     } from '@plurid/plurid-functions';
 
-    import delog from '@plurid/delog';
+    import {
+        delog,
+    } from '@plurid/delog';
     // #endregion libraries
 
 

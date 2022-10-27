@@ -2,11 +2,13 @@
     // #region libraries
     import {
         Agent,
-    } from 'http';
+    } from 'node:http';
 
-    import net from 'net';
+    import net from 'node:net';
 
-    import delog from '@plurid/delog';
+    import {
+        delog,
+    } from '@plurid/delog';
     // #endregion libraries
 
 

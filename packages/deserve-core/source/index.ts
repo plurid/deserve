@@ -10,7 +10,9 @@
     } from 'body-parser';
     import cookieParser from 'cookie-parser';
 
-    import delog from '@plurid/delog';
+    import {
+        delog,
+    } from '@plurid/delog';
     // #endregion libraries
 
 
