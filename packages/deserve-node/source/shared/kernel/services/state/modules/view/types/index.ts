@@ -55,7 +55,7 @@ export interface State {
     indexGeneralSelector: string;
     indexGeneralView: string;
     compactSelectors: boolean;
-    owner: ClientOwner;
+    owner?: ClientOwner;
 }
 
 

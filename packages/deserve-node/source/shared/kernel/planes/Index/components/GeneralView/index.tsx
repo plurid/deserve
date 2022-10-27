@@ -51,7 +51,7 @@ export interface GeneralViewStateProperties {
     stateIndexGeneralSelector: string;
     stateIndexGeneralView: string;
     stateViewCompactSelectors: boolean;
-    stateViewOwnerIdentonym: string;
+    stateViewOwnerIdentonym: string | undefined;
 }
 
 export interface GeneralViewDispatchProperties {
@@ -178,7 +178,7 @@ const mapStateToProperties = (
     stateIndexGeneralSelector: selectors.view.getIndexGeneralSelector(state),
     stateIndexGeneralView: selectors.view.getIndexGeneralView(state),
     stateViewCompactSelectors: selectors.view.getViewCompactSelectors(state),
-    stateViewOwnerIdentonym: selectors.view.getViewOwner(state).identonym,
+    stateViewOwnerIdentonym: selectors.view.getViewOwner(state)?.identonym,
 });
 
 

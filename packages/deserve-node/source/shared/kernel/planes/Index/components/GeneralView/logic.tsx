@@ -110,7 +110,7 @@ export const renderGeneralView = (
     stateIndexGeneralView: any,
     stateIndexGeneralSelector: any,
     stateViewCompactSelectors: any,
-    stateViewOwnerIdentonym: string,
+    stateViewOwnerIdentonym: string | undefined,
     openManual: any,
     logout: any,
     mouseOverSelectors: any,

@@ -20,9 +20,11 @@
         getCurrentOwner,
     } from '~kernel-services/logic/queries';
 
+    import Head from '~kernel-components/Head';
+
     import { AppState } from '~kernel-services/state/store';
     import StateContext from '~kernel-services/state/context';
-    // import selectors from '~kernel-services/state/selectors';
+    import selectors from '~kernel-services/state/selectors';
     import actions from '~kernel-services/state/actions';
     // #endregion external
 
@@ -42,6 +44,7 @@ export interface ShellOwnProperties {
 }
 
 export interface ShellStateProperties {
+    stateOwnerIdentonym: string | undefined;
 }
 
 export interface ShellDispatchProperties {
@@ -69,6 +72,12 @@ const Shell: React.FC<ShellProperties> = (
             // #region methods
             // #endregion methods
         // #endregion required
+
+
+        // #region state
+        stateOwnerIdentonym,
+        // #endregion state
+
 
         // #region dispatch
         dispatch,
@@ -122,6 +131,12 @@ const Shell: React.FC<ShellProperties> = (
         <>
             <GlobalStyle />
 
+            {stateOwnerIdentonym && (
+                <Head
+                    title={`${stateOwnerIdentonym} · deserve`}
+                />
+            )}
+
             {children}
         </>
     );
@@ -132,6 +147,7 @@ const Shell: React.FC<ShellProperties> = (
 const mapStateToProperties = (
     state: AppState,
 ): ShellStateProperties => ({
+    stateOwnerIdentonym: selectors.view.getViewOwner(state)?.identonym,
 });
 
 
