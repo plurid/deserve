@@ -33,15 +33,17 @@
 // #region module
 export const getDeserveDatabase = async () => (await database)?.db(DESERVE_DATABASE);
 
-export const getDeserveGlobalCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_GLOBAL);
-export const getDeserveOwnersCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_OWNERS);
-export const getDeserveCoresCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_CORES);
-export const getDeserveKeysCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_KEYS);
-export const getDeserveFunctionsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONS);
-export const getDeserveExecutionsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_EXECUTIONS);
-export const getDeserveFunctionersCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_FUNCTIONERS);
-export const getDeserveBlobsCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_BLOBS);
-export const getDeserveTokensCollection = async <T = any>() => (await getDeserveDatabase())?.collection<T>(DESERVE_TOKENS);
+const collectionFactory = (name: string) => async () => (await getDeserveDatabase())?.collection(name);
+
+export const getDeserveGlobalCollection = collectionFactory(DESERVE_GLOBAL);
+export const getDeserveOwnersCollection = collectionFactory(DESERVE_OWNERS);
+export const getDeserveCoresCollection = collectionFactory(DESERVE_CORES);
+export const getDeserveKeysCollection = collectionFactory(DESERVE_KEYS);
+export const getDeserveFunctionsCollection = collectionFactory(DESERVE_FUNCTIONS);
+export const getDeserveExecutionsCollection = collectionFactory(DESERVE_EXECUTIONS);
+export const getDeserveFunctionersCollection = collectionFactory(DESERVE_FUNCTIONERS);
+export const getDeserveBlobsCollection = collectionFactory(DESERVE_BLOBS);
+export const getDeserveTokensCollection = collectionFactory(DESERVE_TOKENS);
 
 
 export const loadCollections = async () => {
