@@ -80,6 +80,8 @@ export const keyFromData = (
         sha,
         storedAt,
         updatedAt,
+        deleted,
+        deletedAt,
     } = data;
 
     const key: Key = {
@@ -88,6 +90,8 @@ export const keyFromData = (
         sha,
         storedAt,
         updatedAt,
+        deleted,
+        deletedAt,
     };
 
     return key;

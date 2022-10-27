@@ -102,6 +102,8 @@ export interface Key {
     storedAt: number;
     sha: string;
     updatedAt?: number;
+    deleted?: boolean;
+    deletedAt?: boolean;
 }
 
 

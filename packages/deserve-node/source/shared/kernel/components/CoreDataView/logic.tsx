@@ -133,6 +133,7 @@ export const keyRowRenderer = (
         storedAt,
         updatedAt,
         sha,
+        deleted,
     } = key;
 
     const linkRoute = `/key/${coreID}/${id.replace('/', '-')}`;
@@ -167,15 +168,23 @@ export const keyRowRenderer = (
                 </pre>
             </StyledInlineItem>
 
-            <PluridIconObliterate
-                atClick={() => {
-                    toggleObliterate(
-                        dataViewing.keys,
-                        id,
-                    );
-                }}
-                theme={theme}
-            />
+            {!deleted && (
+                <PluridIconObliterate
+                    atClick={() => {
+                        toggleObliterate(
+                            dataViewing.keys,
+                            id,
+                        );
+                    }}
+                    theme={theme}
+                />
+            )}
+
+            {deleted && (
+                <div>
+                    deleted
+                </div>
+            )}
         </>
     );
 }

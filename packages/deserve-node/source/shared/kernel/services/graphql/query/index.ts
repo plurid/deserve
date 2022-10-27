@@ -75,6 +75,8 @@ const QUERY_KEYS = gql`
                 storedAt
                 updatedAt
                 sha
+                deleted
+                deletedAt
             }
         }
     }

@@ -112,6 +112,7 @@ const options: PluridServerPartialOptions = {
         '/registry',
         '/download/*',
     ],
+    hostname: 'localhost:' + PORT,
 };
 
 const template: PluridServerTemplateConfiguration = {
