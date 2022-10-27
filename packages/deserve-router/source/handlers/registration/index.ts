@@ -5,7 +5,9 @@
         Response,
     } from 'express';
 
-    import delog from '@plurid/delog';
+    import {
+        delog,
+    } from '@plurid/delog';
     // #endregion libraries
 
 

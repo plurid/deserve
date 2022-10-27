@@ -6,7 +6,9 @@
         json as jsonParser,
     } from 'body-parser';
 
-    import delog from '@plurid/delog';
+    import {
+        delog,
+    } from '@plurid/delog';
     // #endregion libraries
 
 
