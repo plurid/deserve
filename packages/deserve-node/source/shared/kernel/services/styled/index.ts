@@ -24,6 +24,9 @@ const {
     form: {
         FormLeftRight: PluridFormLeftRight,
     },
+    varia: {
+        CopyableLine: PluridCopyableLine,
+    },
 } = universal;
 
 
@@ -57,5 +60,7 @@ export {
     PluridDropdown,
 
     PluridFormLeftRight,
+
+    PluridCopyableLine,
 };
 // #endregion module

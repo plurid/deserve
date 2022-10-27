@@ -8,6 +8,7 @@
 
     import {
         size as sizeUtility,
+        strings,
     } from '@plurid/plurid-functions';
 
     import {
@@ -26,6 +27,10 @@
         Blob,
         Key,
     } from '~server/data/interfaces';
+
+    import {
+        PluridCopyableLine,
+    } from '~kernel-services/styled';
     // #endregion external
 
 
@@ -43,6 +48,9 @@
 
 
 // #region module
+const idTrimLength = 8;
+
+
 export const blobRowRenderer = (
     blob: Blob,
     coreID: string,
@@ -64,9 +72,10 @@ export const blobRowRenderer = (
 
     return (
         <>
-            <div>
-                {id}
-            </div>
+            <PluridCopyableLine
+                data={id}
+                viewData={strings.truncate(id, idTrimLength)}
+            />
 
             <div>
                 {new Date(storedAt).toLocaleString()}
@@ -130,9 +139,10 @@ export const keyRowRenderer = (
 
     return (
         <>
-            <div>
-                {id}
-            </div>
+            <PluridCopyableLine
+                data={id}
+                viewData={strings.truncate(id, idTrimLength)}
+            />
 
             <div>
                 {new Date(storedAt).toLocaleString()}
