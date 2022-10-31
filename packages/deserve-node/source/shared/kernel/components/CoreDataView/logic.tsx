@@ -48,9 +48,6 @@
 
 
 // #region module
-const idTrimLength = 8;
-
-
 export const blobRowRenderer = (
     blob: Blob,
     coreID: string,
@@ -74,7 +71,7 @@ export const blobRowRenderer = (
         <>
             <PluridCopyableLine
                 data={id}
-                viewData={strings.truncate(id, idTrimLength)}
+                viewData={strings.trimMiddle(id)}
             />
 
             <div>
@@ -142,7 +139,7 @@ export const keyRowRenderer = (
         <>
             <PluridCopyableLine
                 data={id}
-                viewData={strings.truncate(id, idTrimLength)}
+                viewData={strings.trimMiddle(id)}
             />
 
             <div>
